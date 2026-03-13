@@ -77,12 +77,46 @@ Visual Receipts (SVG cards, feed, aggregates)
 - Timestamp
 - Optional: combined receipt (batch of related txs)
 
+### 🔥 PIVOT: x402 Facilitator as the Receipt Layer (Mar 13)
+
+**Key insight:** The x402 FACILITATOR is the perfect interception point.
+- It sits between buyer and seller in every x402 payment
+- Sees: buyer address, seller address, amount, service URL, success/failure
+- Settles onchain — gets the tx hash
+- Open standard — anyone can build a facilitator (CDP, Cronos have theirs)
+
+**New framing:** Build an x402 facilitator that generates receipts tied to ERC-8004 identities.
+- Seller points to our facilitator instead of CDP's
+- Every payment auto-generates a receipt
+- If buyer/seller has 8004 identity → resolved and attached
+- Failed payments get error receipts with details
+- Receipt feed via API or pawr.link profile widget
+
+**Why stronger than skill approach:**
+- No agent-side installation needed (server-side only)
+- See both sides of every transaction
+- Extends x402 infrastructure (not just using it)
+- Directly hits ERC-8004 AND AgentCash/x402 tracks
+- Technical: fork coinbase/x402 facilitator, add receipt layer
+
+**Technical approach:**
+- Fork CDP facilitator from github.com/coinbase/x402
+- Add: receipt storage (JSON/SQLite), ERC-8004 resolution, receipt API
+- Add: SVG receipt generation, feed endpoint
+- Deploy as service (receipts.pawr.link?)
+- Point our own pawr.link x402 endpoints to use it — dog-food immediately
+
+**Can ALSO still have the skill approach:**
+- Skill captures agent-side context (which skill, intent)
+- Posts context to facilitator API to enrich receipts
+- Best of both: facilitator sees the payment, skill adds the why
+
 ### Open questions
-- How to hook into x402 payment flow? Middleware? Event listener? Skill wrapper?
-- How does the skill learn which skill triggered the payment? (runtime context)
-- Sync protocol to pawr.link — push on each receipt? Batch?
+- How complex is the CDP facilitator codebase? Can we fork it cleanly?
+- Storage: SQLite? Postgres? Just JSON files for hackathon?
 - Privacy: which receipts are public vs. private?
-- Can we make individual receipts verifiable/shareable? (signed by agent?)
+- Can we make individual receipts verifiable/shareable? (signed by facilitator?)
+- Does this need its own domain or can it live under pawr.link?
 
 ### What makes it special
 - Not just a block explorer — it understands agent intent (which service, why)
