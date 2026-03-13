@@ -1,0 +1,52 @@
+```typescript
+interface TokenTransfer {
+  blockNumber: string;
+  timeStamp: string;
+  hash: string;
+  nonce: string;
+  blockHash: string;
+  from: string;
+  contractAddress: string;
+  to: string;
+  value: string;
+  tokenName: string;
+  tokenSymbol: string;
+  tokenDecimal: string;
+}
+
+interface ApiResponse {
+  status: '1' | '0';
+  message: string;
+  result: TokenTransfer[];
+}
+
+/**
+ * Fetches all ERC-20 token transfers for the given Ethereum address from the Blockscout API.
+ * @param address - Ethereum address (0x-prefixed, 42 chars)
+ * @returns Promise resolving to array of transfers
+ * @throws Error on invalid address, network, or API failure
+ */
+async function getAllERC20Transfers(address: string): Promise<TokenTransfer[]> {
+  if (!/^0x[a-fA-F0-9]{40}$/.test(address)) {
+    throw new Error('Invalid Ethereum address');
+  }
+
+  const baseUrl = 'https://eth.blockscout.com/api';
+  const allTransfers: TokenTransfer[] = [];
+  let page = 1;
+  const offset = 10000;
+
+  while (true) {
+    const url = `${baseUrl}?module=account&action=tokentx&address=${address}&page=${page}&offset=${offset}&sort=desc`;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data: ApiResponse = await response.json();
+    if (data.status !== '1') throw new Error(data.message || 'API error');
+    if (data.result.length === 0) break;
+    allTransfers.push(...data.result);
+    page++;
+  }
+
+  return allTransfers;
+}
+```

@@ -1,0 +1,11 @@
+```typescript
+import fetch from 'node-fetch'; // For Node.js environment; in browser, `fetch` is global.
+
+/**
+ * Represents an ERC-20 token transfer event.
+ */
+export interface ERC20Transfer {
+  blockNumber: string;
+  timeStamp: string; // Unix timestamp in seconds
+  hash: string; // Transaction hash
+  

@@ -1,0 +1,113 @@
+/**
+ * Fetch all ERC‑20 token transfer events for an address from a Blockscout API endpoint.
+ *
+ * Validates the address, pages through results, and returns typed transfer objects.
+ *
+ * @param address - Hex Ethereum address (0x-prefixed)
+ * @param baseUrl - Blockscout API base URL (default: Blockscout eth mainnet)
+ * @returns Promise resolving to an array of ERC‑20 transfer records
+ * @throws Error on invalid input, network errors, or unexpected API responses
+ */
+export async function getErc20TransfersFromBlockscout(
+  address: string,
+  baseUrl = 'https://blockscout.com/eth/mainnet/api'
+): Promise<Erc20Transfer[]> {
+  // Types
+  type RawResult = Record<string, string>;
+  interface BlockscoutResponse {
+    status?: string; // '1' for success, '0' for no-results/error (string)
+    message?: string;
+    result?: RawResult[] | string;
+  }
+  // Public transfer shape (most Blockscout fields are strings)
+  interface Erc20Transfer {
+    blockNumber: string;
+    timeStamp: string;
+    hash: string;
+    nonce?: string;
+    blockHash?: string;
+    from: string;
+    contractAddress: string;
+    to: string;
+    value: string;
+    tokenName?: string;
+    tokenSymbol?: string;
+    tokenDecimal?: string;
+    transactionIndex?: string;
+    gas?: string;
+    gasPrice?: string;
+    gasUsed?: string;
+    cumulativeGasUsed?: string;
+    input?: string;
+    confirmations?: string;
+    [k: string]: string | undefined;
+  }
+
+  // Address validation
+  if (!/^0x[a-fA-F0-9]{40}$/.test(address)) {
+    throw new Error('Invalid Ethereum address format');
+  }
+
+  const pageSize = 1000; // reasonable batch size; increase/decrease as needed
+  let page = 1;
+  const allTransfers: Erc20Transfer[] = [];
+
+  try {
+    while (true) {
+      const url = `${baseUrl}?module=account&action=tokentx&address=${encodeURIComponent(
+        address
+      )}&page=${page}&offset=${pageSize}&startblock=0&endblock=99999999&sort=asc`;
+
+      const res = await fetch(url);
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status} ${res.statusText}`);
+      }
+
+      const json: BlockscoutResponse = await res.json();
+
+      // Handle different possible Blockscout responses
+      if (json.result == null) {
+        // No result field -> unexpected
+        throw new Error(`Unexpected Blockscout response: ${JSON.stringify(json)}`);
+      }
+
+      if (typeof json.result === 'string') {
+        // e.g., "No transactions found" or error message
+        if ((json.result as string).toLowerCase().includes('no')) {
+          break; // no more results
+        }
+        // treat as error otherwise
+        throw new Error(`Blockscout error: ${json.result}`);
+      }
+
+      const batch = json.result as RawResult[];
+
+      if (!Array.isArray(batch)) {
+        throw new Error('Unexpected result format from Blockscout API');
+      }
+
+      if (batch.length === 0) {
+        break; // finished paging
+      }
+
+      // Cast each raw result to Erc20Transfer (fields are strings)
+      for (const r of batch) {
+        allTransfers.push(r as Erc20Transfer);
+      }
+
+      if (batch.length < pageSize) {
+        break; // last page
+      }
+
+      page += 1;
+    }
+
+    return allTransfers;
+  } catch (err) {
+    // normalize error
+    if (err instanceof Error) {
+      throw new Error(`Failed to fetch token transfers: ${err.message}`);
+    }
+    throw new Error('Failed to fetch token transfers: unknown error');
+  }
+}

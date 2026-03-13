@@ -1,0 +1,54 @@
+ ```typescript
+interface TokenTransfer {
+  transaction_hash: string;
+  from: { hash: string };
+  to: { hash: string };
+  amount: string;
+  token: {
+    address: string;
+    name: string;
+    symbol: string;
+    decimals: string;
+  };
+  timestamp: string;
+}
+
+interface TransfersResponse {
+  items: TokenTransfer[];
+  next_page_params: { block_number: number; index: number } | null;
+}
+
+/**
+ * Fetches all ERC-20 token transfers for an address from Blockscout API.
+ * @param address - Ethereum address (0x...)
+ * @param baseUrl - Blockscout base URL (e.g., https://eth.blockscout.com)
+ * @returns Array of token transfers
+ * @throws Error if request fails
+ */
+async function getTokenTransfers(
+  address: string,
+  baseUrl: string = "https://eth.blockscout.com"
+): Promise<TokenTransfer[]> {
+  const transfers: TokenTransfer[] = [];
+  let nextParams: Record<string, string | number> | null = null;
+  
+  try {
+    do {
+      const query = nextParams 
+        ? new URLSearchParams(Object.entries(nextParams).map(([k, v]) => [k, String(v)])).toString()
+        : "";
+      const res = await fetch(`${baseUrl}/api/v2/addresses/${address}/token-transfers?${query}`);
+      
+      if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+      
+      const data: TransfersResponse = await res.json();
+      transfers.push(...data.items);
+      nextParams = data.next_page_params;
+    } while (nextParams);
+    
+    return transfers;
+  } catch (err) {
+    throw new Error(`Failed to fetch transfers: ${err instanceof Error ? err.message : "Unknown error"}`);
+  }
+}
+```

@@ -1,0 +1,63 @@
+```typescript
+interface TokenInfo {
+  symbol: string;
+  name: string;
+  type: string; // 'ERC-20', 'ERC-721', etc.
+}
+
+interface TransferItem {
+  tx_hash: string;
+  timestamp: string;
+  from: { hash: string };
+  to: { hash: string };
+  value: string;
+  token: TokenInfo;
+}
+
+interface BlockscoutResponse {
+  items: TransferItem[];
+  next_page_params: Record<string, string> | null;
+}
+
+/**
+ * Fetches all ERC-20 token transfers for a given Ethereum address from Blockscout.
+ * Handles pagination and filters for ERC-20 token types only.
+ * 
+ * @param address - The Ethereum wallet address (0x...).
+ * @returns Promise resolving to an array of ERC-20 transfer objects.
+ * @throws Error if the address is invalid, network fails, or API returns an error.
+ */
+export async function getERC20Transfers(address: string): Promise<TransferItem[]> {
+  if (!/^0x[a-fA-F0-9]{40}$/.test(address)) {
+    throw new Error("Invalid Ethereum address format");
+  }
+
+  const baseUrl = "https://eth.blockscout.com/api/v2/addresses";
+  const allTransfers: TransferItem[] = [];
+  let nextPageParams: Record<string, string> | null = null;
+
+  try {
+    do {
+      const url = new URL(`${baseUrl}/${address}/token-transfers`);
+      if (nextPageParams) {
+        Object.entries(nextPageParams).forEach(([k, v]) => url.searchParams.set(k, v));
+      }
+
+      const res = await fetch(url.toString());
+      if (!res.ok) throw new Error(`API Error: ${res.status} ${res.statusText}`);
+
+      const data: BlockscoutResponse = await res.json();
+      
+      // Filter strictly for ERC-20 tokens
+      allTransfers.push(...data.items.filter(item => item.token.type === "ERC-20"));
+      
+      nextPageParams = data.next_page_params;
+    } while (nextPageParams);
+
+    return allTransfers;
+  } catch (error) {
+    if (error instanceof Error) throw error;
+    throw new Error("Unknown error occurred while fetching transfers");
+  }
+}
+```

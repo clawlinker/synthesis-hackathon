@@ -1,0 +1,67 @@
+This implementation uses the **Blockscout v2 API**. It includes automatic pagination to ensure *all* transfers are retrieved.
+
+```typescript
+interface TokenTransfer {
+  block_hash: string;
+  block_number: number;
+  from: { hash: string; is_contract: boolean };
+  to: { hash: string; is_contract: boolean };
+  token: { symbol: string; decimals: string; name: string; address: string; type: string };
+  total: { value: string; decimals: string };
+  tx_hash: string;
+  timestamp: string;
+}
+
+interface BlockscoutResponse {
+  items: TokenTransfer[];
+  next_page_params: Record<string, any> | null;
+}
+
+/**
+ * Fetches all ERC-20 token transfers for a given Ethereum address from Blockscout.
+ * @param address - The Ethereum wallet address.
+ * @param baseUrl - The Blockscout API base URL (defaults to Ethereum Mainnet).
+ */
+async function getAllErc20Transfers(
+  address: string,
+  baseUrl: string = "https://eth.blockscout.com/api/v2"
+): Promise<TokenTransfer[]> {
+  const allTransfers: TokenTransfer[] = [];
+  let nextParams: string = "";
+
+  try {
+    do {
+      const url = `${baseUrl}/addresses/${address}/token-transfers?type=ERC-20${nextParams}`;
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(`Blockscout API error: ${response.statusText}`);
+      }
+
+      const data: BlockscoutResponse = await response.json();
+      allTransfers.push(...data.items);
+
+      // Handle pagination
+      if (data.next_page_params) {
+        nextParams = "&" + new URLSearchParams(data.next_page_params).toString();
+      } else {
+        nextParams = "";
+      }
+    } while (nextParams);
+
+    return allTransfers;
+  } catch (error) {
+    console.error("Failed to fetch ERC-20 transfers:", error);
+    throw error;
+  }
+}
+
+// Example usage:
+// getAllErc20Transfers("0x...").then(console.log);
+```
+
+### Key Features:
+1.  **Pagination:** Blockscout limits results per page. This function checks `next_page_params` and loops until every transfer is collected.
+2.  **Strict Typing:** Defines interfaces for the specific fields returned by the Blockscout v2 API.
+3.  **Error Handling:** Uses `try/catch` and checks `response.ok` to handle network or API issues gracefully.
+4.  **Flexibility:** The `baseUrl` parameter allows you to use this for Gnosis, Base, Optimism, or any other chain supported by Blockscout.

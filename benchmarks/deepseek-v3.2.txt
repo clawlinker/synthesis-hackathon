@@ -1,0 +1,85 @@
+Here's a TypeScript function to get ERC-20 token transfers for an Ethereum address using the Blockscout API:
+
+```typescript
+interface BlockscoutTokenTransfer {
+  from: {
+    hash: string;
+  };
+  to: {
+    hash: string;
+  };
+  tx_hash: string;
+  block_hash: string;
+  block_number: number;
+  timestamp: string;
+  token: {
+    contract_address: string;
+    symbol: string;
+    decimals: string;
+    name: string;
+  };
+  total: {
+    value: string;
+  };
+}
+
+interface BlockscoutResponse {
+  items: BlockscoutTokenTransfer[];
+  next_page_params: {
+    block_number: number;
+    index: number;
+    items_count: number;
+  } | null;
+}
+
+/**
+ * Fetch ERC-20 token transfers for an Ethereum address from Blockscout API
+ * @param address - Ethereum address (0x prefixed)
+ * @param chainId - Chain ID (default: 1 for Ethereum mainnet)
+ * @returns Promise resolving to array of token transfers
+ * @throws {Error} If address is invalid or API request fails
+ */
+async function getTokenTransfers(
+  address: string,
+  chainId: number = 1
+): Promise<BlockscoutTokenTransfer[]> {
+  // Validate Ethereum address
+  if (!/^0x[a-fA-F0-9]{40}$/.test(address)) {
+    throw new Error('Invalid Ethereum address format');
+  }
+
+  // Map chainId to Blockscout base URL
+  const baseUrls: Record<number, string> = {
+    1: 'https://blockscout.com/eth/mainnet/api',
+    10: 'https://blockscout.com/optimism/mainnet/api',
+    56: 'https://blockscout.com/bsc/mainnet/api',
+    137: 'https://blockscout.com/polygon/mainnet/api',
+    42161: 'https://blockscout.com/arbitrum/mainnet/api',
+  };
+
+  const baseUrl = baseUrls[chainId];
+  if (!baseUrl) {
+    throw new Error(`Unsupported chain ID: ${chainId}`);
+  }
+
+  try {
+    const url = `${baseUrl}/v2/addresses/${address}/token-transfers`;
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`Blockscout API error: ${response.status} ${response.statusText}`);
+    }
+
+    const data: BlockscoutResponse = await response.json();
+    
+    // Return empty array if no transfers
+    return data.items || [];
+    
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to fetch token transfers: ${error.message}`);
+    }
+    throw new Error('Failed to fetch token transfers: Unknown error');
+  }
+}
+```

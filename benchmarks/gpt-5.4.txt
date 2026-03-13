@@ -1,0 +1,103 @@
+```ts
+/**
+ * Fetch all ERC-20 token transfers for an Ethereum address from a Blockscout API.
+ * Automatically paginates until all results are collected.
+ */
+export async function getAllErc20Transfers(
+  address: string,
+  blockscoutBaseUrl: string,
+  fetchImpl: typeof fetch = fetch
+): Promise<BlockscoutTokenTransfer[]> {
+  if (!/^0x[a-fA-F0-9]{40}$/.test(address)) {
+    throw new Error("Invalid Ethereum address");
+  }
+  if (!blockscoutBaseUrl) {
+    throw new Error("blockscoutBaseUrl is required");
+  }
+
+  const baseUrl = blockscoutBaseUrl.replace(/\/+$/, "");
+  const offset = 1000;
+  let page = 1;
+  const allTransfers: BlockscoutTokenTransfer[] = [];
+
+  while (true) {
+    const url = new URL(`${baseUrl}/api`);
+    url.searchParams.set("module", "account");
+    url.searchParams.set("action", "tokentx");
+    url.searchParams.set("address", address);
+    url.searchParams.set("page", String(page));
+    url.searchParams.set("offset", String(offset));
+    url.searchParams.set("sort", "asc");
+
+    let res: Response;
+    try {
+      res = await fetchImpl(url.toString());
+    } catch (err) {
+      throw new Error(
+        `Network error while fetching token transfers: ${
+          err instanceof Error ? err.message : String(err)
+        }`
+      );
+    }
+
+    if (!res.ok) {
+      throw new Error(`Blockscout request failed with HTTP ${res.status}`);
+    }
+
+    let data: BlockscoutApiResponse;
+    try {
+      data = (await res.json()) as BlockscoutApiResponse;
+    } catch {
+      throw new Error("Failed to parse Blockscout JSON response");
+    }
+
+    if (!data || typeof data !== "object") {
+      throw new Error("Invalid Blockscout response");
+    }
+
+    // Blockscout/Etherscan-style APIs may return status "0" with empty result when no data exists
+    if (!Array.isArray(data.result)) {
+      const message = data.message || "Unknown Blockscout API error";
+      throw new Error(`Blockscout API error: ${message}`);
+    }
+
+    allTransfers.push(...data.result);
+
+    if (data.result.length < offset) {
+      break;
+    }
+
+    page += 1;
+  }
+
+  return allTransfers;
+}
+
+export interface BlockscoutApiResponse {
+  status: string;
+  message: string;
+  result: BlockscoutTokenTransfer[] | string;
+}
+
+export interface BlockscoutTokenTransfer {
+  blockNumber: string;
+  timeStamp: string;
+  hash: string;
+  nonce: string;
+  blockHash: string;
+  from: string;
+  contractAddress: string;
+  to: string;
+  value: string;
+  tokenName: string;
+  tokenSymbol: string;
+  tokenDecimal: string;
+  transactionIndex: string;
+  gas: string;
+  gasPrice: string;
+  gasUsed: string;
+  cumulativeGasUsed: string;
+  input: string;
+  confirmations: string;
+}
+```

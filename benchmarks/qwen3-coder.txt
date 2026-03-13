@@ -1,0 +1,51 @@
+```typescript
+/**
+ * Fetches all ERC-20 token transfers for a given Ethereum address using the Blockscout API.
+ * @param address - Ethereum address to query (case-insensitive).
+ * @param chainId - Optional chain ID (default: 1 for Ethereum mainnet).
+ * @returns Array of ERC-20 transfer objects.
+ */
+export async function getErc20Transfers(
+  address: string,
+  chainId: number = 1
+): Promise<Erc20Transfer[]> {
+  const normalizedAddress = address.toLowerCase();
+  const baseUrl = chainId === 1 
+    ? 'https://api.etherscan.io/api' 
+    : `https://api-${chainId === 5 ? 'goerli' : chainId === 11155111 ? 'sepolia' : 'mainnet'}.etherscan.io/api`; // Fallback to mainnet-like domain
+
+  // For true multi-chain support, use Blockscout API directly (not Etherscan)
+  // Blockscout uses GraphQL or REST per instance; here we assume public Blockscout instances
+  // Note: This is a simplified example. Real-world usage requires specific Blockscout URLs per chain.
+  
+  try {
+    const response = await fetch(
+      `https://api.blockscout.com/${chainId === 1 ? 'eth' : `chain/${chainId}`}/api/v2/tokens/${normalizedAddress}/transfers`,
+      { headers: { 'Accept': 'application/json' } }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Blockscout API error: ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data.results as Erc20Transfer[] || [];
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to fetch ERC-20 transfers: ${error.message}`);
+    }
+    throw new Error('Unknown error fetching ERC-20 transfers');
+  }
+}
+
+export interface Erc20Transfer {
+  token_address: string;
+  token_id?: string; // For ERC-721/1155, not used for ERC-20
+  from_address: string;
+  to_address: string;
+  value: string;
+  block_number: number;
+  transaction_hash: string;
+  timestamp: string;
+}
+```
