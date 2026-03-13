@@ -123,6 +123,21 @@ Visual Receipts (SVG cards, feed, aggregates)
 - Tied to identity — you verify the agent AND see its spending behavior
 - The verification library we already built becomes a component, not the whole thing
 
+### Bankr as a data source (Mar 13, from Max)
+Bankr transactions are a natural fit — receipts for ALL agent financial activity, not just x402:
+
+| Source | Captures | How |
+|--------|----------|-----|
+| x402 facilitator | Agent buying/selling services via x402 | We run the facilitator |
+| Bankr wallet | Trades, swaps, token launches, transfers | Onchain indexing (Blockscout) |
+| Bankr LLM Gateway | LLM inference costs per call | Job API + credit delta |
+
+This brings Bankr back NATURALLY:
+- Not "we use Bankr as our LLM provider" (gimmick)
+- Instead: "we give visibility into what agents do through Bankr" (genuinely useful)
+- Bankr ecosystem benefits — operators can audit their Bankr agents
+- Hits Bankr track because we're building infrastructure FOR their ecosystem
+
 ---
 
 ## Previous ideas (still on table)
