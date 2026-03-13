@@ -1,0 +1,73 @@
+```typescript
+import fetch from 'node-fetch';
+
+/**
+ * Fetches all ERC-20 token transfers for a given Ethereum address from Blockscout API.
+ * @param address - Ethereum address to query
+ * @param apiUrl - Blockscout API base URL (default: Ethereum mainnet)
+ * @returns Promise resolving to array of token transfer objects
+ * @throws Error if address is invalid or API request fails
+ */
+interface TokenTransfer {
+  blockNumber: string;
+  timeStamp: string;
+  hash: string;
+  nonce: string;
+  blockHash: string;
+  from: string;
+  contractAddress: string;
+  to: string;
+  value: string;
+  tokenName: string;
+  tokenSymbol: string;
+  tokenDecimal: string;
+  transactionIndex: string;
+  gas: string;
+  gasPrice: string;
+  gasUsed: string;
+  cumulativeGasUsed: string;
+  input: string;
+  confirmations: string;
+}
+
+interface BlockscoutResponse {
+  status: string;
+  message: string;
+  result: TokenTransfer[];
+}
+
+async function getERC20Transfers(
+  address: string,
+  apiUrl: string = 'https://eth.blockscout.com/api'
+): Promise<TokenTransfer[]> {
+  // Validate Ethereum address
+  if (!/^0x[a-fA-F0-9]{40}$/.test(address)) {
+    throw new Error('Invalid Ethereum address format');
+  }
+
+  const url = `${apiUrl}?module=account&action=tokentx&address=${address}`;
+
+  try {
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json() as BlockscoutResponse;
+
+    if (data.status === '0') {
+      throw new Error(`API error: ${data.message}`);
+    }
+
+    return data.result || [];
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(`Failed to fetch token transfers: ${error.message}`);
+    }
+    throw new Error('Unknown error occurred while fetching token transfers');
+  }
+}
+
+export { getERC20Transfers, TokenTransfer, BlockscoutResponse };
+```

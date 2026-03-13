@@ -1,0 +1,63 @@
+```typescript
+/**
+ * Fetches all ERC-20 token transfers for an Ethereum address from Blockscout API.
+ * @param address - The Ethereum address to query
+ * @param baseUrl - Blockscout API base URL (defaults to Ethereum mainnet)
+ * @returns Array of ERC-20 token transfer records
+ */
+
+interface TokenTransfer {
+  blockNumber: string;
+  timeStamp: string;
+  hash: string;
+  from: string;
+  to: string;
+  value: string;
+  tokenName: string;
+  tokenSymbol: string;
+  tokenDecimal: string;
+  contractAddress: string;
+  gasUsed: string;
+  gasPrice: string;
+}
+
+interface BlockscoutResponse {
+  status: string;
+  message: string;
+  result: TokenTransfer[] | string;
+}
+
+async function getERC20Transfers(
+  address: string,
+  baseUrl: string = "https://eth.blockscout.com/api"
+): Promise<TokenTransfer[]> {
+  if (!/^0x[a-fA-F0-9]{40}$/.test(address)) {
+    throw new Error("Invalid Ethereum address format");
+  }
+
+  const url = `${baseUrl}?module=account&action=tokentx&address=${address}`;
+
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(`HTTP error: ${response.status}`);
+  }
+
+  const data: BlockscoutResponse = await response.json();
+
+  if (data.status !== "1") {
+    if (data.message === "No token transfers found") {
+      return [];
+    }
+    throw new Error(`API error: ${data.message || data.result}`);
+  }
+
+  if (!Array.isArray(data.result)) {
+    throw new Error("Unexpected API response format");
+  }
+
+  return data.result;
+}
+
+export { getERC20Transfers, TokenTransfer, BlockscoutResponse };
+```

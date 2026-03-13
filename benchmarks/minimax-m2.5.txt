@@ -1,0 +1,49 @@
+```typescript
+interface Erc20Transfer {
+  hash: string;
+  block_hash: string;
+  from: { hash: string };
+  to: { hash: string };
+  token: { symbol: string; decimals: number };
+  value: string;
+}
+
+/**
+ * Fetches all ERC-20 token transfers for a given address from the Blockscout API.
+ * Handles pagination automatically to retrieve the complete history.
+ *
+ * @param address - The Ethereum address to query.
+ * @param baseUrl - The base URL of the Blockscout instance (e.g., 'https://blockscout.com').
+ * @returns A promise that resolves to an array of ERC-20 transfer objects.
+ */
+async function getErc20Transfers(address: string, baseUrl: string): Promise<Erc20Transfer[]> {
+  const transfers: Erc20Transfer[] = [];
+  let nextPageParams: Record<string, string> | null = null;
+  
+  do {
+    // Construct query parameters
+    const params = new URLSearchParams({ type: 'ERC-20' });
+    
+    if (nextPageParams) {
+      // Append pagination params from the previous response
+      Object.entries(nextPageParams).forEach(([key, value]) => params.set(key, value));
+    }
+
+    const url = `${baseUrl}/api/v2/addresses/${address}/token-transfers?${params.toString()}`;
+    
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error(`Failed to fetch transfers: ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    
+    transfers.push(...data.items);
+    nextPageParams = data.next_page_params;
+    
+  } while (nextPageParams);
+
+  return transfers;
+}
+```

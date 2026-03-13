@@ -1,0 +1,102 @@
+```ts
+/**
+ * Fetches all ERC-20 token transfer events involving an address from a Blockscout instance.
+ * Uses the Blockscout API `account/tokentx` endpoint and auto-paginates until exhausted.
+ */
+export async function getAllErc20TransfersFromBlockscout(
+  address: string,
+  opts: {
+    /** Base URL of the Blockscout instance, e.g. "https://blockscout.com/eth/mainnet" */
+    baseUrl: string;
+    /** Max items per page (Blockscout/Etherscan-style). Default: 1000 */
+    pageSize?: number;
+    /** Sort order. Default: "asc" */
+    sort?: "asc" | "desc";
+    /** Optional API key if your instance requires it */
+    apiKey?: string;
+    /** Optional abort signal */
+    signal?: AbortSignal;
+  }
+): Promise<BlockscoutErc20Transfer[]> {
+  const isAddress = /^0x[a-fA-F0-9]{40}$/.test(address);
+  if (!isAddress) throw new Error(`Invalid Ethereum address: ${address}`);
+
+  const baseUrl = opts.baseUrl.replace(/\/+$/, "");
+  const pageSize = opts.pageSize ?? 1000;
+  const sort = opts.sort ?? "asc";
+
+  const out: BlockscoutErc20Transfer[] = [];
+  for (let page = 1; ; page++) {
+    const params = new URLSearchParams({
+      module: "account",
+      action: "tokentx",
+      address,
+      page: String(page),
+      offset: String(pageSize),
+      sort,
+    });
+    if (opts.apiKey) params.set("apikey", opts.apiKey);
+
+    const url = `${baseUrl}/api?${params.toString()}`;
+
+    let res: Response;
+    try {
+      res = await fetch(url, { signal: opts.signal });
+    } catch (e) {
+      throw new Error(`Network error calling Blockscout: ${(e as Error).message}`);
+    }
+    if (!res.ok) throw new Error(`Blockscout HTTP ${res.status}: ${await res.text()}`);
+
+    let data: BlockscoutApiResponse<BlockscoutErc20Transfer[]>;
+    try {
+      data = (await res.json()) as BlockscoutApiResponse<BlockscoutErc20Transfer[]>;
+    } catch {
+      throw new Error("Failed to parse Blockscout response as JSON");
+    }
+
+    // Blockscout/Etherscan-style: status "0" can mean "No transactions found"
+    if (data.status === "0") {
+      if (/no transactions found/i.test(data.message ?? "")) return out;
+      throw new Error(`Blockscout error: ${data.message ?? "unknown error"}`);
+    }
+    if (!Array.isArray(data.result)) {
+      throw new Error("Unexpected Blockscout response shape: result is not an array");
+    }
+
+    out.push(...data.result);
+    if (data.result.length < pageSize) break; // last page
+  }
+
+  return out;
+}
+
+export type BlockscoutApiResponse<T> = {
+  status: "0" | "1";
+  message?: string;
+  result: T;
+};
+
+export type BlockscoutErc20Transfer = {
+  blockNumber: string;
+  timeStamp: string;
+  hash: string;
+  nonce?: string;
+  blockHash?: string;
+  from: string;
+  to: string;
+  contractAddress: string;
+  value: string;
+  tokenName: string;
+  tokenSymbol: string;
+  tokenDecimal: string;
+  transactionIndex?: string;
+  gas?: string;
+  gasPrice?: string;
+  gasUsed?: string;
+  cumulativeGasUsed?: string;
+  input?: string;
+  confirmations?: string;
+  /** Allow extra fields returned by specific Blockscout deployments */
+  [k: string]: unknown;
+};
+```

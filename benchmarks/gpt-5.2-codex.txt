@@ -1,0 +1,67 @@
+```ts
+/**
+ * Fetch all ERC-20 token transfers for an address from Blockscout.
+ * @param address Ethereum address (0x...)
+ * @param baseUrl Blockscout API base URL
+ */
+export async function fetchERC20Transfers(
+  address: string,
+  baseUrl = "https://eth.blockscout.com/api"
+): Promise<BlockscoutTokenTransfer[]> {
+  if (!/^0x[a-fA-F0-9]{40}$/.test(address)) {
+    throw new Error("Invalid Ethereum address");
+  }
+
+  const transfers: BlockscoutTokenTransfer[] = [];
+  const offset = 1000;
+  let page = 1;
+
+  while (true) {
+    const url = `${baseUrl}?module=account&action=tokentx&address=${address}&page=${page}&offset=${offset}&sort=asc`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    const data: BlockscoutResponse = await res.json();
+
+    if (data.status !== "1") {
+      if (data.message?.toLowerCase().includes("no transactions")) break;
+      throw new Error(`Blockscout error: ${data.message}`);
+    }
+
+    const batch = data.result as BlockscoutTokenTransfer[];
+    transfers.push(...batch);
+    if (batch.length < offset) break;
+    page++;
+  }
+
+  return transfers;
+}
+
+export interface BlockscoutTokenTransfer {
+  blockNumber: string;
+  timeStamp: string;
+  hash: string;
+  nonce: string;
+  blockHash: string;
+  from: string;
+  contractAddress: string;
+  to: string;
+  value: string;
+  tokenName: string;
+  tokenSymbol: string;
+  tokenDecimal: string;
+  transactionIndex: string;
+  gas: string;
+  gasPrice: string;
+  gasUsed: string;
+  cumulativeGasUsed: string;
+  input: string;
+  confirmations: string;
+}
+
+interface BlockscoutResponse {
+  status: "1" | "0";
+  message: string;
+  result: BlockscoutTokenTransfer[] | string;
+}
+```

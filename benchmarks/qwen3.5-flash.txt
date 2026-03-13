@@ -1,0 +1,44 @@
+```typescript
+interface TokenTransfer {
+  id: string;
+  transaction_hash: string;
+  block_number: number;
+  timestamp: number;
+  from_address: string;
+  to_address: string;
+  value: string;
+  token_address: string;
+  token_symbol: string;
+  token_decimal: number;
+}
+
+export async function getErc20Transfers(address: string): Promise<TokenTransfer[]> {
+  // Basic address validation
+  if (!/^(0x[a-fA-F0-9]{40})$/.test(address)) {
+    throw new Error('Invalid Ethereum address format.');
+  }
+
+  const API_BASE = 'https://eth.blockscout.com/api/v2';
+  const url = `${API_BASE}/accounts/${address.toLowerCase()}/token-transfers?page[size]=1000`;
+
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`API request failed with status ${response.status}`);
+    }
+
+    const data = await response.json();
+    
+    // Blockscout V2 returns data directly in many instances, 
+    // some wrap it in 'data' property.
+    const transfers = Array.isArray(data) ? data : (data?.data || []);
+
+    return transfers;
+
+  } catch (error) {
+    if (error instanceof Error) throw error;
+    throw new Error('Failed to fetch token transfers.');
+  }
+}
+```

@@ -1,0 +1,13 @@
+Of course. Here is a complete and concise TypeScript function to fetch ERC-20 token transfers from the Blockscout API for a given Ethereum address.
+
+```typescript
+/**
+ * The structure of a single ERC-20 transfer event from the Blockscout API.
+ * All values are strings to prevent precision loss with large numbers.
+ */
+export type Erc20Transfer = {
+  blockNumber: string;
+  timeStamp: string;
+  hash: string;
+  nonce: string;
+  

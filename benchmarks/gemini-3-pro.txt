@@ -1,0 +1,67 @@
+```typescript
+// Types based on Blockscout/Etherscan standard API response
+export interface ERC20Transfer {
+  blockNumber: string;
+  timeStamp: string;
+  hash: string;
+  from: string;
+  to: string;
+  value: string;
+  contractAddress: string;
+  tokenName: string;
+  tokenSymbol: string;
+  tokenDecimal: string;
+}
+
+interface BlockscoutResponse {
+  status: string;
+  message: string;
+  result: ERC20Transfer[] | string;
+}
+
+/**
+ * Fetches ERC-20 token transfers for a given address from a Blockscout instance.
+ * 
+ * @param address - The Ethereum address to fetch transfers for.
+ * @param apiBaseUrl - The base API URL (e.g., 'https://eth.blockscout.com').
+ * @returns A promise resolving to an array of ERC20Transfer objects.
+ * @throws Will throw an error if the fetch fails or the API returns a failure status.
+ */
+export async function getERC20Transfers(
+  address: string, 
+  apiBaseUrl: string
+): Promise<ERC20Transfer[]> {
+  const params = new URLSearchParams({
+    module: 'account',
+    action: 'tokentx',
+    address: address,
+  });
+
+  try {
+    const response = await fetch(`${apiBaseUrl}/api?${params.toString()}`);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = (await response.json()) as BlockscoutResponse;
+
+    // Blockscout returns status "1" for success. 
+    // "0" indicates error or "No transactions found".
+    if (data.status === '0') {
+      if (data.message === 'No transactions found') return [];
+      throw new Error(`Blockscout API Error: ${data.message}`);
+    }
+
+    // Ensure result is actually an array before returning
+    if (!Array.isArray(data.result)) {
+      throw new Error('Unexpected response format: result is not an array');
+    }
+
+    return data.result;
+  } catch (error) {
+    console.error('Failed to fetch ERC-20 transfers:', error);
+    throw error;
+  }
+}
+```

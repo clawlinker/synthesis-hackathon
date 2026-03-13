@@ -1,0 +1,95 @@
+```typescript
+import axios from 'axios';
+
+interface TokenTransfer {
+  blockNumber: string;
+  timeStamp: string;
+  hash: string;
+  nonce: string;
+  blockHash: string;
+  from: string;
+  contractAddress: string;
+  to: string;
+  value: string;
+  tokenName: string;
+  tokenSymbol: string;
+  tokenDecimal: string;
+  transactionIndex: string;
+  gas: string;
+  gasPrice: string;
+  gasUsed: string;
+  cumulativeGasUsed: string;
+  input: string;
+  confirmations: string;
+}
+
+interface BlockscoutResponse {
+  status: string;
+  message: string;
+  result: TokenTransfer[];
+}
+
+/**
+ * Fetches all ERC-20 token transfers for an Ethereum address from Blockscout API
+ * @param address - The Ethereum address to query
+ * @param chainId - The chain ID (default: 1 for Ethereum mainnet)
+ * @returns Promise resolving to array of token transfers
+ * @throws Error if the address is invalid or API request fails
+ */
+export async function getERC20Transfers(
+  address: string,
+  chainId: number = 1
+): Promise<TokenTransfer[]> {
+  if (!address || !/^0x[a-fA-F0-9]{40}$/.test(address)) {
+    throw new Error('Invalid Ethereum address');
+  }
+
+  const baseUrls: Record<number, string> = {
+    1: 'https://eth.blockscout.com/api',
+    5: 'https://goerli.blockscout.com/api',
+    11155111: 'https://sepolia.blockscout.com/api',
+  };
+
+  const baseUrl = baseUrls[chainId];
+  if (!baseUrl) {
+    throw new Error(`Unsupported chain ID: ${chainId}`);
+  }
+
+  try {
+    const response = await axios.get<BlockscoutResponse>(baseUrl, {
+      params: {
+        module: 'account',
+        action: 'tokentx',
+        address,
+      },
+      timeout: 10000,
+    });
+
+    if (response.data.status !== '1') {
+      throw new Error(response.data.message || 'Failed to fetch token transfers');
+    }
+
+    return response.data.result || [];
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(`Blockscout API error: ${error.message}`);
+    }
+    throw error;
+  }
+}
+```
+
+**Usage example:**
+
+```typescript
+const transfers = await getERC20Transfers('0x742d35Cc6634C0532925a3b844Bc9e7595f42bE');
+console.log(transfers);
+```
+
+**Key features:**
+- ✅ Type-safe with `TokenTransfer` interface
+- ✅ Validates Ethereum address format
+- ✅ Supports multiple chains via chainId parameter
+- ✅ Comprehensive error handling
+- ✅ Timeout protection
+- ✅ JSDoc documentation

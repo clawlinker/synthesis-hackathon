@@ -1,0 +1,122 @@
+
+
+```typescript
+/** Fetches all ERC-20 token transfers for a given Ethereum address from the Blockscout API. */
+
+interface TokenTransfer {
+  blockNumber: string;
+  timeStamp: string;
+  hash: string;
+  nonce: string;
+  blockHash: string;
+  from: string;
+  contractAddress: string;
+  to: string;
+  value: string;
+  tokenName: string;
+  tokenSymbol: string;
+  tokenDecimal: string;
+  transactionIndex: string;
+  gas: string;
+  gasPrice: string;
+  gasUsed: string;
+  cumulativeGasUsed: string;
+  input: string;
+  confirmations: string;
+}
+
+interface BlockscoutResponse {
+  status: string;
+  message: string;
+  result: TokenTransfer[] | string;
+}
+
+interface FetchTransfersOptions {
+  baseUrl?: string;
+  page?: number;
+  offset?: number;
+  sort?: "asc" | "desc";
+}
+
+async function getERC20TokenTransfers(
+  address: string,
+  options: FetchTransfersOptions = {}
+): Promise<TokenTransfer[]> {
+  const {
+    baseUrl = "https://eth.blockscout.com/api",
+    page = 1,
+    offset = 100,
+    sort = "desc",
+  } = options;
+
+  if (!/^0x[a-fA-F0-9]{40}$/.test(address)) {
+    throw new Error(`Invalid Ethereum address: ${address}`);
+  }
+
+  const params = new URLSearchParams({
+    module: "account",
+    action: "tokentx",
+    address,
+    page: String(page),
+    offset: String(offset),
+    sort,
+  });
+
+  const url = `${baseUrl}?${params}`;
+
+  let response: Response;
+  try {
+    response = await fetch(url);
+  } catch (err) {
+    throw new Error(
+      `Network error fetching token transfers: ${err instanceof Error ? err.message : String(err)}`
+    );
+  }
+
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+  }
+
+  const data: BlockscoutResponse = await response.json();
+
+  if (data.status !== "1") {
+    if (data.message === "No transactions found" || data.result === "") {
+      return [];
+    }
+    throw new Error(
+      `Blockscout API error: ${data.message} — ${typeof data.result === "string" ? data.result : ""}`
+    );
+  }
+
+  if (!Array.isArray(data.result)) {
+    throw new Error("Unexpected response format from Blockscout API");
+  }
+
+  return data.result;
+}
+
+// Usage example
+(async () => {
+  try {
+    const transfers = await getERC20TokenTransfers(
+      "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045" // vitalik.eth
+    );
+    console.log(`Found ${transfers.length} ERC-20 transfers`);
+    transfers.slice(0, 3).forEach((tx) => {
+      console.log(
+        `  ${tx.tokenSymbol}: ${tx.from.slice(0, 8)}→${tx.to.slice(0, 8)} | ${tx.value} | tx:${tx.hash.slice(0, 12)}…`
+      );
+    });
+  } catch (err) {
+    console.error(err);
+  }
+})();
+```
+
+The function:
+
+- **Validates** the Ethereum address format before making the request
+- **Queries** Blockscout's `tokentx` endpoint with configurable pagination, sort order, and base URL (so you can point it at any Blockscout instance)
+- **Returns** a typed `TokenTransfer[]` array with all relevant fields (token name, symbol, decimals, from/to, value, gas info, etc.)
+- **Handles errors** at every layer: invalid input, network failures, non-200 HTTP responses, API-level errors, and unexpected response formats
+- **Returns `[]`** gracefully when there are simply no transfers found (rather than throwing)

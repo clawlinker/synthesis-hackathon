@@ -1,0 +1,128 @@
+```typescript
+import axios from "axios";
+
+/**
+ * Fetches all ERC-20 token transfers for a given Ethereum address from the Blockscout API.
+ * @param address - The Ethereum address to query
+ * @param baseUrl - The Blockscout API base URL (defaults to Ethereum mainnet)
+ * @returns A promise that resolves to an array of ERC-20 token transfer objects
+ */
+
+// Types
+interface TokenTransfer {
+  blockHash: string;
+  blockNumber: string;
+  confirmations: string;
+  contractAddress: string;
+  cumulativeGasUsed: string;
+  from: string;
+  gas: string;
+  gasPrice: string;
+  gasUsed: string;
+  hash: string;
+  input: string;
+  logIndex: string;
+  nonce: string;
+  timeStamp: string;
+  to: string;
+  tokenDecimal: string;
+  tokenName: string;
+  tokenSymbol: string;
+  transactionIndex: string;
+  value: string;
+}
+
+interface BlockscoutResponse {
+  message: string;
+  result: TokenTransfer[];
+  status: string;
+}
+
+// Function
+async function getERC20TokenTransfers(
+  address: string,
+  baseUrl: string = "https://eth.blockscout.com/api"
+): Promise<TokenTransfer[]> {
+  if (!address || !/^0x[a-fA-F0-9]{40}$/.test(address)) {
+    throw new Error(`Invalid Ethereum address: ${address}`);
+  }
+
+  const params = {
+    module: "account",
+    action: "tokentx",
+    address,
+    startblock: 0,
+    endblock: 99999999,
+    sort: "asc",
+  };
+
+  try {
+    const response = await axios.get<BlockscoutResponse>(baseUrl, { params });
+    const { data } = response;
+
+    if (data.status !== "1") {
+      // "No transactions found" is not an error
+      if (data.message === "No transactions found") {
+        return [];
+      }
+      throw new Error(
+        `Blockscout API error: ${data.message || "Unknown error"}`
+      );
+    }
+
+    return data.result;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(
+        `Network error fetching token transfers: ${error.message}`
+      );
+    }
+    throw error;
+  }
+}
+
+// Example usage
+async function main() {
+  const address = "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"; // vitalik.eth
+
+  try {
+    console.log(`Fetching ERC-20 transfers for: ${address}`);
+    const transfers = await getERC20TokenTransfers(address);
+
+    console.log(`Found ${transfers.length} transfers\n`);
+
+    transfers.slice(0, 3).forEach((transfer, index) => {
+      console.log(`Transfer ${index + 1}:`);
+      console.log(`  Token: ${transfer.tokenName} (${transfer.tokenSymbol})`);
+      console.log(`  From: ${transfer.from}`);
+      console.log(`  To: ${transfer.to}`);
+      console.log(`  Value: ${transfer.value}`);
+      console.log(`  Hash: ${transfer.hash}`);
+      console.log(`  Timestamp: ${new Date(parseInt(transfer.timeStamp) * 1000).toISOString()}\n`);
+    });
+  } catch (error) {
+    console.error("Error:", error instanceof Error ? error.message : error);
+  }
+}
+
+main();
+```
+
+### Key points:
+
+| Feature | Detail |
+|---|---|
+| **Validation** | Regex check for valid Ethereum address format |
+| **Error handling** | Distinguishes API errors, empty results, and network errors |
+| **Types** | Full `TokenTransfer` and `BlockscoutResponse` interfaces |
+| **Flexibility** | Configurable `baseUrl` for different networks (Polygon, BSC, etc.) |
+| **Default network** | Ethereum mainnet via `eth.blockscout.com` |
+
+To use with a different network, pass a custom `baseUrl`:
+```typescript
+// Polygon
+getERC20TokenTransfers(address, "https://polygon.blockscout.com/api");
+
+// Base
+getERC20TokenTransfers(address, "https://base.blockscout.com/api");
+```
