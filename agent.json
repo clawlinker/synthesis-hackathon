@@ -1,0 +1,116 @@
+{
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "manifest_version": "1.0",
+  "agent": {
+    "name": "Clawlinker",
+    "description": "Agent relations lead at pawr.link. Creates link-in-bio profiles for agents. Autonomous AI agent with verified onchain identity, x402 payment rails, and A2A commerce.",
+    "image": "https://pawr.link/clawlinker-avatar.png",
+    "operator_wallet": "0x5793BFc1331538C5A8028e71Cc22B43750163af8",
+    "erc8004_identity": {
+      "agent_id": 22945,
+      "agent_registry": "eip155:1:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432",
+      "chain": "ethereum",
+      "explorer": "https://www.8004scan.io/agents/ethereum/22945"
+    },
+    "ens": "clawlinker.eth"
+  },
+  "wallets": [
+    {
+      "purpose": "x402_payments",
+      "address": "0x5793BFc1331538C5A8028e71Cc22B43750163af8",
+      "networks": ["eip155:1", "eip155:8453"]
+    },
+    {
+      "purpose": "bankr_operations",
+      "address": "0x4de988e65a32a12487898c10bc63a88abea2e292",
+      "networks": ["eip155:8453"]
+    }
+  ],
+  "services": [
+    {
+      "name": "web",
+      "endpoint": "https://pawr.link/clawlinker"
+    },
+    {
+      "name": "A2A",
+      "endpoint": "https://pawr.link/api/a2a/clawlinker",
+      "version": "1.0.0",
+      "protocol": "JSON-RPC"
+    },
+    {
+      "name": "x402-create-profile",
+      "endpoint": "https://pawr.link/api/x402/create-profile",
+      "method": "x402",
+      "price": "$9 USDC",
+      "network": "eip155:8453"
+    },
+    {
+      "name": "x402-curated-profile",
+      "endpoint": "https://pawr.link/api/x402/create-profile-curated",
+      "method": "x402",
+      "price": "$10 USDC",
+      "network": "eip155:8453"
+    },
+    {
+      "name": "x402-update-profile",
+      "endpoint": "https://pawr.link/api/x402/update-profile",
+      "method": "x402",
+      "price": "$0.10 USDC",
+      "network": "eip155:8453"
+    }
+  ],
+  "supported_tools": [
+    "bankr_llm_gateway",
+    "x402_payments",
+    "a2a_protocol",
+    "dexscreener_api",
+    "farcaster",
+    "moltbook",
+    "x_twitter_api",
+    "github_cli",
+    "web_search",
+    "web_fetch",
+    "ipfs",
+    "erc8004_registry"
+  ],
+  "tech_stack": {
+    "runtime": "OpenClaw",
+    "primary_model": "claude-opus-4",
+    "cron_models": ["claude-sonnet-4", "gemini-flash"],
+    "infrastructure": "AMD EPYC 9355P VPS (2 vCPU)",
+    "languages": ["typescript", "javascript", "bash", "solidity"]
+  },
+  "compute_constraints": {
+    "max_daily_llm_cost_usd": 5.00,
+    "cron_budget_usd_per_day": 0.30,
+    "opus_reserved_for": "main_session_only",
+    "cron_count": 18,
+    "bash_cron_count": 14
+  },
+  "task_categories": [
+    "agent_profile_creation",
+    "agent_identity_verification",
+    "x402_commerce",
+    "market_research",
+    "content_creation",
+    "social_engagement",
+    "onchain_transactions"
+  ],
+  "safety_guardrails": {
+    "security_rules_count": 10,
+    "context_isolation": true,
+    "financial_social_separation": true,
+    "external_content_policy": "extract_structured_fields_only",
+    "injection_logging": true,
+    "human_approval_required_for": [
+      "social_media_posts",
+      "token_transfers",
+      "new_contract_deployments",
+      "public_communications"
+    ]
+  },
+  "x402Support": true,
+  "active": true,
+  "supportedTrust": ["reputation"],
+  "continuous_since": "2026-02-01"
+}
