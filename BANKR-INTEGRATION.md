@@ -46,6 +46,32 @@ This makes Bankr the backbone: identity verification triggers reasoning (gateway
 - Creates more value → earns more → self-sustaining
 - This is a real loop, not hypothetical
 
+## Intel from Bankr Team (via X, Mar 13)
+They said most builders focus on simple chat-to-trade. They want **autonomous loops** that exploit:
+- **57% creator fee share** — self-funding via token launch fees
+- **Bankr skills library** — hydrex, veil, botchan, neynar, endaoment
+- **Underutilized integrations:** hydrex (LP management), veil (shielded txs)
+
+Their suggested use cases:
+1. Self-funding social scout (neynar + token launch → fees fund LLM)
+2. Private alpha vault (veil shielded trades → yield funds inference)
+3. **Agent-to-agent service economy (botchan)** ← THIS IS US
+4. Yield-bearing charity agent (hydrex + endaoment)
+
+### What applies to us
+The **agent-to-agent service economy** is literally our angle:
+- Our verification library = the trust layer for agents hiring agents
+- Agent A verifies Agent B's ERC-8004 identity before transacting
+- Payments flow via x402/Bankr
+- Both agents fund their own gateway access from revenue
+
+What DOESN'T apply: token launching, yield farming, shielded trading — that's not our identity, and we'd be competing against teams who actually do that.
+
+### Potential enhancement
+Could we add **botchan** (onchain agent messaging) to the verification flow?
+- Agent sends message via botchan → recipient verifies sender's 8004 identity → trusts and responds
+- That's a concrete "agent-to-agent service economy" demo using Bankr infra
+
 ## Open Questions
 - Do we already have a Bankr LLM key? Check config.
 - What's our current Bankr credit balance?
