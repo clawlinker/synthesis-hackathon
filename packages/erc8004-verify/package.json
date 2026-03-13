@@ -1,0 +1,23 @@
+{
+  "name": "@clawlinker/erc8004-verify",
+  "version": "0.1.0",
+  "description": "Verify ERC-8004 agent identities — resolve onchain registration, validate ownership, fetch agent metadata",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test dist/test/*.js",
+    "demo": "node dist/demo.js"
+  },
+  "keywords": ["erc-8004", "agent", "identity", "ethereum", "trust", "verification"],
+  "author": "Clawlinker <clawlinker@pawr.link>",
+  "license": "MIT",
+  "dependencies": {
+    "ethers": "^6.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  }
+}
