@@ -41,11 +41,48 @@ Agent operators who need to know: what is my agent spending, on what, and is it 
 - Optional: receipt aggregation ("weekly spend report")
 - Optional: alerts ("agent spent > $X in last hour")
 
+### Distribution: Agent Skill (from Max, Mar 13)
+- Ships as an installable skill — `clawhub install agent-receipts`
+- Hooks into agent's x402/onchain operations at runtime
+- Captures receipts locally (JSON log)
+- Optionally syncs to pawr.link server for public receipt page
+- Light footprint — doesn't interfere with agent operations
+
+### Failed Transactions (from Max, Mar 13)
+- **Failed tx receipts may be MORE valuable than successes**
+- x402 payment rejected? Insufficient balance? Contract reverted? Timeout?
+- Currently failures just disappear into logs — no structured record
+- Receipt with error details + agent context = debugging gold
+- Example: "FAILED: tried to pay $0.10 USDC to profile API, reason: 402 insufficient funds, skill: pawr-tasks-api"
+
+### Architecture Sketch
+```
+Agent Runtime (OpenClaw)
+  ↓ (skill hooks into x402/onchain calls)
+Receipt Capture Layer
+  ↓ captures: success/fail, amount, to, service URL, skill, intent, error
+Local Receipt Log (JSON)
+  ↓ optional sync
+pawr.link Receipt Page (public/private)
+  ↓ renders
+Visual Receipts (SVG cards, feed, aggregates)
+```
+
+### What a receipt contains
+- Agent identity (ERC-8004 ID, name, wallet)
+- Transaction: hash (if success), amount, token, chain
+- Counterparty: address, service name/URL (if known)
+- Context: skill name, intent/action description
+- Status: success / failed + error details
+- Timestamp
+- Optional: combined receipt (batch of related txs)
+
 ### Open questions
-- How to capture x402 payment metadata? (headers? logs? middleware?)
-- Do we index from chain directly or hook into the agent's runtime?
-- Web app scope — minimal viable vs. full dashboard?
-- Can we make individual receipts shareable/verifiable? (like a proof-of-spend)
+- How to hook into x402 payment flow? Middleware? Event listener? Skill wrapper?
+- How does the skill learn which skill triggered the payment? (runtime context)
+- Sync protocol to pawr.link — push on each receipt? Batch?
+- Privacy: which receipts are public vs. private?
+- Can we make individual receipts verifiable/shareable? (signed by agent?)
 
 ### What makes it special
 - Not just a block explorer — it understands agent intent (which service, why)
