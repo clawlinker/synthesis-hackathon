@@ -116,34 +116,52 @@ Autonomous crons override to: `bankr/gemini-2.5-flash`
 
 Priority order — work top-down:
 
-### Phase 1: Research (Mar 14)
-- [ ] Clone coinbase/x402, assess facilitator complexity
-- [ ] Check Bankr job API for receipt-friendly data
-- [ ] Survey existing ERC-8004 tooling
-- [ ] Re-read all target bounty criteria word-by-word
-- [ ] Check TG group for what others are building
+### Phase 1: Research (Mar 14 — overnight + morning)
+- [ ] Clone coinbase/x402, read facilitator source, document architecture in FACILITATOR-ANALYSIS.md
+- [ ] Check Bankr Agent API: GET /agent/balances, job history — what data can we pull?
+- [ ] Survey existing ERC-8004 tooling (npm packages, SDKs, explorers)
+- [ ] Re-read all 3 target bounty criteria word-by-word, extract exact scoring rubric
+- [ ] Research receipt/audit trail projects — any competitors?
+- [ ] Research SVG generation libraries (satori, @vercel/og, sharp, etc.)
 
-### Phase 2: Build Core (Mar 15-17)
-- [ ] Set up Bankr LLM Gateway as provider
-- [ ] Build receipt data model (TypeScript types)
-- [ ] Build receipt capture from onchain data (Blockscout)
-- [ ] Build receipt capture from x402 facilitator (if viable)
-- [ ] Build SVG receipt generator
-- [ ] Build receipt API endpoint
-- [ ] Build simple web UI for receipt feed
-- [ ] Wire up auto-logging to agent_log.json
+### Phase 2: Build Foundations (Mar 14-15)
+- [ ] Create `packages/agent-receipts/` — new TypeScript package
+- [ ] Define receipt data model: TypeScript interfaces for Receipt, ReceiptEntry, AgentIdentity
+- [ ] Build Blockscout indexer: fetch token transfers for any wallet address
+- [ ] Build address labeler: map known addresses to service names (CDP facilitator, Bankr, etc.)
+- [ ] Build receipt enrichment: combine onchain data + address labels into structured receipts
+- [ ] Build receipt storage: append-only JSON log with safe write
+- [ ] Write tests for indexer + enrichment
 
-### Phase 3: Polish (Mar 18-21)
-- [ ] Demo for agentic judging (Mar 18)
-- [ ] Iterate on feedback
-- [ ] Documentation polish
-- [ ] Demo recording
-- [ ] Final agent_log.json compilation
+### Phase 3: Build Receipt Generator (Mar 15-16)
+- [ ] Build SVG receipt card generator (single receipt view)
+- [ ] Build SVG combined receipt (daily/weekly summary)
+- [ ] Build receipt feed API endpoint (Express/Hono server)
+- [ ] Add ERC-8004 identity resolution to receipts (using our verification library)
+- [ ] Build CLI: `npx agent-receipts 0xADDRESS` — instant receipt feed in terminal
+- [ ] Write README for the package
 
-### Phase 4: Submit (Mar 22)
-- [ ] Package everything
-- [ ] Final README
-- [ ] Devfolio submission
+### Phase 4: Build Demo App (Mar 16-17)
+- [ ] Simple web app: paste agent address → see receipt feed
+- [ ] Live demo with our own wallet data (0x5793...)
+- [ ] Add Bankr wallet data (0x4de9...)
+- [ ] Show failed transaction receipts
+- [ ] Deploy to Vercel or similar
+
+### Phase 5: Integration + Autonomous Proof (Mar 17-18)
+- [ ] Wire up auto-logging to agent_log.json from cron sessions
+- [ ] Capture Bankr LLM costs as receipts (credit delta tracking)
+- [ ] Build x402 middleware wrapper that auto-generates receipts
+- [ ] Document the full autonomous loop with real data
+- [ ] Prepare demo for agentic judging (Mar 18)
+
+### Phase 6: Polish + Submit (Mar 19-22)
+- [ ] Iterate based on Mar 18 feedback
+- [ ] Documentation polish — README, COLLAB.md, agent_log.json compilation
+- [ ] Demo recording / walkthrough
+- [ ] Update agent.json manifest with receipt capabilities
+- [ ] Final agent_log.json with complete autonomous operation log
+- [ ] Package and submit on Devfolio (Mar 22)
 
 ## How This Scores
 
