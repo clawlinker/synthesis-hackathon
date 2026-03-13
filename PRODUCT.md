@@ -83,3 +83,8 @@ Taglines to consider:
 - Think about who plugs in the ID and where they get it
 - Iterate on name/tagline throughout
 - Don't overbuild — discuss first, then build what matters
+- **KEEP IT SIMPLE.** One sentence pitch. Loops and flowcharts lose judges.
+- No botchan. XMTP possible but complex.
+- No MetaMask (dropped).
+- Bankr integration should be one clear thing, not a convoluted economic loop.
+- The pitch: "Verify any AI agent's identity in one line of code."
