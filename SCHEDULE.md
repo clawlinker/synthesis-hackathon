@@ -10,6 +10,7 @@ _The Synthesis — Mar 13-22, 2026 (10 days)_
 | 2 | **ERC-8004 Ecosystem Gap** | Existing tooling, what other teams are building (TG signal), unmet needs | ⬜ TODO | Mar 14 |
 | 3 | **Receipt Format & UX** | Reference receipts (Stripe, Etherscan, Apple Pay), SVG libs, minimum viable receipt | ⬜ TODO | Mar 14-15 |
 | 4 | **Track Requirements Deep Read** | Word-by-word criteria for ERC-8004, Let the Agent Cook, AgentCash bounties | ⬜ TODO | Mar 15 |
+| 5 | **Bankr LLM Model Benchmark** | Test all 21 models: same prompt, score quality, measure speed, log cost. Rank price/performance. | ⬜ TODO | Mar 14 |
 
 ## Build Plan (TBD — depends on research)
 
