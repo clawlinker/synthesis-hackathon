@@ -6,7 +6,7 @@ _Auto-updated by autonomous sessions. Check GitHub commit history for `🤖 [aut
 
 | Cron | Model | Schedule (UTC) | Purpose |
 |------|-------|----------------|---------|
-| synthesis-autonomous | bankr/gemini-3-flash | 09:30, 15:30, 21:30 | Pick task, execute, commit |
+| synthesis-autonomous | bankr/gemini-3-flash | Every 2h (:30) — 12x/day | Pick task, execute, commit |
 | synthesis-ideation | bankr/gemini-3-flash | 10:00, 18:00 (Lisbon) | Generate new ideas |
 | daily-cleanup | bankr/qwen3-coder | 06:00 | Disk/memory hygiene |
 | a2a-tasks-check | bankr/qwen3-coder | every 3h | Customer order checks |
