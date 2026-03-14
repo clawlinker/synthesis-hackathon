@@ -152,34 +152,37 @@ Priority order — work top-down:
 - [x] Build receipt enrichment: combine onchain data + address labels into structured receipts
 - [x] Add auto-refresh / polling to receipt feed (every 30s)
 
-### Phase 3: Build Receipt Generator (Mar 15-16)
-- [ ] Build SVG receipt card generator (single receipt view)
-- [ ] Build SVG combined receipt (daily/weekly summary)
-- [ ] Build receipt feed API endpoint (Express/Hono server)
-- [ ] Add ERC-8004 identity resolution to receipts (using our verification library)
-- [ ] Build CLI: `npx agent-receipts 0xADDRESS` — instant receipt feed in terminal
-- [ ] Write README for the package
+### Phase 3: Critical Gaps — HIGH PRIORITY (Mar 15-16)
+_These directly affect scoring. Do first._
 
-### Phase 4: Build Demo App (Mar 16-17)
-- [ ] Simple web app: paste agent address → see receipt feed
-- [ ] Live demo with our own wallet data (0x5793...)
-- [ ] Add Bankr wallet data (0x4de9...)
-- [ ] Show failed transaction receipts
-- [ ] Deploy to Vercel or similar
+- [ ] **Enrich agent.json to full DevSpot spec** — add tools[], stacks[], constraints[], categories[], safety{}, compute_budget{}. Read RUBRIC.md for exact fields. ERC-8004 bounty specifically requires DevSpot Agent Manifest compliance.
+- [ ] **Make crons auto-append to agent_log.json** — every cron run MUST append an entry. Read current agent_log.json format, append a new JSON object with timestamp, phase, action, description, tools_used, model, model_cost_usd, decision, outcome, artifacts, commit. Use `python3 -c` to safely append to the JSON array.
+- [ ] **Add Bankr LLM cost tracking** — run `bankr llm credits` at start and end of cron session, calculate delta, include in agent_log.json entry under compute_budget.
+- [ ] **Build x402 paid API endpoint** — add `/api/x402/receipts` route that requires x402 USDC payment to access. This makes the receipt feed itself an x402 service. Load-bearing integration for AgentCash bounty. Use x402 middleware from `@x402/next`.
+- [ ] **Add receipt stats dashboard** — total USDC sent/received, tx count, unique counterparties, date range, most frequent services. Show at top of receipt feed.
 
-### Phase 5: Integration + Autonomous Proof (Mar 17-18)
-- [ ] Wire up auto-logging to agent_log.json from cron sessions
-- [ ] Capture Bankr LLM costs as receipts (credit delta tracking)
-- [ ] Build x402 middleware wrapper that auto-generates receipts
-- [ ] Document the full autonomous loop with real data
-- [ ] Prepare demo for agentic judging (Mar 18)
+### Phase 4: Receipt Generator + Polish (Mar 16-17)
+- [ ] Build SVG receipt card generator (single receipt view) using satori or custom SVG template
+- [ ] Add OG image generation — `/api/og/[txhash]` returns a social preview card for any receipt
+- [ ] Add ERC-8004 identity resolution — look up 8004 registry for from/to addresses, show agent name + ID if registered
+- [ ] Live demo with our own wallet data (0x5793...) — verify all 47+ txs render correctly
+- [ ] Add Bankr wallet data (0x4de9...) — show both wallets in the feed
+- [ ] Add multi-wallet support — URL param `?wallet=0x...` to view any agent's receipts
+- [ ] Surface Bankr LLM costs as "inference receipts" alongside USDC receipts — show the full cost picture
 
-### Phase 6: Polish + Submit (Mar 19-22)
-- [ ] Iterate based on Mar 18 feedback
-- [ ] Documentation polish — README, COLLAB.md, agent_log.json compilation
-- [ ] Demo recording / walkthrough
-- [ ] Update agent.json manifest with receipt capabilities
-- [ ] Final agent_log.json with complete autonomous operation log
+### Phase 5: Deploy + Demo (Mar 17-18)
+- [ ] Deploy to Vercel (or similar) — needs to be live for judges
+- [ ] Write proper README.md — what it is, how to use, how it was built, architecture diagram
+- [ ] Create COLLAB.md — document human-agent collaboration process (required by rules)
+- [ ] Prepare for agentic judging (Mar 18) — ensure agent.json and agent_log.json are complete and accessible
+- [ ] Test with agent judges — make sure the app responds well to automated evaluation
+
+### Phase 6: Final Polish + Submit (Mar 19-22)
+- [ ] Iterate based on Mar 18 agentic judging feedback
+- [ ] Final agent_log.json compilation — complete autonomous operation log with all costs
+- [ ] Self-sustaining economics writeup — how x402 revenue from receipt API funds Bankr LLM inference
+- [ ] Demo recording / walkthrough video
+- [ ] Final agent.json update with all capabilities and receipt service endpoint
 - [ ] Package and submit on Devfolio (Mar 22)
 
 ## How This Scores
