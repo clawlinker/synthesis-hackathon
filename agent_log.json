@@ -15,5 +15,22 @@
       "remaining_usd": 0.4999
     },
     "artifacts": [".env"]
+  },
+  {
+    "timestamp": "2026-03-14T20:45:00Z",
+    "phase": "execute",
+    "action": "enable_auto_refresh",
+    "description": "Reduced receipt feed refresh interval from 60s to 30s in page.tsx.",
+    "tools_used": ["edit", "exec"],
+    "model": "bankr/gemini-3-flash",
+    "model_cost_usd": 0.0001,
+    "decision": "Executing Phase 2 task 'Add auto-refresh / polling to receipt feed' to ensure live updates.",
+    "outcome": "success",
+    "compute_budget": {
+      "session_cost_usd": 0.0001,
+      "daily_budget_usd": 0.50,
+      "remaining_usd": 0.4998
+    },
+    "artifacts": ["app/page.tsx"]
   }
 ]
