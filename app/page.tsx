@@ -23,7 +23,7 @@ export default function Home() {
       }
     }
     fetchReceipts()
-    const interval = setInterval(fetchReceipts, 60000)
+    const interval = setInterval(fetchReceipts, 30000)
     return () => clearInterval(interval)
   }, [])
 
