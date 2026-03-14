@@ -116,8 +116,20 @@ Autonomous crons override to: `bankr/gemini-2.5-flash`
 
 Priority order — work top-down:
 
+### Phase 0: Meta-Optimization (Mar 14 — first session)
+- [ ] **KARPATHY AUTORESEARCH: Optimize this cron's own prompt.** Follow the loop below:
+  1. Score the current `synthesis-autonomous` prompt against rubric (Concreteness×3, No-narration×2, Brevity×2, Actionability×2, Format×1) — scale 1-10 each
+  2. Apply ALL mutation strategies: constraints first, banned phrases ("I'll","Let me","I'm going to","I will","You are"), lead directive, word limit (max 200 words), no explanation of what tools do, empty/edge case handling
+  3. Write optimized variant to `/root/synthesis-hackathon/prompts/autonomous-v2.md`
+  4. Score both variants, log comparison table
+  5. If v2 wins: update the cron prompt in `/root/.openclaw/cron/jobs.json` (job name: `synthesis-autonomous`, field: `.payload.message`)
+  6. Also optimize `synth-daily-summary` and `synth-self-review` prompts using same method — write v2s to `prompts/` dir
+  7. Log this as an agent_log.json entry with action: "meta_optimization", include before/after scores
+  8. **Edge case rule for ALL future tasks:** Before marking any task [x], list 3 edge cases. Verify at least one.
+  9. Commit: `git add -A && git commit -m "🔬 [meta] Karpathy autoresearch — prompt self-optimization" && git push`
+
 ### Phase 1: Research (Mar 14 — overnight + morning)
-- [ ] Clone coinbase/x402, read facilitator source, document architecture in FACILITATOR-ANALYSIS.md
+- [x] Clone coinbase/x402, read facilitator source, document architecture in FACILITATOR-ANALYSIS.md
 - [ ] Check Bankr Agent API: GET /agent/balances, job history — what data can we pull?
 - [ ] Survey existing ERC-8004 tooling (npm packages, SDKs, explorers)
 - [ ] Re-read all 3 target bounty criteria word-by-word, extract exact scoring rubric
