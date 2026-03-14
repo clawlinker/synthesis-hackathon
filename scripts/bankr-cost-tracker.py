@@ -1,147 +1,119 @@
 #!/usr/bin/env python3
-"""Bankr LLM cost tracker for autonomous sessions."""
+"""
+Bankr LLM cost tracker for autonomous cron sessions.
+Records start/end credits and calculates delta for agent_log.json.
+"""
 
-import subprocess
 import json
+import subprocess
+import sys
 import os
-import re
 from datetime import datetime
 
 LOG_FILE = "/root/synthesis-hackathon/agent_log.json"
-METADATA_FILE = "/root/synthesis-hackathon/.bankr-cost-cache.json"
+
 
 def get_credits():
-    """Run bankr llm credits and parse output."""
+    """Fetch current Bankr LLM credits via CLI."""
     try:
         result = subprocess.run(
             ["bankr", "llm", "credits"],
             capture_output=True,
             text=True,
-            timeout=30
+            timeout=10
         )
         if result.returncode != 0:
-            return None, None, "command failed"
-        return result.stdout, result.stderr, None
+            return None
+        # Parse output - extract credit balance line
+        for line in result.stdout.split('\n'):
+            if 'Credit Balance:' in line:
+                amount_str = line.split('$')[-1].strip()
+                return float(amount_str)
+        return None
     except Exception as e:
-        return None, None, str(e)
+        return None
 
-def parse_credits_output(output):
-    """Parse bankr llm credits output to extract remaining balance."""
-    # Look for lines like "Remaining: $182.45"
-    match = re.search(r"Remaining:\s*\$?\s*([\d,.]+)", output)
-    if match:
-        return float(match.group(1).replace(",", ""))
-    return None
 
-def get_previous_balance():
-    """Get cached previous balance."""
-    if os.path.exists(METADATA_FILE):
-        try:
-            with open(METADATA_FILE, 'r') as f:
-                data = json.load(f)
-                return data.get("balance")
-        except:
-            pass
-    return None
-
-def save_balance(balance):
-    """Save current balance to cache."""
-    with open(METADATA_FILE, 'w') as f:
-        json.dump({"balance": balance, "timestamp": datetime.utcnow().isoformat()}, f, indent=2)
-
-def run_cron_with_cost_tracking(cron_name, description, tools_used, artifacts, outcome="success"):
-    """Run a cron command with cost tracking, append to log."""
-    # Get starting balance
-    start_output, start_err, start_error = get_credits()
-    if start_error:
-        start_balance = None
-    else:
-        start_balance = parse_credits_output(start_output)
-    
-    # Run the actual cron command
-    cmd = os.environ.get("CRON_CMD", "")
-    if not cmd:
-        print(f"ERROR: CRON_CMD not set")
-        return
-    
-    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
-    
-    # Get ending balance
-    end_output, end_err, end_error = get_credits()
-    if end_error:
-        end_balance = None
-    else:
-        end_balance = parse_credits_output(end_output)
-    
-    # Calculate cost
-    if start_balance is not None and end_balance is not None:
-        cost = round(start_balance - end_balance, 4)
-    else:
-        cost = None
-    
-    # Build entry
-    entry = {
-        "timestamp": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "phase": "cron",
-        "cron": cron_name,
-        "description": description,
-        "tools_used": tools_used,
-        "model": "bankr/qwen3-coder",
-        "model_cost_usd": 0.01,
-        "bankr_credits_start": start_balance,
-        "bankr_credits_end": end_balance,
-        "bankr_cost_usd": cost,
-        "decision": description,
-        "outcome": outcome,
-        "artifacts": artifacts,
-        "compute_budget": {
-            "daily_budget_usd": 7.70,
-            "total_budget_usd": 190,
-            "days_remaining": 8,
-            "projected_total_usd": 62
-        }
-    }
-    
-    if result.returncode == 0:
-        entry["command_stdout"] = result.stdout[:500] if result.stdout else None
-    else:
-        entry["command_stderr"] = result.stderr[:500] if result.stderr else None
-        entry["outcome"] = "failed"
-        entry["returncode"] = result.returncode
-    
-    # Append to log
-    if os.path.exists(LOG_FILE):
+def load_log():
+    """Load agent_log.json."""
+    try:
         with open(LOG_FILE, 'r') as f:
-            data = json.load(f)
-    else:
-        data = []
-    
-    data.append(entry)
+            return json.load(f)
+    except Exception as e:
+        return []
+
+
+def save_log(data):
+    """Save to agent_log.json."""
     with open(LOG_FILE, 'w') as f:
         json.dump(data, f, indent=2)
-    
-    # Save balance for next time
-    save_balance(end_balance)
-    
-    # Output for cron
-    print(f"✅ {cron_name} - outcome: {outcome}")
-    if cost is not None:
-        print(f"💰 Cost: ${cost:.4f}")
+
+
+def record_start():
+    """Record start credits."""
+    credits = get_credits()
+    if credits is not None:
+        data = {"bankr_start_credits": credits, "timestamp": datetime.utcnow().isoformat()}
+        with open("/tmp/bankr-credits-start.json", 'w') as f:
+            json.dump(data, f, indent=2)
+        return credits
+    return None
+
+
+def record_end_and_log():
+    """Calculate delta and append to agent_log.json."""
+    # Load start credits
+    try:
+        with open("/tmp/bankr-credits-start.json", 'r') as f:
+            start_data = json.load(f)
+        start_credits = start_data.get("bankr_start_credits")
+    except Exception:
+        print("No start credits recorded")
+        return None
+
+    # Get end credits
+    end_credits = get_credits()
+    if end_credits is None:
+        print("Could not fetch end credits")
+        return None
+
+    delta = start_credits - end_credits if start_credits else None
+
+    # Update last log entry with compute_budget
+    data = load_log()
+    if data and delta is not None:
+        # Find last entry without compute_budget
+        for entry in reversed(data):
+            if "compute_budget" not in entry:
+                entry["compute_budget"] = {
+                    "session_cost_usd": round(delta, 4),
+                    "daily_budget_usd": 0.50,
+                    "remaining_usd": round(end_credits, 2)
+                }
+                # Remove temp file
+                if os.path.exists("/tmp/bankr-credits-start.json"):
+                    os.remove("/tmp/bankr-credits-start.json")
+                save_log(data)
+                print(f"Bankr LLM cost tracked: ${delta:.4f} used, ${end_credits:.2f} remaining")
+                return delta
+
+    # Clean up temp file
+    if os.path.exists("/tmp/bankr-credits-start.json"):
+        os.remove("/tmp/bankr-credits-start.json")
+
+    return None
+
 
 if __name__ == "__main__":
-    import sys
-    if len(sys.argv) < 5:
-        print("Usage: bankr-cost-tracker.py <cron_name> <description> <tools_json> <artifacts_json> [cmd]")
+    if len(sys.argv) < 2:
+        print("Usage: bankr-cost-tracker.py [start|end]")
         sys.exit(1)
-    
-    cron_name = sys.argv[1]
-    description = sys.argv[2]
-    tools_json = sys.argv[3]
-    artifacts_json = sys.argv[4]
-    
-    run_cron_with_cost_tracking(
-        cron_name=cron_name,
-        description=description,
-        tools_used=json.loads(tools_json),
-        artifacts=json.loads(artifacts_json)
-    )
+
+    action = sys.argv[1]
+    if action == "start":
+        record_start()
+    elif action == "end":
+        record_end_and_log()
+    else:
+        print(f"Unknown action: {action}")
+        sys.exit(1)
