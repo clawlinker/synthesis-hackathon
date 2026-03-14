@@ -142,7 +142,7 @@ Priority order — work top-down:
 - [x] Build API route `/api/receipts` — live Basescan fetch + sample fallback
 - [x] Build ReceiptCard + AgentHeader components
 - [x] Create sample data: `data/sample-receipts.json`
-- [ ] Add Basescan API key to env for higher rate limits
+- [x] Add Basescan API key to env for higher rate limits
 - [x] Build address labeler: map known addresses to service names (CDP facilitator, Bankr, etc.)
 - [x] Build receipt enrichment: combine onchain data + address labels into structured receipts
 - [ ] Add auto-refresh / polling to receipt feed (every 30s)
