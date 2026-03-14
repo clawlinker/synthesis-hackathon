@@ -134,7 +134,7 @@ Priority order — work top-down:
 - [x] Survey existing ERC-8004 tooling (npm packages, SDKs, explorers)
 - [x] Re-read all 3 target bounty criteria word-by-word, extract exact scoring rubric
 - [x] Research receipt/audit trail projects — any competitors?
-- [ ] Research SVG generation libraries (satori, @vercel/og, sharp, etc.)
+- [x] Research SVG generation libraries (satori, @vercel/og, sharp, etc.)
 
 ### Phase 2: Build Foundations (Mar 14-15)
 - [x] Scaffold Next.js 16 app with Tailwind v4 — builds clean ✅ (Mar 14, main session)
