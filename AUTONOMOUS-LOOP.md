@@ -22,12 +22,17 @@ Max provides direction and review. Clawlinker executes autonomously between chec
 | Complex reasoning (if needed) | Claude Sonnet | Bankr LLM Gateway | Mid-tier for harder tasks |
 | Main session with Max | Claude Opus | Anthropic direct | Quality for collaboration |
 
-### Cron Schedule
-| Cron | Schedule | Model | Purpose |
-|------|----------|-------|---------|
-| `synthesis-autonomous` | 3x/day (09:00, 15:00, 21:00 UTC) | bankr/gemini-2.5-flash | Pick next task, execute, log |
-| `synthesis-ideation` | 2x/day (10:00, 18:00 Lisbon) | sonnet | Generate ideas, research |
-| `synthesis-log-sync` | 1x/day (23:00 UTC) | flash | Sync execution logs to agent_log.json |
+### Cron Schedule (v2 — parallel pipeline)
+| Cron | Schedule | Model | Purpose | Scope |
+|------|----------|-------|---------|-------|
+| `synthesis-autonomous` | Every 30 min | bankr/qwen3-coder | Pick task → build → commit | Write code |
+| `synthesis-build-guard` | Every 1h | bankr/qwen3.5-flash | Run build, fix or revert if broken | Fix/revert only |
+| `synthesis-code-review` | Every 2h | bankr/deepseek-v3.2 | Review last 3 commits, find bugs | Write REVIEW-LOG.md only |
+| `synthesis-self-review` | Every 3h | bankr/gemini-3-flash | Drift check, reprioritize tasks | Write DECISIONS.md only |
+| `synthesis-daily-summary` | 1x/day 22:00 UTC | bankr/gemini-3-flash | Daily progress report | Read-only |
+
+**Budget:** ~$7.70/day × 8 days = ~$62 of $190 Bankr LLM credits. Headroom for ramping up.
+**Conflict prevention:** Each cron has a defined write scope. Builder writes code, reviewers write logs/docs only.
 
 ### What I Can Do Autonomously (no Max needed)
 - Research: read docs, fetch APIs, analyze codebases
