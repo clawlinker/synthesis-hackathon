@@ -132,7 +132,7 @@ Priority order — work top-down:
 - [x] Clone coinbase/x402, read facilitator source, document architecture in FACILITATOR-ANALYSIS.md
 - [x] Check Bankr Agent API: GET /agent/balances, job history — what data can we pull?
 - [x] Survey existing ERC-8004 tooling (npm packages, SDKs, explorers)
-- [ ] Re-read all 3 target bounty criteria word-by-word, extract exact scoring rubric
+- [x] Re-read all 3 target bounty criteria word-by-word, extract exact scoring rubric
 - [ ] Research receipt/audit trail projects — any competitors?
 - [ ] Research SVG generation libraries (satori, @vercel/og, sharp, etc.)
 
