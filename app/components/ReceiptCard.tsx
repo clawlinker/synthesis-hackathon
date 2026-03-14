@@ -52,11 +52,17 @@ export function ReceiptCard({ receipt }: { receipt: Receipt }) {
       </div>
 
       {/* Addresses */}
-      <div className="flex items-center gap-2 text-sm mb-2" style={{ color: 'var(--color-text-secondary)' }}>
-        <span style={{ color: 'var(--color-text-muted)' }}>From</span>
-        <code className="font-mono text-xs">{shortenAddress(receipt.from)}</code>
-        <span style={{ color: 'var(--color-text-muted)' }}>→</span>
-        <code className="font-mono text-xs">{shortenAddress(receipt.to)}</code>
+      <div className="flex flex-col gap-1 text-sm mb-3" style={{ color: 'var(--color-text-secondary)' }}>
+        <div className="flex items-center gap-2">
+          <span className="w-8 shrink-0 text-[10px] uppercase tracking-wider" style={{ color: 'var(--color-text-muted)' }}>From</span>
+          <span className="font-medium truncate">{receipt.fromLabel || shortenAddress(receipt.from)}</span>
+          <code className="hidden sm:inline font-mono text-[10px] opacity-50">{shortenAddress(receipt.from)}</code>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-8 shrink-0 text-[10px] uppercase tracking-wider" style={{ color: 'var(--color-text-muted)' }}>To</span>
+          <span className="font-medium truncate">{receipt.toLabel || shortenAddress(receipt.to)}</span>
+          <code className="hidden sm:inline font-mono text-[10px] opacity-50">{shortenAddress(receipt.to)}</code>
+        </div>
       </div>
 
       {/* Footer: time + tx link + agent badge */}

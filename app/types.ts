@@ -13,6 +13,8 @@ export interface Receipt {
   // enrichment (added later)
   service?: string     // what the payment was for
   agentId?: string     // ERC-8004 ID
+  fromLabel?: string
+  toLabel?: string
 }
 
 export interface AgentIdentity {
