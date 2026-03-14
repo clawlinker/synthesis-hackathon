@@ -137,13 +137,15 @@ Priority order — work top-down:
 - [ ] Research SVG generation libraries (satori, @vercel/og, sharp, etc.)
 
 ### Phase 2: Build Foundations (Mar 14-15)
-- [ ] Create `packages/agent-receipts/` — new TypeScript package
-- [ ] Define receipt data model: TypeScript interfaces for Receipt, ReceiptEntry, AgentIdentity
-- [ ] Build Blockscout indexer: fetch token transfers for any wallet address
+- [x] Scaffold Next.js 16 app with Tailwind v4 — builds clean ✅ (Mar 14, main session)
+- [x] Define receipt data model: `app/types.ts` — Receipt, AgentIdentity, constants
+- [x] Build API route `/api/receipts` — live Basescan fetch + sample fallback
+- [x] Build ReceiptCard + AgentHeader components
+- [x] Create sample data: `data/sample-receipts.json`
+- [ ] Add Basescan API key to env for higher rate limits
 - [ ] Build address labeler: map known addresses to service names (CDP facilitator, Bankr, etc.)
 - [ ] Build receipt enrichment: combine onchain data + address labels into structured receipts
-- [ ] Build receipt storage: append-only JSON log with safe write
-- [ ] Write tests for indexer + enrichment
+- [ ] Add auto-refresh / polling to receipt feed (every 30s)
 
 ### Phase 3: Build Receipt Generator (Mar 15-16)
 - [ ] Build SVG receipt card generator (single receipt view)

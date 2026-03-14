@@ -24,6 +24,15 @@ _Autonomous crons read this FIRST before picking tasks._
 - **Distribution:** Web app (primary) + npm library (secondary)
 - **Scope:** MVP web app with live receipt feed in 3 days, polish remaining 5
 
+### ✅ Decided (Mar 14 — scaffold)
+- Next.js 16 + Tailwind v4 + TypeScript — building clean
+- App lives at repo root: `app/`, `data/`, `public/`
+- API route `/api/receipts` fetches live USDC transfers from Basescan with sample fallback
+- Receipt cards show direction, amount, addresses, tx link, ERC-8004 badge
+- Dark theme, CSS variables, no external UI libs
+- Autonomous cron disabled temporarily to avoid dep conflicts — re-enabled with guardrails
+- **DO NOT** touch package.json deps, next.config, postcss.config, or globals.css without checking current state first
+
 ### ✅ Decided (Mar 14)
 - Direction locked: Agent Receipts (Max approved)
 - Pitch: "Every payment your agent makes, verified and visible."
