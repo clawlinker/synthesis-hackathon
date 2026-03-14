@@ -8,7 +8,7 @@ _Autonomous crons read this FIRST before picking tasks._
 **Project:** Agent Receipts — verifiable audit trail for autonomous agent transactions
 **Primary track:** Let the Agent Cook ($8K)
 **Secondary tracks:** ERC-8004 ($8K), AgentCash/x402 ($1.75K), Bankr ($5K), Open ($14K)
-**Status:** Research phase — direction NOT locked yet
+**Status:** ✅ LOCKED — building (Mar 14, approved by Max)
 
 ## Active Decisions
 
@@ -19,11 +19,17 @@ _Autonomous crons read this FIRST before picking tasks._
 - Opus/Sonnet stay on Anthropic, cheap models via Bankr LLM (Mar 13)
 - 12x/day autonomous sessions during build phase (Mar 13)
 
-### 🟡 Open — Need Research First
-- **Is the x402 facilitator approach viable?** → Research session will determine
-- **Receipt format:** SVG card? HTML? Both?
-- **Distribution:** Standalone tool? Skill? Both?
-- **Scope:** How much can we realistically ship in 8 remaining days?
+### 🟡 Open — In Progress
+- **Receipt format:** SVG card + HTML feed (both)
+- **Distribution:** Web app (primary) + npm library (secondary)
+- **Scope:** MVP web app with live receipt feed in 3 days, polish remaining 5
+
+### ✅ Decided (Mar 14)
+- Direction locked: Agent Receipts (Max approved)
+- Pitch: "Every payment your agent makes, verified and visible."
+- MVP: Next.js web app, live receipt feed, SVG receipt cards
+- Data source: Real x402 USDC transfers from our wallet (47+ txs)
+- Each receipt: Agent 8004 ID → service → amount → skill → tx hash → visual card
 
 ### 🔴 Blockers
 _None yet_
