@@ -6,8 +6,11 @@ set -euo pipefail
 
 CRON_NAME="$1"
 DESCRIPTION="$2"
- shift 2 || true
+shift 2 || true
 COMMAND="$*"
+
+# Track Bankr LLM credits at start
+python3 /root/synthesis-hackathon/scripts/bankr-cost-tracker.py start 2>/dev/null || true
 
 LOG_FILE="/root/synthesis-hackathon/agent_log.json"
 WORKSPACE="/root/synthesis-hackathon"
@@ -31,57 +34,57 @@ fi
 # Tools used (hardcoded for each cron - should be updated per cron)
 case "$CRON_NAME" in
     "synthesis-autonomous")
-        TOOLS='["read", "write", "exec", "edit"]'
-        ARTIFACTS='[]'
+        TOOLS_JSON='["read","write","exec","edit"]'
+        ARTIFACTS_JSON='[]'
         MODEL_COST=0.01
         ;;
     "synthesis-build-guard")
-        TOOLS='["exec", "read", "edit"]'
-        ARTIFACTS='[]'
+        TOOLS_JSON='["exec","read","edit"]'
+        ARTIFACTS_JSON='[]'
         MODEL_COST=0.002
         ;;
     "synthesis-code-review")
-        TOOLS='["read", "exec"]'
-        ARTIFACTS='["REVIEW-LOG.md"]'
+        TOOLS_JSON='["read","exec"]'
+        ARTIFACTS_JSON='["REVIEW-LOG.md"]'
         MODEL_COST=0.003
         ;;
     "synthesis-self-review")
-        TOOLS='["read", "exec", "edit"]'
-        ARTIFACTS='["DECISIONS.md", "AUTONOMOUS-LOOP.md"]'
+        TOOLS_JSON='["read","exec","edit"]'
+        ARTIFACTS_JSON='["DECISIONS.md","AUTONOMOUS-LOOP.md"]'
         MODEL_COST=0.002
         ;;
     "synthesis-daily-summary")
-        TOOLS='["read"]'
-        ARTIFACTS='[]'
+        TOOLS_JSON='["read"]'
+        ARTIFACTS_JSON='[]'
         MODEL_COST=0.001
         ;;
     "synthesis-strategy-check")
-        TOOLS='["read", "exec", "edit"]'
-        ARTIFACTS='["DECISIONS.md", "AUTONOMOUS-LOOP.md"]'
+        TOOLS_JSON='["read","exec","edit"]'
+        ARTIFACTS_JSON='["DECISIONS.md","AUTONOMOUS-LOOP.md"]'
         MODEL_COST=0.003
         ;;
     *)
-        TOOLS='["read", "exec"]'
-        ARTIFACTS='[]'
+        TOOLS_JSON='["read","exec"]'
+        ARTIFACTS_JSON='[]'
         MODEL_COST=0.002
         ;;
 esac
 
 # Log entry
-python3 << PYTHON_EOF
+python3 - "$LOG_FILE" "$CRON_NAME" "$DESCRIPTION" "$TOOLS_JSON" "$OUTCOME" "$ARTIFACTS_JSON" "$COMMIT" "$MODEL_COST" "$EXIT_CODE" << 'PYTHON_EOF'
 import json
+import sys
 import datetime
 
-log_file = "$LOG_FILE"
-cron_name = "$CRON_NAME"
-description = "$DESCRIPTION"
-tools_json = "$TOOLS"
-decision = "$DESCRIPTION"
-outcome = "$OUTCOME"
-artifacts_json = "$ARTIFACTS"
-commit = "$COMMIT"
-model_cost = $MODEL_COST
-exit_code = $EXIT_CODE
+log_file = sys.argv[1]
+cron_name = sys.argv[2]
+description = sys.argv[3]
+tools_json = sys.argv[4]
+outcome = sys.argv[5]
+artifacts_json = sys.argv[6]
+commit = sys.argv[7]
+model_cost = float(sys.argv[8])
+exit_code = int(sys.argv[9])
 
 # Load existing log
 with open(log_file, 'r') as f:
@@ -96,7 +99,7 @@ entry = {
     "tools_used": json.loads(tools_json),
     "model": "bankr/qwen3-coder",
     "model_cost_usd": model_cost,
-    "decision": decision,
+    "decision": description,
     "outcome": outcome,
     "artifacts": json.loads(artifacts_json),
     "command_exit_code": exit_code
@@ -109,6 +112,8 @@ if commit:
 data.append(entry)
 with open(log_file, 'w') as f:
     json.dump(data, f, indent=2)
+
+print(f"Logged entry: {cron_name} - {outcome}")
 PYTHON_EOF
 
 # Output result
@@ -117,6 +122,9 @@ if [ $EXIT_CODE -eq 0 ]; then
 else
     echo "❌ $CRON_NAME - failed (exit $EXIT_CODE)"
 fi
+
+# Record Bankr LLM cost at end
+python3 /root/synthesis-hackathon/scripts/bankr-cost-tracker.py end 2>/dev/null || true
 
 # Exit with original code
 exit $EXIT_CODE
