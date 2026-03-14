@@ -157,7 +157,7 @@ _These directly affect scoring. Do first._
 
 - [x] **Enrich agent.json to full DevSpot spec** — add tools[], stacks[], constraints[], categories[], safety{}, compute_budget{}. Read RUBRIC.md for exact fields. ERC-8004 bounty specifically requires DevSpot Agent Manifest compliance.
 - [x] **Make crons auto-append to agent_log.json** — every cron run MUST append an entry. Created `/root/synthesis-hackathon/scripts/cron-runner.sh` wrapper that executes commands and appends to agent_log.json with timestamp, phase, action, tools_used, model, model_cost_usd, decision, outcome, artifacts, commit. Updated cron jobs to use this wrapper.
-- [ ] **Add Bankr LLM cost tracking** — run `bankr llm credits` at start and end of cron session, calculate delta, include in agent_log.json entry under compute_budget.
+- [x] **Add Bankr LLM cost tracking** — run `bankr llm credits` at start and end of cron session, calculate delta, include in agent_log.json entry under compute_budget.
 - [x] **Build x402 paid API endpoint** — `/api/x402/receipts` with $0.01 USDC gate via @x402/next + CDP facilitator. Load-bearing x402 integration ✅
 - [x] **Add receipt stats dashboard** — 4-card grid: total sent/received, counterparties, active period. Shows at top of feed ✅
 
