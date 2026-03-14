@@ -40,6 +40,11 @@ _Autonomous crons read this FIRST before picking tasks._
 - Data source: Real x402 USDC transfers from our wallet (47+ txs)
 - Each receipt: Agent 8004 ID → service → amount → skill → tx hash → visual card
 
+### ✅ Approved Dependencies (crons may npm install these)
+- `@x402/next` — x402 payment middleware for Next.js API routes
+- `satori` — SVG generation from JSX for receipt cards
+- `sharp` — image processing for OG cards (satori dependency)
+
 ### 🔴 Blockers
 _None yet_
 

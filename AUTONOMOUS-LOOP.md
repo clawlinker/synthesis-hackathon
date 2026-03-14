@@ -170,7 +170,7 @@ _These directly affect scoring. Do first._
 - [ ] Add multi-wallet support — URL param `?wallet=0x...` to view any agent's receipts
 - [ ] Surface Bankr LLM costs as "inference receipts" alongside USDC receipts — show the full cost picture
 
-### Phase 5: Deploy + Demo (Mar 17-18)
+### Phase 5: Deploy + Demo (Mar 17 — MUST be done before Mar 18 agentic judging!)
 - [ ] Deploy to Vercel (or similar) — needs to be live for judges
 - [ ] Write proper README.md — what it is, how to use, how it was built, architecture diagram
 - [ ] Create COLLAB.md — document human-agent collaboration process (required by rules)
