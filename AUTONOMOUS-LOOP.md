@@ -155,7 +155,7 @@ Priority order — work top-down:
 ### Phase 3: Critical Gaps — HIGH PRIORITY (Mar 15-16)
 _These directly affect scoring. Do first._
 
-- [ ] **Enrich agent.json to full DevSpot spec** — add tools[], stacks[], constraints[], categories[], safety{}, compute_budget{}. Read RUBRIC.md for exact fields. ERC-8004 bounty specifically requires DevSpot Agent Manifest compliance.
+- [x] **Enrich agent.json to full DevSpot spec** — add tools[], stacks[], constraints[], categories[], safety{}, compute_budget{}. Read RUBRIC.md for exact fields. ERC-8004 bounty specifically requires DevSpot Agent Manifest compliance.
 - [ ] **Make crons auto-append to agent_log.json** — every cron run MUST append an entry. Read current agent_log.json format, append a new JSON object with timestamp, phase, action, description, tools_used, model, model_cost_usd, decision, outcome, artifacts, commit. Use `python3 -c` to safely append to the JSON array.
 - [ ] **Add Bankr LLM cost tracking** — run `bankr llm credits` at start and end of cron session, calculate delta, include in agent_log.json entry under compute_budget.
 - [ ] **Build x402 paid API endpoint** — add `/api/x402/receipts` route that requires x402 USDC payment to access. This makes the receipt feed itself an x402 service. Load-bearing integration for AgentCash bounty. Use x402 middleware from `@x402/next`.
