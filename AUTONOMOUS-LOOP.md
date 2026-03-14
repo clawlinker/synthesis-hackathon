@@ -145,7 +145,7 @@ Priority order — work top-down:
 - [x] Add Basescan API key to env for higher rate limits
 - [x] Build address labeler: map known addresses to service names (CDP facilitator, Bankr, etc.)
 - [x] Build receipt enrichment: combine onchain data + address labels into structured receipts
-- [ ] Add auto-refresh / polling to receipt feed (every 30s)
+- [x] Add auto-refresh / polling to receipt feed (every 30s)
 
 ### Phase 3: Build Receipt Generator (Mar 15-16)
 - [ ] Build SVG receipt card generator (single receipt view)
