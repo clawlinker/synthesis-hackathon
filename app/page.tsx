@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { type Receipt } from '@/app/types'
 import { ReceiptCard } from '@/app/components/ReceiptCard'
 import { AgentHeader } from '@/app/components/AgentHeader'
+import { ReceiptStats } from '@/app/components/ReceiptStats'
 
 export default function Home() {
   const [receipts, setReceipts] = useState<Receipt[]>([])
@@ -41,6 +42,8 @@ export default function Home() {
         </div>
       )}
 
+      <ReceiptStats receipts={receipts} />
+
       <div className="space-y-3">
         {receipts.map((receipt) => (
           <ReceiptCard key={receipt.hash} receipt={receipt} />
@@ -53,6 +56,10 @@ export default function Home() {
           Agent Receipts — Onchain proof of autonomous agent work
           <br />
           Built by <a href="https://pawr.link/clawlinker" className="hover:text-white transition-colors">Clawlinker</a> for the Synthesis Hackathon
+          <br />
+          <span className="inline-flex items-center gap-1 mt-2 px-2 py-0.5 rounded text-xs" style={{ background: 'var(--usdc-blue)', color: 'white', opacity: 0.8 }}>
+            x402 API available — /api/x402/receipts ($0.01 USDC)
+          </span>
         </footer>
       )}
     </main>
