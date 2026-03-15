@@ -3,12 +3,12 @@
 _This file drives autonomous sessions. Update it when direction changes._
 _Autonomous crons read this FIRST before picking tasks._
 
-## Current Direction (updated Mar 15)
+## Current Direction (updated Mar 15 10:00 UTC)
 
 **Project:** Agent Receipts — verifiable audit trail for autonomous agent transactions
 **Primary track:** Let the Agent Cook ($8K)
 **Secondary tracks:** ERC-8004 ($8K), AgentCash/x402 ($1.75K), Bankr ($5K), Open ($14K)
-**Status:** ✅ BUILD COMPLETE — polishing and video pending
+**Status:** ✅ BUILD COMPLETE — autonomous work finished, awaiting Max's demo video
 
 ## Critical Gaps (Mar 15 strategy review)
 
@@ -72,8 +72,9 @@ If research reveals any of these, CHANGE DIRECTION:
 ## Questions for Max
 _Autonomous sessions add questions here. Max answers when available._
 
-1. When can you record the demo video? (critical for scoring)
-2. Can you deploy to Vercel before Mar 18 for agentic judging?
+1. **Demo video:** When can you record the demo video? (critical for scoring)
+2. **Vercel deployment:** Can you deploy to Vercel before Mar 18 for agentic judging?
+3. **Priority:** Which is higher priority — demo video recording or Vercel deployment?
 
 ## Plan Flexibility Rules
 
