@@ -6,12 +6,30 @@ import { ReceiptCard } from '@/components/ReceiptCard'
 import { AgentHeader } from '@/components/AgentHeader'
 import { ReceiptStats } from '@/components/ReceiptStats'
 
+type FilterState = {
+  direction: 'all' | 'sent' | 'received'
+  minAmount: string
+  maxAmount: string
+  dateFrom: string
+  dateTo: string
+  search: string
+}
+
 export default function Home() {
   const [receipts, setReceipts] = useState<Receipt[]>([])
+  const [filteredReceipts, setFilteredReceipts] = useState<Receipt[]>([])
   const [source, setSource] = useState<string>('loading')
   const [error, setError] = useState<string | null>(null)
   const [selectedWallet, setSelectedWallet] = useState<string | null>(null)
   const [mounted, setMounted] = useState(false)
+  const [filters, setFilters] = useState<FilterState>({
+    direction: 'all',
+    minAmount: '',
+    maxAmount: '',
+    dateFrom: '',
+    dateTo: '',
+    search: '',
+  })
 
   // Read wallet param from URL on mount
   useEffect(() => {
@@ -43,9 +61,59 @@ export default function Home() {
     return () => clearInterval(interval)
   }, [selectedWallet, mounted])
 
+  // Filter receipts when source data or filters change
+  useEffect(() => {
+    if (receipts.length === 0) {
+      setFilteredReceipts([])
+      return
+    }
+
+    const filtered = receipts.filter((receipt) => {
+      // Direction filter
+      if (filters.direction !== 'all' && receipt.direction !== filters.direction) {
+        return false
+      }
+
+      // Amount range filters
+      const amount = parseFloat(receipt.amount)
+      if (filters.minAmount && amount < parseFloat(filters.minAmount)) {
+        return false
+      }
+      if (filters.maxAmount && amount > parseFloat(filters.maxAmount)) {
+        return false
+      }
+
+      // Date range filters
+      const receiptDate = new Date(receipt.timestamp * 1000)
+      if (filters.dateFrom && receiptDate < new Date(filters.dateFrom)) {
+        return false
+      }
+      if (filters.dateTo && receiptDate > new Date(filters.dateTo)) {
+        return false
+      }
+
+      // Search filter (tx hash or address)
+      if (filters.search) {
+        const searchLower = filters.search.toLowerCase()
+        const matchesHash = receipt.hash.toLowerCase().includes(searchLower)
+        const matchesFrom = receipt.from.toLowerCase().includes(searchLower)
+        const matchesTo = receipt.to.toLowerCase().includes(searchLower)
+        const matchesService = receipt.service?.toLowerCase().includes(searchLower) || false
+        const matchesNotes = receipt.notes?.toLowerCase().includes(searchLower) || false
+        if (!matchesHash && !matchesFrom && !matchesTo && !matchesService && !matchesNotes) {
+          return false
+        }
+      }
+
+      return true
+    })
+
+    setFilteredReceipts(filtered)
+  }, [receipts, filters])
+
   return (
     <main className="max-w-2xl mx-auto px-4 py-8">
-      <AgentHeader receiptCount={receipts.length} source={source} />
+      <AgentHeader receiptCount={filteredReceipts.length} source={source} />
 
       {error && (
         <div className="text-red-400 text-center py-8">{error}</div>
@@ -58,14 +126,27 @@ export default function Home() {
       )}
 
       {/* Empty State */}
-      {!error && source !== 'loading' && receipts.length === 0 && (
+      {!error && source !== 'loading' && filteredReceipts.length === 0 && receipts.length === 0 && (
         <div className="empty-state">
           <div className="empty-state-icon skeleton" style={{ borderRadius: '50%' }} />
           <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
-            No receipts found for this wallet
+            No receipts found
           </p>
           <p className="text-xs mt-2" style={{ color: 'var(--color-text-secondary)' }}>
-            Try selecting a different wallet or check back later for live data
+            Check back later for live data
+          </p>
+        </div>
+      )}
+
+      {/* Empty State with matches but no results */}
+      {!error && source !== 'loading' && filteredReceipts.length === 0 && receipts.length > 0 && (
+        <div className="empty-state">
+          <div className="empty-state-icon skeleton" style={{ borderRadius: '50%' }} />
+          <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
+            No receipts match your filters
+          </p>
+          <p className="text-xs mt-2" style={{ color: 'var(--color-text-secondary)' }}>
+            Try adjusting your search or filters
           </p>
         </div>
       )}
@@ -103,12 +184,166 @@ export default function Home() {
         ))}
       </div>
 
-      <ReceiptStats receipts={receipts} />
+      <ReceiptStats receipts={filteredReceipts} />
+
+      {/* Filters & Search */}
+      <div className="mb-6 space-y-3">
+        {/* Search */}
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search by tx hash, address, service..."
+            value={filters.search}
+            onChange={(e) => setFilters((f) => ({ ...f, search: e.target.value }))}
+            className="w-full px-4 py-2.5 rounded-lg transition-all duration-200 focus:ring-2 focus:ring-white/20 focus:outline-none"
+            style={{
+              background: 'var(--color-bg-card)',
+              border: '1px solid var(--color-border-main)',
+              color: 'var(--color-text-primary)',
+            }}
+          />
+          <div className="absolute right-3 top-2.5 text-xs opacity-50 font-mono hidden sm:block">
+            /
+          </div>
+        </div>
+
+        {/* Direction + Amount Range */}
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--color-text-muted)' }}>
+              Direction
+            </label>
+            <div className="grid grid-cols-3 gap-1">
+              {(['all', 'sent', 'received'] as const).map((dir) => (
+                <button
+                  key={dir}
+                  onClick={() => setFilters((f) => ({ ...f, direction: dir }))}
+                  className={`px-2 py-1.5 rounded text-xs font-medium transition-all duration-200 capitalize ${
+                    filters.direction === dir
+                      ? 'bg-white text-black shadow-lg shadow-white/10'
+                      : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+                  }`}
+                >
+                  {dir}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--color-text-muted)' }}>
+                Min
+              </label>
+              <input
+                type="number"
+                placeholder="0"
+                min="0"
+                step="0.01"
+                value={filters.minAmount}
+                onChange={(e) => setFilters((f) => ({ ...f, minAmount: e.target.value }))}
+                className="w-full px-3 py-1.5 rounded text-sm transition-all duration-200 focus:ring-2 focus:ring-white/20 focus:outline-none"
+                style={{
+                  background: 'var(--color-bg-card)',
+                  border: '1px solid var(--color-border-main)',
+                  color: 'var(--color-text-primary)',
+                }}
+              />
+            </div>
+            <div>
+              <label className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--color-text-muted)' }}>
+                Max
+              </label>
+              <input
+                type="number"
+                placeholder="∞"
+                min="0"
+                step="0.01"
+                value={filters.maxAmount}
+                onChange={(e) => setFilters((f) => ({ ...f, maxAmount: e.target.value }))}
+                className="w-full px-3 py-1.5 rounded text-sm transition-all duration-200 focus:ring-2 focus:ring-white/20 focus:outline-none"
+                style={{
+                  background: 'var(--color-bg-card)',
+                  border: '1px solid var(--color-border-main)',
+                  color: 'var(--color-text-primary)',
+                }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Date Range */}
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--color-text-muted)' }}>
+              From
+            </label>
+            <input
+              type="date"
+              value={filters.dateFrom}
+              onChange={(e) => setFilters((f) => ({ ...f, dateFrom: e.target.value }))}
+              className="w-full px-3 py-1.5 rounded text-sm transition-all duration-200 focus:ring-2 focus:ring-white/20 focus:outline-none"
+              style={{
+                background: 'var(--color-bg-card)',
+                border: '1px solid var(--color-border-main)',
+                color: 'var(--color-text-primary)',
+              }}
+            />
+          </div>
+          <div>
+            <label className="block text-[10px] uppercase tracking-wider mb-1.5" style={{ color: 'var(--color-text-muted)' }}>
+              To
+            </label>
+            <input
+              type="date"
+              value={filters.dateTo}
+              onChange={(e) => setFilters((f) => ({ ...f, dateTo: e.target.value }))}
+              className="w-full px-3 py-1.5 rounded text-sm transition-all duration-200 focus:ring-2 focus:ring-white/20 focus:outline-none"
+              style={{
+                background: 'var(--color-bg-card)',
+                border: '1px solid var(--color-border-main)',
+                color: 'var(--color-text-primary)',
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Clear filters link */}
+        {(filters.direction !== 'all' || filters.minAmount || filters.maxAmount || filters.dateFrom || filters.dateTo || filters.search) && (
+          <button
+            onClick={() =>
+              setFilters({
+                direction: 'all',
+                minAmount: '',
+                maxAmount: '',
+                dateFrom: '',
+                dateTo: '',
+                search: '',
+              })
+            }
+            className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
+          >
+            Clear filters
+          </button>
+        )}
+      </div>
+
+      {/* Receipt count indicator */}
+      {filteredReceipts.length > 0 && (
+        <div className="mb-4 flex items-center justify-between text-xs" style={{ color: 'var(--color-text-muted)' }}>
+          <span>{filteredReceipts.length} receipt{filteredReceipts.length !== 1 && 's'}</span>
+          {filteredReceipts.length !== receipts.length && (
+            <span className="text-blue-400">
+              Showing {filteredReceipts.length} of {receipts.length} receipts
+            </span>
+          )}
+        </div>
+      )}
 
       <div className="space-y-3">
-        {receipts.map((receipt, index) => {
+        {filteredReceipts.map((receipt, index) => {
           // Check if this is the first inference receipt to show the section header
-          const prevReceipt = index > 0 ? receipts[index - 1] : null
+          const prevReceipt = index > 0 ? filteredReceipts[index - 1] : null
           const isSent = receipt.direction === 'sent'
           const prevSent = prevReceipt ? prevReceipt.direction === 'sent' : true
           const isFirstInference = !isSent && prevSent
@@ -123,7 +358,7 @@ export default function Home() {
         })}
       </div>
 
-      {receipts.length > 0 && (
+      {filteredReceipts.length > 0 && (
         <footer className="text-center text-xs mt-8 pt-4"
           style={{ color: 'var(--color-text-muted)', borderTop: '1px solid var(--color-border-main)' }}>
           Agent Receipts — Onchain proof of autonomous agent work
