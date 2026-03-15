@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Agent Receipts — Onchain Proof of Agent Work',
-  description: 'Live visual receipt feed of an autonomous AI agent\'s x402 USDC payments on Base. ERC-8004 verified.',
+  title: 'Molttail — Your agent\'s transaction tail',
+  description: 'Every payment your agent makes, verified and visible. Live USDC receipt feed on Base with ERC-8004 identity.',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

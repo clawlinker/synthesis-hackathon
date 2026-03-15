@@ -85,7 +85,7 @@ function generateOGImage(tx: any): string {
   <image href="${AGENT.avatar}" x="80" y="80" width="40" height="40" preserveAspectRatio="xMidYMid cover"/>
   
   <text x="150" y="95" font-family="Inter, sans-serif" font-size="32" font-weight="700" fill="#ffffff">
-    Agent Receipts
+    Molttail
   </text>
   <text x="150" y="125" font-family="Inter, sans-serif" font-size="16" fill="#606060">
     Verifiable audit trail for autonomous agent transactions

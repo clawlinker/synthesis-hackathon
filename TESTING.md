@@ -1,4 +1,4 @@
-# Testing Guide — Agent Receipts
+# Testing Guide — Molttail
 
 This document describes the test suite for the Synthesis Hackathon submission.
 

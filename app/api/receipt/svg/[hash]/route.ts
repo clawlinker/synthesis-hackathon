@@ -212,7 +212,7 @@ function generateReceiptSVG(receipt: Receipt): string {
   
   <!-- Branding -->
   <text x="300" y="185" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="${colors.textMuted}" text-anchor="middle">
-    Agent Receipts — 
+    Molttail — 
     <tspan fill="${colors.usdc}" xml:space="preserve">Clawlinker</tspan>
     | Synthesis Hackathon
   </text>

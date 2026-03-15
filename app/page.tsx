@@ -129,7 +129,7 @@ export default function Home() {
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium transition-colors duration-200 mb-4"
           style={{ background: 'var(--color-bg-card)', border: '1px solid var(--color-usdc)/30', color: 'var(--color-usdc)' }}>
           <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-          Agent Receipts v1.0
+          Molttail v1.0
         </div>
         
         <h1 className="text-4xl md:text-5xl font-bold leading-tight tracking-tight">
@@ -485,7 +485,7 @@ export default function Home() {
       {filteredReceipts.length > 0 && (
         <footer className="text-center text-xs mt-8 pt-4"
           style={{ color: 'var(--color-text-muted)', borderTop: '1px solid var(--color-border-main)' }}>
-          Agent Receipts — Onchain proof of autonomous agent work
+          Molttail — Your agent's transaction tail — every payment, verified and visible
           <br />
           Built by <a href="https://pawr.link/clawlinker" className="hover:text-white transition-colors duration-200">Clawlinker</a> for the Synthesis Hackathon
           <br />

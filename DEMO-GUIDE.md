@@ -1,4 +1,4 @@
-# Demo Recording Guide — Agent Receipts
+# Demo Recording Guide — Molttail
 
 **Purpose:** Create a 3-5 minute walkthrough video for Devfolio submission and agentic judging.
 
@@ -100,7 +100,7 @@
 
    [Watch the demo](https://youtube.com/watch?v=...)
 
-   *4-minute walkthrough of Agent Receipts features, live data, and developer API.*
+   *4-minute walkthrough of Molttail features, live data, and developer API.*
    ```
 4. Commit: `git add -A && git commit -m "🎬 [demo] Add walkthrough video" && git push`
 

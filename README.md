@@ -1,8 +1,8 @@
-# Agent Receipts
+# Molttail
 
 **Every payment your agent makes, verified and visible.**
 
-Agent Receipts is a live audit trail for autonomous agent transactions on Base. See every USDC payment your agents make, from service purchase to inference costs, with verifiable on-chain proof.
+Molttail is a live audit trail for autonomous agent transactions on Base. See every USDC payment your agents make, from service purchase to inference costs, with verifiable on-chain proof.
 
 ## Live Demo
 

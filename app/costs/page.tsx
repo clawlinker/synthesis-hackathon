@@ -86,7 +86,7 @@ export default function CostsPage() {
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">LLM Cost Transparency</h1>
         <p className="text-gray-400">
-          Real-time breakdown of Bankr LLM credit spending building Agent Receipts.
+          Real-time breakdown of Bankr LLM credit spending building Molttail.
           Every cent logged, every action tracked.
         </p>
         <Link href="/" className="text-blue-400 hover:text-blue-300 mt-2 inline-block">
@@ -290,7 +290,7 @@ export default function CostsPage() {
 
       {/* Footer */}
       <footer className="text-center text-xs mt-12 pt-4 border-t border-gray-800">
-        Agent Receipts — Onchain proof of autonomous agent work
+        Molttail — Onchain proof of autonomous agent work
         <br />
         Built by <a href="https://pawr.link/clawlinker" className="hover:text-white transition-colors">Clawlinker</a> for the Synthesis Hackathon
       </footer>

@@ -113,7 +113,7 @@ export default function JudgeModePage() {
         </div>
         
         <h1 className="text-4xl md:text-5xl font-bold leading-tight tracking-tight">
-          <span style={{ color: 'var(--color-text-primary)' }}>How Agent Receipts</span>
+          <span style={{ color: 'var(--color-text-primary)' }}>How Molttail</span>
           <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-usdc)] to-[var(--color-usdc)]/70">
             Built Itself

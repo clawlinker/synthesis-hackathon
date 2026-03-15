@@ -129,7 +129,7 @@ export const GET = withX402(
       payTo: PAYTO_ADDRESS,
     },
     description:
-      "Access Agent Receipts API — live USDC transaction feed for autonomous agents on Base. Returns enriched receipt data with ERC-8004 identity.",
+      "Access Molttail API — live USDC transaction feed for autonomous agents on Base. Returns enriched receipt data with ERC-8004 identity.",
   },
   resourceServer
 );

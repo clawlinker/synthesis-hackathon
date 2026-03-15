@@ -1,4 +1,4 @@
-# Human-Agent Collaboration Log — Agent Receipts
+# Human-Agent Collaboration Log — Molttail
 
 **Last updated:** 2026-03-15
 
@@ -6,7 +6,7 @@
 
 **Hackathon:** Synthesis Hackathon (Devfolio)
 **Team:** Clawlinker (AI Agent)
-**Project:** Agent Receipts — verifiable audit trail for autonomous agent transactions
+**Project:** Molttail — verifiable audit trail for autonomous agent transactions
 **Status:** ✅ Build complete, deployment instructions prepared
 
 ## Autonomy Mode
@@ -25,7 +25,7 @@ Clawlinker operates in **autonomous mode** with 5 parallel specialized crons:
 
 | Date | Decision | Reason |
 |------|----------|--------|
-| 2026-03-13 | Agent Receipts concept approved | Fits 4 bounty tracks, uses real x402 history, unique angle |
+| 2026-03-13 | Molttail concept approved | Fits 4 bounty tracks, uses real x402 history, unique angle |
 | 2026-03-14 | Next.js 16 + Tailwind v4 scaffold | Clean stack, no external UI libs |
 | 2026-03-14 | x402 paid API endpoint | Load-bearing integration for AgentCash bounty |
 | 2026-03-14 | Bankr LLM cost tracking | Required for Bankr track, shows full cost picture |
@@ -35,7 +35,7 @@ Clawlinker operates in **autonomous mode** with 5 parallel specialized crons:
 
 | Task | Status | Notes |
 |------|--------|-------|
-| Direction approval | ✅ Done | Max approved Agent Receipts concept and stack |
+| Direction approval | ✅ Done | Max approved Molttail concept and stack |
 | Deployment | 🟡 Pending | Vercel deploy instructions in DEPLOY.md — Max auth required |
 | Public posts | 🟡 Pending | Max approval needed for X/Farcaster/Moltbook |
 | Devfolio submission | 🟡 Pending | Max access required for submission |

@@ -5,7 +5,7 @@ _Autonomous crons read this FIRST before picking tasks._
 
 ## Current Direction (updated Mar 15 15:30 UTC)
 
-**Project:** Agent Receipts — verifiable audit trail for autonomous agent transactions
+**Project:** Molttail — verifiable audit trail for autonomous agent transactions
 **Primary track:** Let the Agent Cook ($8K)
 **Secondary tracks:** ERC-8004 ($8K), AgentCash/x402 ($1.75K), Bankr ($5K), Open ($14K)
 **Status:** ✅ BUILD COMPLETE — autonomous work finished, awaiting Max's demo video
@@ -54,7 +54,7 @@ _Autonomous crons read this FIRST before picking tasks._
 - **DO NOT** touch package.json deps, next.config, postcss.config, or globals.css without checking current state first
 
 ### ✅ Decided (Mar 14)
-- Direction locked: Agent Receipts (Max approved)
+- Direction locked: Molttail (Max approved)
 - Pitch: "Every payment your agent makes, verified and visible."
 - MVP: Next.js web app, live receipt feed, SVG receipt cards
 - Data source: Real x402 USDC transfers from our wallet (47+ txs)
@@ -117,3 +117,6 @@ _Autonomous sessions add questions here. Max answers when available._
 4. If new tasks emerge from findings, ADD them to the queue
 5. Big direction changes → log here and flag for Max
 6. Small adjustments → just do it and note why
+### ✅ Decided (Mar 15 — rebrand)
+- **Renamed to Molttail** — molt (agent evolution) + tail (transaction trail / cat tail). Memorable, unique, fits the ecosystem.
+- All files, UI, metadata updated. Crons should use "Molttail" going forward.

@@ -1,4 +1,4 @@
-# Agent Receipts Chrome Extension
+# Molttail Chrome Extension
 
 View verifiable agent transaction receipts directly on Etherscan, Blockscout, and DexScreener.
 
@@ -8,7 +8,7 @@ View verifiable agent transaction receipts directly on Etherscan, Blockscout, an
 - **Receipt Preview**: Click to view full receipt details in a popup
 - **Multi-Agent Support**: Switch between Clawlinker and Bankr wallets
 - **Inference Receipts**: View Bankr LLM costs alongside USDC transactions
-- **Live Data**: Real-time receipt data from the Agent Receipts API
+- **Live Data**: Real-time receipt data from the Molttail API
 
 ## Installation
 
@@ -90,7 +90,7 @@ The extension supports the following storage options:
 ## Privacy & Security
 
 - No personal data is collected
-- All API calls are made to the Agent Receipts API
+- All API calls are made to the Molttail API
 - Receipt data is cached locally for 1 minute
 - No data is shared with third parties
 
@@ -154,4 +154,4 @@ MIT License - see LICENSE file for details
 
 ---
 
-**Agent Receipts** - Verifiable audit trail for autonomous agent transactions
+**Molttail** - Verifiable audit trail for autonomous agent transactions

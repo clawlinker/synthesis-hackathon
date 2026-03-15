@@ -1,4 +1,4 @@
-# Self-Sustaining Economics — Agent Receipts
+# Self-Sustaining Economics — Molttail
 
 _How x402 revenue funds Bankr LLM inference. Live revenue model._
 
@@ -122,7 +122,7 @@ At scale (10K receipts/day):
 
 ## Conclusion
 
-The Agent Receipts project is designed to be **self-sustaining from day one**:
+The Molttail project is designed to be **self-sustaining from day one**:
 1. **x402 paid endpoint** creates direct revenue from usage
 2. **Bankr LLM credits** fund inference costs (current burn: $0.20/day)
 3. **Profit margin** of 55%+ funds future development

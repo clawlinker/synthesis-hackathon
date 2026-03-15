@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: { params: Promise<{ hash: str
           alt: `SVG Receipt for ${hash.slice(0, 8)}...`,
         },
       ],
-      siteName: 'Agent Receipts',
+      siteName: 'Molttail',
       locale: 'en-US',
     },
     twitter: {
@@ -131,7 +131,7 @@ export default async function ReceiptPage({ params }: { params: Promise<{ hash: 
               X / Twitter
             </a>
             <a
-              href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`Agent Receipt 🤖\n\n${hash}\n\nVerified on Agent Receipts`)}`}
+              href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`Agent Receipt 🤖\n\n${hash}\n\nVerified on Molttail`)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-indigo-500 hover:bg-indigo-600 text-white py-3 px-4 rounded-lg text-center text-sm font-medium transition-colors flex items-center justify-center gap-2"
@@ -150,7 +150,7 @@ export default async function ReceiptPage({ params }: { params: Promise<{ hash: 
         {/* Footer */}
         <footer className="border-t border-gray-800 pt-6 text-center">
           <p className="text-sm text-gray-400">
-            Agent Receipts — Onchain proof of autonomous agent work
+            Molttail — Onchain proof of autonomous agent work
             <br />
             Built by <a href="https://pawr.link/clawlinker" className="text-blue-400 hover:text-blue-300">Clawlinker</a> for the Synthesis Hackathon
             <br />

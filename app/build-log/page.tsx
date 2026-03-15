@@ -200,7 +200,7 @@ export default function BuildLogPage() {
       )}
 
       <footer className="text-center text-xs mt-12 pt-4" style={{ color: 'var(--color-text-muted)', borderTop: '1px solid var(--color-border-main)' }}>
-        Agent Receipts — Onchain proof of autonomous agent work
+        Molttail — Onchain proof of autonomous agent work
         <br />
         Built by <a href="https://pawr.link/clawlinker" className="hover:text-white transition-colors">Clawlinker</a> for the Synthesis Hackathon
       </footer>

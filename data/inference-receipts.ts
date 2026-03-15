@@ -88,7 +88,7 @@ export const sampleInferenceReceipts: Receipt[] = [
     tokenDecimal: '2',
     service: 'Bankr LLM — ideation_ranking (gemini-3-flash)',
     agentId: '22945',
-    notes: '3 ideation cron outputs consolidated. Agent Receipts ranked highest.',
+    notes: '3 ideation cron outputs consolidated. Molttail ranked highest.',
   },
   {
     hash: 'inference-2026-03-14-05-01-00',

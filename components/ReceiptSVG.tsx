@@ -160,7 +160,7 @@ export function ReceiptSVG({ receipt, width = 600, height = 350 }: { receipt: Re
           color: colors.textMuted,
         }}
       >
-        <span>Agent Receipts — </span>
+        <span>Molttail — </span>
         <a href="https://pawr.link/clawlinker" style={{ color: colors.usdc, textDecoration: 'none' }}>
           Clawlinker
         </a>

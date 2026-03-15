@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Agent Receipts",
+  "name": "Molttail",
   "version": "1.0.0",
   "description": "View verifiable agent transaction receipts directly on Etherscan, Blockscout, and DexScreener",
   "permissions": [
@@ -16,7 +16,7 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "View Agent Receipts"
+    "default_title": "View Molttail"
   },
   "content_scripts": [
     {

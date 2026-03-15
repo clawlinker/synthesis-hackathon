@@ -187,9 +187,9 @@ _These differentiate "good enough" from winner. Use budget aggressively._
 - [x] **Shareable receipt pages** — `/receipt/[txhash]` standalone page with OG meta tags for social sharing. Wire up existing SVG endpoint. ✅ (built and committed, bug fixed)
 - [x] **Agent-to-agent receipt verification** — `/api/verify/[txhash]` endpoint that verifies a receipt against Blockscout and returns structured verification result with ERC-8004 identity. ✅
 - [x] **Multi-chain receipts** — add Ethereum mainnet alongside Base. Show our ERC-8004 registration tx as a receipt. UI chain selector (Base/Ethereum) with live API routes. ✅
-- [x] **Landing/hero section** — proper above-the-fold hero explaining what Agent Receipts is, with CTA to scroll to feed. Not just raw data.
+- [x] **Landing/hero section** — proper above-the-fold hero explaining what Molttail is, with CTA to scroll to feed. Not just raw data.
 - [x] **Live Agent Demo** — `/demo` page with embedded chatbot asking "Ask me about my receipts" → shows real agent interacting with its own data. Judges see agent personality, not just static UI.
-- [x] **💰 WINNER'S EDGE: Agent Receipts Chrome Extension** — Judges install extension → see receipts inline on any wallet address (Etherscan, Blockscout, DexScreener). Shows receipts directly in context. This is the "wow" feature that demonstrates real utility beyond hackathon. Extension skeleton: manifest.json + content script that calls our API. 2-hour build, massive impact. ✅
+- [x] **💰 WINNER'S EDGE: Molttail Chrome Extension** — Judges install extension → see receipts inline on any wallet address (Etherscan, Blockscout, DexScreener). Shows receipts directly in context. This is the "wow" feature that demonstrates real utility beyond hackathon. Extension skeleton: manifest.json + content script that calls our API. 2-hour build, massive impact. ✅
 
 ### Phase 8: Final Polish + Submit (Mar 15-17) — URGENT, PRIORITIZE
 - [x] **DEPLOY LIVE NOW** — Vercel or similar. Judges need to see it working. This is blocking everything else. ✅

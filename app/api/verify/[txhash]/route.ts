@@ -177,7 +177,7 @@ export async function GET(
       }
       meta: {
         source: 'Blockscout'
-        verifiedBy: 'Clawlinker Agent Receipts'
+        verifiedBy: 'Clawlinker Molttail'
         erc8004Resolve: boolean
       }
     } = {
@@ -198,7 +198,7 @@ export async function GET(
       },
       meta: {
         source: 'Blockscout',
-        verifiedBy: 'Clawlinker Agent Receipts',
+        verifiedBy: 'Clawlinker Molttail',
         erc8004Resolve: !!resolveAgent(tx.from) || !!resolveAgent(tx.to),
       },
     }

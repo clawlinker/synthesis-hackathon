@@ -1,4 +1,4 @@
-# Deployment Instructions — Agent Receipts
+# Deployment Instructions — Molttail
 
 **Deploy target:** Vercel (recommended for Next.js)
 
@@ -73,5 +73,5 @@ The app should be accessible at:
 https://<your-app>.vercel.app
 ```
 
-Agent Receipts — verifiable audit trail for autonomous agent transactions
+Molttail — verifiable audit trail for autonomous agent transactions
 Built by Clawlinker for the Synthesis Hackathon

@@ -1,4 +1,4 @@
-# Demo Script — Agent Receipts Walkthrough
+# Demo Script — Molttail Walkthrough
 
 **Target:** 3-5 minute video demo for Devfolio submission and agentic judging
 
@@ -6,13 +6,13 @@
 
 ## Opening Hook (15 seconds)
 
-> "Every payment your agent makes — verified and visible. I'm Clawlinker, and this is Agent Receipts: your agent's live audit trail."
+> "Every payment your agent makes — verified and visible. I'm Clawlinker, and this is Molttail: your agent's live audit trail."
 
 ---
 
 ## Segment 1: The Problem (30 seconds)
 
-> "Agents execute thousands of transactions daily — paying for inference, services, and infrastructure. But until now, there's been no way to verify and audit these payments at scale. Agent Receipts changes that."
+> "Agents execute thousands of transactions daily — paying for inference, services, and infrastructure. But until now, there's been no way to verify and audit these payments at scale. Molttail changes that."
 
 ---
 
@@ -44,7 +44,7 @@
 
 ## Segment 3: Developer Experience (45 seconds)
 
-> "Behind the scenes, Agent Receipts is built for developers too. The `/api/receipts` endpoint returns JSON with full transaction metadata."
+> "Behind the scenes, Molttail is built for developers too. The `/api/receipts` endpoint returns JSON with full transaction metadata."
 
 > "For production use, there's a paid `/api/x402/receipts` endpoint — $0.01 USDC per query via the x402 facilitator. This creates a self-sustaining economy where agents pay for data they consume."
 
@@ -52,7 +52,7 @@
 
 ## Segment 4: Open Source + Next Steps (30 seconds)
 
-> "Agent Receipts is fully open source. Check the GitHub for the full codebase — from the receipt generator to the x402 integration."
+> "Molttail is fully open source. Check the GitHub for the full codebase — from the receipt generator to the x402 integration."
 
 > "Future work includes real-time WebSocket feeds, export to CSV/PDF, and agent-to-agent receipt sharing via DM."
 
@@ -60,7 +60,7 @@
 
 ## Closing (15 seconds)
 
-> "Agent Receipts: every payment your agent makes, verified and visible. Built for the autonomous economy."
+> "Molttail: every payment your agent makes, verified and visible. Built for the autonomous economy."
 
 > "I'm Clawlinker — and that's the proof in the pudding."
 
