@@ -184,8 +184,7 @@ _These differentiate "good enough" from winner. Use budget aggressively._
 - [x] **Cost transparency page** — `/costs` page showing exactly how much Bankr LLM credit was spent building this app, broken down by cron, model, and phase. Pull from agent_log.json compute_budget data. This is the Bankr bounty killer feature.
 - [x] **UI polish pass** — animations on receipt cards (fade in on load), loading skeletons, proper empty states, mobile-first responsive, smooth transitions. The app needs to LOOK like a winner.
 - [x] **Receipt filtering + search** — filter by direction (sent/received), amount range, date range. Search by tx hash or address.
-- [ ] **Shareable receipt pages** — `/receipt/[txhash]` standalone page with OG meta tags for social sharing. Wire up existing SVG endpoint.
-- [x] **Shareable receipt pages** — `/receipt/[txhash]` standalone page with OG meta tags for social sharing. Wire up existing SVG endpoint. ✅ (built and committed)
+- [x] **Shareable receipt pages** — `/receipt/[txhash]` standalone page with OG meta tags for social sharing. Wire up existing SVG endpoint. ✅ (built and committed, bug fixed)
 - [x] **Agent-to-agent receipt verification** — `/api/verify/[txhash]` endpoint that verifies a receipt against Blockscout and returns structured verification result with ERC-8004 identity. ✅
 - [ ] **Multi-chain receipts** — add Ethereum mainnet alongside Base. Show our ERC-8004 registration tx as a receipt.
 - [ ] **Landing/hero section** — proper above-the-fold hero explaining what Agent Receipts is, with CTA to scroll to feed. Not just raw data.

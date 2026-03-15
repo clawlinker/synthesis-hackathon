@@ -985,5 +985,28 @@
       "bankr_balance_after": 186.32,
       "session_cost": 0.18000000000000682
     }
+  },
+  {
+    "timestamp": "2026-03-15T14:31:11Z",
+    "phase": "execute",
+    "action": "shareable_receipt_pages_fix",
+    "description": "Fix critical window.location bug in shareable receipt pages - replaced client-side window.location.href with constructed URL to prevent server-side crash in /receipt/[hash] page",
+    "tools_used": [
+      "read",
+      "edit",
+      "exec"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "decision": "Critical bug fix: server-side window usage would crash in production. Use static URL construction instead.",
+    "outcome": "success",
+    "artifacts": [
+      "app/receipt/[hash]/page.tsx"
+    ],
+    "compute_budget": {
+      "bankr_balance_before": 186.5,
+      "bankr_balance_after": 186.16,
+      "session_cost": 0.3400000000000034
+    }
   }
 ]
