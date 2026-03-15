@@ -24,6 +24,7 @@ export interface Receipt {
   toLabel?: string
   fromAgent?: AgentInfo
   toAgent?: AgentInfo
+  notes?: string       // additional context (for inference receipts, etc)
 }
 
 export interface AgentIdentity {

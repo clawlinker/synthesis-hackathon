@@ -446,5 +446,27 @@
       "app/page.tsx"
     ],
     "commit": "ca1ff3f"
+  },
+  {
+    "timestamp": "2026-03-15T01:02:10Z",
+    "phase": "execute",
+    "action": "inference_receipts",
+    "description": "Add Bankr LLM costs as inference receipts alongside USDC receipts. Create data/inference-receipts.ts with sample data, update API to merge inference receipts, add isInferenceReceipt() helper to ReceiptCard. Inference receipts show LLM API costs with special styling.",
+    "tools_used": [
+      "read",
+      "write",
+      "edit",
+      "exec"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "decision": "Inference receipts complete the agent receipts story \u2014 showing not just USDC payments but also the LLM inference costs that power autonomous operations.",
+    "outcome": "success",
+    "artifacts": [
+      "data/inference-receipts.ts",
+      "app/api/receipts/route.ts",
+      "app/types.ts",
+      "components/ReceiptCard.tsx"
+    ]
   }
 ]
