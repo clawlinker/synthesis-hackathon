@@ -1,8 +1,11 @@
 import { NextResponse } from 'next/server'
+import fs from 'fs'
+import path from 'path'
 import { AGENT, BANKR_AGENT, USDC_CONTRACT, type Receipt, AGENTS } from '@/app/types'
 import sampleReceipts from '@/data/sample-receipts.json'
 import { ADDRESS_LABELS } from '@/data/address-labels'
 import { AGENT_REGISTRY, resolveAgent } from '@/data/erc8004-resolver'
+import { sampleInferenceReceipts } from '@/data/inference-receipts'
 
 const BASESCAN_API = 'https://api.basescan.org/api'
 
@@ -46,10 +49,48 @@ function enrichReceiptWithAgentData(tx: any): Partial<Receipt> {
   }
 }
 
+// Load agent_log.json for inference receipts
+function loadInferenceReceiptsFromLog(): Receipt[] {
+  try {
+    const logPath = path.join(process.cwd(), 'agent_log.json')
+    const logContent = fs.readFileSync(logPath, 'utf-8')
+    const logs = JSON.parse(logContent) as any[]
+    
+    // Filter for LLM-powered entries and convert to inference receipts
+    const inferenceReceipts: Receipt[] = logs
+      .filter((entry) => entry.model && entry.model_cost_usd && entry.model_cost_usd > 0)
+      .map((entry, index) => {
+        const timestamp = Date.parse(entry.timestamp) / 1000
+        return {
+          hash: `inference-${index}-${entry.timestamp}`,
+          from: '0x0000000000000000000000000000000000000000',
+          to: AGENT.wallet,
+          value: Math.round(entry.model_cost_usd * 1e6).toString(),
+          amount: entry.model_cost_usd.toFixed(6),
+          timestamp: Math.floor(timestamp),
+          blockNumber: '0',
+          direction: 'received' as const,
+          status: 'confirmed' as const,
+          tokenSymbol: 'USD',
+          tokenDecimal: '6',
+          service: `Bankr LLM — ${entry.action || entry.phase || 'inference'} (${entry.model.split('/')[1] || 'unknown'})`,
+          agentId: AGENT.id.toString(),
+          notes: entry.description || 'LLM-powered autonomous operation',
+        }
+      })
+    
+    return inferenceReceipts
+  } catch (e) {
+    console.warn('Failed to load inference receipts from agent_log.json:', e)
+    return []
+  }
+}
+
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url)
     const walletParam = url.searchParams.get('wallet')
+    const includeInference = url.searchParams.get('inference') !== 'false' // default to true
     
     // Determine which wallet(s) to fetch
     let walletsToFetch: { wallet: string; name: string; agentId: string }[] = []
@@ -134,11 +175,30 @@ export async function GET(request: Request) {
       allReceipts.push(...receipts)
     }
 
-    // Sort all receipts by timestamp (newest first)
+    // Sort USDC receipts by timestamp (newest first)
     allReceipts.sort((a, b) => b.timestamp - a.timestamp)
     
-    if (allReceipts.length > 0) {
-      return NextResponse.json({ receipts: allReceipts, source: 'live' })
+    // Load inference receipts from agent_log.json
+    let inferenceReceipts: Receipt[] = []
+    if (includeInference) {
+      inferenceReceipts = loadInferenceReceiptsFromLog()
+      
+      // Fallback to sample inference receipts if agent_log.json is empty
+      if (inferenceReceipts.length === 0) {
+        inferenceReceipts = sampleInferenceReceipts
+      }
+    }
+    
+    // Combine and sort all receipts
+    const combinedReceipts = [...allReceipts, ...inferenceReceipts]
+    combinedReceipts.sort((a, b) => b.timestamp - a.timestamp)
+    
+    if (combinedReceipts.length > 0) {
+      return NextResponse.json({ 
+        receipts: combinedReceipts, 
+        source: allReceipts.length > 0 ? 'live+inference' : 'sample+inference',
+        hasInferenceReceipts: includeInference && inferenceReceipts.length > 0,
+      })
     }
     
     // Fall back to sample data if live fetch failed
@@ -152,7 +212,11 @@ export async function GET(request: Request) {
       }
     })
     
-    return NextResponse.json({ receipts: enrichedReceipts, source: 'sample' })
+    return NextResponse.json({ 
+      receipts: enrichedReceipts, 
+      source: 'sample+inference',
+      hasInferenceReceipts: false,
+    })
   } catch (error) {
     console.error('Failed to fetch receipts:', error)
     const enrichedReceipts = sampleReceipts.map(r => {
@@ -164,6 +228,10 @@ export async function GET(request: Request) {
         toAgent: toAgent ? { id: toAgent.id, name: toAgent.name, ens: toAgent.ens, avatar: toAgent.avatar } : undefined,
       }
     })
-    return NextResponse.json({ receipts: enrichedReceipts, source: 'sample' })
+    return NextResponse.json({ 
+      receipts: enrichedReceipts, 
+      source: 'sample+inference',
+      hasInferenceReceipts: false,
+    })
   }
 }

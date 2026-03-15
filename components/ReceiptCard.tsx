@@ -40,8 +40,14 @@ function AgentBadge({ agent, align = 'left' }: { agent: Receipt['fromAgent'] | R
   )
 }
 
+// Check if receipt is an inference receipt (from null address, USD token)
+function isInferenceReceipt(receipt: Receipt): boolean {
+  return receipt.from === '0x0000000000000000000000000000000000000000' && receipt.tokenSymbol === 'USD'
+}
+
 export function ReceiptCard({ receipt }: { receipt: Receipt }) {
   const isSent = receipt.direction === 'sent'
+  const isInference = isInferenceReceipt(receipt)
 
   return (
     <div className="group rounded-xl p-4 transition-colors"
@@ -60,7 +66,7 @@ export function ReceiptCard({ receipt }: { receipt: Receipt }) {
               ? 'bg-red-500/10 text-red-400'
               : 'bg-green-500/10 text-green-400'
           }`}>
-            {isSent ? '↑ Sent' : '↓ Received'}
+            {isSent ? '↑ Sent' : isInference ? '💰 Inference' : '↓ Received'}
           </span>
           {receipt.service && (
             <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
@@ -72,7 +78,9 @@ export function ReceiptCard({ receipt }: { receipt: Receipt }) {
           <span className="text-lg font-semibold">
             {isSent ? '-' : '+'}{receipt.amount}
           </span>
-          <span className="text-sm font-medium" style={{ color: 'var(--color-usdc)' }}>USDC</span>
+          <span className="text-sm font-medium" style={{ color: isInference ? 'var(--color-text-primary)' : 'var(--color-usdc)' }}>
+            {isInference ? 'USD' : 'USDC'}
+          </span>
         </div>
       </div>
 
@@ -109,14 +117,18 @@ export function ReceiptCard({ receipt }: { receipt: Receipt }) {
       {/* Footer: time + tx link */}
       <div className="flex items-center justify-between text-xs" style={{ color: 'var(--color-text-muted)' }}>
         <span>{formatTime(receipt.timestamp)}</span>
-        <a
-          href={`https://basescan.org/tx/${receipt.hash}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-mono transition-colors hover:text-white"
-        >
-          {receipt.hash.slice(0, 10)}…
-        </a>
+        {isInference ? (
+          <span className="font-mono opacity-60">LLM Inference</span>
+        ) : (
+          <a
+            href={`https://basescan.org/tx/${receipt.hash}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-mono transition-colors hover:text-white"
+          >
+            {receipt.hash.slice(0, 10)}…
+          </a>
+        )}
       </div>
     </div>
   )
