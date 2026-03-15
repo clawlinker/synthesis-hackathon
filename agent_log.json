@@ -997,7 +997,7 @@
       "exec"
     ],
     "model": "bankr/qwen3-coder",
-    "model_cost_usd": 0.01,
+    "model_cost_usd": 0.18000000000000682,
     "decision": "Critical bug fix: server-side window usage would crash in production. Use static URL construction instead.",
     "outcome": "success",
     "artifacts": [
@@ -1005,8 +1005,8 @@
     ],
     "compute_budget": {
       "bankr_balance_before": 186.5,
-      "bankr_balance_after": 186.16,
-      "session_cost": 0.3400000000000034
+      "bankr_balance_after": 186.14,
+      "session_cost": 0.18000000000000682
     }
   }
 ]
