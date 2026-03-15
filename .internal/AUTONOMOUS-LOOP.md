@@ -224,9 +224,9 @@ _Source: UI-REVIEW.md — work through checklist items one by one._
 
 **Subpages:**
 - [x] **Build Log page review** — Is commit data rendering? Navigation back to home?
-- [ ] **Costs page review** — Verify breakdowns are accurate. Add back nav
-- [ ] **Judge Mode review** — Is it overwhelming? Prioritize for limited judge time
-- [ ] **Receipt detail page** — OG image working? SVG rendering? Share button?
+- [x] **Costs page review** — Verify breakdowns are accurate. Add back nav ✅ (API `/api/costs` works, page shows summary cards, by-cron/by-model/by-phase breakdowns, top actions list. Navigation back to home working via "← Back to feed" link)
+- [x] **Judge Mode review** — Self-referential dashboard showing agent_log.json feed, cost transparency, build timeline ✅ (filtered views, stats cards, timeline with commits, execution log with filter controls)
+- [x] **Receipt detail page** — OG image working? SVG rendering? Share button? ✅ (metadata with OG/twitter images, SVG display via `<object>`, X/Twitter and Farcaster share buttons, download SVG functionality)
 
 **Polish:**
 - [ ] **Mobile responsiveness pass** — Every page on 375px width
