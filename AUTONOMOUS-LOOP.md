@@ -207,9 +207,10 @@ _Source: UI-REVIEW.md — work through checklist items one by one._
 
 **Homepage:**
 - [x] **Fix API timeout** — `/api/receipts` hangs on Vercel without BASESCAN_API_KEY. Add 10s timeout + fast fallback
-- [ ] **Remove chain IDs from selector** — "Base (8453)" → just "Base". Dev info doesn't belong in UI
-- [ ] **Clean wallet selector** — Remove raw addresses from buttons. Just show agent name
-- [ ] **Add navigation bar** — No way to get between pages (home, build-log, costs, judge). Add minimal nav
+- [x] **Remove chain IDs from selector** — "Base (8453)" → just "Base". Dev info doesn't belong in UI
+- [x] **Clean wallet selector** — Remove raw addresses from buttons. Just show agent name
+- [x] **Add navigation bar** — No way to get between pages (home, build-log, costs, judge). Add minimal nav
+- [ ] **Skeleton loading states** — Replace "Loading receipts..." with skeleton cards
 - [ ] **Skeleton loading states** — Replace "Loading receipts..." with skeleton cards
 - [ ] **Empty state icon** — Gray div placeholder → real empty-state illustration or icon
 - [ ] **Review hero section** — Tighten copy, check mobile line breaks, consider removing version badge
