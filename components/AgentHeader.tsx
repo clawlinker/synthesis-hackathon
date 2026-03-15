@@ -51,15 +51,22 @@ export function AgentHeader({ receiptCount, source }: { receiptCount: number; so
         <Badge variant="secondary" className="gap-2 px-3 py-1.5 text-sm">
           <span
             className={`h-2 w-2 rounded-full ${
-              source === 'live'
+              source.startsWith('live')
                 ? 'bg-success animate-pulse'
-                : 'bg-muted-foreground animate-pulse'
+                : source.startsWith('cached')
+                ? 'bg-yellow-400 animate-pulse'
+                : 'bg-muted-foreground'
             }`}
           />
           <span className="font-medium">{receiptCount} receipts</span>
           <span className="text-muted-foreground">•</span>
           <span className="text-muted-foreground">
-            {source === 'live' ? 'Live' : 'Sample'} data
+            {source.startsWith('live')
+              ? 'Live'
+              : source.startsWith('cached')
+              ? 'Cached'
+              : 'Sample'}{' '}
+            data
           </span>
         </Badge>
       </div>
