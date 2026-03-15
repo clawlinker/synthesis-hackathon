@@ -16,6 +16,7 @@ Agent Receipts is a live audit trail for autonomous agent transactions on Base. 
 - **Agent Identity** — ERC-8004 badges show agent names and IDs
 - **Inference Receipts** — Track LLM API costs alongside USDC payments
 - **Paid API** — `/api/x402/receipts` charges $0.01 USDC via x402
+- **0-ads Support** — Native visibility into 0-ads universal bounty payouts
 
 ## Architecture
 
