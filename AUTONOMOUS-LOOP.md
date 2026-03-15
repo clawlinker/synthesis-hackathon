@@ -182,7 +182,7 @@ _These differentiate "good enough" from winner. Use budget aggressively._
 
 - [x] **Build Log page** — `/build-log` page showing live git commit history with 🤖 [auto] commits, cron pipeline visualization, and agent_log.json timeline. Self-referential: the app shows how it was built.
 - [x] **Cost transparency page** — `/costs` page showing exactly how much Bankr LLM credit was spent building this app, broken down by cron, model, and phase. Pull from agent_log.json compute_budget data. This is the Bankr bounty killer feature.
-- [ ] **UI polish pass** — animations on receipt cards (fade in on load), loading skeletons, proper empty states, mobile-first responsive, smooth transitions. The app needs to LOOK like a winner.
+- [x] **UI polish pass** — animations on receipt cards (fade in on load), loading skeletons, proper empty states, mobile-first responsive, smooth transitions. The app needs to LOOK like a winner.
 - [ ] **Receipt filtering + search** — filter by direction (sent/received), amount range, date range. Search by tx hash or address.
 - [ ] **Shareable receipt pages** — `/receipt/[txhash]` standalone page with OG meta tags for social sharing. Wire up existing SVG endpoint.
 - [ ] **Agent-to-agent receipt verification** — `/api/verify/[txhash]` endpoint that verifies a receipt against Basescan and returns structured verification result with ERC-8004 identity.
@@ -212,11 +212,11 @@ _These differentiate "good enough" from winner. Use budget aggressively._
 
 ## Pending External Input
 
-**Current state (Mar 15 10:00 UTC):** All autonomous tasks complete. Awaiting Max's demo video.
+**Current state (Mar 15 13:00 UTC):** UI polish complete. Next task: Receipt filtering + search.
 
 | Task | Blocked on | Status |
 |------|------------|--------|
 | Record demo video | Max's availability | ⏳ Waiting |
 | Iterate on judging feedback | Mar 18 judging results | ⏳ Future |
 
-**Next autonomous task:** None — all pending items require Max's input. Ready to pick up when Max provides demo video or judging feedback.
+**Next autonomous task:** Receipt filtering + search — filter by direction (sent/received), amount range, date range; search by tx hash or address.
