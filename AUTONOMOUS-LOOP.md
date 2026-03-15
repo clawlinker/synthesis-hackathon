@@ -186,7 +186,7 @@ _These differentiate "good enough" from winner. Use budget aggressively._
 - [x] **Receipt filtering + search** — filter by direction (sent/received), amount range, date range. Search by tx hash or address.
 - [ ] **Shareable receipt pages** — `/receipt/[txhash]` standalone page with OG meta tags for social sharing. Wire up existing SVG endpoint.
 - [x] **Shareable receipt pages** — `/receipt/[txhash]` standalone page with OG meta tags for social sharing. Wire up existing SVG endpoint. ✅ (built and committed)
-- [ ] **Agent-to-agent receipt verification** — `/api/verify/[txhash]` endpoint that verifies a receipt against Basescan and returns structured verification result with ERC-8004 identity.
+- [x] **Agent-to-agent receipt verification** — `/api/verify/[txhash]` endpoint that verifies a receipt against Blockscout and returns structured verification result with ERC-8004 identity. ✅
 - [ ] **Multi-chain receipts** — add Ethereum mainnet alongside Base. Show our ERC-8004 registration tx as a receipt.
 - [ ] **Landing/hero section** — proper above-the-fold hero explaining what Agent Receipts is, with CTA to scroll to feed. Not just raw data.
 - [ ] **Live Agent Demo** — `/demo` page with embedded chatbot asking "Ask me about my receipts" → shows real agent interacting with its own data. Judges see agent personality, not just static UI.
