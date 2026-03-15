@@ -221,7 +221,7 @@ _Source: UI-REVIEW.md — work through checklist items one by one._
 - [x] **AgentHeader redundancy** — Does it add value over ReceiptStats? Consider merging (✅ kept separate — AgentHeader shows agent identity, ReceiptStats shows activity metrics)
 
 **Subpages:**
-- [ ] **Build Log page review** — Is commit data rendering? Navigation back to home?
+- [x] **Build Log page review** — Is commit data rendering? Navigation back to home?
 - [ ] **Costs page review** — Verify breakdowns are accurate. Add back nav
 - [ ] **Judge Mode review** — Is it overwhelming? Prioritize for limited judge time
 - [ ] **Receipt detail page** — OG image working? SVG rendering? Share button?

@@ -3,7 +3,7 @@ import { execSync } from 'child_process'
 
 export async function GET() {
   try {
-    const log = execSync('git log --pretty=format:"%H|%an|%ad|%s" --date=iso-8601', {
+    const log = execSync('git log --pretty=format:"%H|%an|%ai|%s"', {
       encoding: 'utf-8',
       cwd: '/root/synthesis-hackathon'
     })

@@ -185,8 +185,8 @@ export default function BuildLogPage() {
                     <div className="text-xs text-muted-foreground">
                       {new Date(commit.author.date).toLocaleString('en-US', {
                         month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
-                        hour12: false, timeZone: 'UTC'
-                      })} UTC
+                        hour12: false
+                      })}
                       <span className="mx-2">•</span>
                       {commit.author.name}
                     </div>
