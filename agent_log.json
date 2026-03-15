@@ -1163,5 +1163,34 @@
       "session_cost": 0.01999999999998181
     },
     "commit": ""
+  },
+  {
+    "timestamp": "2026-03-15T16:48:56Z",
+    "phase": "execute",
+    "action": "llm_cost_receipts",
+    "description": "Make inference receipts clickable with model breakdown showing tokens, input/output costs",
+    "tools_used": [
+      "read",
+      "write",
+      "exec",
+      "process"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.08,
+    "decision": "UpdatedReceiptCard.tsx and added Modal component for cost breakdown. Inference receipts now show full LLM usage details.",
+    "outcome": "success",
+    "artifacts": [
+      "app/api/inference-receipts/route.ts",
+      "components/InferenceModal.tsx",
+      "components/ReceiptCard.tsx",
+      "components/ReceiptStats.tsx",
+      "data/inference-receipts.ts",
+      "app/types.ts"
+    ],
+    "compute_budget": {
+      "bankr_balance_before": 184.91,
+      "bankr_balance_after": 184.83,
+      "session_cost": 0.08
+    }
   }
 ]
