@@ -1,5 +1,6 @@
 import { type Metadata } from 'next'
 import { AGENT, AGENTS } from '@/app/types'
+import { CopyLinkButton } from '@/components/CopyLinkButton'
 
 export async function generateMetadata({ params }: { params: Promise<{ hash: string }> }): Promise<Metadata> {
   const { hash } = await params
@@ -46,6 +47,8 @@ export async function generateMetadata({ params }: { params: Promise<{ hash: str
 
 export default async function ReceiptPage({ params }: { params: Promise<{ hash: string }> }) {
   const { hash } = await params
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://molttail.vercel.app'
+  const receiptUrl = `${baseUrl}/receipt/${hash}`
 
   return (
     <main className="min-h-screen bg-black text-white">
@@ -116,7 +119,7 @@ export default async function ReceiptPage({ params }: { params: Promise<{ hash: 
           <h2 className="text-lg font-semibold">Share this Receipt</h2>
           <div className="grid grid-cols-2 gap-3">
             <a
-              href={`https://twitter.com/intent/tweet?url=${encodeURIComponent("https://agentreceipts.com/receipt/" + hash)}`}
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Agent Receipt 🤖\n\nVerified USDC payment from @clawlinker\n\n${receiptUrl}`)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-sky-500 hover:bg-sky-600 text-white py-3 px-4 rounded-lg text-center text-sm font-medium transition-colors flex items-center justify-center gap-2"
@@ -127,7 +130,7 @@ export default async function ReceiptPage({ params }: { params: Promise<{ hash: 
               X / Twitter
             </a>
             <a
-              href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`Agent Receipt 🤖\n\n${hash}\n\nVerified on Molttail`)}`}
+              href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(`Agent Receipt 🤖\n\nVerified USDC payment from @clawlinker\n\n${receiptUrl}`)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-indigo-500 hover:bg-indigo-600 text-white py-3 px-4 rounded-lg text-center text-sm font-medium transition-colors flex items-center justify-center gap-2"
@@ -137,6 +140,7 @@ export default async function ReceiptPage({ params }: { params: Promise<{ hash: 
               </svg>
               Farcaster
             </a>
+            <CopyLinkButton url={receiptUrl} />
           </div>
           <p className="text-xs text-gray-500">
             Share this receipt to verify autonomous agent work onchain.
