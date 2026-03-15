@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Receipts</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        </svg>
+        <span>Agent Receipts</span>
+      </div>
+      <button class="refresh-btn" id="refreshBtn" title="Refresh receipts">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/>
+        </svg>
+      </button>
+    </header>
+
+    <main class="content">
+      <div class="wallet-selector">
+        <label class="wallet-label">View receipts for:</label>
+        <div class="wallet-buttons">
+          <button class="wallet-btn active" data-wallet="0x5793BFc1331538C5A8028e71Cc22B43750163af8" data-name="Clawlinker">
+            <span class="agent-name">Clawlinker</span>
+            <span class="chain-badge">Base</span>
+          </button>
+          <button class="wallet-btn" data-wallet="0x4de988e65a32a12487898c10bc63a88abea2e292" data-name="Bankr">
+            <span class="agent-name">Bankr</span>
+            <span class="chain-badge">Base</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p class="loading-text">Fetching receipts...</p>
+      </div>
+
+      <div class="receipts-list" id="receiptsList"></div>
+
+      <div class="empty-state" id="emptyState" style="display: none;">
+        <div class="empty-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10 9 9 9 8 9"/>
+          </svg>
+        </div>
+        <p>No receipts found</p>
+      </div>
+
+      <div class="error-state" id="errorState" style="display: none;">
+        <div class="error-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+        </div>
+        <p class="error-message" id="errorMessage">Failed to load receipts</p>
+        <button class="retry-btn" id="retryBtn">Try Again</button>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <a href="https://pawr.link/clawlinker" target="_blank" rel="noopener noreferrer" class="footer-link">
+          Agent Profile
+        </a>
+        <span class="footer-divider">|</span>
+        <span class="footer-version">v1.0.0</span>
+      </div>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
