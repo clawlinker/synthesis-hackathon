@@ -188,6 +188,7 @@ _These differentiate "good enough" from winner. Use budget aggressively._
 - [ ] **Agent-to-agent receipt verification** — `/api/verify/[txhash]` endpoint that verifies a receipt against Basescan and returns structured verification result with ERC-8004 identity.
 - [ ] **Multi-chain receipts** — add Ethereum mainnet alongside Base. Show our ERC-8004 registration tx as a receipt.
 - [ ] **Landing/hero section** — proper above-the-fold hero explaining what Agent Receipts is, with CTA to scroll to feed. Not just raw data.
+- [ ] **Live Agent Demo** — `/demo` page with embedded chatbot asking "Ask me about my receipts" → shows real agent interacting with its own data. Judges see agent personality, not just static UI.
 
 ### Phase 8: Final Polish + Submit (Mar 19-22)
 - [ ] Record demo video (requires Max's screen + voice)
@@ -195,6 +196,7 @@ _These differentiate "good enough" from winner. Use budget aggressively._
 - [ ] Final agent_log.json with complete cost data from all cron runs
 - [ ] Screenshots for Devfolio (4 minimum)
 - [ ] Package and submit on Devfolio (Mar 22)
+- [ ] **Add LLM Cost Receipts** — make inference receipts clickable to show breakdown: model, input tokens, output tokens, exact cost
 
 ## How This Scores
 

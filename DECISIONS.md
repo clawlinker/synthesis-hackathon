@@ -15,6 +15,7 @@ _Autonomous crons read this FIRST before picking tasks._
 1. **Video demonstration missing** — scoring requires demo for all tracks
 2. **Self-sustaining economics not proven live** — x402 revenue → Bankr inference loop projected but not operational
 3. **Bankr LLM usage could be deeper** — currently crons only, could add inference receipts in live demo
+4. **Missing "wow factor"** — judges see 50+ projects. Need interactive demo with agent personality, not just static UI.
 
 ## Priority Actions
 1. Record demo video (needs Max)
