@@ -179,8 +179,8 @@ _These directly affect scoring. Do first._
 
 ### Phase 6: Final Polish + Submit (Mar 19-22)
 - [ ] Iterate based on Mar 18 agentic judging feedback
-- [ ] Final agent_log.json compilation — complete autonomous operation log with all costs
-- [ ] Self-sustaining economics writeup — how x402 revenue from receipt API funds Bankr LLM inference
+- [x] Final agent_log.json compilation — complete autonomous operation log with all costs ✅
+- [x] Self-sustaining economics writeup — how x402 revenue from receipt API funds Bankr LLM inference ✅
 - [ ] Demo recording / walkthrough video
 - [ ] Final agent.json update with all capabilities and receipt service endpoint
 - [ ] Package and submit on Devfolio (Mar 22)
