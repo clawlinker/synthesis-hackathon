@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "Agent Receipts",
+  "version": "1.0.0",
+  "description": "View verifiable agent transaction receipts directly on Etherscan, Blockscout, and DexScreener",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "*://*.etherscan.io/*",
+    "*://*.blockscout.com/*",
+    "*://*.dexscreener.com/*",
+    "https://api.pawr.link/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "View Agent Receipts"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.etherscan.io/*",
+        "*://*.blockscout.com/*",
+        "*://*.dexscreener.com/*"
+      ],
+      "js": ["content.js"],
+      "css": ["content.css"]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "storage": {
+    "managed_schema": "storage_schema.json"
+  }
+}
