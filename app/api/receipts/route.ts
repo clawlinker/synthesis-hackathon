@@ -167,7 +167,18 @@ export async function GET(request: Request) {
     validateEnv()
   } catch (error) {
     console.warn('Environment validation failed:', error)
-    const enrichedReceipts = sampleReceipts.map(r => {
+    // Still load inference receipts from agent_log.json even without BaseScan
+    let inferenceReceipts: Receipt[] = []
+    try {
+      inferenceReceipts = loadInferenceReceiptsFromLog()
+    } catch (e) {
+      console.warn('Failed to load inference receipts in fallback:', e)
+    }
+    if (inferenceReceipts.length === 0) {
+      inferenceReceipts = sampleInferenceReceipts
+    }
+
+    const enrichedReceipts = [...sampleReceipts, ...inferenceReceipts].map(r => {
       const fromAgent = resolveAgent(r.from)
       const toAgent = resolveAgent(r.to)
       return {
@@ -178,9 +189,9 @@ export async function GET(request: Request) {
     })
     return NextResponse.json({ 
       receipts: enrichedReceipts, 
-      source: 'sample+inference',
-      hasInferenceReceipts: false,
-      warning: 'BASESCAN_API_KEY not configured - showing sample data only',
+      source: inferenceReceipts.length > 0 ? 'sample+inference' : 'sample',
+      hasInferenceReceipts: inferenceReceipts.length > 0,
+      warning: 'BASESCAN_API_KEY not configured - showing sample onchain data + real inference receipts',
       'X-RateLimit-Remaining': remaining.toString(),
     }, { status: 200 })
   }
