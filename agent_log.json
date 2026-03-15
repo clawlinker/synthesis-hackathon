@@ -796,5 +796,26 @@
       "daily_budget_usd": 0.5,
       "remaining_usd": 188.85
     }
+  },
+  {
+    "timestamp": "2026-03-15T10:34:10Z",
+    "phase": "execute",
+    "action": "move_hardcoded_addresses_to_config",
+    "description": "Centralized contract addresses, service labels, and rate limiting in data/config.ts. Added rate limiting headers to receipt API endpoints.",
+    "tools_used": [
+      "edit",
+      "exec"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "decision": "Addresses were hardcoded in multiple files - centralized them for maintainability and added rate limiting as suggested in review logs",
+    "outcome": "success",
+    "artifacts": [
+      "data/config.ts",
+      "app/api/receipt/svg/[hash]/route.ts",
+      "app/api/receipts/route.ts",
+      "REVIEW-LOG.md"
+    ],
+    "commit": "pending"
   }
 ]

@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server'
-import { AGENT, USDC_CONTRACT, type Receipt } from '@/app/types'
+import { AGENT, type Receipt } from '@/app/types'
 import { sampleReceipts } from '@/data/sample-receipts'
-import { ADDRESS_LABELS } from '@/data/address-labels'
+import { ADDRESS_LABELS, CONTRACTS, RATE_LIMIT, SERVICE_LABELS } from '@/data/config'
 import type { BasescanSingleTxResponse } from '@/data/types'
+import { createHash } from 'crypto'
 
 const BASESCAN_API = 'https://api.basescan.org/api'
 
@@ -11,6 +12,32 @@ function validateEnv(): void {
   if (!process.env.BASESCAN_API_KEY) {
     throw new Error('BASESCAN_API_KEY environment variable is required')
   }
+}
+
+// Rate limiting helpers
+function getClientIp(req: Request): string {
+  const forwarded = req.headers.get('x-forwarded-for')
+  if (forwarded) return forwarded.split(',')[0].trim()
+  return '127.0.0.1'
+}
+
+const rateLimitCache = new Map<string, { count: number; reset: number }>()
+
+function checkRateLimit(ip: string): { allowed: boolean; remaining: number } {
+  const now = Date.now()
+  const entry = rateLimitCache.get(ip)
+  
+  if (!entry || now > entry.reset) {
+    rateLimitCache.set(ip, { count: 0, reset: now + RATE_LIMIT.windowMs })
+    return { allowed: true, remaining: RATE_LIMIT.maxRequests - 1 }
+  }
+  
+  if (entry.count >= RATE_LIMIT.maxRequests) {
+    return { allowed: false, remaining: 0 }
+  }
+  
+  entry.count++
+  return { allowed: true, remaining: RATE_LIMIT.maxRequests - entry.count }
 }
 
 function labelAddress(address: string): string | undefined {
@@ -26,8 +53,9 @@ function getServiceFromTx(tx: { to: string; from: string }): string | undefined 
   const from = tx.from.toLowerCase()
   const other = from === AGENT.wallet.toLowerCase() ? to : from
   
-  if (other === '0x5776d6d49132516709e11e6e3676e43750163af8') return 'x402 Payment'
-  if (other === '0x9c9563816900f862356b243750163af850163af8') return 'Virtuals Job'
+  // Check against hardcoded contract addresses first
+  if (other === CONTRACTS.X402_FACILITATOR.toLowerCase()) return SERVICE_LABELS[CONTRACTS.X402_FACILITATOR.toLowerCase()]
+  if (other === CONTRACTS.VIRTUALS_ACP.toLowerCase()) return SERVICE_LABELS[CONTRACTS.VIRTUALS_ACP.toLowerCase()]
   
   return labelAddress(other)
 }
@@ -38,7 +66,7 @@ async function fetchReceiptByHash(hash: string): Promise<Receipt | null> {
       module: 'account',
       action: 'tokentx',
       address: AGENT.wallet,
-      contractaddress: USDC_CONTRACT,
+      contractaddress: CONTRACTS.USDC_CONTRACT,
       sort: 'desc',
       page: '1',
       offset: '50',
@@ -193,6 +221,7 @@ function generateReceiptSVG(receipt: Receipt): string {
 }
 
 export const runtime = 'nodejs'
+export const maxDuration = 10
 
 export async function GET(
   req: Request,
@@ -200,11 +229,22 @@ export async function GET(
 ) {
   const { hash } = await params
 
+  // Rate limiting
+  const clientIp = getClientIp(req)
+  const { allowed, remaining } = checkRateLimit(clientIp)
+  
+  if (!allowed) {
+    return NextResponse.json(
+      { error: 'Rate limit exceeded. Try again later.' },
+      { status: 429, headers: { 'X-RateLimit-Remaining': '0' } }
+    )
+  }
+
   // Validate required environment variables
   try {
     validateEnv()
   } catch (error) {
-    console.error('Environment validation failed:', error)
+    console.warn('Environment validation failed:', error)
     return NextResponse.json({ error: 'Server configuration error' }, { status: 500 })
   }
 
@@ -224,10 +264,12 @@ export async function GET(
       headers: {
         'Content-Type': 'image/svg+xml',
         'Cache-Control': 'public, max-age=3600',
+        'X-RateLimit-Remaining': remaining.toString(),
+        'X-Request-ID': createHash('sha256').update(hash + Date.now()).digest('hex').slice(0, 16),
       },
     })
   } catch (error) {
-    console.error('SVG generation failed:', error)
+    console.warn('SVG generation failed:', error)
     return NextResponse.json({ error: 'SVG generation failed' }, { status: 500 })
   }
 }
