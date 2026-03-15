@@ -61,6 +61,7 @@ function getServiceFromTx(tx: { to: string; from: string }, wallet: string): str
   // Check against hardcoded contract addresses first
   if (other === CONTRACTS.X402_FACILITATOR.toLowerCase()) return SERVICE_LABELS[CONTRACTS.X402_FACILITATOR.toLowerCase()]
   if (other === CONTRACTS.VIRTUALS_ACP.toLowerCase()) return SERVICE_LABELS[CONTRACTS.VIRTUALS_ACP.toLowerCase()]
+  if (other === CONTRACTS.ZERO_ADS_ESCROW.toLowerCase()) return SERVICE_LABELS[CONTRACTS.ZERO_ADS_ESCROW.toLowerCase()]
   
   return labelAddress(other)
 }
