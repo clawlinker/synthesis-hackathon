@@ -58,6 +58,12 @@ _Autonomous crons read this FIRST before picking tasks._
 
 ### 🔴 Blockers
 - Demo video requires Max's time/recording
+- **RESOLVED (Mar 15):** Basescan V1 API deprecated → switched to Blockscout (`base.blockscout.com/api`)
+
+### ⚠️ Operating Principles (CRONS READ THIS)
+- **ITERATE ON CORE FIRST.** Verify existing features work with real data before building new ones.
+- **Test with real API calls**, not just build passes. A build that compiles but returns sample data is BROKEN.
+- **Blockscout is slower than Basescan** — responses can take 10-20s. Add proper loading states and caching.
 
 ## Pivot Triggers
 
