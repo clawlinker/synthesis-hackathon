@@ -5,6 +5,8 @@ import { type Receipt, AGENTS, AGENT, CHAINS } from '@/app/types'
 import { ReceiptCard } from '@/components/ReceiptCard'
 import { AgentHeader } from '@/components/AgentHeader'
 import { ReceiptStats } from '@/components/ReceiptStats'
+import { SkeletonReceiptCard } from '@/components/SkeletonReceiptCard'
+import { SkeletonReceiptStats } from '@/components/SkeletonReceiptStats'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
@@ -166,7 +168,13 @@ export default function Home() {
       )}
 
       {source === 'loading' && (
-        <div className="py-12 text-center text-muted-foreground">Loading receipts…</div>
+        <div className="space-y-6">
+          <SkeletonReceiptStats />
+          <SkeletonReceiptCard />
+          <SkeletonReceiptCard />
+          <SkeletonReceiptCard />
+          <SkeletonReceiptCard />
+        </div>
       )}
 
       {/* Empty states */}
@@ -254,7 +262,11 @@ export default function Home() {
         ))}
       </div>
 
-      <ReceiptStats receipts={filteredReceipts} />
+      {mounted ? (
+        <ReceiptStats receipts={filteredReceipts} />
+      ) : (
+        <SkeletonReceiptStats />
+      )}
 
       {/* Filters */}
       <Card className="mb-6">
