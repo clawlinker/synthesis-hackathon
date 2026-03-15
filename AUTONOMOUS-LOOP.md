@@ -172,10 +172,10 @@ _These directly affect scoring. Do first._
 
 ### Phase 5: Deploy + Demo (Mar 17 — MUST be done before Mar 18 agentic judging!)
 - [x] Deploy to Vercel (or similar) — needs to be live for judges — **Build passes, DEPLOY.md created for Max to deploy**
-- [ ] Write proper README.md — what it is, how to use, how it was built, architecture diagram
-- [ ] Create COLLAB.md — document human-agent collaboration process (required by rules)
-- [ ] Prepare for agentic judging (Mar 18) — ensure agent.json and agent_log.json are complete and accessible
-- [ ] Test with agent judges — make sure the app responds well to automated evaluation
+- [x] Write proper README.md — what it is, how to use, how it was built, architecture diagram
+- [x] Create COLLAB.md — document human-agent collaboration process (required by rules)
+- [x] Prepare for agentic judging (Mar 18) — ensure agent.json and agent_log.json are complete and accessible
+- [x] Test with agent judges — make sure the app responds well to automated evaluation
 
 ### Phase 6: Final Polish + Submit (Mar 19-22)
 - [ ] Iterate based on Mar 18 agentic judging feedback
