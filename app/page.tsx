@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { type Receipt } from '@/app/types'
-import { ReceiptCard } from '@/app/components/ReceiptCard'
-import { AgentHeader } from '@/app/components/AgentHeader'
-import { ReceiptStats } from '@/app/components/ReceiptStats'
+import { ReceiptCard } from '@/components/ReceiptCard'
+import { AgentHeader } from '@/components/AgentHeader'
+import { ReceiptStats } from '@/components/ReceiptStats'
 
 export default function Home() {
   const [receipts, setReceipts] = useState<Receipt[]>([])

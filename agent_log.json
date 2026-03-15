@@ -401,5 +401,28 @@
       "scripts/bankr-cost-tracker.py"
     ],
     "commit": "fbc0b9b"
+  },
+  {
+    "timestamp": "2026-03-15T00:02:30Z",
+    "phase": "execute",
+    "action": "erc8004_identity_resolution",
+    "description": "Added ERC-8004 agent registry with 3 known agents (Clawlinker, x402 Facilitator, Virtuals Agent), updated receipt data model to include fromAgent/toAgent info, enhanced ReceiptCard component to display agent badges with avatars",
+    "tools_used": [
+      "read",
+      "write",
+      "edit",
+      "exec"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.008,
+    "decision": "Agent identity resolution is core to the Agent Receipts concept - shows who sent/received payments with verifiable onchain proof via ERC-8004",
+    "outcome": "success",
+    "artifacts": [
+      "data/erc8004-resolver.ts",
+      "app/api/receipts/route.ts",
+      "app/types.ts",
+      "components/ReceiptCard.tsx"
+    ],
+    "commit": "pending"
   }
 ]

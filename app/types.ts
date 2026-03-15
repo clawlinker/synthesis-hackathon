@@ -1,3 +1,10 @@
+export interface AgentInfo {
+  id: number
+  name: string
+  ens?: string
+  avatar?: string
+}
+
 export interface Receipt {
   hash: string
   from: string
@@ -15,6 +22,8 @@ export interface Receipt {
   agentId?: string     // ERC-8004 ID
   fromLabel?: string
   toLabel?: string
+  fromAgent?: AgentInfo
+  toAgent?: AgentInfo
 }
 
 export interface AgentIdentity {
