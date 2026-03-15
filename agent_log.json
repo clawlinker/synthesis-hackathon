@@ -424,5 +424,27 @@
       "components/ReceiptCard.tsx"
     ],
     "commit": "pending"
+  },
+  {
+    "timestamp": "2026-03-15T00:32:17Z",
+    "phase": "execute",
+    "action": "multi_wallet_support",
+    "description": "Add Bankr wallet data (0x4de923...) \u2014 show both wallets in the feed with selector",
+    "tools_used": [
+      "read",
+      "write",
+      "edit",
+      "exec"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "decision": "Multi-wallet support enables Bankr to track both Clawlinker and Bankr wallet receipts in one feed",
+    "outcome": "success",
+    "artifacts": [
+      "app/types.ts",
+      "app/api/receipts/route.ts",
+      "app/page.tsx"
+    ],
+    "commit": "ca1ff3f"
   }
 ]
