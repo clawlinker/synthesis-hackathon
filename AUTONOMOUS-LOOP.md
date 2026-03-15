@@ -177,15 +177,24 @@ _These directly affect scoring. Do first._
 - [x] Prepare for agentic judging (Mar 18) — ensure agent.json and agent_log.json are complete and accessible
 - [x] Test with agent judges — make sure the app responds well to automated evaluation
 
-### Phase 6: Final Polish + Submit (Mar 19-22)
-- [x] **Add automated test suite** — Created tests for receipt API and data models, verified build passes ✅
-- [ ] Record demo video (requires Max) — critical gap for scoring
+### Phase 7: Win It — HIGH IMPACT (Mar 15-17)
+_These differentiate "good enough" from winner. Use budget aggressively._
+
+- [ ] **Build Log page** — `/build-log` page showing live git commit history with 🤖 [auto] commits, cron pipeline visualization, and agent_log.json timeline. Self-referential: the app shows how it was built.
+- [ ] **Cost transparency page** — `/costs` page showing exactly how much Bankr LLM credit was spent building this app, broken down by cron, model, and phase. Pull from agent_log.json compute_budget data. This is the Bankr bounty killer feature.
+- [ ] **UI polish pass** — animations on receipt cards (fade in on load), loading skeletons, proper empty states, mobile-first responsive, smooth transitions. The app needs to LOOK like a winner.
+- [ ] **Receipt filtering + search** — filter by direction (sent/received), amount range, date range. Search by tx hash or address.
+- [ ] **Shareable receipt pages** — `/receipt/[txhash]` standalone page with OG meta tags for social sharing. Wire up existing SVG endpoint.
+- [ ] **Agent-to-agent receipt verification** — `/api/verify/[txhash]` endpoint that verifies a receipt against Basescan and returns structured verification result with ERC-8004 identity.
+- [ ] **Multi-chain receipts** — add Ethereum mainnet alongside Base. Show our ERC-8004 registration tx as a receipt.
+- [ ] **Landing/hero section** — proper above-the-fold hero explaining what Agent Receipts is, with CTA to scroll to feed. Not just raw data.
+
+### Phase 8: Final Polish + Submit (Mar 19-22)
+- [ ] Record demo video (requires Max's screen + voice)
 - [ ] Iterate based on Mar 18 agentic judging feedback
-- [x] Final agent_log.json compilation — complete autonomous operation log with all costs ✅
-- [x] Self-sustaining economics writeup — how x402 revenue from receipt API funds Bankr LLM inference ✅
-- [x] Demo recording / walkthrough video — created DEMO-SCRIPT.md and DEMO-GUIDE.md with full production checklist
-- [x] Final agent.json update with all capabilities and receipt service endpoint
-- [x] Package and submit on Devfolio (Mar 22) — All required files complete, SUBMISSION.md updated. Video/screenshot require Max's input.
+- [ ] Final agent_log.json with complete cost data from all cron runs
+- [ ] Screenshots for Devfolio (4 minimum)
+- [ ] Package and submit on Devfolio (Mar 22)
 
 ## How This Scores
 
