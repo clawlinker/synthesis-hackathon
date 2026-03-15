@@ -54,15 +54,19 @@ export default function JudgeModePage() {
         const [logRes, costRes, commitsRes] = await Promise.all([
           fetch('/api/judge/log'),
           fetch('/api/judge/costs'),
-          fetch('https://api.github.com/repos/your-org/agent-receipts/commits?per_page=50').catch(() => null),
+          fetch('/api/build-log/commits'),
         ])
-        const [logData, costData] = await Promise.all([logRes.json(), costRes.json()])
+        const [logData, costData, commitsData] = await Promise.all([logRes.json(), costRes.json(), commitsRes.json()])
         setLogEntries(logData.entries || [])
         setCosts(costData.breakdown || null)
-        if (commitsRes?.ok) {
-          const commitsData = await commitsRes.json()
-          setCommits(commitsData.slice(0, 20))
-        }
+        const rawCommits = commitsData.commits || []
+        setCommits(rawCommits.slice(0, 20).map((c: { sha: string; author: string; date: string; message: string }) => ({
+          sha: c.sha,
+          message: c.message,
+          author: { login: c.author, avatar_url: '' },
+          date: c.date,
+          html_url: `https://github.com/clawlinker/synthesis-hackathon/commit/${c.sha}`,
+        })))
       } catch (err) {
         console.error(err)
       } finally {
