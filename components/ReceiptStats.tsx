@@ -8,7 +8,7 @@ export function ReceiptStats({ receipts }: { receipts: Receipt[] }) {
 
   useEffect(() => {
     setMounted(true)
-  }, [])
+  }, [receipts])
 
   if (receipts.length === 0) return null
 

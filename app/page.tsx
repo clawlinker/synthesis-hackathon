@@ -75,11 +75,13 @@ export default function Home() {
       }
 
       // Amount range filters
+      const minVal = parseFloat(filters.minAmount)
+      const maxVal = parseFloat(filters.maxAmount)
       const amount = parseFloat(receipt.amount)
-      if (filters.minAmount && amount < parseFloat(filters.minAmount)) {
+      if (filters.minAmount && (!isNaN(minVal) && amount < minVal)) {
         return false
       }
-      if (filters.maxAmount && amount > parseFloat(filters.maxAmount)) {
+      if (filters.maxAmount && (!isNaN(maxVal) && amount > maxVal)) {
         return false
       }
 
@@ -169,6 +171,7 @@ export default function Home() {
         {AGENTS.map((agent) => (
           <button
             key={agent.wallet}
+            aria-label={`View ${agent.name} receipts`}
             onClick={() => {
               setSelectedWallet(agent.wallet)
               window.history.pushState({}, '', `${window.location.pathname}?wallet=${agent.wallet}`)
