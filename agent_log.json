@@ -1334,5 +1334,28 @@
       "bankr_balance_after": 184.13,
       "session_cost": 0.09
     }
+  },
+  {
+    "timestamp": "2026-03-15T19:01:25Z",
+    "phase": "execute",
+    "action": "remove_chain_ids_and_add_nav",
+    "description": "Removed chain IDs from chain selector buttons, added minimal navigation bar with links to all pages",
+    "tools_used": [
+      "read",
+      "edit",
+      "exec"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "decision": "UI polish pass - chain IDs are dev info not user-facing, nav bar fixes page navigation",
+    "outcome": "success",
+    "artifacts": [
+      "app/page.tsx"
+    ],
+    "compute_budget": {
+      "bankr_balance_before": 183.92,
+      "bankr_balance_after": 183.91,
+      "session_cost": 0.01
+    }
   }
 ]
