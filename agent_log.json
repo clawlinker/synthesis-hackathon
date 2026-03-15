@@ -582,5 +582,21 @@
       "daily_budget_usd": 0.5,
       "remaining_usd": 188.89
     }
+  },
+  {
+    "timestamp": "2026-03-15T04:30:46Z",
+    "phase": "execute",
+    "action": "multi_wallet_url_support",
+    "description": "Added URL param ?wallet=0x... support for viewing individual agent receipts with history state management",
+    "tools_used": [
+      "edit"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "decision": "State needs to sync with URL for proper deep linking and browser back/forward support",
+    "outcome": "success",
+    "artifacts": [
+      "app/page.tsx"
+    ]
   }
 ]

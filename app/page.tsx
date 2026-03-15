@@ -11,9 +11,22 @@ export default function Home() {
   const [source, setSource] = useState<string>('loading')
   const [error, setError] = useState<string | null>(null)
   const [selectedWallet, setSelectedWallet] = useState<string | null>(null)
+  const [mounted, setMounted] = useState(false)
+
+  // Read wallet param from URL on mount
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const walletParam = urlParams.get('wallet')
+    if (walletParam) {
+      setSelectedWallet(walletParam)
+    }
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     async function fetchReceipts() {
+      if (!mounted) return
+      
       try {
         const url = selectedWallet ? `/api/receipts?wallet=${selectedWallet}` : '/api/receipts'
         const res = await fetch(url)
@@ -28,7 +41,7 @@ export default function Home() {
     fetchReceipts()
     const interval = setInterval(fetchReceipts, 30000)
     return () => clearInterval(interval)
-  }, [selectedWallet])
+  }, [selectedWallet, mounted])
 
   return (
     <main className="max-w-2xl mx-auto px-4 py-8">
@@ -47,7 +60,10 @@ export default function Home() {
       {/* Wallet selector for multi-wallet support */}
       <div className="flex gap-2 mb-4 flex-wrap">
         <button
-          onClick={() => setSelectedWallet(null)}
+          onClick={() => {
+            setSelectedWallet(null)
+            window.history.pushState({}, '', window.location.pathname)
+          }}
           className={`px-3 py-1 rounded text-sm transition-colors ${
             selectedWallet === null
               ? 'bg-white text-black'
@@ -59,7 +75,10 @@ export default function Home() {
         {AGENTS.map((agent) => (
           <button
             key={agent.wallet}
-            onClick={() => setSelectedWallet(agent.wallet)}
+            onClick={() => {
+              setSelectedWallet(agent.wallet)
+              window.history.pushState({}, '', `${window.location.pathname}?wallet=${agent.wallet}`)
+            }}
             className={`px-3 py-1 rounded text-sm transition-colors ${
               selectedWallet === agent.wallet
                 ? 'bg-white text-black'
