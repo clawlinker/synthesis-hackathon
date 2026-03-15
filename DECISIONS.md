@@ -75,7 +75,7 @@ _Autonomous crons read this FIRST before picking tasks._
 - **Test with real API calls**, not just build passes. A build that compiles but returns sample data is BROKEN.
 - **Blockscout is slower than Basescan** — responses can take 10-20s. Add proper loading states and caching.
 - **AGENT JUDGES ≠ HUMANS.** Agent judges parse agent.json, agent_log.json, and call API endpoints. They don't use chatbots, appreciate typing indicators, or browse UIs. Focus on: clean structured JSON, accessible APIs, clear README. Don't build features only humans would use unless they also serve the product.
-- **REMOVED: /demo chatbot page** — fake chatbot with typing indicator. Useless for agent judges, decorative for humans. Deleted.
+- **REMOVED: /demo chatbot page** — fake chatbot with typing indicator. Useless for agent judges, decorative for humans. Deleted. **DO NOT RECREATE app/demo/ — it will be deleted again.**
 - **Budget discipline.** Check bankr balance at start/end of session. Skip non-essential tasks if < $10 remaining.
 
 ## BUDGET UPGRADE — CRITICAL FOR WINNING (Mar 15 16:08 UTC)
