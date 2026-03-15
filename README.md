@@ -1,95 +1,96 @@
-# Trusted Agent Commerce
+# Agent Receipts
 
-> The Synthesis Hackathon 2026 — by Clawlinker 🐾
+**Every payment your agent makes, verified and visible.**
 
-**An end-to-end demonstration of a trusted autonomous agent operating in production with verified onchain identity, autonomous payments, and agent-to-agent commerce.**
+Agent Receipts is a live audit trail for autonomous agent transactions on Base. See every USDC payment your agents make, from service purchase to inference costs, with verifiable on-chain proof.
 
-## What This Is
+## Live Demo
 
-This isn't a hackathon demo built in 10 days. This is a living, production agent — [Clawlinker](https://pawr.link/clawlinker) — documenting and extending its real infrastructure for The Synthesis.
+[Deploy to Vercel now](https://vercel.com/new/clone?repository-url=https://github.com/clawlinker/synthesis-hackathon)
 
-Clawlinker is an autonomous AI agent that:
-- Has a verified **ERC-8004 onchain identity** ([#22945](https://www.8004scan.io/agents/ethereum/22945)) on Ethereum
-- Pays for services autonomously via **x402** (USDC on Base)
-- Discovers and serves other agents via **A2A** endpoints
-- Runs **18 autonomous cron jobs** daily
-- Operates with explicit **safety guardrails** and context isolation
-- Has been running continuously since February 2026
+## Features
 
-## Tracks
-
-| Track | Prize | Status |
-|-------|-------|--------|
-| Protocol Labs — ERC-8004 | $8,004 | 🎯 Primary |
-| Protocol Labs — Autonomous Agent | $8,000 | 🎯 Primary |
-| Bankr — LLM Gateway | $5,000 | 🎯 Primary |
-| Merit Systems — AgentCash/x402 | $1,750 | 🎯 Primary |
-| Synthesis Open Track | $14,059 | ✅ Auto-qualify |
-| MetaMask — Delegations | $5,000 | 🔄 Stretch |
+- **Live Receipt Feed** — Real-time USDC transfers from x402 facilitator
+- **Multi-Wallet Support** — View Clawlinker or Bankr wallet receipts with selector
+- **SVG Receipt Cards** — Downloadable receipts for any transaction
+- **Agent Identity** — ERC-8004 badges show agent names and IDs
+- **Inference Receipts** — Track LLM API costs alongside USDC payments
+- **Paid API** — `/api/x402/receipts` charges $0.01 USDC via x402
 
 ## Architecture
 
 ```
-┌─────────────────────────────────────────┐
-│           Clawlinker (Agent)            │
-│  ┌─────────┐  ┌──────┐  ┌───────────┐  │
-│  │ OpenClaw │  │Bankr │  │ 18 Crons  │  │
-│  │ Runtime  │  │Wallet│  │ (auto)    │  │
-│  └────┬─────┘  └──┬───┘  └─────┬─────┘  │
-│       │           │            │         │
-│  ┌────┴───────────┴────────────┴──────┐  │
-│  │         Safety Guardrails          │  │
-│  │   (SOUL.md §Security, 10 rules)   │  │
-│  └────────────────────────────────────┘  │
-└──────────────┬───────────────────────────┘
-               │
-    ┌──────────┼──────────┐
-    │          │          │
-    ▼          ▼          ▼
-┌────────┐ ┌──────┐ ┌─────────┐
-│ERC-8004│ │ x402 │ │  A2A    │
-│Identity│ │ Pay  │ │Commerce │
-│Registry│ │      │ │         │
-└────────┘ └──────┘ └─────────┘
-    │          │          │
-    ▼          ▼          ▼
- Ethereum    Base      pawr.link
+┌─────────────────┐
+│  Next.js App    │  app/ (pages, components)
+└────────┬────────┘
+         │
+         ├─ API Routes
+         │   ├─ /api/receipts (live Basescan + fallback)
+         │   ├─ /api/x402/receipts ($0.01 gate)
+         │   ├─ /api/receipt/svg/[hash] (SVG generator)
+         │   └─ /api/og/[txhash] (OG image)
+         │
+         ├─ Data Layer
+         │   ├─ Basescan API (receipt fetching)
+         │   ├─ ERC-8004 resolver (agent identity)
+         │   └─ Address labels (service mapping)
+         │
+         └─ x402 Integration
+             ├─ Facilitator contract
+             └─ USDC payment gateway
 ```
 
-## Onchain Artifacts
+## Tech Stack
 
-| What | Link |
-|------|------|
-| ERC-8004 Identity | [#22945 on Ethereum](https://etherscan.io/address/0x8004A169FB4a3325136EB29fA0ceB6D2e539a432) |
-| Registration TX | [Etherscan](https://etherscan.io/tx/...) |
-| Operator Wallet | `0x5793BFc1331538C5A8028e71Cc22B43750163af8` |
-| Bankr Wallet | `0x4de988e65a32a12487898c10bc63a88abea2e292` (Base) |
-| ENS | clawlinker.eth |
+- **Next.js 16** — App Router, Server Components
+- **Tailwind CSS 4** — Utility-first styling
+- **TypeScript** — Type-safe data models
+- **Satori** — SVG generation
+- **x402/next** — Payment middleware
+- **ethers.js** — On-chain data fetching
 
-## Agent Manifest
+## Environment Variables
 
-See [`agent.json`](./agent.json) for the machine-readable agent capability manifest.
+| Variable | Description |
+|----------|-------------|
+| `BASESCAN_API_KEY` | Basescan API key (free tier: 5 req/s) |
+| `CDP_FACILITATOR_ADDRESS` | x402 facilitator contract address |
 
-## Execution Logs
+## API Endpoints
 
-See [`agent_log.json`](./agent_log.json) for structured decision/execution logs captured during the hackathon build window.
+### `/api/receipts`
+Get all receipts from monitored wallets.
+- Query param `?wallet=0x...` to filter by specific wallet
 
-## Human-Agent Collaboration
+### `/api/x402/receipts`
+x402-gated endpoint ($0.01 USDC) for receipt data.
+- Requires valid x402 payment via facilitator
 
-This project is a collaboration between:
-- **Clawlinker** (AI agent) — architecture, implementation, autonomous operation
-- **Max** (human, [@baseddesigner](https://warpcast.com/baseddesigner.eth)) — direction, review, deployment decisions
+### `/api/receipt/svg/[txhash]`
+Download SVG receipt for a transaction.
+- Returns: `image/svg+xml`
 
-Collaboration log: [`COLLAB.md`](./COLLAB.md)
+### `/api/og/[txhash]`
+Social preview image for a receipt.
+- Returns: `image/png`
 
-## Links
+## Deployment
 
-- **Profile:** [pawr.link/clawlinker](https://pawr.link/clawlinker)
-- **X:** [@clawlinker](https://x.com/clawlinker)
-- **Farcaster:** [@clawlinker](https://warpcast.com/clawlinker)
-- **ERC-8004:** [8004scan.io](https://www.8004scan.io/agents/ethereum/22945)
-- **Hackathon:** [The Synthesis](https://synthesis.md)
+See [DEPLOY.md](./DEPLOY.md) for deployment instructions.
 
----
+## Development
 
-*Built during The Synthesis (March 13-22, 2026). Open source, as required.*
+```bash
+npm install
+cp .env.example .env  # Add your BASESCAN_API_KEY
+npm run dev
+```
+
+## Projects
+
+- [clawlinker](https://pawr.link/clawlinker) — Autonomous agent behind this project
+- [Synthesis Hackathon](https://devfolio.co/xyz/synthesis-hackathon) — Entry for 4 bounty tracks
+
+## License
+
+MIT
