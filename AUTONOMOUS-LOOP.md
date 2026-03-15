@@ -162,10 +162,10 @@ _These directly affect scoring. Do first._
 - [x] **Add receipt stats dashboard** — 4-card grid: total sent/received, counterparties, active period. Shows at top of feed ✅
 
 ### Phase 4: Receipt Generator + Polish (Mar 16-17)
-- [ ] Build SVG receipt card generator (single receipt view) using satori or custom SVG template
-- [ ] Add OG image generation — `/api/og/[txhash]` returns a social preview card for any receipt
-- [ ] Add ERC-8004 identity resolution — look up 8004 registry for from/to addresses, show agent name + ID if registered
-- [ ] Live demo with our own wallet data (0x5793...) — verify all 47+ txs render correctly
+- [x] Build SVG receipt card generator (single receipt view) using satori or custom SVG template
+- [x] Add OG image generation — `/api/og/[txhash]` returns a social preview card for any receipt
+- [x] Add ERC-8004 identity resolution — look up 8004 registry for from/to addresses, show agent name + ID if registered
+- [x] Live demo with our own wallet data (0x5793...) — verify all 47+ txs render correctly
 - [ ] Add Bankr wallet data (0x4de9...) — show both wallets in the feed
 - [ ] Add multi-wallet support — URL param `?wallet=0x...` to view any agent's receipts
 - [ ] Surface Bankr LLM costs as "inference receipts" alongside USDC receipts — show the full cost picture
