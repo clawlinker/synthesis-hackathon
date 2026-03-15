@@ -1,29 +1,13 @@
 import { type Receipt } from '@/app/types'
+import type { InferenceLogEntry } from './types'
 
 // Parse agent_log.json to extract LLM inference costs as "inference receipts"
 // Each entry becomes a receipt showing: service (LLM model), cost, timestamp, direction=incoming
 
-export interface InferenceLogEntry {
-  timestamp: string
-  model: string
-  model_cost_usd: number
-  action?: string
-  description?: string
-  phase?: string
-  cron?: string
-}
-
 export function loadInferenceReceipts(filePath: string): Receipt[] {
-  let entries: any[] = []
-
-  try {
-    // We'll read this at runtime via the API route
-    // For now, return empty array - will be populated by fetch
-    return []
-  } catch (e) {
-    console.error('Failed to parse agent_log.json:', e)
-    return []
-  }
+  // We'll read this at runtime via the API route
+  // For now, return empty array - will be populated by fetch
+  return []
 }
 
 // Sample inference receipts for demonstration (when agent_log.json isn't accessible)
