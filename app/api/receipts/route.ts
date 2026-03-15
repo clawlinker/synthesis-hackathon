@@ -5,7 +5,6 @@ import { sampleReceipts } from '@/data/sample-receipts'
 import { ADDRESS_LABELS, CONTRACTS, RATE_LIMIT, SERVICE_LABELS } from '@/data/config'
 import { AGENT_REGISTRY, resolveAgent } from '@/data/erc8004-resolver'
 import { sampleInferenceReceipts } from '@/data/inference-receipts'
-import type { BasescanApiResponse } from '@/data/types'
 // Import agent_log.json as a module — bundled at build time, no fs.readFileSync on serverless
 import agentLogRaw from '@/agent_log.json'
 // Build-time cached receipts (populated by scripts/fetch-receipts.js during prebuild)
