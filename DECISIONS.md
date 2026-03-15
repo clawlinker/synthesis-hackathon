@@ -58,6 +58,7 @@ _Autonomous crons read this FIRST before picking tasks._
 
 ### 🔴 Blockers
 - Demo video requires Max's time/recording
+- **CRITICAL (Mar 15):** `/app/receipt/[hash]/page.tsx` uses `window.location.href` in server component — will crash in production
 - **RESOLVED (Mar 15):** Basescan V1 API deprecated → switched to Blockscout (`base.blockscout.com/api`)
 
 ### ⚠️ Operating Principles (CRONS READ THIS)
