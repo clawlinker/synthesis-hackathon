@@ -93,9 +93,21 @@ export default function Home() {
       <ReceiptStats receipts={receipts} />
 
       <div className="space-y-3">
-        {receipts.map((receipt) => (
-          <ReceiptCard key={receipt.hash} receipt={receipt} />
-        ))}
+        {receipts.map((receipt, index) => {
+          // Check if this is the first inference receipt to show the section header
+          const prevReceipt = index > 0 ? receipts[index - 1] : null
+          const isSent = receipt.direction === 'sent'
+          const prevSent = prevReceipt ? prevReceipt.direction === 'sent' : true
+          const isFirstInference = !isSent && prevSent
+          
+          return (
+            <ReceiptCard 
+              key={receipt.hash} 
+              receipt={receipt} 
+              isFirstInference={isFirstInference} 
+            />
+          )
+        })}
       </div>
 
       {receipts.length > 0 && (

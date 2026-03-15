@@ -753,5 +753,23 @@
       "tests/data-models.test.ts",
       "tests/README.md"
     ]
+  },
+  {
+    "timestamp": "2026-03-15T09:31:50Z",
+    "phase": "execute",
+    "action": "surface_inference_receipts_prominently",
+    "description": "Added visual section header for Bankr LLM inference receipts in UI to make them more prominent in demo",
+    "tools_used": [
+      "read",
+      "edit"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "decision": "DECISIONS.md Priority Action #3: Surface inference receipts more prominently in demo. ReceiptCard now shows section header when inference receipts appear after USDC receipts.",
+    "outcome": "success",
+    "artifacts": [
+      "components/ReceiptCard.tsx",
+      "app/page.tsx"
+    ]
   }
 ]

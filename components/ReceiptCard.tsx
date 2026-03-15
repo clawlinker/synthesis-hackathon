@@ -45,12 +45,12 @@ function isInferenceReceipt(receipt: Receipt): boolean {
   return receipt.from === '0x0000000000000000000000000000000000000000' && receipt.tokenSymbol === 'USD'
 }
 
-export function ReceiptCard({ receipt }: { receipt: Receipt }) {
+export function ReceiptCard({ receipt, isFirstInference }: { receipt: Receipt; isFirstInference?: boolean }) {
   const isSent = receipt.direction === 'sent'
   const isInference = isInferenceReceipt(receipt)
 
   return (
-    <div className="group rounded-xl p-4 transition-colors"
+    <div className={`group rounded-xl p-4 transition-colors ${isFirstInference ? 'mt-4' : ''}`}
       style={{
         border: '1px solid var(--color-border-main)',
         background: 'var(--color-bg-card)',
@@ -58,15 +58,23 @@ export function ReceiptCard({ receipt }: { receipt: Receipt }) {
       onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-bg-card-hover)'}
       onMouseLeave={(e) => e.currentTarget.style.background = 'var(--color-bg-card)'}
     >
+      {/* Inference Section Header */}
+      {isFirstInference && (
+        <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>
+          <span className="inline-block w-2 h-2 rounded-full" style={{ background: 'var(--color-text-secondary)' }}></span>
+          LLM Inference Receipts (Bankr LLM Costs)
+        </div>
+      )}
+
       {/* Header: direction + amount */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <span className={`text-sm font-medium px-2 py-0.5 rounded-full ${
             isSent
               ? 'bg-red-500/10 text-red-400'
-              : 'bg-green-500/10 text-green-400'
+              : 'bg-indigo-500/10 text-indigo-400'
           }`}>
-            {isSent ? '↑ Sent' : isInference ? '💰 Inference' : '↓ Received'}
+            {isSent ? '↑ Sent' : '💰 Inference'}
           </span>
           {receipt.service && (
             <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
