@@ -195,7 +195,7 @@ _These differentiate "good enough" from winner. Use budget aggressively._
 - [x] **DEPLOY LIVE NOW** — Vercel or similar. Judges need to see it working. This is blocking everything else. ✅
 - [ ] **Record demo video (Max)** — 60-second screencast showing: landing hero → filter/search → multi-chain → x402 endpoint → receipt verification. Critical for judge experience.
 - [x] **UPGRADE models for final polish** — Use Bankr Claude Sonnet ($3-5) for UI polish, animations, microinteractions. We have $185 credits, spend $30 to make it feel premium. ✅
-- [ ] **Add "judge mode"** — Special view for agentic judges showing: live agent_log.json feed, cost transparency dashboard, build process timeline. Self-referential demo.
+- [x] **Add "judge mode"** — Special view for agentic judges showing: live agent_log.json feed, cost transparency dashboard, build process timeline. Self-referential demo. ✅
 - [ ] **LLM Cost Receipts** — Make inference receipts clickable to show model breakdowns (input/output tokens, exact cost). Shows budget awareness depth.
 - [ ] **Agent personality demo** — `/demo` page with embedded chatbot showing agent interacting with its own receipt data. Judges see autonomy.
 - [ ] **Submit early** — Get feedback before Mar 18 judging, iterate quickly.
@@ -221,11 +221,9 @@ _These differentiate "good enough" from winner. Use budget aggressively._
 
 ## Pending External Input
 
-**Current state (Mar 15 13:00 UTC):** UI polish complete. Next task: Receipt filtering + search.
+**Current state (Mar 15 16:30 UTC):** Judge mode dashboard complete. All autonomous tasks finished pending Max's demo video.
 
 | Task | Blocked on | Status |
 |------|------------|--------|
 | Record demo video | Max's availability | ⏳ Waiting |
 | Iterate on judging feedback | Mar 18 judging results | ⏳ Future |
-
-**Next autonomous task:** Receipt filtering + search — filter by direction (sent/received), amount range, date range; search by tx hash or address.

@@ -171,6 +171,17 @@ export default function Home() {
             </svg>
             Star on GitHub
           </a>
+          
+          <a
+            href="/judge"
+            className="inline-flex items-center justify-center px-6 py-3 rounded-xl font-semibold transition-all duration-200 hover:bg-white/5 active:scale-95 border border-white/10"
+            style={{ color: 'var(--color-text-primary)' }}
+          >
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Judge Mode
+          </a>
         </div>
         
         <div className="pt-6 flex items-center justify-center gap-6 text-sm text-slate-500">

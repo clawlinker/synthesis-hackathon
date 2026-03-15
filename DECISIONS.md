@@ -16,6 +16,7 @@ _Autonomous crons read this FIRST before picking tasks._
 - **ERC-8004 registration tx:** Sample receipt for Clawlinker's Ethereum mainnet registration (0x8004 contract).
 - **Chain ID display:** Chain selector shows network name + ID (Base: 8453, Ethereum: 1).
 - **Critical bug fix:** Fixed server-side `window.location.href` usage in `/receipt/[hash]` page — replaced with static URL construction to prevent production crash.
+- **Judge mode dashboard:** Self-referential dashboard showing agent_log.json feed, cost transparency breakdown, and git commit timeline. `/judge` page with API endpoints `/api/judge/log` and `/api/judge/costs`.
 
 ## Critical Gaps
 
