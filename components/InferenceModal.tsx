@@ -2,6 +2,10 @@
 
 import { type ModelInfo } from '@/app/types'
 import { useEffect, useRef } from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 
 interface InferenceModalProps {
   isOpen: boolean
@@ -17,12 +21,9 @@ interface InferenceModalProps {
 export function InferenceModal({ isOpen, onClose, receipt }: InferenceModalProps) {
   const modalRef = useRef<HTMLDivElement>(null)
 
-  // Close on Escape key
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === 'Escape') {
-        onClose()
-      }
+      if (event.key === 'Escape') onClose()
     }
 
     if (isOpen) {
@@ -39,6 +40,10 @@ export function InferenceModal({ isOpen, onClose, receipt }: InferenceModalProps
   if (!isOpen || !receipt) return null
 
   const { service, amount, modelInfo } = receipt
+  const inputPct = modelInfo
+    ? Math.round((modelInfo.inputCost / (modelInfo.inputCost + modelInfo.outputCost)) * 100)
+    : 0
+  const outputPct = 100 - inputPct
 
   return (
     <div
@@ -48,192 +53,106 @@ export function InferenceModal({ isOpen, onClose, receipt }: InferenceModalProps
     >
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300"
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
       />
 
-      {/* Modal Content */}
-      <div
+      {/* Modal */}
+      <Card
         ref={modalRef}
-        className="relative w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-[var(--color-bg-primary)] shadow-2xl transition-all duration-300"
-        style={{
-          animation: 'scaleIn 0.2s ease-out forwards',
-        }}
+        className="relative w-full max-w-md overflow-hidden shadow-2xl animate-in fade-in-0 zoom-in-95 duration-200"
       >
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-white/5 bg-white/5 p-4">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 bg-muted/50 pb-4">
           <div className="flex items-center gap-2">
-            <span
-              className="inline-flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-bold"
-              style={{ background: 'var(--color-usdc)', color: 'black' }}
-            >
+            <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-usdc text-[10px] font-bold text-black">
               💰
             </span>
-            <h3 className="text-sm font-semibold" style={{ color: 'var(--color-text-primary)' }}>
-              LLM Cost Breakdown
-            </h3>
+            <CardTitle className="text-sm">LLM Cost Breakdown</CardTitle>
           </div>
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={onClose}
-            className="rounded-lg p-1.5 hover:bg-white/10 transition-colors"
+            className="h-8 w-8"
             aria-label="Close modal"
           >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
-          </button>
-        </div>
+          </Button>
+        </CardHeader>
 
-        {/* Body */}
-        <div className="p-5 space-y-5">
-          {/* Service info */}
+        <CardContent className="space-y-5 pt-5">
+          {/* Service */}
           <div className="space-y-1">
-            <span
-              className="text-[10px] uppercase tracking-wider"
-              style={{ color: 'var(--color-text-muted)' }}
-            >
-              Service
-            </span>
-            <p className="text-sm leading-relaxed" style={{ color: 'var(--color-text-primary)' }}>
-              {service}
-            </p>
+            <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Service</span>
+            <p className="text-sm leading-relaxed">{service}</p>
           </div>
 
           {/* Total Cost */}
-          <div className="flex items-end justify-between rounded-xl bg-white/5 p-4">
-            <div className="space-y-1">
-              <span
-                className="text-[10px] uppercase tracking-wider"
-                style={{ color: 'var(--color-text-muted)' }}
-              >
-                Total Cost
-              </span>
-              <p className="text-2xl font-bold" style={{ color: 'var(--color-text-primary)' }}>
-                ${amount}
-                <span className="text-sm font-medium" style={{ color: 'var(--color-text-muted)' }}>
-                  {' '}USD
-                </span>
-              </p>
-            </div>
-            <div className="text-right">
-              <span
-                className="inline-flex rounded-full px-2 py-1 text-[10px] font-medium"
-                style={{ background: 'var(--color-usdc)/10', color: 'var(--color-usdc)' }}
-              >
+          <Card className="bg-muted/50">
+            <CardContent className="flex items-end justify-between p-4">
+              <div className="space-y-1">
+                <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Total Cost</span>
+                <p className="text-2xl font-bold tabular-nums">
+                  ${amount}
+                  <span className="ml-1 text-sm font-medium text-muted-foreground">USD</span>
+                </p>
+              </div>
+              <Badge variant="outline" className="text-usdc border-usdc/30">
                 Bankr LLM
-              </span>
-            </div>
-          </div>
+              </Badge>
+            </CardContent>
+          </Card>
 
-          {/* Model details if available */}
+          {/* Model Details */}
           {modelInfo && (
-            <div className="space-y-3">
-              <span
-                className="text-[10px] uppercase tracking-wider"
-                style={{ color: 'var(--color-text-muted)' }}
-              >
-                Model Details
-              </span>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div className="rounded-xl bg-white/5 p-3">
-                  <span
-                    className="block text-[10px] uppercase tracking-wider"
-                    style={{ color: 'var(--color-text-muted)' }}
-                  >
-                    Model
-                  </span>
-                  <p className="text-xs font-medium mt-0.5" style={{ color: 'var(--color-text-primary)' }}>
-                    {modelInfo.model}
-                  </p>
-                </div>
-
-                <div className="rounded-xl bg-white/5 p-3">
-                  <span
-                    className="block text-[10px] uppercase tracking-wider"
-                    style={{ color: 'var(--color-text-muted)' }}
-                  >
-                    Tokens
-                  </span>
-                  <p className="text-xs font-medium mt-0.5" style={{ color: 'var(--color-text-primary)' }}>
-                    {modelInfo.tokens.toLocaleString()}
-                  </p>
-                </div>
-
-                <div className="rounded-xl bg-white/5 p-3">
-                  <span
-                    className="block text-[10px] uppercase tracking-wider"
-                    style={{ color: 'var(--color-text-muted)' }}
-                  >
-                    Input Cost
-                  </span>
-                  <p className="text-xs font-medium mt-0.5" style={{ color: 'var(--color-text-primary)' }}>
-                    ${modelInfo.inputCost.toFixed(4)} USD
-                  </p>
-                </div>
-
-                <div className="rounded-xl bg-white/5 p-3">
-                  <span
-                    className="block text-[10px] uppercase tracking-wider"
-                    style={{ color: 'var(--color-text-muted)' }}
-                  >
-                    Output Cost
-                  </span>
-                  <p className="text-xs font-medium mt-0.5" style={{ color: 'var(--color-text-primary)' }}>
-                    ${modelInfo.outputCost.toFixed(4)} USD
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Cost breakdown bar */}
-          {modelInfo && (
-            <div className="space-y-2">
-              <div className="flex items-center justify-between text-xs">
-                <span
-                  className="text-[10px] uppercase tracking-wider"
-                  style={{ color: 'var(--color-text-muted)' }}
-                >
-                  Cost Breakdown
+            <>
+              <Separator />
+              <div className="space-y-3">
+                <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                  Model Details
                 </span>
-                <span
-                  className="text-xs font-mono"
-                  style={{ color: 'var(--color-text-secondary)' }}
-                >
-                  {Math.round((modelInfo.inputCost / (modelInfo.inputCost + modelInfo.outputCost)) * 100)}% input / {Math.round((modelInfo.outputCost / (modelInfo.inputCost + modelInfo.outputCost)) * 100)}% output
-                </span>
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { label: 'Model', value: modelInfo.model },
+                    { label: 'Tokens', value: modelInfo.tokens.toLocaleString() },
+                    { label: 'Input Cost', value: `$${modelInfo.inputCost.toFixed(4)}` },
+                    { label: 'Output Cost', value: `$${modelInfo.outputCost.toFixed(4)}` },
+                  ].map((item) => (
+                    <Card key={item.label} className="bg-muted/50">
+                      <CardContent className="p-3">
+                        <span className="block text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
+                          {item.label}
+                        </span>
+                        <p className="mt-0.5 text-xs font-medium">{item.value}</p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
               </div>
-              <div className="h-2 w-full rounded-full bg-white/10 overflow-hidden">
-                <div
-                  className="h-full rounded-full"
-                  style={{
-                    width: `${(modelInfo.inputCost / (modelInfo.inputCost + modelInfo.outputCost)) * 100}%`,
-                    background: 'var(--color-usdc)',
-                  }}
-                />
-              </div>
-            </div>
-          )}
-        </div>
 
-        {/* Footer */}
-        <div className="border-t border-white/5 bg-white/5 p-4 text-center">
-          <p className="text-[10px]" style={{ color: 'var(--color-text-muted)' }}>
-            Click to view cost breakdown for this inference receipt
-          </p>
-        </div>
-      </div>
+              {/* Cost Breakdown Bar */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                    Cost Breakdown
+                  </span>
+                  <span className="font-mono text-xs text-muted-foreground">
+                    {inputPct}% input / {outputPct}% output
+                  </span>
+                </div>
+                <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
+                  <div
+                    className="h-full rounded-full bg-usdc transition-all duration-500"
+                    style={{ width: `${inputPct}%` }}
+                  />
+                </div>
+              </div>
+            </>
+          )}
+        </CardContent>
+      </Card>
     </div>
   )
 }

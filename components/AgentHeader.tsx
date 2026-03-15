@@ -2,6 +2,8 @@
 
 import { AGENT } from '@/app/types'
 import { useEffect, useState } from 'react'
+import { Badge } from '@/components/ui/badge'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export function AgentHeader({ receiptCount, source }: { receiptCount: number; source: string }) {
   const [mounted, setMounted] = useState(false)
@@ -14,15 +16,15 @@ export function AgentHeader({ receiptCount, source }: { receiptCount: number; so
 
   if (isLoading && !mounted) {
     return (
-      <header className="mb-8 animate-pulse-subtle">
+      <header className="mb-8">
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full skeleton" style={{ border: '3px solid var(--color-usdc)' }} />
-          <div>
-            <div className="w-32 h-6 skeleton mb-2" />
-            <div className="w-48 h-4 skeleton" />
+          <Skeleton className="h-16 w-16 rounded-full ring-2 ring-usdc/30" />
+          <div className="space-y-2">
+            <Skeleton className="h-6 w-32" />
+            <Skeleton className="h-4 w-48" />
           </div>
         </div>
-        <div className="mt-4 w-64 h-10 skeleton rounded-lg" />
+        <Skeleton className="mt-4 h-10 w-64 rounded-lg" />
       </header>
     )
   }
@@ -33,42 +35,33 @@ export function AgentHeader({ receiptCount, source }: { receiptCount: number; so
         <img
           src={AGENT.avatar}
           alt={AGENT.name}
-          className="w-16 h-16 rounded-full object-cover transition-transform duration-300 group-hover:scale-105"
-          style={{ border: '3px solid var(--color-usdc)' }}
+          className="h-16 w-16 rounded-full object-cover ring-2 ring-usdc/50 transition-transform duration-300 hover:scale-105"
         />
         <div>
-          <h1 className="text-2xl font-bold mb-1" style={{ color: 'var(--color-text-primary)' }}>
+          <h1 className="text-2xl font-bold tracking-tight">
             {AGENT.name}
           </h1>
-          <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
+          <p className="text-sm text-muted-foreground">
             ERC-8004 #{AGENT.id} • <span className="font-mono">{AGENT.ens}</span>
           </p>
         </div>
       </div>
 
-      <div
-        className={`mt-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors duration-200 ${
-          source === 'live' ? 'border-green-500/20' : ''
-        }`}
-        style={{
-          background: 'var(--color-bg-card)',
-          border: '1px solid var(--color-border-main)',
-        }}
-      >
-        <span
-          className={`w-2 h-2 rounded-full ${
-            source === 'live'
-              ? 'bg-green-500 animate-pulse'
-              : 'bg-gray-500 animate-pulse-subtle'
-          }`}
-        />
-        <span className="font-medium" style={{ color: 'var(--color-text-primary)' }}>
-          {receiptCount} receipts
-        </span>
-        <span className="opacity-50">|</span>
-        <span style={{ color: 'var(--color-text-muted)' }}>
-          {source === 'live' ? 'Live' : 'Sample'} data
-        </span>
+      <div className="mt-4 inline-flex items-center gap-2">
+        <Badge variant="secondary" className="gap-2 px-3 py-1.5 text-sm">
+          <span
+            className={`h-2 w-2 rounded-full ${
+              source === 'live'
+                ? 'bg-success animate-pulse'
+                : 'bg-muted-foreground animate-pulse'
+            }`}
+          />
+          <span className="font-medium">{receiptCount} receipts</span>
+          <span className="text-muted-foreground">•</span>
+          <span className="text-muted-foreground">
+            {source === 'live' ? 'Live' : 'Sample'} data
+          </span>
+        </Badge>
       </div>
     </header>
   )

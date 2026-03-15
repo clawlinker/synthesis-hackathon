@@ -3,6 +3,8 @@
 import { type Receipt } from '@/app/types'
 import { useState } from 'react'
 import { InferenceModal } from './InferenceModal'
+import { Card } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 
 function shortenAddress(addr: string): string {
   return `${addr.slice(0, 6)}…${addr.slice(-4)}`
@@ -20,29 +22,25 @@ function formatTime(ts: number): string {
 function AgentBadge({ agent, align = 'left' }: { agent: Receipt['fromAgent'] | Receipt['toAgent'], align?: 'left' | 'right' }) {
   if (!agent) return null
   
-  const isFrom = align === 'left'
-  
   return (
     <a
       href={`https://www.8004scan.io/agents/ethereum/${agent.id}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-2 px-2 py-1.5 rounded-lg transition-all duration-200 hover:bg-white/5 active:scale-95 touch-target"
-      style={{ background: 'rgba(38, 161, 123, 0.1)' }}
+      className="inline-flex items-center gap-2 rounded-lg bg-success/10 px-2 py-1.5 transition-all duration-200 hover:bg-success/20 active:scale-95"
     >
       {agent.avatar && (
-        <img src={agent.avatar} alt="" className="w-5 h-5 rounded-full object-cover" />
+        <img src={agent.avatar} alt="" className="h-5 w-5 rounded-full object-cover" />
       )}
-      <div className="flex flex-col items-start" style={{ alignItems: align === 'left' ? 'flex-start' : 'flex-end' }}>
-        <span className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--color-text-muted)' }}>Agent</span>
+      <div className="flex flex-col" style={{ alignItems: align === 'left' ? 'flex-start' : 'flex-end' }}>
+        <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Agent</span>
         <span className="text-xs font-semibold">{agent.name}</span>
       </div>
-      <span className="text-[10px] font-mono opacity-50">ERC-8004 #{agent.id}</span>
+      <span className="font-mono text-[10px] text-muted-foreground/50">ERC-8004 #{agent.id}</span>
     </a>
   )
 }
 
-// Check if receipt is an inference receipt (from null address, USD token)
 function isInferenceReceipt(receipt: Receipt): boolean {
   return receipt.from === '0x0000000000000000000000000000000000000000' && receipt.tokenSymbol === 'USD'
 }
@@ -60,51 +58,37 @@ export function ReceiptCard({ receipt, isFirstInference }: { receipt: Receipt; i
 
   return (
     <>
-      <div
+      <Card
         onClick={handleReceiptClick}
-        className={`group rounded-xl p-4 transition-all duration-300 ease-out cursor-pointer ${isFirstInference ? 'mt-4' : ''} hover:bg-white/5 active:scale-[0.99]`}
-        style={{
-          border: '1px solid var(--color-border-main)',
-          background: 'var(--color-bg-card)',
-          animation: 'fadeIn 0.5s ease-out forwards',
-          opacity: 0,
-          transform: 'translateY(10px)',
-        }}
+        className={`group cursor-pointer p-4 transition-all duration-200 hover:bg-accent/50 active:scale-[0.99] animate-fade-in ${
+          isFirstInference ? 'mt-4' : ''
+        }`}
       >
         {/* Inference Section Header */}
         {isFirstInference && (
-          <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider" style={{ color: 'var(--color-text-secondary)' }}>
-            <span className="inline-block w-2 h-2 rounded-full" style={{ background: 'var(--color-text-secondary)' }}></span>
-            LLM Inference Receipts (Bankr LLM Costs)
+          <div className="mb-3 flex items-center gap-2">
+            <span className="inline-block h-2 w-2 rounded-full bg-muted-foreground" />
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+              LLM Inference Receipts (Bankr LLM Costs)
+            </span>
           </div>
         )}
 
         {/* Header: direction + amount */}
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <span
-              className={`text-sm font-medium px-2 py-0.5 rounded-full transition-all duration-200 ${
-                isSent
-                  ? 'bg-red-500/10 text-red-400 hover:bg-red-500/20'
-                  : 'bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20'
-              }`}
-            >
+            <Badge variant={isSent ? 'destructive' : 'default'} className="text-xs">
               {isSent ? '↑ Sent' : '💰 Inference'}
-            </span>
+            </Badge>
             {receipt.service && (
-              <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>
-                {receipt.service}
-              </span>
+              <span className="text-xs text-muted-foreground">{receipt.service}</span>
             )}
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="text-lg font-semibold transition-colors duration-200">
+            <span className="text-lg font-semibold tabular-nums">
               {isSent ? '-' : '+'}{receipt.amount}
             </span>
-            <span
-              className="text-sm font-medium transition-colors duration-200"
-              style={{ color: isInference ? 'var(--color-text-primary)' : 'var(--color-usdc)' }}
-            >
+            <span className={`text-sm font-medium ${isInference ? '' : 'text-usdc'}`}>
               {isInference ? 'USD' : 'USDC'}
             </span>
           </div>
@@ -112,28 +96,28 @@ export function ReceiptCard({ receipt, isFirstInference }: { receipt: Receipt; i
 
         {/* Agent Badges */}
         <div className="grid grid-cols-2 gap-3 mb-3">
-          <div className="flex flex-col gap-1" style={{ alignItems: 'flex-start' }}>
-            <span className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--color-text-muted)' }}>From</span>
+          <div className="flex flex-col gap-1 items-start">
+            <span className="text-[10px] uppercase tracking-wider text-muted-foreground">From</span>
             <AgentBadge agent={receipt.fromAgent} align="left" />
           </div>
-          <div className="flex flex-col gap-1" style={{ alignItems: 'flex-end' }}>
-            <span className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--color-text-muted)' }}>To</span>
+          <div className="flex flex-col gap-1 items-end">
+            <span className="text-[10px] uppercase tracking-wider text-muted-foreground">To</span>
             <AgentBadge agent={receipt.toAgent} align="right" />
           </div>
         </div>
 
         {/* Addresses (fallback) */}
-        <div className="flex flex-col gap-1 text-sm mb-3" style={{ color: 'var(--color-text-secondary)' }}>
+        <div className="flex flex-col gap-1 text-sm text-muted-foreground mb-3">
           {!receipt.fromAgent && (
             <div className="flex items-center gap-2">
-              <span className="w-8 shrink-0 text-[10px] uppercase tracking-wider" style={{ color: 'var(--color-text-muted)' }}>From</span>
+              <span className="w-8 shrink-0 text-[10px] uppercase tracking-wider text-muted-foreground/70">From</span>
               <span className="font-medium truncate">{receipt.fromLabel || shortenAddress(receipt.from)}</span>
               <code className="hidden sm:inline font-mono text-[10px] opacity-50">{shortenAddress(receipt.from)}</code>
             </div>
           )}
           {!receipt.toAgent && (
             <div className="flex items-center gap-2">
-              <span className="w-8 shrink-0 text-[10px] uppercase tracking-wider" style={{ color: 'var(--color-text-muted)' }}>To</span>
+              <span className="w-8 shrink-0 text-[10px] uppercase tracking-wider text-muted-foreground/70">To</span>
               <span className="font-medium truncate">{receipt.toLabel || shortenAddress(receipt.to)}</span>
               <code className="hidden sm:inline font-mono text-[10px] opacity-50">{shortenAddress(receipt.to)}</code>
             </div>
@@ -141,11 +125,11 @@ export function ReceiptCard({ receipt, isFirstInference }: { receipt: Receipt; i
         </div>
 
         {/* Footer: time + tx link */}
-        <div className="flex items-center justify-between text-xs" style={{ color: 'var(--color-text-muted)' }}>
+        <div className="flex items-center justify-between text-xs text-muted-foreground">
           <span>{formatTime(receipt.timestamp)}</span>
           {isInference ? (
             receipt.modelInfo ? (
-              <span className="font-mono opacity-60 cursor-help hover:opacity-100 transition-opacity">
+              <span className="font-mono cursor-help opacity-60 hover:opacity-100 transition-opacity">
                 💰 Cost Breakdown
               </span>
             ) : (
@@ -156,15 +140,14 @@ export function ReceiptCard({ receipt, isFirstInference }: { receipt: Receipt; i
               href={`https://basescan.org/tx/${receipt.hash}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-mono transition-colors duration-200 hover:text-white"
+              className="font-mono transition-colors hover:text-foreground"
             >
               {receipt.hash.slice(0, 10)}…
             </a>
           )}
         </div>
-      </div>
+      </Card>
 
-      {/* Inference Cost Modal */}
       <InferenceModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

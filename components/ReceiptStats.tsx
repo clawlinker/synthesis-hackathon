@@ -2,6 +2,7 @@
 
 import { type Receipt } from '@/app/types'
 import { useEffect, useState } from 'react'
+import { Card, CardContent } from '@/components/ui/card'
 
 export function ReceiptStats({ receipts }: { receipts: Receipt[] }) {
   const [mounted, setMounted] = useState(false)
@@ -12,7 +13,6 @@ export function ReceiptStats({ receipts }: { receipts: Receipt[] }) {
 
   if (receipts.length === 0) return null
 
-  // Separate USDC and inference receipts
   const usdcReceipts = receipts.filter((r) => r.tokenSymbol === 'USDC')
   const inferenceReceipts = receipts.filter((r) => r.tokenSymbol === 'USD')
 
@@ -24,11 +24,7 @@ export function ReceiptStats({ receipts }: { receipts: Receipt[] }) {
     .reduce((acc, r) => acc + parseFloat(r.amount), 0)
   const inferenceCost = inferenceReceipts
     .reduce((acc, r) => acc + parseFloat(r.amount), 0)
-  const uniqueCounterparties = new Set(
-    usdcReceipts.flatMap((r) => [r.from, r.to])
-  ).size
 
-  // Calculate active period (simplified - could use actual min/max timestamps)
   const activeDays = Math.max(
     1,
     Math.round(
@@ -39,37 +35,30 @@ export function ReceiptStats({ receipts }: { receipts: Receipt[] }) {
 
   const stats = [
     { label: 'Total Sent', value: `${totalSent.toFixed(2)} USDC`, delay: 0 },
-    { label: 'Total Received', value: `${totalReceived.toFixed(2)} USDC`, delay: 100 },
-    { label: 'LLM Inference', value: `$${inferenceCost.toFixed(3)}`, delay: 200 },
-    {
-      label: 'Active Period',
-      value: `${activeDays}d`,
-      delay: 300,
-    },
+    { label: 'Total Received', value: `${totalReceived.toFixed(2)} USDC`, delay: 75 },
+    { label: 'LLM Inference', value: `$${inferenceCost.toFixed(3)}`, delay: 150 },
+    { label: 'Active Period', value: `${activeDays}d`, delay: 225 },
   ]
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
       {stats.map((stat, idx) => (
-        <div
+        <Card
           key={idx}
-          className={`p-4 rounded-xl transition-all duration-500 ease-out ${
+          className={`transition-all duration-500 ease-out ${
             mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
-          style={{
-            background: 'var(--color-bg-card)',
-            border: '1px solid var(--color-border-main)',
-            animation: `fadeIn 0.5s ease-out ${stat.delay}ms forwards`,
-            animationFillMode: 'forwards',
-          }}
+          style={{ animationDelay: `${stat.delay}ms` }}
         >
-          <div className="text-xs uppercase tracking-wider mb-1" style={{ color: 'var(--color-text-muted)' }}>
-            {stat.label}
-          </div>
-          <div className="text-lg font-semibold" style={{ color: 'var(--color-text-primary)' }}>
-            {stat.value}
-          </div>
-        </div>
+          <CardContent className="p-4">
+            <div className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground mb-1">
+              {stat.label}
+            </div>
+            <div className="text-lg font-semibold tracking-tight">
+              {stat.value}
+            </div>
+          </CardContent>
+        </Card>
       ))}
     </div>
   )
