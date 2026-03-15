@@ -12,23 +12,38 @@ export function ReceiptStats({ receipts }: { receipts: Receipt[] }) {
 
   if (receipts.length === 0) return null
 
-  const totalSent = receipts
+  // Separate USDC and inference receipts
+  const usdcReceipts = receipts.filter((r) => r.tokenSymbol === 'USDC')
+  const inferenceReceipts = receipts.filter((r) => r.tokenSymbol === 'USD')
+
+  const totalSent = usdcReceipts
     .filter((r) => r.direction === 'sent')
     .reduce((acc, r) => acc + parseFloat(r.amount), 0)
-  const totalReceived = receipts
+  const totalReceived = usdcReceipts
     .filter((r) => r.direction === 'received')
     .reduce((acc, r) => acc + parseFloat(r.amount), 0)
+  const inferenceCost = inferenceReceipts
+    .reduce((acc, r) => acc + parseFloat(r.amount), 0)
   const uniqueCounterparties = new Set(
-    receipts.flatMap((r) => [r.from, r.to])
+    usdcReceipts.flatMap((r) => [r.from, r.to])
   ).size
+
+  // Calculate active period (simplified - could use actual min/max timestamps)
+  const activeDays = Math.max(
+    1,
+    Math.round(
+      (new Date().getTime() / 1000 - Math.min(...receipts.map((r) => r.timestamp))) /
+        86400
+    )
+  )
 
   const stats = [
     { label: 'Total Sent', value: `${totalSent.toFixed(2)} USDC`, delay: 0 },
     { label: 'Total Received', value: `${totalReceived.toFixed(2)} USDC`, delay: 100 },
-    { label: 'Counterparties', value: uniqueCounterparties.toString(), delay: 200 },
+    { label: 'LLM Inference', value: `$${inferenceCost.toFixed(3)}`, delay: 200 },
     {
       label: 'Active Period',
-      value: '24h',
+      value: `${activeDays}d`,
       delay: 300,
     },
   ]

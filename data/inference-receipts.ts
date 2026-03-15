@@ -1,13 +1,75 @@
 import { type Receipt } from '@/app/types'
-import type { InferenceLogEntry } from './types'
+import * as fs from 'fs'
+import * as path from 'path'
+
+// Inference log entry type from agent_log.json
+export interface InferenceLogEntry {
+  timestamp: string
+  phase: string
+  action: string
+  description: string
+  tools_used: string[]
+  model: string
+  model_cost_usd: number
+  decision: string
+  outcome: string
+  artifacts: string[]
+  commit?: string
+}
 
 // Parse agent_log.json to extract LLM inference costs as "inference receipts"
 // Each entry becomes a receipt showing: service (LLM model), cost, timestamp, direction=incoming
 
 export function loadInferenceReceipts(filePath: string): Receipt[] {
-  // We'll read this at runtime via the API route
-  // For now, return empty array - will be populated by fetch
-  return []
+  try {
+    // Resolve absolute path
+    const fullPath = path.resolve(filePath)
+    
+    if (!fs.existsSync(fullPath)) {
+      console.warn(`agent_log.json not found at ${fullPath}, using sample data`)
+      return []
+    }
+
+    const fileContent = fs.readFileSync(fullPath, 'utf-8')
+    const entries: InferenceLogEntry[] = JSON.parse(fileContent)
+
+    // Filter for LLM inference entries (entries with model_cost_usd > 0)
+    const inferenceEntries = entries.filter(
+      (entry) => entry.model && entry.model.includes('bankr') && entry.model_cost_usd > 0
+    )
+
+    // Map to Receipt format
+    return inferenceEntries.map((entry, index) => {
+      // Extract model name from "bankr/claude-sonnet" format
+      const modelName = entry.model.replace('bankr/', '')
+      
+      return {
+        hash: `inference-${entry.timestamp.replace(/[-:Z]/g, '-')}`,
+        from: '0x0000000000000000000000000000000000000000',
+        to: '0x5793BFc1331538C5A8028e71Cc22B43750163af8',
+        value: Math.round(entry.model_cost_usd * 1000000).toString(), // Convert USD to microUSDC
+        amount: entry.model_cost_usd.toFixed(3),
+        timestamp: new Date(entry.timestamp).getTime() / 1000,
+        blockNumber: '0',
+        direction: 'received',
+        status: 'confirmed',
+        tokenSymbol: 'USD',
+        tokenDecimal: '2',
+        service: `Bankr LLM — ${entry.action} (${modelName})`,
+        agentId: '22945',
+        notes: entry.description,
+        modelInfo: {
+          model: modelName,
+          inputCost: entry.model_cost_usd * 0.3, // Approximate split (30% input, 70% output)
+          outputCost: entry.model_cost_usd * 0.7,
+          tokens: Math.round(entry.model_cost_usd * 1000000), // Approximate token count
+        },
+      }
+    })
+  } catch (err) {
+    console.warn(`Failed to parse agent_log.json: ${err}`)
+    return []
+  }
 }
 
 // Sample inference receipts for demonstration (when agent_log.json isn't accessible)
