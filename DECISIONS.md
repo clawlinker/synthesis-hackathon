@@ -66,6 +66,9 @@ If research reveals any of these, CHANGE DIRECTION:
 - Bounty criteria don't actually match our concept → re-evaluate tracks
 - A much better idea emerges from ideation crons → evaluate and surface to Max
 
+3. Can we confirm if the tests are running in a CI environment? (added Mar 15)
+4. Are there any more edge cases for the receipt API? (added Mar 15)
+
 ## Questions for Max
 _Autonomous sessions add questions here. Max answers when available._
 
