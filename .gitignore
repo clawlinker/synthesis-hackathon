@@ -13,3 +13,5 @@ packages/erc8004-verify/node_modules/
 
 # git lock (prevents cron race conditions)
 .git-lock
+x402-temp/
+packages/erc8004-verify/dist/

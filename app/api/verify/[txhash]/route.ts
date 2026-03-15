@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { resolveAgent, AGENT_REGISTRY } from '@/data/erc8004-resolver'
 import { type Receipt } from '@/app/types'
-import sampleReceipts from '@/data/sample-receipts.json'
+import { sampleReceipts } from '@/data/sample-receipts'
 import { ADDRESS_LABELS, CONTRACTS } from '@/data/config'
 
 const BASESCAN_API = 'https://base.blockscout.com/api'

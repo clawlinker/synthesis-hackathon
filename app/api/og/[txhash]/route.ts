@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { AGENT } from '@/app/types'
-import { ADDRESS_LABELS } from '@/data/address-labels'
+import { ADDRESS_LABELS } from '@/data/config'
 
 const BASESCAN_API = 'https://api.basescan.org/api'
 

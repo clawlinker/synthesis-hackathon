@@ -374,7 +374,8 @@
       "session_cost_usd": 0.0,
       "daily_budget_usd": 0.5,
       "remaining_usd": 189.94
-    }
+    },
+    "action": "add_bankr_llm_cost_tracking"
   },
   {
     "timestamp": "2026-03-14T23:02:02Z",
@@ -1678,5 +1679,25 @@
       "bankr_balance_after": 180.17,
       "session_cost": 0.02
     }
+  },
+  {
+    "timestamp": "2026-03-15T21:56:25Z",
+    "phase": "cleanup",
+    "action": "repo_cleanup_and_dedup",
+    "description": "Removed x402-temp/ (552MB vendored SDK), cleaned packages/erc8004-verify/dist/ tracked build output, deduplicated sample-receipts (removed .json, use .ts), removed address-labels.ts (merged into config.ts), fixed malformed agent_log entry, refreshed cached-receipts.json (64 receipts)",
+    "model": "anthropic/claude-sonnet-4-6",
+    "model_cost_usd": 0.02,
+    "tools_used": [
+      "exec",
+      "edit",
+      "read"
+    ],
+    "decision": "Consolidate data files, remove bloat",
+    "outcome": "success",
+    "artifacts": [
+      "data/cached-receipts.json",
+      "agent_log.json",
+      ".gitignore"
+    ]
   }
 ]
