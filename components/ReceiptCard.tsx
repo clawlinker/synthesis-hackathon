@@ -13,11 +13,46 @@ function shortenAddress(addr: string): string {
   return `${addr.slice(0, 6)}…${addr.slice(-4)}`
 }
 
-function formatTimeShort(ts: number): string {
-  return new Date(ts * 1000).toLocaleTimeString('en-US', {
-    hour: '2-digit',
-    minute: '2-digit',
+/** Smart contextual timestamp:
+ * - < 60s  → "just now"
+ * - < 60m  → "42m ago"
+ * - < 24h  → "6h ago"
+ * - same calendar year, older → "Mar 13 · 2:34 PM"
+ * - different year → "Feb 11, 2025"
+ * Returns [short, full] tuple: short for display, full for title tooltip.
+ */
+function formatTimestamp(ts: number): [string, string] {
+  const now = Date.now()
+  const date = new Date(ts * 1000)
+  const diffMs = now - ts * 1000
+  const diffSec = Math.floor(diffMs / 1000)
+  const diffMin = Math.floor(diffSec / 60)
+  const diffHour = Math.floor(diffMin / 60)
+
+  const full = date.toLocaleString('en-US', {
+    month: 'short', day: 'numeric', year: 'numeric',
+    hour: '2-digit', minute: '2-digit',
   })
+
+  let short: string
+  if (diffSec < 60) {
+    short = 'just now'
+  } else if (diffMin < 60) {
+    short = `${diffMin}m ago`
+  } else if (diffHour < 24) {
+    short = `${diffHour}h ago`
+  } else {
+    const thisYear = new Date().getFullYear()
+    const sameYear = date.getFullYear() === thisYear
+    if (sameYear) {
+      short = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) +
+        ' · ' + date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+    } else {
+      short = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    }
+  }
+
+  return [short, full]
 }
 
 function isInferenceReceipt(receipt: Receipt): boolean {
@@ -48,6 +83,7 @@ export function ReceiptCard({ receipt }: { receipt: Receipt; isFirstInference?: 
   const isInference = isInferenceReceipt(receipt)
   const modelName = isInference ? extractModelName(receipt.service) : null
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [timeShort, timeFull] = formatTimestamp(receipt.timestamp)
 
   // Determine from/to display — prefer agent name, then label, then short address
   const fromDisplay = receipt.fromAgent?.name ||
@@ -119,7 +155,7 @@ export function ReceiptCard({ receipt }: { receipt: Receipt; isFirstInference?: 
 
         {/* Meta row: time + tx hash / inference link */}
         <div className="flex items-center justify-between mt-0.5 text-[10px] text-zinc-500">
-          <span>{formatTimeShort(receipt.timestamp)}</span>
+          <span title={timeFull}>{timeShort}</span>
           {isInference ? (
             receipt.modelInfo ? (
               <span className="text-purple-400 opacity-70 hover:opacity-100 transition-opacity cursor-pointer">
