@@ -56,7 +56,7 @@ export default async function ReceiptPage({ params }: { params: Promise<{ hash: 
       <div className="max-w-3xl mx-auto px-4 py-8">
         {/* Header */}
         <header className="mb-8 border-b border-gray-800 pb-6">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-start justify-between gap-2">
             <div>
               <h1 className="text-2xl font-bold">Agent Receipt</h1>
               <p className="text-sm text-gray-400 mt-1">

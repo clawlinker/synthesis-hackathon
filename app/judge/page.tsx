@@ -278,10 +278,10 @@ export default function JudgeModePage() {
                   <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-usdc text-[10px] font-bold text-black">
                     {commit.sha.substring(0, 7)}
                   </div>
-                  <div className="flex-1">
-                    <div className="mb-2 flex items-center justify-between">
-                      <span className="text-sm font-medium">{commit.message.split('\n')[0]}</span>
-                      <span className="text-xs text-muted-foreground">
+                  <div className="flex-1 min-w-0">
+                    <div className="mb-2 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                      <span className="text-sm font-medium break-words">{commit.message.split('\n')[0]}</span>
+                      <span className="text-xs text-muted-foreground shrink-0">
                         {new Date(commit.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                       </span>
                     </div>
@@ -322,12 +322,12 @@ export default function JudgeModePage() {
             {filteredEntries.map((entry, index) => (
               <Card key={`${entry.timestamp}-${index}`} className="hover:border-usdc/30 transition-colors">
                 <CardContent className="p-5">
-                  <div className="mb-3 flex items-start justify-between">
-                    <div className="flex items-center gap-3">
+                  <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="flex items-center gap-3 flex-wrap">
                       <Badge variant="outline" className="border-usdc/30 text-usdc">{entry.phase}</Badge>
-                      <span className="text-sm font-medium">{entry.action.replace(/_/g, ' ')}</span>
+                      <span className="text-sm font-medium break-words">{entry.action.replace(/_/g, ' ')}</span>
                     </div>
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-xs text-muted-foreground shrink-0">
                       {new Date(entry.timestamp).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </div>

@@ -27,16 +27,16 @@ function AgentBadge({ agent, align = 'left' }: { agent: Receipt['fromAgent'] | R
       href={`https://www.8004scan.io/agents/ethereum/${agent.id}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-2 rounded-lg bg-success/10 px-2 py-1.5 transition-all duration-200 hover:bg-success/20 active:scale-95"
+      className="inline-flex max-w-full items-center gap-1.5 rounded-lg bg-success/10 px-2 py-1.5 transition-all duration-200 hover:bg-success/20 active:scale-95 overflow-hidden"
     >
       {agent.avatar && (
-        <img src={agent.avatar} alt="" className="h-5 w-5 rounded-full object-cover" />
+        <img src={agent.avatar} alt="" className="h-5 w-5 shrink-0 rounded-full object-cover" />
       )}
-      <div className="flex flex-col" style={{ alignItems: align === 'left' ? 'flex-start' : 'flex-end' }}>
+      <div className="flex min-w-0 flex-col" style={{ alignItems: align === 'left' ? 'flex-start' : 'flex-end' }}>
         <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Agent</span>
-        <span className="text-xs font-semibold">{agent.name}</span>
+        <span className="text-xs font-semibold truncate max-w-[80px] sm:max-w-none">{agent.name}</span>
       </div>
-      <span className="font-mono text-[10px] text-muted-foreground/50">ERC-8004 #{agent.id}</span>
+      <span className="hidden sm:inline shrink-0 font-mono text-[10px] text-muted-foreground/50">ERC-8004 #{agent.id}</span>
     </a>
   )
 }
@@ -125,7 +125,7 @@ export function ReceiptCard({ receipt, isFirstInference }: { receipt: Receipt; i
         </div>
 
         {/* Footer: time + tx link */}
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
+        <div className="flex items-center justify-between gap-2 text-xs text-muted-foreground">
           <span>{formatTime(receipt.timestamp)}</span>
           {isInference ? (
             receipt.modelInfo ? (
