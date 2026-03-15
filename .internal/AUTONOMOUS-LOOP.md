@@ -241,7 +241,7 @@ _Source: UI-REVIEW.md — work through checklist items one by one._
 
 - [ ] Iterate based on Mar 18 agentic judging feedback — **Awaiting judging results (Mar 18)**
 - [ ] Final agent_log.json with complete cost data — **Build passes, 1400+ entries**
-- [x] Screenshots for Devfolio (4 minimum) — **Script created at scripts/generate-screenshots.sh. UI polished, ready for Max to capture.**
+- [ ] Screenshots for Devfolio (4 minimum) — **Script created at scripts/generate-screenshots.sh. UI polished, ready for Max to capture.**
 - [ ] Package and submit final on Devfolio (Mar 22) — **Awaiting Max's Devfolio access**
 
 ## How This Scores
