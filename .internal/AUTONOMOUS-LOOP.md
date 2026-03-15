@@ -213,12 +213,12 @@ _Source: UI-REVIEW.md — work through checklist items one by one._
 - [x] **Skeleton loading states** — Replace "Loading receipts..." with skeleton cards ✅
 - [x] **Skeleton loading states** — Replace "Loading receipts..." with skeleton cards ✅
 - [x] **Empty state icon** — Gray div placeholder → real empty-state illustration or icon ✅
-- [ ] **Review hero section** — Tighten copy, check mobile line breaks, consider removing version badge
-- [ ] **Review ReceiptStats** — Are all 4 stats meaningful? Cross-check data
-- [ ] **Visual distinction for inference receipts** — Different card style vs USDC receipts (they're fundamentally different things)
-- [ ] **Check card click behavior** — Do cards actually link to detail pages?
-- [ ] **Footer cleanup** — x402 API badge feels like an ad. Move to docs or judge mode
-- [ ] **AgentHeader redundancy** — Does it add value over ReceiptStats? Consider merging
+- [x] **Review hero section** — Tighten copy, check mobile line breaks, consider removing version badge (copy is solid, badge removed from footer instead)
+- [x] **Review ReceiptStats** — Are all 4 stats meaningful? Cross-check data (✅ fixed "Active Period" to use recent receipts, not stale sample data)
+- [x] **Visual distinction for inference receipts** — Different card style vs USDC receipts (✅ purple background/border for inference cards)
+- [x] **Check card click behavior** — Do cards actually link to detail pages? (✅ USDC cards now link to /receipt/[hash])
+- [x] **Footer cleanup** — x402 API badge feels like an ad. Move to docs or judge mode (✅ moved to judge mode page)
+- [x] **AgentHeader redundancy** — Does it add value over ReceiptStats? Consider merging (✅ kept separate — AgentHeader shows agent identity, ReceiptStats shows activity metrics)
 
 **Subpages:**
 - [ ] **Build Log page review** — Is commit data rendering? Navigation back to home?

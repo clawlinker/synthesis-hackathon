@@ -8,8 +8,12 @@ import { sampleInferenceReceipts } from '@/data/inference-receipts'
 import type { BasescanApiResponse } from '@/data/types'
 // Import agent_log.json as a module — bundled at build time, no fs.readFileSync on serverless
 import agentLogRaw from '@/agent_log.json'
+// Build-time cached receipts (populated by scripts/fetch-receipts.js during prebuild)
+import cachedReceiptsData from '@/data/cached-receipts.json'
 
-// Use Etherscan API V2 (BaseScan v1 is deprecated)
+// Use Blockscout REST API v2 for live fetches
+const BLOCKSCOUT_REST_API = 'https://base.blockscout.com/api/v2'
+// Etherscan V2 as fallback (requires paid plan for Base — kept for reference)
 const BASESCAN_API = 'https://api.basescan.org/v2/api'
 const ETH_BLOCKSCOUT_API = 'https://api.etherscan.io/v2/api'
 
@@ -189,69 +193,65 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
     }
     
     const contractAddress = useBase ? CONTRACTS.USDC_CONTRACT : CONTRACTS.ETH_USDC_CONTRACT
-    const apiBase = useBase ? BASESCAN_API : ETH_BLOCKSCOUT_API
+    // Note: ETH chain still uses Etherscan-compatible API (not yet migrated)
+    // For Base chain, we use Blockscout REST API v2 (see fetchFromBlockscout below)
 
-    // Fetch all wallets in parallel with Promise.allSettled
-    const fetchPromises = walletsToFetch.map(async ({ wallet, agentId }) => {
-      const params = new URLSearchParams({
-        module: 'account',
-        action: 'tokentx',
-        address: wallet,
-        contractaddress: contractAddress,
-        sort: 'desc',
-        page: '1',
-        offset: '50',
-      })
-
-      // Etherscan v2 requires chainid parameter
-      params.set('chainid', useBase ? '8453' : '1')
-
-      if (process.env.BASESCAN_API_KEY) {
-        params.set('apikey', process.env.BASESCAN_API_KEY)
-      }
-
+    // Helper to fetch via Blockscout REST API v2 (per-wallet)
+    const fetchFromBlockscout = async (wallet: string, agentId: string): Promise<Receipt[]> => {
+      const url = `${BLOCKSCOUT_REST_API}/addresses/${wallet}/token-transfers?token=${contractAddress}&type=ERC-20`
       const controller = new AbortController()
       const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS)
 
       try {
-        const res = await fetch(`${apiBase}?${params}`, {
+        const res = await fetch(url, {
           next: { revalidate: 60 },
           signal: controller.signal,
         })
         clearTimeout(timeoutId)
 
         if (!res.ok) {
-          console.warn(`Blockscout API error for ${wallet}: ${res.status}`)
+          console.warn(`Blockscout REST API error for ${wallet}: ${res.status}`)
           return []
         }
 
-        const data = await res.json() as BasescanApiResponse
-
-        if (data.status !== '1' || !Array.isArray(data.result)) {
-          console.warn(`No results for ${wallet}`)
-          return []
+        const data = await res.json() as {
+          items: Array<{
+            transaction_hash: string
+            from: { hash: string }
+            to: { hash: string }
+            total: { value: string; decimals: string }
+            timestamp: string
+            block_number: number
+          }>
         }
 
-        return data.result.map((tx) => {
-          const direction = tx.from.toLowerCase() === wallet.toLowerCase() ? 'sent' : 'received'
-          const agentData = enrichReceiptWithAgentData(tx)
-          
+        const items = data.items || []
+        if (items.length === 0) return []
+
+        return items.map((item) => {
+          const from = item.from?.hash || ''
+          const to = item.to?.hash || ''
+          const rawValue = item.total?.value || '0'
+          const decimals = item.total?.decimals || '6'
+          const direction = from.toLowerCase() === wallet.toLowerCase() ? 'sent' : 'received'
+          const agentData = enrichReceiptWithAgentData({ from, to })
+
           return {
-            hash: tx.hash,
-            from: tx.from,
-            to: tx.to,
-            value: tx.value,
-            amount: (parseInt(tx.value) / 1e6).toFixed(2),
-            timestamp: parseInt(tx.timeStamp),
-            blockNumber: tx.blockNumber,
+            hash: item.transaction_hash,
+            from,
+            to,
+            value: rawValue,
+            amount: (parseInt(rawValue) / Math.pow(10, parseInt(decimals))).toFixed(2),
+            timestamp: Math.floor(Date.parse(item.timestamp) / 1000),
+            blockNumber: item.block_number?.toString() || '0',
             direction,
             status: 'confirmed' as const,
-            tokenSymbol: tx.tokenSymbol,
-            tokenDecimal: tx.tokenDecimal,
-            agentId: agentId,
-            service: getServiceFromTx(tx, wallet),
-            fromLabel: labelAddress(tx.from),
-            toLabel: labelAddress(tx.to),
+            tokenSymbol: 'USDC',
+            tokenDecimal: decimals,
+            agentId,
+            service: getServiceFromTx({ from, to }, wallet),
+            fromLabel: labelAddress(from),
+            toLabel: labelAddress(to),
             fromAgent: agentData.fromAgent,
             toAgent: agentData.toAgent,
           } as Receipt
@@ -261,13 +261,51 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
         console.warn(`Blockscout fetch failed/timed out for ${wallet}:`, fetchErr)
         return []
       }
-    })
+    }
+
+    // Fetch all wallets in parallel with Promise.allSettled
+    const fetchPromises = walletsToFetch.map(({ wallet, agentId }) =>
+      fetchFromBlockscout(wallet, agentId)
+    )
 
     // Wait for all parallel fetches
     const results = await Promise.allSettled(fetchPromises)
-    const allReceipts: Receipt[] = results.flatMap((r) =>
+    const liveReceipts: Receipt[] = results.flatMap((r) =>
       r.status === 'fulfilled' ? r.value : []
     )
+
+    // If live fetch returned nothing, try the build-time cache
+    let allReceipts: Receipt[]
+    let dataSource: 'live' | 'cached' | 'sample'
+
+    if (liveReceipts.length > 0) {
+      allReceipts = liveReceipts
+      dataSource = 'live'
+    } else {
+      // Fall back to cached receipts from build time
+      const cachedRaw = (cachedReceiptsData as { receipts: Receipt[] }).receipts || []
+      // Filter by requested wallet(s) if specified
+      if (walletParam && cachedRaw.length > 0) {
+        const lowerWallet = walletParam.toLowerCase()
+        allReceipts = cachedRaw.filter(
+          r => r.from?.toLowerCase() === lowerWallet || r.to?.toLowerCase() === lowerWallet
+        )
+      } else {
+        allReceipts = cachedRaw
+      }
+
+      if (allReceipts.length > 0) {
+        console.warn('Live fetch failed — using cached receipts from build time')
+        dataSource = 'cached'
+        // Re-enrich with agent data (not stored in cache)
+        allReceipts = allReceipts.map(r => {
+          const agentData = enrichReceiptWithAgentData(r)
+          return { ...r, fromAgent: agentData.fromAgent, toAgent: agentData.toAgent }
+        })
+      } else {
+        dataSource = 'sample'
+      }
+    }
 
     // Sort USDC receipts by timestamp (newest first)
     allReceipts.sort((a, b) => b.timestamp - a.timestamp)
@@ -288,9 +326,12 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
     combinedReceipts.sort((a, b) => b.timestamp - a.timestamp)
     
     if (combinedReceipts.length > 0) {
+      const sourceLabel = dataSource === 'live' ? 'live+inference'
+        : dataSource === 'cached' ? 'cached+inference'
+        : 'sample+inference'
       return NextResponse.json({ 
         receipts: combinedReceipts, 
-        source: allReceipts.length > 0 ? 'live+inference' : 'sample+inference',
+        source: sourceLabel,
         hasInferenceReceipts: includeInference && inferenceReceipts.length > 0,
       }, { 
         headers: { 

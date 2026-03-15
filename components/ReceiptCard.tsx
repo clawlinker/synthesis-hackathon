@@ -60,8 +60,12 @@ export function ReceiptCard({ receipt, isFirstInference }: { receipt: Receipt; i
     <>
       <Card
         onClick={handleReceiptClick}
-        className={`group cursor-pointer p-4 transition-all duration-200 hover:bg-accent/50 active:scale-[0.99] animate-fade-in ${
+        className={`group cursor-pointer p-4 transition-all duration-200 active:scale-[0.99] animate-fade-in ${
           isFirstInference ? 'mt-4' : ''
+        } ${
+          isInference 
+            ? 'bg-purple-500/5 hover:bg-purple-500/10 border-purple-500/20' 
+            : 'hover:bg-accent/50'
         }`}
       >
         {/* Inference Section Header */}
@@ -137,9 +141,7 @@ export function ReceiptCard({ receipt, isFirstInference }: { receipt: Receipt; i
             )
           ) : (
             <a
-              href={`https://basescan.org/tx/${receipt.hash}`}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={`/receipt/${receipt.hash}`}
               className="font-mono transition-colors hover:text-foreground"
             >
               {receipt.hash.slice(0, 10)}…

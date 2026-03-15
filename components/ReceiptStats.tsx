@@ -25,12 +25,17 @@ export function ReceiptStats({ receipts }: { receipts: Receipt[] }) {
   const inferenceCost = inferenceReceipts
     .reduce((acc, r) => acc + parseFloat(r.amount), 0)
 
+  // Calculate days since first receipt (shows how long agent has been using Molttail)
+  // Only use receipts from the last 30 days to avoid stale sample data skewing the number
+  const now = Date.now() / 1000
+  const recentReceipts = receipts.filter(r => now - r.timestamp < 30 * 86400)
+  const earliestInPeriod = recentReceipts.length > 0
+    ? Math.min(...recentReceipts.map(r => r.timestamp))
+    : now - 86400 // fallback: assume 1 day active if no recent receipts
+
   const activeDays = Math.max(
     1,
-    Math.round(
-      (new Date().getTime() / 1000 - Math.min(...receipts.map((r) => r.timestamp))) /
-        86400
-    )
+    Math.round((now - earliestInPeriod) / 86400)
   )
 
   const stats = [

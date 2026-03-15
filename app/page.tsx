@@ -480,9 +480,6 @@ export default function Home() {
               </a>{' '}
               for the Synthesis Hackathon
             </p>
-            <Badge variant="outline" className="text-usdc border-usdc/30">
-              x402 API available — /api/x402/receipts ($0.01 USDC)
-            </Badge>
           </footer>
         </>
       )}
