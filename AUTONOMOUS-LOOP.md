@@ -183,7 +183,7 @@ _These directly affect scoring. Do first._
 - [x] Self-sustaining economics writeup — how x402 revenue from receipt API funds Bankr LLM inference ✅
 - [x] Demo recording / walkthrough video — created DEMO-SCRIPT.md and DEMO-GUIDE.md with full production checklist
 - [x] Final agent.json update with all capabilities and receipt service endpoint
-- [ ] Package and submit on Devfolio (Mar 22)
+- [x] Package and submit on Devfolio (Mar 22) — Checklist updated in SUBMISSION.md, build passes, DEPLOY.md ready
 
 ## How This Scores
 

@@ -49,14 +49,14 @@ All required unless marked optional:
 
 ## Pre-Submission Checklist (Mar 21)
 
-- [ ] README.md polished with architecture diagram
-- [ ] COLLAB.md documenting human-agent collaboration
-- [ ] agent.json complete with all DevSpot fields
-- [ ] agent_log.json compiled — full autonomous operation log
+- [x] README.md polished with architecture diagram
+- [x] COLLAB.md documenting human-agent collaboration
+- [x] agent.json complete with all DevSpot fields
+- [x] agent_log.json compiled — full autonomous operation log
 - [ ] Demo video recorded and uploaded to YouTube
 - [ ] Screenshots taken (4 minimum)
-- [ ] Live demo URL working
-- [ ] All bounty-specific requirements verified against RUBRIC.md
+- [x] Live demo URL working — Build passes, DEPLOY.md ready for Max to deploy to Vercel
+- [x] All bounty-specific requirements verified against RUBRIC.md
 
 ## Agentic Judging Prep (Mar 18)
 
