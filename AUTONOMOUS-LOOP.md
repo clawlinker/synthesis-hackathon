@@ -196,7 +196,7 @@ _These differentiate "good enough" from winner. Use budget aggressively._
 - [ ] **Record demo video (Max)** — 60-second screencast showing: landing hero → filter/search → multi-chain → x402 endpoint → receipt verification. Critical for judge experience.
 - [x] **UPGRADE models for final polish** — Use Bankr Claude Sonnet ($3-5) for UI polish, animations, microinteractions. We have $185 credits, spend $30 to make it feel premium. ✅
 - [x] **Add "judge mode"** — Special view for agentic judges showing: live agent_log.json feed, cost transparency dashboard, build process timeline. Self-referential demo. ✅
-- [ ] **LLM Cost Receipts** — Make inference receipts clickable to show model breakdowns (input/output tokens, exact cost). Shows budget awareness depth.
+- [x] **LLM Cost Receipts** — Make inference receipts clickable to show model breakdowns (input/output tokens, exact cost). Shows budget awareness depth. ✅
 - [ ] **Agent personality demo** — `/demo` page with embedded chatbot showing agent interacting with its own receipt data. Judges see autonomy.
 - [ ] **Submit early** — Get feedback before Mar 18 judging, iterate quickly.
 - [ ] **Social proof** — Post about it on X/Farcaster (requires Max). Build hype.
