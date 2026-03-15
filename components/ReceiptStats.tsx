@@ -1,8 +1,15 @@
 'use client'
 
 import { type Receipt } from '@/app/types'
+import { useEffect, useState } from 'react'
 
 export function ReceiptStats({ receipts }: { receipts: Receipt[] }) {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   if (receipts.length === 0) return null
 
   const totalSent = receipts
@@ -16,12 +23,13 @@ export function ReceiptStats({ receipts }: { receipts: Receipt[] }) {
   ).size
 
   const stats = [
-    { label: 'Total Sent', value: `${totalSent.toFixed(2)} USDC` },
-    { label: 'Total Received', value: `${totalReceived.toFixed(2)} USDC` },
-    { label: 'Counterparties', value: uniqueCounterparties.toString() },
+    { label: 'Total Sent', value: `${totalSent.toFixed(2)} USDC`, delay: 0 },
+    { label: 'Total Received', value: `${totalReceived.toFixed(2)} USDC`, delay: 100 },
+    { label: 'Counterparties', value: uniqueCounterparties.toString(), delay: 200 },
     {
       label: 'Active Period',
-      value: '24h' as const,
+      value: '24h',
+      delay: 300,
     },
   ]
 
@@ -30,10 +38,14 @@ export function ReceiptStats({ receipts }: { receipts: Receipt[] }) {
       {stats.map((stat, idx) => (
         <div
           key={idx}
-          className="p-4 rounded-xl"
+          className={`p-4 rounded-xl transition-all duration-500 ease-out ${
+            mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}
           style={{
             background: 'var(--color-bg-card)',
             border: '1px solid var(--color-border-main)',
+            animation: `fadeIn 0.5s ease-out ${stat.delay}ms forwards`,
+            animationFillMode: 'forwards',
           }}
         >
           <div className="text-xs uppercase tracking-wider mb-1" style={{ color: 'var(--color-text-muted)' }}>

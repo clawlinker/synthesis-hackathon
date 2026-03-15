@@ -25,11 +25,11 @@ function AgentBadge({ agent, align = 'left' }: { agent: Receipt['fromAgent'] | R
       href={`https://www.8004scan.io/agents/ethereum/${agent.id}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-2 px-2 py-1 rounded-lg transition-colors hover:bg-white/5"
+      className="inline-flex items-center gap-2 px-2 py-1.5 rounded-lg transition-all duration-200 hover:bg-white/5 active:scale-95 touch-target"
       style={{ background: 'rgba(38, 161, 123, 0.1)' }}
     >
       {agent.avatar && (
-        <img src={agent.avatar} alt="" className="w-5 h-5 rounded-full" />
+        <img src={agent.avatar} alt="" className="w-5 h-5 rounded-full object-cover" />
       )}
       <div className="flex flex-col items-start" style={{ alignItems: align === 'left' ? 'flex-start' : 'flex-end' }}>
         <span className="text-[10px] uppercase tracking-wider" style={{ color: 'var(--color-text-muted)' }}>Agent</span>
@@ -50,13 +50,15 @@ export function ReceiptCard({ receipt, isFirstInference }: { receipt: Receipt; i
   const isInference = isInferenceReceipt(receipt)
 
   return (
-    <div className={`group rounded-xl p-4 transition-colors ${isFirstInference ? 'mt-4' : ''}`}
+    <div
+      className={`group rounded-xl p-4 transition-all duration-300 ease-out ${isFirstInference ? 'mt-4' : ''}`}
       style={{
         border: '1px solid var(--color-border-main)',
         background: 'var(--color-bg-card)',
+        animation: 'fadeIn 0.5s ease-out forwards',
+        opacity: 0,
+        transform: 'translateY(10px)',
       }}
-      onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-bg-card-hover)'}
-      onMouseLeave={(e) => e.currentTarget.style.background = 'var(--color-bg-card)'}
     >
       {/* Inference Section Header */}
       {isFirstInference && (
@@ -69,11 +71,13 @@ export function ReceiptCard({ receipt, isFirstInference }: { receipt: Receipt; i
       {/* Header: direction + amount */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <span className={`text-sm font-medium px-2 py-0.5 rounded-full ${
-            isSent
-              ? 'bg-red-500/10 text-red-400'
-              : 'bg-indigo-500/10 text-indigo-400'
-          }`}>
+          <span
+            className={`text-sm font-medium px-2 py-0.5 rounded-full transition-all duration-200 ${
+              isSent
+                ? 'bg-red-500/10 text-red-400 hover:bg-red-500/20'
+                : 'bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20'
+            }`}
+          >
             {isSent ? '↑ Sent' : '💰 Inference'}
           </span>
           {receipt.service && (
@@ -83,10 +87,13 @@ export function ReceiptCard({ receipt, isFirstInference }: { receipt: Receipt; i
           )}
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="text-lg font-semibold">
+          <span className="text-lg font-semibold transition-colors duration-200">
             {isSent ? '-' : '+'}{receipt.amount}
           </span>
-          <span className="text-sm font-medium" style={{ color: isInference ? 'var(--color-text-primary)' : 'var(--color-usdc)' }}>
+          <span
+            className="text-sm font-medium transition-colors duration-200"
+            style={{ color: isInference ? 'var(--color-text-primary)' : 'var(--color-usdc)' }}
+          >
             {isInference ? 'USD' : 'USDC'}
           </span>
         </div>
@@ -132,7 +139,7 @@ export function ReceiptCard({ receipt, isFirstInference }: { receipt: Receipt; i
             href={`https://basescan.org/tx/${receipt.hash}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-mono transition-colors hover:text-white"
+            className="font-mono transition-colors duration-200 hover:text-white"
           >
             {receipt.hash.slice(0, 10)}…
           </a>

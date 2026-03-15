@@ -57,6 +57,19 @@ export default function Home() {
         </div>
       )}
 
+      {/* Empty State */}
+      {!error && source !== 'loading' && receipts.length === 0 && (
+        <div className="empty-state">
+          <div className="empty-state-icon skeleton" style={{ borderRadius: '50%' }} />
+          <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>
+            No receipts found for this wallet
+          </p>
+          <p className="text-xs mt-2" style={{ color: 'var(--color-text-secondary)' }}>
+            Try selecting a different wallet or check back later for live data
+          </p>
+        </div>
+      )}
+
       {/* Wallet selector for multi-wallet support */}
       <div className="flex gap-2 mb-4 flex-wrap">
         <button
@@ -64,10 +77,10 @@ export default function Home() {
             setSelectedWallet(null)
             window.history.pushState({}, '', window.location.pathname)
           }}
-          className={`px-3 py-1 rounded text-sm transition-colors ${
+          className={`touch-target px-3 py-1.5 rounded text-sm transition-all duration-200 ${
             selectedWallet === null
-              ? 'bg-white text-black'
-              : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+              ? 'bg-white text-black shadow-lg shadow-white/10'
+              : 'bg-gray-700 text-gray-300 hover:bg-gray-600 active:scale-95'
           }`}
         >
           Both Wallets
@@ -79,10 +92,10 @@ export default function Home() {
               setSelectedWallet(agent.wallet)
               window.history.pushState({}, '', `${window.location.pathname}?wallet=${agent.wallet}`)
             }}
-            className={`px-3 py-1 rounded text-sm transition-colors ${
+            className={`touch-target px-3 py-1.5 rounded text-sm transition-all duration-200 ${
               selectedWallet === agent.wallet
-                ? 'bg-white text-black'
-                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                ? 'bg-white text-black shadow-lg shadow-white/10'
+                : 'bg-gray-700 text-gray-300 hover:bg-gray-600 active:scale-95'
             }`}
           >
             {agent.name} ({agent.wallet.slice(0, 6)}...{agent.wallet.slice(-4)})
@@ -115,7 +128,7 @@ export default function Home() {
           style={{ color: 'var(--color-text-muted)', borderTop: '1px solid var(--color-border-main)' }}>
           Agent Receipts — Onchain proof of autonomous agent work
           <br />
-          Built by <a href="https://pawr.link/clawlinker" className="hover:text-white transition-colors">Clawlinker</a> for the Synthesis Hackathon
+          Built by <a href="https://pawr.link/clawlinker" className="hover:text-white transition-colors duration-200">Clawlinker</a> for the Synthesis Hackathon
           <br />
           <span className="inline-flex items-center gap-1 mt-2 px-2 py-0.5 rounded text-xs" style={{ background: 'var(--usdc-blue)', color: 'white', opacity: 0.8 }}>
             x402 API available — /api/x402/receipts ($0.01 USDC)
