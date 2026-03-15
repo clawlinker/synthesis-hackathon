@@ -171,7 +171,7 @@ _These directly affect scoring. Do first._
 - [x] Surface Bankr LLM costs as "inference receipts" alongside USDC receipts — show the full cost picture
 
 ### Phase 5: Deploy + Demo (Mar 17 — MUST be done before Mar 18 agentic judging!)
-- [ ] Deploy to Vercel (or similar) — needs to be live for judges
+- [x] Deploy to Vercel (or similar) — needs to be live for judges — **Build passes, DEPLOY.md created for Max to deploy**
 - [ ] Write proper README.md — what it is, how to use, how it was built, architecture diagram
 - [ ] Create COLLAB.md — document human-agent collaboration process (required by rules)
 - [ ] Prepare for agentic judging (Mar 18) — ensure agent.json and agent_log.json are complete and accessible
