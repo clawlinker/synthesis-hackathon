@@ -120,7 +120,7 @@ export default function Home() {
           verified and visible.
         </h1>
 
-        <p className="mx-auto max-w-lg text-lg text-muted-foreground leading-relaxed md:text-xl">
+        <p className="mx-auto max-w-lg text-lg text-zinc-400 leading-relaxed md:text-xl">
           Verifiable audit trail for autonomous agent transactions on Base and Ethereum.
           Real-time USDC receipts, ERC-8004 identity resolution, and complete transparency.
         </p>
@@ -148,7 +148,7 @@ export default function Home() {
           </a>
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-3 md:gap-6 pt-6 text-sm text-muted-foreground">
+        <div className="flex flex-wrap items-center justify-center gap-3 md:gap-6 pt-6 text-sm text-zinc-400">
           {['Live on Base + Ethereum', 'ERC-8004 Verified', 'x402 Payments'].map((item) => (
             <div key={item} className="flex items-center gap-2">
               <svg className="h-4 w-4 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -297,7 +297,7 @@ export default function Home() {
           <button
             type="button"
             onClick={() => setShowFilters((v) => !v)}
-            className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            className="flex items-center gap-2 text-xs text-zinc-400 hover:text-zinc-100 transition-colors"
           >
             <svg
               className={`h-3 w-3 transition-transform duration-200 ${showFilters ? 'rotate-90' : ''}`}
@@ -319,7 +319,7 @@ export default function Home() {
               {/* Direction + Amount */}
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+                  <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-zinc-400">
                     Direction
                   </label>
                   <div className="grid grid-cols-3 gap-1">
@@ -339,7 +339,7 @@ export default function Home() {
 
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Min</label>
+                    <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-zinc-400">Min</label>
                     <Input
                       type="number"
                       placeholder="0"
@@ -351,7 +351,7 @@ export default function Home() {
                     />
                   </div>
                   <div>
-                    <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Max</label>
+                    <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-zinc-400">Max</label>
                     <Input
                       type="number"
                       placeholder="∞"
@@ -368,7 +368,7 @@ export default function Home() {
               {/* Date range */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-muted-foreground">From</label>
+                  <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-zinc-400">From</label>
                   <Input
                     type="date"
                     value={filters.dateFrom}
@@ -377,7 +377,7 @@ export default function Home() {
                   />
                 </div>
                 <div>
-                  <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-muted-foreground">To</label>
+                  <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-zinc-400">To</label>
                   <Input
                     type="date"
                     value={filters.dateTo}
@@ -405,7 +405,7 @@ export default function Home() {
 
       {/* Receipt count + inference toggle */}
       {filteredReceipts.length > 0 && (
-        <div className="mb-4 flex items-center justify-between text-xs text-muted-foreground">
+        <div className="mb-4 flex items-center justify-between text-xs text-zinc-400">
           <span>{filteredReceipts.length} receipt{filteredReceipts.length !== 1 && 's'}</span>
           <div className="flex items-center gap-3">
             {filteredReceipts.length !== receipts.length && (
@@ -419,7 +419,7 @@ export default function Home() {
               className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium transition-colors ${
                 showInference
                   ? 'bg-purple-500/15 text-purple-400 hover:bg-purple-500/25'
-                  : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                  : 'bg-muted text-zinc-400 hover:bg-muted/80'
               }`}
             >
               <span className={`h-1.5 w-1.5 rounded-full ${showInference ? 'bg-purple-400' : 'bg-muted-foreground/50'}`} />
@@ -453,9 +453,9 @@ export default function Home() {
           return groups.map((group) => (
             <div key={group.date}>
               <div className="sticky top-0 z-10 mb-2 flex items-center gap-3 py-1.5 backdrop-blur-sm">
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{group.label}</span>
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">{group.label}</span>
                 <div className="h-px flex-1 bg-border" />
-                <span className="text-[11px] text-muted-foreground">{group.receipts.length}</span>
+                <span className="text-[11px] text-zinc-400">{group.receipts.length}</span>
               </div>
               <div className="space-y-2">
                 {group.receipts.map((receipt) => (
@@ -475,7 +475,7 @@ export default function Home() {
       {filteredReceipts.length > 0 && (
         <>
           <Separator className="mt-8" />
-          <footer className="py-6 text-center text-xs text-muted-foreground space-y-2">
+          <footer className="py-6 text-center text-xs text-zinc-400 space-y-2">
             <p>Molttail — Your agent&apos;s transaction tail — every payment, verified and visible</p>
             <p>
               Built by{' '}

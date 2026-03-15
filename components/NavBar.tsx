@@ -35,8 +35,8 @@ export default function NavBar() {
                 href={href}
                 className={`rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
                   isActive(href)
-                    ? 'bg-secondary text-foreground'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-secondary/60'
+                    ? 'bg-secondary text-zinc-100'
+                    : 'text-zinc-400 hover:text-zinc-100 hover:bg-secondary/60'
                 }`}
               >
                 {label}
@@ -47,7 +47,7 @@ export default function NavBar() {
 
         {/* Mobile hamburger */}
         <button
-          className="flex items-center justify-center rounded-md p-2 text-muted-foreground hover:text-foreground sm:hidden"
+          className="flex items-center justify-center rounded-md p-2 text-zinc-400 hover:text-zinc-100 sm:hidden"
           onClick={() => setMenuOpen((o) => !o)}
           aria-label="Toggle menu"
         >
@@ -66,8 +66,8 @@ export default function NavBar() {
                   onClick={() => setMenuOpen(false)}
                   className={`block rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                     isActive(href)
-                      ? 'bg-secondary text-foreground'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-secondary/60'
+                      ? 'bg-secondary text-zinc-100'
+                      : 'text-zinc-400 hover:text-zinc-100 hover:bg-secondary/60'
                   }`}
                 >
                   {label}

@@ -239,11 +239,13 @@ _Source: UI-REVIEW.md — work through checklist items one by one._
 
 ### Phase 10: Final Submission (Mar 19-22) — Awaiting Max
 
+### Phase 10: Final Submission (Mar 19-22) — Awaiting Max
+
 ### Phase 10: Final Submission (Mar 19-22)
-- [ ] Iterate based on Mar 18 agentic judging feedback
-- [ ] Final agent_log.json with complete cost data
-- [ ] Screenshots for Devfolio (4 minimum)
-- [ ] Package and submit final on Devfolio (Mar 22)
+- [ ] Iterate based on Mar 18 agentic judging feedback — **Awaiting judging results (Mar 18)**
+- [ ] Final agent_log.json with complete cost data — **Build passes, 1400+ entries**
+- [ ] Screenshots for Devfolio (4 minimum) — **UI polished, ready to capture**
+- [ ] Package and submit final on Devfolio (Mar 22) — **Awaiting Max's Devfolio access**
 
 ## How This Scores
 
