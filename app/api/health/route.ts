@@ -1,0 +1,30 @@
+import { NextResponse } from 'next/server'
+import { AGENT } from '@/app/types'
+
+export async function GET() {
+  return NextResponse.json({
+    status: 'healthy',
+    agent: {
+      name: AGENT.name,
+      erc8004: AGENT.id,
+      ens: AGENT.ens,
+      wallet: AGENT.wallet,
+    },
+    endpoints: {
+      receipts: '/api/receipts',
+      x402_receipts: '/api/x402/receipts',
+      verify: '/api/verify/:txhash',
+      build_log: '/api/build-log/commits',
+      costs: '/api/costs',
+      agent_manifest: '/.well-known/agent.json',
+      health: '/api/health',
+    },
+    hackathon: {
+      name: 'The Synthesis',
+      tracks: ['Let the Agent Cook', 'ERC-8004', 'Bankr LLM', 'AgentCash x402'],
+      repo: 'https://github.com/clawlinker/synthesis-hackathon',
+    },
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString(),
+  })
+}
