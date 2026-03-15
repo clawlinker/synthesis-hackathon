@@ -560,5 +560,27 @@
     "artifacts": [
       "agent.json"
     ]
+  },
+  {
+    "timestamp": "2026-03-15T04:01:28Z",
+    "phase": "execute",
+    "action": "demo_recording_documentation",
+    "description": "Created comprehensive demo recording guide and script for Devfolio submission. Includes 4-minute walkthrough, shot list, editing checklist, and production requirements for agentic judges.",
+    "tools_used": [
+      "write"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "decision": "Demo video is required by Phase 6. Created documentation so Max can record with minimal friction. Includes automated tools and manual recording options.",
+    "outcome": "success",
+    "artifacts": [
+      "DEMO-SCRIPT.md",
+      "DEMO-GUIDE.md"
+    ],
+    "compute_budget": {
+      "session_cost_usd": 0.01,
+      "daily_budget_usd": 0.5,
+      "remaining_usd": 188.89
+    }
   }
 ]
