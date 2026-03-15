@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { AGENT, USDC_CONTRACT, type Receipt } from '@/app/types'
 import { sampleReceipts } from '@/data/sample-receipts'
 import { ADDRESS_LABELS } from '@/data/address-labels'
+import type { BasescanSingleTxResponse } from '@/data/types'
 
 const BASESCAN_API = 'https://api.basescan.org/api'
 
@@ -20,7 +21,7 @@ function labelAddress(address: string): string | undefined {
   return undefined
 }
 
-function getServiceFromTx(tx: any): string | undefined {
+function getServiceFromTx(tx: { to: string; from: string }): string | undefined {
   const to = tx.to.toLowerCase()
   const from = tx.from.toLowerCase()
   const other = from === AGENT.wallet.toLowerCase() ? to : from
@@ -53,13 +54,13 @@ async function fetchReceiptByHash(hash: string): Promise<Receipt | null> {
 
     if (!res.ok) throw new Error(`Basescan API error: ${res.status}`)
 
-    const data = await res.json()
+    const data = await res.json() as BasescanSingleTxResponse
 
     if (data.status !== '1' || !Array.isArray(data.result)) {
       return null
     }
 
-    const tx = data.result.find((t: any) => t.hash === hash)
+    const tx = data.result.find((t) => t.hash === hash)
     if (!tx) return null
 
     const direction = tx.from.toLowerCase() === AGENT.wallet.toLowerCase() ? 'sent' : 'received'

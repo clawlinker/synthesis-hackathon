@@ -6,6 +6,7 @@ import sampleReceipts from '@/data/sample-receipts.json'
 import { ADDRESS_LABELS } from '@/data/address-labels'
 import { AGENT_REGISTRY, resolveAgent } from '@/data/erc8004-resolver'
 import { sampleInferenceReceipts } from '@/data/inference-receipts'
+import type { BasescanApiResponse } from '@/data/types'
 
 const BASESCAN_API = 'https://api.basescan.org/api'
 
@@ -24,7 +25,7 @@ function labelAddress(address: string): string | undefined {
   return undefined
 }
 
-function getServiceFromTx(tx: any, wallet: string): string | undefined {
+function getServiceFromTx(tx: { to: string; from: string }, wallet: string): string | undefined {
   const to = tx.to.toLowerCase()
   const from = tx.from.toLowerCase()
   const other = from === wallet.toLowerCase() ? to : from
@@ -36,7 +37,27 @@ function getServiceFromTx(tx: any, wallet: string): string | undefined {
   return labelAddress(other)
 }
 
-function enrichReceiptWithAgentData(tx: any): Partial<Receipt> {
+interface EnrichedReceipt {
+  hash: string
+  from: string
+  to: string
+  value: string
+  amount: string
+  timestamp: number
+  blockNumber: string
+  direction: 'sent' | 'received'
+  status: 'confirmed'
+  tokenSymbol: string
+  tokenDecimal: string
+  agentId: string
+  service?: string
+  fromLabel?: string
+  toLabel?: string
+  fromAgent?: { id: number; name: string; ens?: string; avatar?: string }
+  toAgent?: { id: number; name: string; ens?: string; avatar?: string }
+}
+
+function enrichReceiptWithAgentData(tx: { from: string; to: string }): Partial<EnrichedReceipt> {
   const fromAgent = resolveAgent(tx.from)
   const toAgent = resolveAgent(tx.to)
   
@@ -61,7 +82,14 @@ function loadInferenceReceiptsFromLog(): Receipt[] {
   try {
     const logPath = path.join(process.cwd(), 'agent_log.json')
     const logContent = fs.readFileSync(logPath, 'utf-8')
-    const logs = JSON.parse(logContent) as any[]
+    const logs = JSON.parse(logContent) as Array<{
+      timestamp: string
+      model: string
+      model_cost_usd: number
+      action?: string
+      description?: string
+      phase?: string
+    }>
     
     // Filter for LLM-powered entries and convert to inference receipts
     const inferenceReceipts: Receipt[] = logs
@@ -88,6 +116,7 @@ function loadInferenceReceiptsFromLog(): Receipt[] {
     
     return inferenceReceipts
   } catch (e) {
+    // Fail gracefully - return empty array instead of crashing
     console.warn('Failed to load inference receipts from agent_log.json:', e)
     return []
   }
@@ -169,14 +198,14 @@ export async function GET(request: Request) {
         continue
       }
 
-      const data = await res.json()
+      const data = await res.json() as BasescanApiResponse
 
       if (data.status !== '1' || !Array.isArray(data.result)) {
         console.warn(`No results for ${wallet}`)
         continue
       }
 
-      const receipts = data.result.map((tx: any) => {
+      const receipts: Receipt[] = data.result.map((tx) => {
         const direction = tx.from.toLowerCase() === wallet.toLowerCase() ? 'sent' : 'received'
         const agentData = enrichReceiptWithAgentData(tx)
         
