@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import fs from 'fs'
 import path from 'path'
 import { createHash } from 'crypto'
-import { AGENT, BANKR_AGENT, type Receipt } from '@/app/types'
+import { AGENT, BANKR_AGENT, type Receipt, CHAINS, type ChainKey } from '@/app/types'
 import sampleReceipts from '@/data/sample-receipts.json'
 import { ADDRESS_LABELS, CONTRACTS, RATE_LIMIT, SERVICE_LABELS } from '@/data/config'
 import { AGENT_REGISTRY, resolveAgent } from '@/data/erc8004-resolver'
@@ -11,6 +11,7 @@ import type { BasescanApiResponse } from '@/data/types'
 
 // Basescan V1 deprecated — use Blockscout's etherscan-compatible API (free, no key needed)
 const BASESCAN_API = 'https://base.blockscout.com/api'
+const ETH_BLOCKSCOUT_API = 'https://eth.blockscout.com/api'
 
 // Validate required environment variables
 function validateEnv(): void {
@@ -187,7 +188,12 @@ export async function GET(request: Request) {
   try {
     const url = new URL(request.url)
     const walletParam = url.searchParams.get('wallet')
+    const chainParam = url.searchParams.get('chain') as ChainKey | null
     const includeInference = url.searchParams.get('inference') !== 'false' // default to true
+    
+    // Determine which chain to use
+    const chain: ChainKey = chainParam || 'base'
+    const useBase = chain === 'base'
     
     // Determine which wallet(s) to fetch
     let walletsToFetch: { wallet: string; name: string; agentId: string }[] = []
@@ -212,12 +218,15 @@ export async function GET(request: Request) {
     // Fetch receipts for all wallets
     const allReceipts: Receipt[] = []
     
+    const contractAddress = useBase ? CONTRACTS.USDC_CONTRACT : CONTRACTS.ETH_USDC_CONTRACT
+    const apiBase = useBase ? BASESCAN_API : ETH_BLOCKSCOUT_API
+    
     for (const { wallet, agentId } of walletsToFetch) {
       const params = new URLSearchParams({
         module: 'account',
         action: 'tokentx',
         address: wallet,
-        contractaddress: CONTRACTS.USDC_CONTRACT,
+        contractaddress: contractAddress,
         sort: 'desc',
         page: '1',
         offset: '50',
@@ -228,7 +237,7 @@ export async function GET(request: Request) {
         params.set('apikey', process.env.BASESCAN_API_KEY)
       }
 
-      const res = await fetch(`${BASESCAN_API}?${params}`, {
+      const res = await fetch(`${apiBase}?${params}`, {
         next: { revalidate: 60 }, // cache 60s
       })
 

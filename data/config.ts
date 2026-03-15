@@ -8,6 +8,8 @@ export const CONTRACTS = {
   USDC_CONTRACT: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
   PERMIT2: '0x000000000022d473030f116ddee9f6b43ac78ba3',
   X402_EXACT_PERMIT2_PROXY: '0x4104000000000000000000000000000000004104',
+  // Ethereum contracts
+  ETH_USDC_CONTRACT: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
 }
 
 // Service labels based on contract addresses
@@ -17,6 +19,7 @@ export const SERVICE_LABELS: Record<string, string> = {
   [CONTRACTS.USDC_CONTRACT.toLowerCase()]: 'USDC Transfer',
   [CONTRACTS.PERMIT2.toLowerCase()]: 'Permit2',
   [CONTRACTS.X402_EXACT_PERMIT2_PROXY.toLowerCase()]: 'x402 Exact Permit2 Proxy',
+  [CONTRACTS.ETH_USDC_CONTRACT.toLowerCase()]: 'USDC Transfer (ETH)',
 }
 
 // Address labels (should match address-labels.ts)
@@ -31,6 +34,7 @@ export const ADDRESS_LABELS: Record<string, string> = {
   '0x6d8b2d12977F09E7B35811776994776994776994': 'DEX Screener',
   '0x9C9563816900f862356B243750163AF850163AF8': 'Virtuals ACP',
   '0xcB5E412977f09E7B358117769947769947769947': 'pawr.link Treasury',
+  '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48': 'USDC Contract (ETH)',
 }
 
 // Rate limiting configuration
