@@ -120,7 +120,7 @@ export default async function ReceiptPage({ params }: { params: Promise<{ hash: 
           <h2 className="text-lg font-semibold">Share this Receipt</h2>
           <div className="grid grid-cols-2 gap-3">
             <a
-              href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}`}
+              href={`https://twitter.com/intent/tweet?url=${encodeURIComponent("https://agentreceipts.com/receipt/" + hash)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-sky-500 hover:bg-sky-600 text-white py-3 px-4 rounded-lg text-center text-sm font-medium transition-colors flex items-center justify-center gap-2"
