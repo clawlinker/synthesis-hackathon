@@ -42,12 +42,20 @@ function AgentBadge({ agent, align = 'left' }: { agent: Receipt['fromAgent'] | R
 }
 
 function isInferenceReceipt(receipt: Receipt): boolean {
-  return receipt.from === '0x0000000000000000000000000000000000000000' && receipt.tokenSymbol === 'USD'
+  return receipt.hash?.startsWith('inference-') || receipt.tokenSymbol === 'USD'
+}
+
+/** Extract model name from service string like "Bankr LLM — task_name (model_name)" */
+function extractModelName(service: string | undefined): string | null {
+  if (!service) return null
+  const match = service.match(/\(([^)]+)\)\s*$/)
+  return match ? match[1] : null
 }
 
 export function ReceiptCard({ receipt, isFirstInference }: { receipt: Receipt; isFirstInference?: boolean }) {
   const isSent = receipt.direction === 'sent'
   const isInference = isInferenceReceipt(receipt)
+  const modelName = isInference ? extractModelName(receipt.service) : null
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handleReceiptClick = () => {
@@ -63,8 +71,8 @@ export function ReceiptCard({ receipt, isFirstInference }: { receipt: Receipt; i
         className={`group cursor-pointer p-4 transition-all duration-200 active:scale-[0.99] animate-fade-in ${
           isFirstInference ? 'mt-4' : ''
         } ${
-          isInference 
-            ? 'bg-purple-500/5 hover:bg-purple-500/10 border-purple-500/20' 
+          isInference
+            ? 'bg-purple-500/5 hover:bg-purple-500/10 border-purple-500/20'
             : 'hover:bg-accent/50'
         }`}
       >
@@ -80,21 +88,53 @@ export function ReceiptCard({ receipt, isFirstInference }: { receipt: Receipt; i
 
         {/* Header: direction + amount */}
         <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2">
-            <Badge variant={isSent ? 'destructive' : 'default'} className="text-xs">
-              {isSent ? '↑ Sent' : '💰 Inference'}
-            </Badge>
-            {receipt.service && (
+          <div className="flex items-center gap-2 flex-wrap">
+            {isInference ? (
+              <>
+                {/* Purple inference badge with robot icon */}
+                <Badge
+                  variant="outline"
+                  className="text-xs border-purple-500/40 bg-purple-500/10 text-purple-400 gap-1"
+                >
+                  🤖 Inference
+                </Badge>
+                {/* Model name tag */}
+                {modelName && (
+                  <span className="inline-flex items-center rounded-full bg-purple-500/15 px-2 py-0.5 text-[10px] font-mono font-medium text-purple-300 border border-purple-500/20">
+                    {modelName}
+                  </span>
+                )}
+              </>
+            ) : (
+              <Badge variant={isSent ? 'destructive' : 'default'} className="text-xs">
+                {isSent ? '↑ Sent' : '↓ Received'}
+              </Badge>
+            )}
+            {receipt.service && !isInference && (
               <span className="text-xs text-muted-foreground">{receipt.service}</span>
             )}
+            {receipt.service && isInference && (
+              <span className="text-xs text-muted-foreground truncate max-w-[120px] sm:max-w-xs" title={receipt.service}>
+                {receipt.service.split('(')[0].trim()}
+              </span>
+            )}
           </div>
-          <div className="flex items-center gap-1.5">
-            <span className="text-lg font-semibold tabular-nums">
-              {isSent ? '-' : '+'}{receipt.amount}
-            </span>
-            <span className={`text-sm font-medium ${isInference ? '' : 'text-usdc'}`}>
-              {isInference ? 'USD' : 'USDC'}
-            </span>
+          <div className="flex items-center gap-1.5 shrink-0">
+            {isInference ? (
+              <span className="text-lg font-semibold tabular-nums text-purple-300">
+                ${parseFloat(receipt.amount).toFixed(
+                  parseFloat(receipt.amount) < 0.01 ? 4 :
+                  parseFloat(receipt.amount) < 0.1 ? 3 : 2
+                )}
+              </span>
+            ) : (
+              <>
+                <span className="text-lg font-semibold tabular-nums">
+                  {isSent ? '-' : '+'}{receipt.amount}
+                </span>
+                <span className="text-sm font-medium text-usdc">USDC</span>
+              </>
+            )}
           </div>
         </div>
 
@@ -133,11 +173,11 @@ export function ReceiptCard({ receipt, isFirstInference }: { receipt: Receipt; i
           <span>{formatTime(receipt.timestamp)}</span>
           {isInference ? (
             receipt.modelInfo ? (
-              <span className="font-mono cursor-help opacity-60 hover:opacity-100 transition-opacity">
-                💰 Cost Breakdown
+              <span className="font-mono cursor-help opacity-60 hover:opacity-100 transition-opacity text-purple-400">
+                ⚡ Cost Breakdown
               </span>
             ) : (
-              <span className="font-mono opacity-60">LLM Inference</span>
+              <span className="font-mono opacity-60 text-purple-400">⚡ LLM Inference</span>
             )
           ) : (
             <a

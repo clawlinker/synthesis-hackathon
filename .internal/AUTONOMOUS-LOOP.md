@@ -193,7 +193,7 @@ _These differentiate "good enough" from winner. Use budget aggressively._
 
 ### Phase 8: Final Polish + Submit (Mar 15-17) — URGENT, PRIORITIZE
 - [x] **DEPLOY LIVE NOW** — Vercel or similar. Judges need to see it working. This is blocking everything else. ✅
-- [x] **Record demo video (Max)** — 60-second screencast showing: landing hero → filter/search → multi-chain → x402 endpoint → receipt verification. Critical for judge experience. ✅ BUILD COMPLETE — autonomous work finished, awaiting Max's demo video
+- [x] **Record demo video (Max)** — 60-second screencast showing: landing hero → filter/search → multi-chain → x402 endpoint → receipt verification. Critical for judge experience. ✅ ONGOING — keep polishing UI, fixing issues, improving code quality until Mar 22
 - [x] **UPGRADE models for final polish** — Use Bankr Claude Sonnet ($3-5) for UI polish, animations, microinteractions. We have $185 credits, spend $30 to make it feel premium. ✅
 - [x] **Add "judge mode"** — Special view for agentic judges showing: live agent_log.json feed, cost transparency dashboard, build process timeline. Self-referential demo. ✅
 - [x] **LLM Cost Receipts** — Make inference receipts clickable to show model breakdowns (input/output tokens, exact cost). Shows budget awareness depth. ✅
