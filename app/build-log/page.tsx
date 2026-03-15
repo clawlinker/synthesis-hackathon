@@ -24,13 +24,7 @@ interface LogEntry {
   commit?: string
 }
 
-const phaseVariant: Record<string, string> = {
-  discover: 'bg-blue-500/15 text-blue-400 border-blue-500/20',
-  plan: 'bg-purple-500/15 text-purple-400 border-purple-500/20',
-  execute: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20',
-  verify: 'bg-amber-500/15 text-amber-400 border-amber-500/20',
-  cron: 'bg-cyan-500/15 text-cyan-400 border-cyan-500/20',
-}
+import { phaseColorsWithBorder as phaseVariant } from '@/lib/phase-colors'
 
 export default function BuildLogPage() {
   const [commits, setCommits] = useState<GitCommit[]>([])

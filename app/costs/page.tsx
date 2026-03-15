@@ -30,13 +30,7 @@ interface CostSummary {
   topActions: { action: string; cost: number; count: number }[]
 }
 
-const phaseColors: Record<string, string> = {
-  discover: 'bg-blue-500/15 text-blue-400',
-  plan: 'bg-purple-500/15 text-purple-400',
-  execute: 'bg-emerald-500/15 text-emerald-400',
-  verify: 'bg-amber-500/15 text-amber-400',
-  cron: 'bg-cyan-500/15 text-cyan-400',
-}
+import { phaseColors } from '@/lib/phase-colors'
 
 const formatCurrency = (amount: number) =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)
