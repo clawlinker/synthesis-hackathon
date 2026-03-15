@@ -9,9 +9,9 @@ import type { BasescanApiResponse } from '@/data/types'
 // Import agent_log.json as a module — bundled at build time, no fs.readFileSync on serverless
 import agentLogRaw from '@/agent_log.json'
 
-// Use BaseScan API V1 (as requested, assuming key handles deprecation)
-const BASESCAN_API = 'https://api.basescan.org/api'
-const ETH_BLOCKSCOUT_API = 'https://api.etherscan.io/api'
+// Use Etherscan API V2 (BaseScan v1 is deprecated)
+const BASESCAN_API = 'https://api.basescan.org/v2/api'
+const ETH_BLOCKSCOUT_API = 'https://api.etherscan.io/v2/api'
 
 // API fetch timeout per-request
 const API_TIMEOUT_MS = 6000
