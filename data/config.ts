@@ -22,6 +22,8 @@ export const SERVICE_LABELS: Record<string, string> = {
   [CONTRACTS.ETH_USDC_CONTRACT.toLowerCase()]: 'USDC Transfer (ETH)',
   '0xdc5d8200a030798bc6227240f68b4dd9542686ef': 'Uniswap (BaseSettler)',
   '0xec9641ebdcdfcad27bc10472d26bdd61cbf71d5c': 'x402 Payout',
+  '0xa6a8736f18f383f1cc2d938576933e5ea7df01a1': 'x402 Facilitator Fee',
+  '0xf0c7ff3141d37e8c70b08e0afbc68aad3364ebc6': 'x402 Customer',
 }
 
 // Address labels (should match address-labels.ts)
@@ -45,6 +47,8 @@ export const ADDRESS_LABELS: Record<string, string> = {
   '0xbaba5d4bd641db7de8001df70c9f313b1ded8f73': 'Baba Protocol',
   '0xbAba775a0400a5e442335ceaa4820edb1ded8f73': 'Baba Protocol',
   '0xf17b5dD382b048ff4c05c1c9e4e24cfc5c6adad9': 'External Wallet',
+  '0xA6a8736f18f383f1cc2d938576933e5ea7df01a1': 'x402 Facilitator Fee',
+  '0xF0c7fF3141D37E8C70b08e0AFBc68AAD3364EBc6': 'x402 Customer',
 }
 
 // Rate limiting configuration
