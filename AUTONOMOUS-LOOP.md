@@ -206,7 +206,7 @@ _Every element earns its place. Review each component, card, page individually._
 _Source: UI-REVIEW.md — work through checklist items one by one._
 
 **Homepage:**
-- [ ] **Fix API timeout** — `/api/receipts` hangs on Vercel without BASESCAN_API_KEY. Add 10s timeout + fast fallback
+- [x] **Fix API timeout** — `/api/receipts` hangs on Vercel without BASESCAN_API_KEY. Add 10s timeout + fast fallback
 - [ ] **Remove chain IDs from selector** — "Base (8453)" → just "Base". Dev info doesn't belong in UI
 - [ ] **Clean wallet selector** — Remove raw addresses from buttons. Just show agent name
 - [ ] **Add navigation bar** — No way to get between pages (home, build-log, costs, judge). Add minimal nav

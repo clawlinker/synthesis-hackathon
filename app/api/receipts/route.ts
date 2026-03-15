@@ -13,12 +13,8 @@ import type { BasescanApiResponse } from '@/data/types'
 const BASESCAN_API = 'https://base.blockscout.com/api'
 const ETH_BLOCKSCOUT_API = 'https://eth.blockscout.com/api'
 
-// Validate required environment variables
-function validateEnv(): void {
-  if (!process.env.BASESCAN_API_KEY) {
-    throw new Error('BASESCAN_API_KEY environment variable is required')
-  }
-}
+// API fetch timeout (2 seconds for Vercel cold-start tolerance)
+const API_TIMEOUT_MS = 2000
 
 // Rate limiting helpers
 function getClientIp(req: Request): string {
@@ -163,40 +159,6 @@ export async function GET(request: Request) {
   }
 
   try {
-    // Validate required environment variables
-    validateEnv()
-  } catch (error) {
-    console.warn('Environment validation failed:', error)
-    // Still load inference receipts from agent_log.json even without BaseScan
-    let inferenceReceipts: Receipt[] = []
-    try {
-      inferenceReceipts = loadInferenceReceiptsFromLog()
-    } catch (e) {
-      console.warn('Failed to load inference receipts in fallback:', e)
-    }
-    if (inferenceReceipts.length === 0) {
-      inferenceReceipts = sampleInferenceReceipts
-    }
-
-    const enrichedReceipts = [...sampleReceipts, ...inferenceReceipts].map(r => {
-      const fromAgent = resolveAgent(r.from)
-      const toAgent = resolveAgent(r.to)
-      return {
-        ...r,
-        fromAgent: fromAgent ? { id: fromAgent.id, name: fromAgent.name, ens: fromAgent.ens, avatar: fromAgent.avatar } : undefined,
-        toAgent: toAgent ? { id: toAgent.id, name: toAgent.name, ens: toAgent.ens, avatar: toAgent.avatar } : undefined,
-      }
-    })
-    return NextResponse.json({ 
-      receipts: enrichedReceipts, 
-      source: inferenceReceipts.length > 0 ? 'sample+inference' : 'sample',
-      hasInferenceReceipts: inferenceReceipts.length > 0,
-      warning: 'BASESCAN_API_KEY not configured - showing sample onchain data + real inference receipts',
-      'X-RateLimit-Remaining': remaining.toString(),
-    }, { status: 200 })
-  }
-
-  try {
     const url = new URL(request.url)
     const walletParam = url.searchParams.get('wallet')
     const chainParam = url.searchParams.get('chain') as ChainKey | null
@@ -249,7 +211,7 @@ export async function GET(request: Request) {
       }
 
       const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 8000) // 8s timeout
+      const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS) // 2s timeout
       
       let res: Response
       try {
@@ -327,7 +289,12 @@ export async function GET(request: Request) {
         receipts: combinedReceipts, 
         source: allReceipts.length > 0 ? 'live+inference' : 'sample+inference',
         hasInferenceReceipts: includeInference && inferenceReceipts.length > 0,
-      }, { headers: { 'X-RateLimit-Remaining': remaining.toString() } })
+      }, { 
+        headers: { 
+          'Cache-Control': 'public, max-age=30, s-maxage=60',
+          'X-RateLimit-Remaining': remaining.toString() 
+        } 
+      })
     }
     
     // Fall back to sample data if live fetch failed
@@ -345,7 +312,12 @@ export async function GET(request: Request) {
       receipts: enrichedReceipts, 
       source: 'sample+inference',
       hasInferenceReceipts: false,
-    }, { headers: { 'X-RateLimit-Remaining': remaining.toString() } })
+    }, { 
+      headers: { 
+        'Cache-Control': 'public, max-age=60, s-maxage=120',
+        'X-RateLimit-Remaining': remaining.toString() 
+      } 
+    })
   } catch (error) {
     console.warn('Failed to fetch receipts:', error)
     // Still load inference receipts in error fallback
@@ -370,6 +342,11 @@ export async function GET(request: Request) {
       receipts: enrichedReceipts, 
       source: inferenceReceipts.length > 0 ? 'sample+inference' : 'sample',
       hasInferenceReceipts: inferenceReceipts.length > 0,
-    }, { headers: { 'X-RateLimit-Remaining': remaining.toString() } })
+    }, { 
+      headers: { 
+        'Cache-Control': 'public, max-age=60, s-maxage=120',
+        'X-RateLimit-Remaining': remaining.toString() 
+      } 
+    })
   }
 }

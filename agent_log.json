@@ -1313,5 +1313,26 @@
       "bankr_balance_after": 184.28,
       "session_cost": 0.03
     }
+  },
+  {
+    "timestamp": "2026-03-15T18:48:48Z",
+    "phase": "execute",
+    "action": "fix-api-timeout",
+    "description": "Added Cache-Control headers and reduced API timeout to 2s for Vercel cold-start tolerance",
+    "tools_used": [
+      "exec"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.09,
+    "decision": "Timeout too long for Vercel cold starts - 2s is optimal for external API calls",
+    "outcome": "success",
+    "artifacts": [
+      "app/api/receipts/route.ts"
+    ],
+    "compute_budget": {
+      "bankr_balance_before": 184.22,
+      "bankr_balance_after": 184.13,
+      "session_cost": 0.09
+    }
   }
 ]
