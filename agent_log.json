@@ -1531,5 +1531,28 @@
       "bankr_balance_after": 181.26,
       "session_cost": 0.1
     }
+  },
+  {
+    "timestamp": "2026-03-15T20:47:03Z",
+    "phase": "execute",
+    "action": "fix_cron_paths",
+    "description": "Fix gate/self-review crons to use .internal/ paths and correct port 3001",
+    "tools_used": [
+      "cron update"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.05,
+    "decision": "Cron prompts referenced wrong file paths (.internal/ vs root) and wrong port (3098 vs 3001). Fixed all three affected crons to use correct paths and ports.",
+    "outcome": "success",
+    "artifacts": [
+      "cron synth-auto-001",
+      "cron synth-self-review",
+      "cron a361a2af"
+    ],
+    "compute_budget": {
+      "bankr_balance_before": 181.22,
+      "bankr_balance_after": 181.17,
+      "session_cost": 0.05
+    }
   }
 ]
