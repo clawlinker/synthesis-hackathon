@@ -178,6 +178,7 @@ _These directly affect scoring. Do first._
 - [x] Test with agent judges — make sure the app responds well to automated evaluation
 
 ### Phase 6: Final Polish + Submit (Mar 19-22)
+- [x] **Add automated test suite** — Created tests for receipt API and data models, verified build passes ✅
 - [ ] Record demo video (requires Max) — critical gap for scoring
 - [ ] Iterate based on Mar 18 agentic judging feedback
 - [x] Final agent_log.json compilation — complete autonomous operation log with all costs ✅
