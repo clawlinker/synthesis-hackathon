@@ -29,6 +29,7 @@ export default function Home() {
   const [selectedChain, setSelectedChain] = useState<keyof typeof CHAINS>('base')
   const [mounted, setMounted] = useState(false)
   const [showFilters, setShowFilters] = useState(false)
+  const [showInference, setShowInference] = useState(true)
   const [filters, setFilters] = useState<FilterState>({
     direction: 'all',
     minAmount: '',
@@ -74,6 +75,9 @@ export default function Home() {
       return
     }
     const filtered = receipts.filter((receipt) => {
+      // Hide inference receipts if toggled off
+      const isInference = receipt.hash?.startsWith('inference-') || !!receipt.modelInfo
+      if (!showInference && isInference) return false
       if (filters.direction !== 'all' && receipt.direction !== filters.direction) return false
       const minVal = parseFloat(filters.minAmount)
       const maxVal = parseFloat(filters.maxAmount)
@@ -92,7 +96,7 @@ export default function Home() {
       return true
     })
     setFilteredReceipts(filtered)
-  }, [receipts, filters])
+  }, [receipts, filters, showInference])
 
   const hasActiveFilters = filters.direction !== 'all' || filters.minAmount || filters.maxAmount || filters.dateFrom || filters.dateTo || filters.search
 
@@ -362,34 +366,72 @@ export default function Home() {
         </CardContent>
       </Card>
 
-      {/* Receipt count */}
+      {/* Receipt count + inference toggle */}
       {filteredReceipts.length > 0 && (
         <div className="mb-4 flex items-center justify-between text-xs text-muted-foreground">
           <span>{filteredReceipts.length} receipt{filteredReceipts.length !== 1 && 's'}</span>
-          {filteredReceipts.length !== receipts.length && (
-            <span className="text-usdc">
-              Showing {filteredReceipts.length} of {receipts.length} receipts
-            </span>
-          )}
+          <div className="flex items-center gap-3">
+            {filteredReceipts.length !== receipts.length && (
+              <span className="text-usdc">
+                {filteredReceipts.length} of {receipts.length}
+              </span>
+            )}
+            <button
+              type="button"
+              onClick={() => setShowInference((v) => !v)}
+              className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium transition-colors ${
+                showInference
+                  ? 'bg-purple-500/15 text-purple-400 hover:bg-purple-500/25'
+                  : 'bg-muted text-muted-foreground hover:bg-muted/80'
+              }`}
+            >
+              <span className={`h-1.5 w-1.5 rounded-full ${showInference ? 'bg-purple-400' : 'bg-muted-foreground/50'}`} />
+              LLM Costs
+            </button>
+          </div>
         </div>
       )}
 
-      {/* Receipt feed */}
-      <div className="space-y-3">
-        {filteredReceipts.map((receipt, index) => {
-          const prevReceipt = index > 0 ? filteredReceipts[index - 1] : null
-          const isSent = receipt.direction === 'sent'
-          const prevSent = prevReceipt ? prevReceipt.direction === 'sent' : true
-          const isFirstInference = !isSent && prevSent
+      {/* Receipt feed — grouped by day */}
+      <div className="space-y-6">
+        {(() => {
+          // Group receipts by date
+          const groups: { label: string; date: string; receipts: Receipt[] }[] = []
+          const today = new Date().toDateString()
+          const yesterday = new Date(Date.now() - 86400000).toDateString()
 
-          return (
-            <ReceiptCard
-              key={receipt.hash}
-              receipt={receipt}
-              isFirstInference={isFirstInference}
-            />
-          )
-        })}
+          for (const receipt of filteredReceipts) {
+            const d = new Date(receipt.timestamp * 1000)
+            const dateStr = d.toDateString()
+            const label = dateStr === today ? 'Today' : dateStr === yesterday ? 'Yesterday' : d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
+            
+            const existing = groups.find((g) => g.date === dateStr)
+            if (existing) {
+              existing.receipts.push(receipt)
+            } else {
+              groups.push({ label, date: dateStr, receipts: [receipt] })
+            }
+          }
+
+          return groups.map((group) => (
+            <div key={group.date}>
+              <div className="sticky top-0 z-10 mb-2 flex items-center gap-3 py-1.5 backdrop-blur-sm">
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{group.label}</span>
+                <div className="h-px flex-1 bg-border" />
+                <span className="text-[11px] text-muted-foreground">{group.receipts.length}</span>
+              </div>
+              <div className="space-y-2">
+                {group.receipts.map((receipt) => (
+                  <ReceiptCard
+                    key={receipt.hash}
+                    receipt={receipt}
+                    isFirstInference={false}
+                  />
+                ))}
+              </div>
+            </div>
+          ))
+        })()}
       </div>
 
       {/* Footer */}
