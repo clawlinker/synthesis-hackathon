@@ -44,11 +44,10 @@ export const AGENT: AgentIdentity = {
 }
 
 export const BANKR_AGENT: AgentIdentity = {
-  id: 22946,
-  name: 'Bankr',
-  ens: 'bankr.eth',
+  id: 0,
+  name: 'Bankr (Clawlinker)',
   avatar: 'https://bankr.xyz/favicon.png',
-  wallet: '0x4de9236423ccf24c084d5dfd3581177699477699',
+  wallet: '0x4de988e65a32a12487898c10bc63a88abea2e292',
 }
 
 export const USDC_CONTRACT = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
