@@ -189,14 +189,23 @@ _These differentiate "good enough" from winner. Use budget aggressively._
 - [x] **Multi-chain receipts** — add Ethereum mainnet alongside Base. Show our ERC-8004 registration tx as a receipt. UI chain selector (Base/Ethereum) with live API routes. ✅
 - [x] **Landing/hero section** — proper above-the-fold hero explaining what Agent Receipts is, with CTA to scroll to feed. Not just raw data.
 - [x] **Live Agent Demo** — `/demo` page with embedded chatbot asking "Ask me about my receipts" → shows real agent interacting with its own data. Judges see agent personality, not just static UI.
+- [ ] **💰 WINNER'S EDGE: Agent Receipts Chrome Extension** — Judges install extension → see receipts inline on any wallet address (Etherscan, Blockscout, DexScreener). Shows receipts directly in context. This is the "wow" feature that demonstrates real utility beyond hackathon. Extension skeleton: manifest.json + content script that calls our API. 2-hour build, massive impact.
 
-### Phase 8: Final Polish + Submit (Mar 19-22)
-- [ ] Record demo video (requires Max's screen + voice)
+### Phase 8: Final Polish + Submit (Mar 15-17) — URGENT, PRIORITIZE
+- [ ] **DEPLOY LIVE NOW** — Vercel or similar. Judges need to see it working. This is blocking everything else.
+- [ ] **Record demo video (Max)** — 60-second screencast showing: landing hero → filter/search → multi-chain → x402 endpoint → receipt verification. Critical for judge experience.
+- [ ] **UPGRADE models for final polish** — Use Bankr Claude Sonnet ($3-5) for UI polish, animations, microinteractions. We have $185 credits, spend $30 to make it feel premium.
+- [ ] **Add "judge mode"** — Special view for agentic judges showing: live agent_log.json feed, cost transparency dashboard, build process timeline. Self-referential demo.
+- [ ] **LLM Cost Receipts** — Make inference receipts clickable to show model breakdowns (input/output tokens, exact cost). Shows budget awareness depth.
+- [ ] **Agent personality demo** — `/demo` page with embedded chatbot showing agent interacting with its own receipt data. Judges see autonomy.
+- [ ] **Submit early** — Get feedback before Mar 18 judging, iterate quickly.
+- [ ] **Social proof** — Post about it on X/Farcaster (requires Max). Build hype.
+
+### Phase 9: Iterate Post-Judging (Mar 19-22)
 - [ ] Iterate based on Mar 18 agentic judging feedback
-- [ ] Final agent_log.json with complete cost data from all cron runs
+- [ ] Final agent_log.json with complete cost data
 - [ ] Screenshots for Devfolio (4 minimum)
-- [ ] Package and submit on Devfolio (Mar 22)
-- [ ] **Add LLM Cost Receipts** — make inference receipts clickable to show breakdown: model, input tokens, output tokens, exact cost
+- [ ] Package and submit final on Devfolio (Mar 22)
 
 ## How This Scores
 
