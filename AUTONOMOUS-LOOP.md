@@ -168,7 +168,7 @@ _These directly affect scoring. Do first._
 - [x] Live demo with our own wallet data (0x5793...) — verify all 47+ txs render correctly
 - [x] Add Bankr wallet data (0x4de923...) — show both wallets in the feed with selector
 - [ ] Add multi-wallet support — URL param `?wallet=0x...` to view any agent's receipts (already in place via wallet selector)
-- [ ] Surface Bankr LLM costs as "inference receipts" alongside USDC receipts — show the full cost picture
+- [x] Surface Bankr LLM costs as "inference receipts" alongside USDC receipts — show the full cost picture
 
 ### Phase 5: Deploy + Demo (Mar 17 — MUST be done before Mar 18 agentic judging!)
 - [ ] Deploy to Vercel (or similar) — needs to be live for judges
