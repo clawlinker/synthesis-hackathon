@@ -53,9 +53,10 @@ All required unless marked optional:
 - [x] COLLAB.md documenting human-agent collaboration
 - [x] agent.json complete with all DevSpot fields
 - [x] agent_log.json compiled — full autonomous operation log
-- [ ] Demo video recorded and uploaded to YouTube
-- [ ] Screenshots taken (4 minimum)
+- [ ] Demo video recorded and uploaded to YouTube *(requires Max)*
+- [ ] Screenshots taken (4 minimum) *(requires Max)*
 - [x] Live demo URL working — Build passes, DEPLOY.md ready for Max to deploy to Vercel
+- [x] Devfolio submission prepared — all metadata, agent.json, agent_log.json, README, COLLAB complete
 - [x] All bounty-specific requirements verified against RUBRIC.md
 
 ## Agentic Judging Prep (Mar 18)
