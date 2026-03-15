@@ -41,7 +41,7 @@ export function ReceiptStats({ receipts }: { receipts: Receipt[] }) {
       label: 'x402 Revenue',
       value: `${x402Revenue.toFixed(2)} USDC`,
       delay: 0,
-      accent: x402Revenue > 0 ? 'text-emerald-500' : undefined,
+      accent: x402Revenue > 0 ? 'text-emerald-400' : 'text-zinc-100',
     },
     { label: 'Total Spent', value: `${totalSent.toFixed(2)} USDC`, delay: 75 },
     { label: 'LLM Costs', value: `$${inferenceCost.toFixed(3)}`, delay: 150 },
@@ -59,11 +59,11 @@ export function ReceiptStats({ receipts }: { receipts: Receipt[] }) {
           style={{ animationDelay: `${stat.delay}ms` }}
         >
           <CardContent className="p-4">
-            <div className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground mb-1">
+            <div className="text-[11px] font-medium uppercase tracking-wider text-zinc-400 mb-1">
               {stat.label}
             </div>
             <div
-              className={`text-lg font-semibold tracking-tight ${stat.accent ?? ''}`}
+              className={`text-lg font-bold tracking-tight ${stat.accent ?? 'text-zinc-100'}`}
             >
               {stat.value}
             </div>

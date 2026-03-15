@@ -6,7 +6,10 @@ import { InferenceModal } from './InferenceModal'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
+const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
+
 function shortenAddress(addr: string): string {
+  if (!addr || addr === ZERO_ADDRESS) return ''
   return `${addr.slice(0, 6)}…${addr.slice(-4)}`
 }
 
@@ -33,10 +36,10 @@ function AgentBadge({ agent, align = 'left' }: { agent: Receipt['fromAgent'] | R
         <img src={agent.avatar} alt="" className="h-5 w-5 shrink-0 rounded-full object-cover" />
       )}
       <div className="flex min-w-0 flex-col" style={{ alignItems: align === 'left' ? 'flex-start' : 'flex-end' }}>
-        <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Agent</span>
-        <span className="text-xs font-semibold truncate flex-1">{agent.name}</span>
+        <span className="text-[10px] uppercase tracking-wider text-zinc-400">Agent</span>
+        <span className="text-xs font-semibold truncate flex-1 text-zinc-200">{agent.name}</span>
       </div>
-      <span className="hidden sm:inline shrink-0 font-mono text-[10px] text-muted-foreground/50">#{agent.id}</span>
+      <span className="hidden sm:inline shrink-0 font-mono text-[10px] text-zinc-500">#{agent.id}</span>
     </a>
   )
 }
@@ -50,6 +53,10 @@ function extractModelName(service: string | undefined): string | null {
   if (!service) return null
   const match = service.match(/\(([^)]+)\)\s*$/)
   return match ? match[1] : null
+}
+
+function isZeroAddress(addr: string): boolean {
+  return !addr || addr === ZERO_ADDRESS || addr.replace(/0x0+/, '0x0') === '0x0'
 }
 
 export function ReceiptCard({ receipt, isFirstInference }: { receipt: Receipt; isFirstInference?: boolean }) {
@@ -79,8 +86,8 @@ export function ReceiptCard({ receipt, isFirstInference }: { receipt: Receipt; i
         {/* Inference Section Header */}
         {isFirstInference && (
           <div className="mb-3 flex items-center gap-2">
-            <span className="inline-block h-2 w-2 rounded-full bg-muted-foreground" />
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <span className="inline-block h-2 w-2 rounded-full bg-zinc-500" />
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">
               LLM Inference Receipts (Bankr LLM Costs)
             </span>
           </div>
@@ -111,10 +118,10 @@ export function ReceiptCard({ receipt, isFirstInference }: { receipt: Receipt; i
               </Badge>
             )}
             {receipt.service && !isInference && (
-              <span className="text-xs text-muted-foreground">{receipt.service}</span>
+              <span className="text-xs text-zinc-400">{receipt.service}</span>
             )}
             {receipt.service && isInference && (
-              <span className="text-xs text-muted-foreground truncate max-w-[120px] sm:max-w-xs" title={receipt.service}>
+              <span className="text-xs text-zinc-400 truncate max-w-[120px] sm:max-w-xs" title={receipt.service}>
                 {receipt.service.split('(')[0].trim()}
               </span>
             )}
@@ -129,7 +136,7 @@ export function ReceiptCard({ receipt, isFirstInference }: { receipt: Receipt; i
               </span>
             ) : (
               <>
-                <span className="text-lg font-semibold tabular-nums">
+                <span className="text-lg font-semibold tabular-nums text-zinc-100">
                   {isSent ? '-' : '+'}{receipt.amount}
                 </span>
                 <span className="text-sm font-medium text-usdc">USDC</span>
@@ -141,48 +148,73 @@ export function ReceiptCard({ receipt, isFirstInference }: { receipt: Receipt; i
         {/* Agent Badges */}
         <div className="grid grid-cols-2 gap-3 mb-3">
           <div className="flex flex-col gap-1 items-start">
-            <span className="text-[10px] uppercase tracking-wider text-muted-foreground">From</span>
+            <span className="text-[10px] uppercase tracking-wider text-zinc-400">From</span>
             <AgentBadge agent={receipt.fromAgent} align="left" />
           </div>
           <div className="flex flex-col gap-1 items-end">
-            <span className="text-[10px] uppercase tracking-wider text-muted-foreground">To</span>
+            <span className="text-[10px] uppercase tracking-wider text-zinc-400">To</span>
             <AgentBadge agent={receipt.toAgent} align="right" />
           </div>
         </div>
 
         {/* Addresses (fallback) */}
-        <div className="flex flex-col gap-1 text-sm text-muted-foreground mb-3">
+        <div className="flex flex-col gap-1 text-sm mb-3">
           {!receipt.fromAgent && (
-            <div className="flex items-center gap-2">
-              <span className="w-8 shrink-0 text-[10px] uppercase tracking-wider text-muted-foreground/70">From</span>
-              <span className="font-medium truncate">{receipt.fromLabel || shortenAddress(receipt.from)}</span>
-              <code className="hidden sm:inline font-mono text-[10px] opacity-50">{shortenAddress(receipt.from)}</code>
-            </div>
+            (() => {
+              // Hide zero-address "from" on inference receipts; replace with label
+              if (isInference && isZeroAddress(receipt.from)) {
+                return (
+                  <div className="flex items-center gap-2">
+                    <span className="w-8 shrink-0 text-[10px] uppercase tracking-wider text-zinc-400">From</span>
+                    <span className="font-medium text-zinc-300">Bankr LLM Gateway</span>
+                  </div>
+                )
+              }
+              const label = receipt.fromLabel || shortenAddress(receipt.from)
+              if (!label) return null
+              return (
+                <div className="flex items-center gap-2">
+                  <span className="w-8 shrink-0 text-[10px] uppercase tracking-wider text-zinc-400">From</span>
+                  <span className="font-medium text-zinc-300 truncate">{label}</span>
+                  {receipt.fromLabel && receipt.from && !isZeroAddress(receipt.from) && (
+                    <code className="hidden sm:inline font-mono text-[10px] text-zinc-500">{shortenAddress(receipt.from)}</code>
+                  )}
+                </div>
+              )
+            })()
           )}
           {!receipt.toAgent && (
-            <div className="flex items-center gap-2">
-              <span className="w-8 shrink-0 text-[10px] uppercase tracking-wider text-muted-foreground/70">To</span>
-              <span className="font-medium truncate">{receipt.toLabel || shortenAddress(receipt.to)}</span>
-              <code className="hidden sm:inline font-mono text-[10px] opacity-50">{shortenAddress(receipt.to)}</code>
-            </div>
+            (() => {
+              const label = receipt.toLabel || shortenAddress(receipt.to)
+              if (!label) return null
+              return (
+                <div className="flex items-center gap-2">
+                  <span className="w-8 shrink-0 text-[10px] uppercase tracking-wider text-zinc-400">To</span>
+                  <span className="font-medium text-zinc-300 truncate">{label}</span>
+                  {receipt.toLabel && receipt.to && !isZeroAddress(receipt.to) && (
+                    <code className="hidden sm:inline font-mono text-[10px] text-zinc-500">{shortenAddress(receipt.to)}</code>
+                  )}
+                </div>
+              )
+            })()
           )}
         </div>
 
         {/* Footer: time + tx link */}
-        <div className="flex items-center justify-between gap-2 text-xs text-muted-foreground">
+        <div className="flex items-center justify-between gap-2 text-xs text-zinc-400">
           <span>{formatTime(receipt.timestamp)}</span>
           {isInference ? (
             receipt.modelInfo ? (
-              <span className="font-mono cursor-help opacity-60 hover:opacity-100 transition-opacity text-purple-400">
+              <span className="font-mono cursor-help opacity-80 hover:opacity-100 transition-opacity text-purple-400">
                 ⚡ Cost Breakdown
               </span>
             ) : (
-              <span className="font-mono opacity-60 text-purple-400">⚡ LLM Inference</span>
+              <span className="font-mono text-purple-400 opacity-80">⚡ LLM Inference</span>
             )
           ) : (
             <a
               href={`/receipt/${receipt.hash}`}
-              className="font-mono transition-colors hover:text-foreground"
+              className="font-mono text-zinc-500 transition-colors hover:text-zinc-200"
             >
               {receipt.hash.slice(0, 10)}…
             </a>
