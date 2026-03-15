@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import NavBar from '@/components/NavBar'
 import './globals.css'
 
 const geistSans = Geist({ variable: '--font-sans', subsets: ['latin'] })
@@ -16,6 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className="dark">
       <body className={`${geistSans.variable} ${geistMono.variable} min-h-screen antialiased font-sans`}>
         <TooltipProvider>
+          <NavBar />
           {children}
         </TooltipProvider>
       </body>
