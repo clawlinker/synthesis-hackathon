@@ -543,5 +543,22 @@
       "daily_budget_usd": 0.5,
       "remaining_usd": 189.91
     }
+  },
+  {
+    "timestamp": "2026-03-15T03:30:38Z",
+    "phase": "execute",
+    "action": "update_agent_json_receipt_services",
+    "description": "Add receipt API services (x402-gated, SVG, OG) to agent.json capabilities manifest",
+    "tools_used": [
+      "read",
+      "edit"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "decision": "Receipt API services are core features of the submission and should be documented in the agent capabilities manifest",
+    "outcome": "success",
+    "artifacts": [
+      "agent.json"
+    ]
   }
 ]
