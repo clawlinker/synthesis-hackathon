@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { type Receipt, AGENTS, CHAINS } from '@/app/types'
-import { ReceiptCard } from '@/components/ReceiptCard'
+import { ReceiptList } from '@/components/ReceiptCard'
 import { AgentHeader } from '@/components/AgentHeader'
 import { ReceiptStats } from '@/components/ReceiptStats'
 import { SkeletonReceiptCard } from '@/components/SkeletonReceiptCard'
@@ -431,11 +431,7 @@ export default function Home() {
                 <div className="h-px flex-1 bg-zinc-700" />
                 <span className="text-[11px] text-zinc-500 shrink-0">{group.receipts.length}</span>
               </div>
-              <div className="space-y-1.5">
-                {group.receipts.map((receipt) => (
-                  <ReceiptCard key={receipt.hash} receipt={receipt} />
-                ))}
-              </div>
+              <ReceiptList receipts={group.receipts} />
             </div>
           ))
         })()}
