@@ -248,9 +248,21 @@ export async function GET(request: Request) {
         params.set('apikey', process.env.BASESCAN_API_KEY)
       }
 
-      const res = await fetch(`${apiBase}?${params}`, {
-        next: { revalidate: 60 }, // cache 60s
-      })
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 8000) // 8s timeout
+      
+      let res: Response
+      try {
+        res = await fetch(`${apiBase}?${params}`, {
+          next: { revalidate: 60 },
+          signal: controller.signal,
+        })
+      } catch (fetchErr) {
+        console.warn(`Basescan fetch failed/timed out for ${wallet}:`, fetchErr)
+        clearTimeout(timeoutId)
+        continue
+      }
+      clearTimeout(timeoutId)
 
       if (!res.ok) {
         console.warn(`Basescan API error for ${wallet}: ${res.status}`)
@@ -336,7 +348,16 @@ export async function GET(request: Request) {
     }, { headers: { 'X-RateLimit-Remaining': remaining.toString() } })
   } catch (error) {
     console.warn('Failed to fetch receipts:', error)
-    const enrichedReceipts = sampleReceipts.map(r => {
+    // Still load inference receipts in error fallback
+    let inferenceReceipts: Receipt[] = []
+    try {
+      inferenceReceipts = loadInferenceReceiptsFromLog()
+    } catch { /* ignore */ }
+    if (inferenceReceipts.length === 0) {
+      inferenceReceipts = sampleInferenceReceipts
+    }
+    
+    const enrichedReceipts = [...sampleReceipts, ...inferenceReceipts].map(r => {
       const fromAgent = resolveAgent(r.from)
       const toAgent = resolveAgent(r.to)
       return {
@@ -347,8 +368,8 @@ export async function GET(request: Request) {
     })
     return NextResponse.json({ 
       receipts: enrichedReceipts, 
-      source: 'sample+inference',
-      hasInferenceReceipts: false,
+      source: inferenceReceipts.length > 0 ? 'sample+inference' : 'sample',
+      hasInferenceReceipts: inferenceReceipts.length > 0,
     }, { headers: { 'X-RateLimit-Remaining': remaining.toString() } })
   }
 }

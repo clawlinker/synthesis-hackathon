@@ -201,7 +201,37 @@ _These differentiate "good enough" from winner. Use budget aggressively._
 - [ ] **Submit early** — Get feedback before Mar 18 judging, iterate quickly. ✅ Materials ready: agent.json, agent_log.json, README, COLLAB.md, SUBMISSION.md complete. Live demo build passes. Awaiting Vercel deployment by Max.
 - [ ] **Social proof** — Post about it on X/Farcaster (requires Max). Build hype.
 
-### Phase 9: Iterate Post-Judging (Mar 19-22)
+### Phase 9: UI Element Review — ACTIVE (Mar 15-17)
+_Every element earns its place. Review each component, card, page individually._
+_Source: UI-REVIEW.md — work through checklist items one by one._
+
+**Homepage:**
+- [ ] **Fix API timeout** — `/api/receipts` hangs on Vercel without BASESCAN_API_KEY. Add 10s timeout + fast fallback
+- [ ] **Remove chain IDs from selector** — "Base (8453)" → just "Base". Dev info doesn't belong in UI
+- [ ] **Clean wallet selector** — Remove raw addresses from buttons. Just show agent name
+- [ ] **Add navigation bar** — No way to get between pages (home, build-log, costs, judge). Add minimal nav
+- [ ] **Skeleton loading states** — Replace "Loading receipts..." with skeleton cards
+- [ ] **Empty state icon** — Gray div placeholder → real empty-state illustration or icon
+- [ ] **Review hero section** — Tighten copy, check mobile line breaks, consider removing version badge
+- [ ] **Review ReceiptStats** — Are all 4 stats meaningful? Cross-check data
+- [ ] **Visual distinction for inference receipts** — Different card style vs USDC receipts (they're fundamentally different things)
+- [ ] **Check card click behavior** — Do cards actually link to detail pages?
+- [ ] **Footer cleanup** — x402 API badge feels like an ad. Move to docs or judge mode
+- [ ] **AgentHeader redundancy** — Does it add value over ReceiptStats? Consider merging
+
+**Subpages:**
+- [ ] **Build Log page review** — Is commit data rendering? Navigation back to home?
+- [ ] **Costs page review** — Verify breakdowns are accurate. Add back nav
+- [ ] **Judge Mode review** — Is it overwhelming? Prioritize for limited judge time
+- [ ] **Receipt detail page** — OG image working? SVG rendering? Share button?
+
+**Polish:**
+- [ ] **Mobile responsiveness pass** — Every page on 375px width
+- [ ] **Consistent typography** — Check h1/h2/h3 hierarchy across pages
+- [ ] **Loading/error states** — Every API call needs graceful failure
+- [ ] **Performance** — Check for unnecessary re-renders, large bundles
+
+### Phase 10: Final Submission (Mar 19-22)
 - [ ] Iterate based on Mar 18 agentic judging feedback
 - [ ] Final agent_log.json with complete cost data
 - [ ] Screenshots for Devfolio (4 minimum)
