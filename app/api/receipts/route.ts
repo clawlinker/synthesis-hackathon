@@ -9,9 +9,10 @@ import type { BasescanApiResponse } from '@/data/types'
 // Import agent_log.json as a module — bundled at build time, no fs.readFileSync on serverless
 import agentLogRaw from '@/agent_log.json'
 
-// Basescan V1 deprecated — use Blockscout's etherscan-compatible API (free, no key needed)
-const BASESCAN_API = 'https://api.basescan.org/api'
-const ETH_BLOCKSCOUT_API = 'https://api.etherscan.io/api'
+// Basescan V1 deprecated — use Etherscan API V2
+// Blockscout — free, no key needed, etherscan-compatible API
+const BASESCAN_API = 'https://base.blockscout.com/api'
+const ETH_BLOCKSCOUT_API = 'https://eth.blockscout.com/api'
 
 // API fetch timeout per-request
 const API_TIMEOUT_MS = 3000
@@ -202,6 +203,9 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
         page: '1',
         offset: '50',
       })
+
+      // Etherscan v2 requires chainid parameter
+      params.set('chainid', useBase ? '8453' : '1')
 
       if (process.env.BASESCAN_API_KEY) {
         params.set('apikey', process.env.BASESCAN_API_KEY)
