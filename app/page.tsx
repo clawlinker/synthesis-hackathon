@@ -79,6 +79,8 @@ export default function Home() {
     const filtered = receipts.filter((receipt) => {
       const isInference = receipt.hash?.startsWith('inference-') || !!receipt.modelInfo
       if (!showInference && isInference) return false
+      // Hide zero-amount receipts — they add no value and look broken
+      if (!isInference && (receipt.amount === '0' || receipt.amount === '0.00' || parseFloat(receipt.amount) === 0)) return false
       if (filters.direction !== 'all' && receipt.direction !== filters.direction) return false
       const minVal = parseFloat(filters.minAmount)
       const maxVal = parseFloat(filters.maxAmount)

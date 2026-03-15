@@ -32,7 +32,7 @@ export async function GET() {
     const entries = await loadAgentLog()
     
     return NextResponse.json({
-      entries: entries.slice(0, 50), // Return last 50 entries
+      entries: entries, // Return all entries
       total: entries.length,
       loadedAt: new Date().toISOString(),
     })

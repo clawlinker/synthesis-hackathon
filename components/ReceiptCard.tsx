@@ -132,8 +132,8 @@ export function ReceiptCard({ receipt }: { receipt: Receipt; isFirstInference?: 
               {toDisplay}
             </span>
 
-            {/* Service name — hidden on narrow */}
-            {serviceName && (
+            {/* Service name — hidden on narrow; hide if it duplicates the from/to label */}
+            {serviceName && serviceName !== fromDisplay && serviceName !== toDisplay && (
               <span className="text-[10px] text-zinc-500 shrink-0 hidden sm:inline max-w-[120px] truncate">
                 · {serviceName}
               </span>

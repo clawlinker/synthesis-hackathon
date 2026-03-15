@@ -1,0 +1,184 @@
+{
+  "commits": [
+    {
+      "sha": "81e1ab9cd05737d9e9728c3a0c98ebb3987153d9",
+      "message": "\u23f1\ufe0f ux: smart contextual timestamps on receipt cards (was just HH:MM, now relative/dated)",
+      "author": "Clawlinker",
+      "date": "2026-03-15T22:43:56+00:00"
+    },
+    {
+      "sha": "f6ddbf53a5c7c33abd38454feef36e2ce6bbd8d4",
+      "message": "\ud83d\uddbc\ufe0f fix: OG image now returns PNG (not SVG) so Twitter/Discord previews actually render",
+      "author": "Clawlinker",
+      "date": "2026-03-15T22:25:37+00:00"
+    },
+    {
+      "sha": "425bad4bc1f59c449998132ac87bc8d27fcae725",
+      "message": "\ud83e\uddf9 remove dead code: duplicate InferenceLogEntry in data/types.ts, unused Receipt import, unused BasescanApiResponse import in receipts route",
+      "author": "Clawlinker",
+      "date": "2026-03-15T22:22:26+00:00"
+    },
+    {
+      "sha": "fdaa1194e261d0179ca0680dcd44345797e50c6f",
+      "message": "\ud83d\udc1b fix: AgentHeader source badge always showed 'Sample data' due to exact string match bug",
+      "author": "Clawlinker",
+      "date": "2026-03-15T22:03:07+00:00"
+    },
+    {
+      "sha": "c70e5aec6a67ae1ba4ea867b01061d2c5163e98f",
+      "message": "\ud83e\uddf9 major cleanup: remove 600MB bloat, deduplicate data files, refresh logs",
+      "author": "Clawlinker",
+      "date": "2026-03-15T21:56:59+00:00"
+    },
+    {
+      "sha": "cbe15d7f7d7d30dce670aed5c30a88af6bbb2ee4",
+      "message": "\ud83e\udde0 [think] Agent judges parse logs; human judges need visuals. Fix gitignore gap, run screenshots.",
+      "author": "Clawlinker",
+      "date": "2026-03-15T21:49:53+00:00"
+    },
+    {
+      "sha": "c56530a941bda2861b2ac25557375f2d3979bd41",
+      "message": "\ud83e\udd16 [auto] All Phase 0-9 complete; Phase 10 pending Max input (demo video, Devfolio submission)",
+      "author": "Clawlinker",
+      "date": "2026-03-15T21:46:08+00:00"
+    },
+    {
+      "sha": "4d897e1725713147691a78b56b4fb16817ae2b32",
+      "message": "\ud83d\uddc2\ufe0f move internal docs out of public repo",
+      "author": "Clawlinker",
+      "date": "2026-03-15T21:40:21+00:00"
+    },
+    {
+      "sha": "e1544fe23fee38997141bff95da723898e2a67b2",
+      "message": "\u267b\ufe0f consolidate: remove unused tabs.tsx, extract shared phase-colors utility",
+      "author": "Clawlinker",
+      "date": "2026-03-15T21:38:07+00:00"
+    },
+    {
+      "sha": "583a9bc8a58ab17521f0040e71d2b51baf9643dc",
+      "message": "\ud83e\udd16 [auto] Screenshots for Devfolio - script created, UI polished, awaiting Max capture",
+      "author": "Clawlinker",
+      "date": "2026-03-15T21:33:43+00:00"
+    },
+    {
+      "sha": "7efa41d887b8fbb00358d41a6b68f28f5674a1da",
+      "message": "\ud83d\udd0d [review] Design pass \u2014 minor UX/accessibility improvements",
+      "author": "Clawlinker",
+      "date": "2026-03-15T21:19:23+00:00"
+    },
+    {
+      "sha": "102c3c222298d5811e2d565429b9acf9391e4ef5",
+      "message": "\ud83e\udd16 [auto] Log autonomous task status session",
+      "author": "Clawlinker",
+      "date": "2026-03-15T21:17:40+00:00"
+    },
+    {
+      "sha": "f7c7eb2614dd48547381891f9bacf8fcc4e6368c",
+      "message": "\ud83e\udd16 [auto] Phase 10 status: all autonomous tasks complete, awaiting Max input",
+      "author": "Clawlinker",
+      "date": "2026-03-15T21:17:20+00:00"
+    },
+    {
+      "sha": "12e1f6a4a338a807ed34722569305da715e74d9f",
+      "message": "\ud83c\udfa8 major design pass: compact hero, denser receipts, cleaner layout",
+      "author": "Clawlinker",
+      "date": "2026-03-15T21:13:42+00:00"
+    },
+    {
+      "sha": "0cb8d661ae23b7c64b3e8ba1a5bf3f9d050e4966",
+      "message": "\ud83c\udff7\ufe0f label remaining addresses: x402 facilitator fee + customer",
+      "author": "Clawlinker",
+      "date": "2026-03-15T21:05:57+00:00"
+    },
+    {
+      "sha": "7ebedeaa3d37f959bce49f6539fdd6564725e6c2",
+      "message": "\ud83e\udd16 [auto] Log no-op session - Phase 10 pending Max input",
+      "author": "Clawlinker",
+      "date": "2026-03-15T21:01:21+00:00"
+    },
+    {
+      "sha": "c352cdfb5ee49f0e415da2e2588c03ffbd7f90e5",
+      "message": "\ud83e\udd16 [auto] Phase 10 pending items updated - awaiting Mar 18 judging feedback",
+      "author": "Clawlinker",
+      "date": "2026-03-15T21:01:04+00:00"
+    },
+    {
+      "sha": "4e659df724cd235a7464cf7ea0086664c68e4076",
+      "message": "\ud83c\udff7\ufe0f label 6 unknown addresses: BaseSettler, x402 payout, Bankr top-ups",
+      "author": "Clawlinker",
+      "date": "2026-03-15T20:59:29+00:00"
+    },
+    {
+      "sha": "774c3d09b2320bb104b77a84a346b27bdcc2e6c2",
+      "message": "\ud83e\udd16 [auto] log gate cron fix execution",
+      "author": "Clawlinker",
+      "date": "2026-03-15T20:48:07+00:00"
+    },
+    {
+      "sha": "2e172a1cb20c010e037ceaf26492f3ed467db70f",
+      "message": "\ud83e\udd16 [auto] mark gate cron fix task complete",
+      "author": "Clawlinker",
+      "date": "2026-03-15T20:47:50+00:00"
+    },
+    {
+      "sha": "ba69a3f220933ee756fec0a64272c179c75c817b",
+      "message": "\ud83e\udd16 [auto] fix cron paths and port: use .internal/ and port 3001",
+      "author": "Clawlinker",
+      "date": "2026-03-15T20:47:06+00:00"
+    },
+    {
+      "sha": "197a0bb668b499ef0648c40e6bd8680fb25ad494",
+      "message": "\ud83e\udd16 [auto] Mobile responsiveness pass - receipt detail page width reduced to max-w-2xl, SVG 16:9 aspect ratio, AgentBadge max-width to 140px, all pages verified with responsive text sizes",
+      "author": "Clawlinker",
+      "date": "2026-03-15T20:34:24+00:00"
+    },
+    {
+      "sha": "ba9dd1c0a8fcc234b24f72dd64dac452bef10664",
+      "message": "\ud83d\udd0d [review] Last 3 commits: x402 revenue fix, cron paths, receipt improvements",
+      "author": "Clawlinker",
+      "date": "2026-03-15T20:20:06+00:00"
+    },
+    {
+      "sha": "7cd665d44ca449c8d8bc04f9a94ae666321e3528",
+      "message": "\ud83e\udd16 [auto] Phase 9: Costs/Judge/Receipt page review completed \u2705",
+      "author": "Clawlinker",
+      "date": "2026-03-15T20:17:46+00:00"
+    },
+    {
+      "sha": "5a7c922998ebf9064c973354ead6f8ae23cb225a",
+      "message": "\ud83d\udea6 [gate] flag: cron paths wrong (.internal/), port 3098\u21923001; receipt data real \u2705",
+      "author": "Clawlinker",
+      "date": "2026-03-15T20:13:27+00:00"
+    },
+    {
+      "sha": "64b4a017e00e2c636213aa503fd4d026d9e3cc5d",
+      "message": "\ud83d\udcca fix stats: separate x402 revenue from wallet top-ups",
+      "author": "Clawlinker",
+      "date": "2026-03-15T20:12:54+00:00"
+    },
+    {
+      "sha": "77df67c83c9ae6aee2c87f6b1ea1039210c6a1f6",
+      "message": "\ud83e\udd16 [auto] Build Log page review: fix git date format, verify API endpoints",
+      "author": "Clawlinker",
+      "date": "2026-03-15T20:08:37+00:00"
+    },
+    {
+      "sha": "b9a0818b990fdcc8070b5859415fd0836e19d16e",
+      "message": "\ud83c\udfa8 add favicon, OG image, and meta tags",
+      "author": "Clawlinker",
+      "date": "2026-03-15T19:58:06+00:00"
+    },
+    {
+      "sha": "4eb461b7c93c2a3ce5be64fc6d541af7d1564f38",
+      "message": "\ud83e\udde0 [think] Agent judges need API coverage; fix agent_log.json tracking gap",
+      "author": "Clawlinker",
+      "date": "2026-03-15T19:50:51+00:00"
+    },
+    {
+      "sha": "24378494b8a5ccf54a2390a5e7058a22e6b43deb",
+      "message": "\ud83d\udd04 add receipt caching \u2014 Blockscout fallback for reliable data",
+      "author": "Clawlinker",
+      "date": "2026-03-15T19:48:46+00:00"
+    }
+  ]
+}
