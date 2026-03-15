@@ -9,6 +9,13 @@ import { sampleInferenceReceipts } from '@/data/inference-receipts'
 
 const BASESCAN_API = 'https://api.basescan.org/api'
 
+// Validate required environment variables
+function validateEnv(): void {
+  if (!process.env.BASESCAN_API_KEY) {
+    throw new Error('BASESCAN_API_KEY environment variable is required')
+  }
+}
+
 function labelAddress(address: string): string | undefined {
   const addr = address.toLowerCase()
   for (const [key, label] of Object.entries(ADDRESS_LABELS)) {
@@ -87,6 +94,28 @@ function loadInferenceReceiptsFromLog(): Receipt[] {
 }
 
 export async function GET(request: Request) {
+  try {
+    // Validate required environment variables
+    validateEnv()
+  } catch (error) {
+    console.error('Environment validation failed:', error)
+    const enrichedReceipts = sampleReceipts.map(r => {
+      const fromAgent = resolveAgent(r.from)
+      const toAgent = resolveAgent(r.to)
+      return {
+        ...r,
+        fromAgent: fromAgent ? { id: fromAgent.id, name: fromAgent.name, ens: fromAgent.ens, avatar: fromAgent.avatar } : undefined,
+        toAgent: toAgent ? { id: toAgent.id, name: toAgent.name, ens: toAgent.ens, avatar: toAgent.avatar } : undefined,
+      }
+    })
+    return NextResponse.json({ 
+      receipts: enrichedReceipts, 
+      source: 'sample+inference',
+      hasInferenceReceipts: false,
+      warning: 'BASESCAN_API_KEY not configured - showing sample data only'
+    }, { status: 200 })
+  }
+
   try {
     const url = new URL(request.url)
     const walletParam = url.searchParams.get('wallet')

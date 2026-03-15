@@ -5,6 +5,13 @@ import { ADDRESS_LABELS } from '@/data/address-labels'
 
 const BASESCAN_API = 'https://api.basescan.org/api'
 
+// Validate required environment variables
+function validateEnv(): void {
+  if (!process.env.BASESCAN_API_KEY) {
+    throw new Error('BASESCAN_API_KEY environment variable is required')
+  }
+}
+
 function labelAddress(address: string): string | undefined {
   const addr = address.toLowerCase()
   for (const [key, label] of Object.entries(ADDRESS_LABELS)) {
@@ -191,6 +198,14 @@ export async function GET(
   { params }: { params: Promise<{ hash: string }> }
 ) {
   const { hash } = await params
+
+  // Validate required environment variables
+  try {
+    validateEnv()
+  } catch (error) {
+    console.error('Environment validation failed:', error)
+    return NextResponse.json({ error: 'Server configuration error' }, { status: 500 })
+  }
 
   let receipt = await fetchReceiptByHash(hash)
   if (!receipt) {
