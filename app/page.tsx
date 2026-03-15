@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { type Receipt, AGENTS, AGENT, CHAINS } from '@/app/types'
+import { type Receipt, AGENTS, CHAINS } from '@/app/types'
 import { ReceiptCard } from '@/components/ReceiptCard'
 import { AgentHeader } from '@/components/AgentHeader'
 import { ReceiptStats } from '@/components/ReceiptStats'

@@ -53,7 +53,7 @@ export default async function ReceiptPage({ params }: { params: Promise<{ hash: 
 
   return (
     <main className="min-h-screen bg-black text-white">
-      <div className="max-w-3xl mx-auto px-4 py-8">
+      <div className="max-w-2xl mx-auto px-4 py-8">
         {/* Header */}
         <header className="mb-8 border-b border-gray-800 pb-6">
           <div className="flex flex-wrap items-start justify-between gap-2">
@@ -76,7 +76,7 @@ export default async function ReceiptPage({ params }: { params: Promise<{ hash: 
 
         {/* SVG Receipt */}
         <div className="bg-black rounded-xl border border-gray-800 p-4 mb-6">
-          <div className="aspect-[600/350] w-full">
+          <div className="aspect-[16/9] w-full">
             <object
               data={`/api/receipt/svg/${hash}`}
               type="image/svg+xml"
