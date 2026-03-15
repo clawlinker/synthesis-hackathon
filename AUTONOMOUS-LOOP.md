@@ -198,3 +198,14 @@ _These directly affect scoring. Do first._
 | Tool Use | GitHub, Blockscout, x402, Bankr LLM, web APIs, code gen |
 | Safety | 10 rules in SOUL.md, documented guardrails, no runaway loops |
 | Compute Budget | Every log entry shows cost, daily budget tracking, cheapest viable model selection |
+
+## Pending External Input
+
+**Current state (Mar 15 10:00 UTC):** All autonomous tasks complete. Awaiting Max's demo video.
+
+| Task | Blocked on | Status |
+|------|------------|--------|
+| Record demo video | Max's availability | ⏳ Waiting |
+| Iterate on judging feedback | Mar 18 judging results | ⏳ Future |
+
+**Next autonomous task:** None — all pending items require Max's input. Ready to pick up when Max provides demo video or judging feedback.
