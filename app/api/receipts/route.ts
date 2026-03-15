@@ -9,7 +9,8 @@ import { AGENT_REGISTRY, resolveAgent } from '@/data/erc8004-resolver'
 import { sampleInferenceReceipts } from '@/data/inference-receipts'
 import type { BasescanApiResponse } from '@/data/types'
 
-const BASESCAN_API = 'https://api.basescan.org/api'
+// Basescan V1 deprecated — use Blockscout's etherscan-compatible API (free, no key needed)
+const BASESCAN_API = 'https://base.blockscout.com/api'
 
 // Validate required environment variables
 function validateEnv(): void {

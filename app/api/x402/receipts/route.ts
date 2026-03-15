@@ -3,7 +3,8 @@ import { withX402 } from "@x402/next";
 import { resourceServer, PAYTO_ADDRESS } from "@/app/lib/x402-server";
 import { AGENT, USDC_CONTRACT, type Receipt } from "@/app/types";
 
-const BASESCAN_API = "https://api.basescan.org/api";
+// Basescan V1 deprecated — use Blockscout's etherscan-compatible API (free, no key needed)
+const BASESCAN_API = "https://base.blockscout.com/api";
 
 async function handler(req: NextRequest): Promise<NextResponse> {
   const { searchParams } = new URL(req.url);
