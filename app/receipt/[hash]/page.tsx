@@ -8,27 +8,23 @@ export async function generateMetadata({ params }: { params: Promise<{ hash: str
   const agentId = AGENT.id || '22945'
   const agentWallet = AGENT.wallet.slice(0, 6) + '…' + AGENT.wallet.slice(-4)
 
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://molttail.vercel.app'
+
   return {
     title: `Agent Receipt — ${hash.slice(0, 8)}... | ${agentName}`,
     description: `Verified USDC receipt from ${agentName} (ERC-8004 #${agentId}) — Onchain proof of autonomous agent work`,
-    metadataBase: new URL('https://agentreceipts.com'),
+    metadataBase: new URL(baseUrl),
     openGraph: {
       type: 'article',
       title: `Agent Receipt — ${hash.slice(0, 8)}...`,
       description: `Verified USDC receipt from ${agentName} for autonomous agent work`,
-      url: `https://agentreceipts.com/receipt/${hash}`,
+      url: `${baseUrl}/receipt/${hash}`,
       images: [
         {
           url: `/api/og/${hash}`,
           width: 1200,
           height: 630,
           alt: `Agent Receipt for ${hash.slice(0, 8)}...`,
-        },
-        {
-          url: `/api/receipt/svg/${hash}`,
-          width: 600,
-          height: 350,
-          alt: `SVG Receipt for ${hash.slice(0, 8)}...`,
         },
       ],
       siteName: 'Molttail',
@@ -43,7 +39,7 @@ export async function generateMetadata({ params }: { params: Promise<{ hash: str
       creatorId: '1445807403852820480',
     },
     alternates: {
-      canonical: `https://agentreceipts.com/receipt/${hash}`,
+      canonical: `${baseUrl}/receipt/${hash}`,
     },
   }
 }

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { AGENT } from '@/app/types'
 import { ADDRESS_LABELS } from '@/data/config'
+import sharp from 'sharp'
 
 const BASESCAN_API = 'https://api.basescan.org/api'
 
@@ -74,82 +75,60 @@ function formatAmount(value: string): string {
 
 // Custom SVG generator for OG images
 function generateOGImage(tx: any): string {
-  const isSent = tx ? tx.from === AGENT.wallet : false
-  
-  return `
-<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  const isSent = tx ? tx.from.toLowerCase() === AGENT.wallet.toLowerCase() : false
+  const serviceLabel = tx?.service ? tx.service : 'Payment'
+  const directionText = isSent ? `↑ Sent · ${serviceLabel}` : `↓ Received · ${serviceLabel}`
+
+  return `<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect width="1200" height="630" fill="#0a0a0a"/>
-  
-  <!-- Header -->
-  <circle cx="100" cy="100" r="40" fill="#111111" stroke="#26a17b" stroke-width="3"/>
-  <image href="${AGENT.avatar}" x="80" y="80" width="40" height="40" preserveAspectRatio="xMidYMid cover"/>
-  
-  <text x="150" y="95" font-family="Inter, sans-serif" font-size="32" font-weight="700" fill="#ffffff">
-    Molttail
-  </text>
-  <text x="150" y="125" font-family="Inter, sans-serif" font-size="16" fill="#606060">
-    Verifiable audit trail for autonomous agent transactions
-  </text>
-  
-  <!-- Transaction Card -->
-  <rect x="100" y="180" width="1000" height="200" rx="16" fill="#111111" stroke="#222222" stroke-width="1"/>
-  
+
+  <!-- Subtle grid lines for depth -->
+  <line x1="0" y1="314" x2="1200" y2="314" stroke="#1a1a1a" stroke-width="1"/>
+  <line x1="600" y1="0" x2="600" y2="630" stroke="#1a1a1a" stroke-width="1"/>
+
+  <!-- Top accent bar -->
+  <rect x="0" y="0" width="1200" height="4" fill="#26a17b"/>
+
+  <!-- Logo area -->
+  <text x="80" y="90" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="36" font-weight="700" fill="#ffffff">Molttail</text>
+  <text x="80" y="118" font-family="ui-sans-serif, system-ui, sans-serif" font-size="17" fill="#505050">Agent transaction receipt</text>
+
+  <!-- ERC-8004 badge -->
+  <rect x="930" y="65" width="188" height="32" rx="16" fill="#111111" stroke="#26a17b" stroke-width="1"/>
+  <text x="1024" y="86" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" fill="#26a17b" text-anchor="middle">ERC-8004 #${AGENT.id}</text>
+
+  <!-- Main card -->
+  <rect x="80" y="160" width="1040" height="290" rx="16" fill="#111111" stroke="#222222" stroke-width="1"/>
+
   ${tx ? `
-  <!-- Direction Badge -->
-  <rect x="130" y="210" width="${isSent ? 56 : 66}" height="28" rx="14" fill="${isSent ? 'rgba(220, 38, 38, 0.1)' : 'rgba(34, 197, 94, 0.1)'}"/>
-  <text x="138" y="229" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="${isSent ? '#ef4444' : '#22c55e'}">
-    ${isSent ? '↑ Sent' : '↓ Received'} ${tx.service || 'Payment'}
-  </text>
-  
-  <!-- Amount -->
-  <text x="130" y="275" font-family="Inter, sans-serif" font-size="48" font-weight="700" fill="#ffffff">
-    ${isSent ? '-' : '+'}${formatAmount(tx.value)}
-  </text>
-  <text x="${130 + (isSent ? '-' : '+').length * 24 + formatAmount(tx.value).length * 24}" y="275" font-family="Inter, sans-serif" font-size="24" font-weight="500" fill="#26a17b">
-    ${tx.tokenSymbol}
-  </text>
-  
-  <!-- Separator -->
-  <line x1="130" y1="295" x2="1070" y2="295" stroke="#222222" stroke-width="1"/>
-  
-  <!-- Info -->
-  <text x="130" y="325" font-family="Inter, sans-serif" font-size="16" fill="#a0a0a0">
-    Transaction
-  </text>
-  <text x="400" y="325" font-family="Inter, sans-serif" font-size="16" fill="#ffffff">
-    ${tx.hash.slice(0, 10)}…${tx.hash.slice(-4)}
-  </text>
-  
-  <text x="130" y="355" font-family="Inter, sans-serif" font-size="16" fill="#a0a0a0">
-    Time
-  </text>
-  <text x="400" y="355" font-family="Inter, sans-serif" font-size="16" fill="#ffffff">
-    ${formatTime(tx.timestamp)} UTC
-  </text>
-  
-  <text x="130" y="385" font-family="Inter, sans-serif" font-size="16" fill="#a0a0a0">
-    Agent
-  </text>
-  <text x="400" y="385" font-family="Inter, sans-serif" font-size="16" fill="#ffffff">
-    Clawlinker (ERC-8004 #${AGENT.id})
-  </text>
+  <!-- Direction label -->
+  <text x="116" y="205" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" font-weight="600" fill="${isSent ? '#ef4444' : '#22c55e'}">${directionText}</text>
+
+  <!-- Amount — large -->
+  <text x="116" y="290" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="72" font-weight="700" fill="#ffffff">${isSent ? '−' : '+'}${formatAmount(tx.value)}</text>
+  <text x="116" y="340" font-family="ui-sans-serif, system-ui, sans-serif" font-size="28" font-weight="500" fill="#26a17b">USDC</text>
+
+  <!-- Divider -->
+  <line x1="116" y1="368" x2="1104" y2="368" stroke="#222222" stroke-width="1"/>
+
+  <!-- Meta row -->
+  <text x="116" y="398" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" fill="#606060">TX</text>
+  <text x="180" y="398" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" fill="#cccccc">${tx.hash.slice(0, 14)}…${tx.hash.slice(-6)}</text>
+
+  <text x="116" y="424" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" fill="#606060">TIME</text>
+  <text x="180" y="424" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" fill="#cccccc">${formatTime(tx.timestamp)} UTC</text>
+
+  <text x="116" y="450" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" fill="#606060">AGENT</text>
+  <text x="180" y="450" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" fill="#cccccc">Clawlinker · ${AGENT.ens || 'clawlinker.eth'}</text>
   ` : `
-  <text x="600" y="280" font-family="Inter, sans-serif" font-size="16" fill="#606060" text-anchor="middle">
-    Transaction not found
-  </text>
-  <text x="600" y="310" font-family="Inter, sans-serif" font-size="16" fill="#26a17b" text-anchor="middle">
-    View on BaseScan
-  </text>
+  <text x="600" y="295" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" fill="#505050" text-anchor="middle">Receipt not found on Base</text>
+  <text x="600" y="330" font-family="ui-sans-serif, system-ui, sans-serif" font-size="16" fill="#26a17b" text-anchor="middle">Transaction may be on Ethereum or still indexing</text>
   `}
-  
+
   <!-- Footer -->
-  <text x="600" y="520" font-family="Inter, sans-serif" font-size="14" fill="#606060" text-anchor="middle">
-    Built by 
-    <tspan fill="#26a17b" xml:space="preserve">Clawlinker</tspan>
-    for the Synthesis Hackathon
-  </text>
-</svg>
-`
+  <text x="80" y="590" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" fill="#404040">molttail.vercel.app</text>
+  <text x="1120" y="590" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" fill="#404040" text-anchor="end">Synthesis Hackathon 2026</text>
+</svg>`
 }
 
 export const runtime = 'nodejs'
@@ -163,11 +142,17 @@ export async function GET(
   const tx = await fetchReceiptInfo(txhash)
 
   try {
-    const svg = generateOGImage(tx)
+    const svgString = generateOGImage(tx)
+    const svgBuffer = Buffer.from(svgString)
 
-    return new Response(svg, {
+    // Convert SVG → PNG so social platforms (Twitter, Discord, etc.) render the preview
+    const pngBuffer = await sharp(svgBuffer)
+      .png()
+      .toBuffer()
+
+    return new Response(new Uint8Array(pngBuffer), {
       headers: {
-        'Content-Type': 'image/svg+xml',
+        'Content-Type': 'image/png',
         'Cache-Control': 'public, max-age=3600',
       },
     })
