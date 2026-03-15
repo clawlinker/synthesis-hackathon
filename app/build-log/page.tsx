@@ -69,10 +69,72 @@ export default function BuildLogPage() {
       </div>
 
       {loading ? (
-        <div className="space-y-4">
-          <Skeleton className="h-48 w-full" />
-          <Skeleton className="h-32 w-full" />
-          <Skeleton className="h-32 w-full" />
+        <div className="space-y-8">
+          {/* Cron Pipeline skeleton */}
+          <section>
+            <Skeleton className="h-7 w-40 mb-4" />
+            <Card>
+              <CardContent className="p-6">
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
+                  {[...Array(5)].map((_, i) => (
+                    <Card key={i} className="bg-muted/50">
+                      <CardContent className="flex flex-col items-center gap-2 p-3">
+                        <Skeleton className="h-8 w-8 rounded-full" />
+                        <Skeleton className="h-4 w-16" />
+                        <Skeleton className="h-3 w-12" />
+                        <Skeleton className="h-5 w-10 rounded-full" />
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </section>
+
+          {/* Git Commits skeleton */}
+          <section>
+            <Skeleton className="h-7 w-44 mb-4" />
+            <div className="space-y-2">
+              {[...Array(6)].map((_, i) => (
+                <Card key={i} className="border-l-4 border-l-muted-foreground/20">
+                  <CardContent className="p-4 space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Skeleton className="h-4 w-14 rounded" />
+                      <Skeleton className="h-4 flex-1 max-w-xs" />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Skeleton className="h-3 w-24" />
+                      <Skeleton className="h-3 w-1 rounded-full" />
+                      <Skeleton className="h-3 w-20" />
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
+
+          {/* Agent Log Timeline skeleton */}
+          <section>
+            <Skeleton className="h-7 w-56 mb-4" />
+            <div className="space-y-2">
+              {[...Array(5)].map((_, i) => (
+                <Card key={i} className="border-l-4 border-l-muted-foreground/20">
+                  <CardContent className="p-4 space-y-2">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <Skeleton className="h-5 w-16 rounded" />
+                      <Skeleton className="h-4 w-32" />
+                    </div>
+                    <Skeleton className="h-4 w-full max-w-md" />
+                    <div className="flex gap-1">
+                      <Skeleton className="h-5 w-14 rounded-full" />
+                      <Skeleton className="h-5 w-18 rounded-full" />
+                    </div>
+                    <Skeleton className="h-3 w-40" />
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </section>
         </div>
       ) : (
         <div className="space-y-8">
@@ -115,10 +177,10 @@ export default function BuildLogPage() {
             <div className="space-y-2">
               {commits.slice(0, 15).map((commit) => (
                 <Card key={commit.sha} className="border-l-4 border-l-muted-foreground/20 hover:border-l-muted-foreground/40 transition-colors">
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-2 mb-1">
-                      <code className="font-mono text-xs text-muted-foreground">{commit.sha.slice(0, 7)}</code>
-                      <span className="text-sm">{commit.message}</span>
+                  <CardContent className="p-3 sm:p-4">
+                    <div className="flex items-start gap-2 mb-1 min-w-0">
+                      <code className="font-mono text-xs text-muted-foreground shrink-0">{commit.sha.slice(0, 7)}</code>
+                      <span className="text-sm break-words min-w-0">{commit.message}</span>
                     </div>
                     <div className="text-xs text-muted-foreground">
                       {new Date(commit.author.date).toLocaleString('en-US', {

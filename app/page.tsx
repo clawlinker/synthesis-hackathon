@@ -12,6 +12,7 @@ import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import { EmptyReceipts } from '@/components/EmptyReceipts'
 
 type FilterState = {
   direction: 'all' | 'sent' | 'received'
@@ -124,7 +125,7 @@ export default function Home() {
           Real-time USDC receipts, ERC-8004 identity resolution, and complete transparency.
         </p>
 
-        <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+        <div className="flex flex-wrap items-center justify-center gap-2 pt-2 sm:gap-3">
           <a href="#feed" className={buttonVariants({ size: "lg", className: "bg-usdc text-black hover:bg-usdc/90 shadow-lg shadow-usdc/20" })}>
             View Receipts
             <svg className="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -147,7 +148,7 @@ export default function Home() {
           </a>
         </div>
 
-        <div className="flex items-center justify-center gap-6 pt-6 text-sm text-muted-foreground">
+        <div className="flex flex-wrap items-center justify-center gap-3 md:gap-6 pt-6 text-sm text-muted-foreground">
           {['Live on Base + Ethereum', 'ERC-8004 Verified', 'x402 Payments'].map((item) => (
             <div key={item} className="flex items-center gap-2">
               <svg className="h-4 w-4 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -180,14 +181,18 @@ export default function Home() {
       {/* Empty states */}
       {!error && source !== 'loading' && filteredReceipts.length === 0 && (
         <Card className="my-8">
-          <CardContent className="flex flex-col items-center py-12 text-center">
-            <div className="mb-4 h-12 w-12 rounded-full bg-muted" />
-            <p className="text-sm text-muted-foreground">
-              {receipts.length === 0 ? 'No receipts found' : 'No receipts match your filters'}
-            </p>
-            <p className="mt-1 text-xs text-muted-foreground/70">
-              {receipts.length === 0 ? 'Check back later for live data' : 'Try adjusting your search or filters'}
-            </p>
+          <CardContent className="py-4">
+            <EmptyReceipts
+              hasFilters={
+                filters.direction !== 'all' ||
+                filters.minAmount !== '' ||
+                filters.maxAmount !== '' ||
+                filters.dateFrom !== '' ||
+                filters.dateTo !== '' ||
+                filters.search !== ''
+              }
+              isSearch={filters.search !== ''}
+            />
           </CardContent>
         </Card>
       )}
@@ -308,7 +313,7 @@ export default function Home() {
           {showFilters && (
             <div className="space-y-4 animate-in fade-in slide-in-from-top-2 duration-200">
               {/* Direction + Amount */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
                     Direction

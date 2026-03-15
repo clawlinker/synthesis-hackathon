@@ -84,11 +84,108 @@ export default function JudgeModePage() {
 
   if (loading && !logEntries.length) {
     return (
-      <main className="mx-auto max-w-5xl px-4 py-12">
-        <div className="space-y-4 text-center">
-          <div className="mx-auto h-16 w-16 rounded-full border-4 border-usdc border-t-transparent animate-spin" />
-          <p className="text-xl">Loading judge mode dashboard...</p>
+      <main className="mx-auto max-w-6xl px-4 py-8">
+        {/* Header skeleton */}
+        <section className="mb-12 text-center space-y-4">
+          <Skeleton className="h-6 w-56 mx-auto rounded-full" />
+          <Skeleton className="h-12 w-80 mx-auto" />
+          <Skeleton className="h-6 w-6 mx-auto" />
+          <Skeleton className="h-12 w-64 mx-auto" />
+          <Skeleton className="h-5 w-96 mx-auto" />
+        </section>
+
+        {/* Stats cards skeleton */}
+        <div className="mb-12 grid grid-cols-2 gap-4 lg:grid-cols-4">
+          {[...Array(4)].map((_, i) => (
+            <Card key={i}>
+              <CardContent className="p-6 space-y-2">
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-9 w-20" />
+              </CardContent>
+            </Card>
+          ))}
         </div>
+
+        {/* Filters skeleton */}
+        <div className="mb-8 flex flex-wrap items-center gap-3">
+          <Skeleton className="h-4 w-16" />
+          <Skeleton className="h-10 w-[200px] rounded-md" />
+          <Skeleton className="h-10 w-[160px] rounded-md" />
+        </div>
+
+        {/* Build Timeline skeleton */}
+        <section className="mb-12">
+          <Skeleton className="h-8 w-44 mb-6" />
+          <div className="space-y-3">
+            {[...Array(5)].map((_, i) => (
+              <Card key={i}>
+                <CardContent className="flex gap-4 p-4">
+                  <Skeleton className="h-10 w-10 rounded-full shrink-0" />
+                  <div className="flex-1 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <Skeleton className="h-4 w-64" />
+                      <Skeleton className="h-3 w-24" />
+                    </div>
+                    <div className="flex gap-3">
+                      <Skeleton className="h-3 w-20" />
+                      <Skeleton className="h-3 w-16" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        {/* Agent Execution Log skeleton */}
+        <section className="mb-12">
+          <Skeleton className="h-8 w-52 mb-6" />
+          <div className="space-y-3">
+            {[...Array(4)].map((_, i) => (
+              <Card key={i}>
+                <CardContent className="p-5 space-y-3">
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center gap-3">
+                      <Skeleton className="h-5 w-16 rounded-full" />
+                      <Skeleton className="h-4 w-36" />
+                    </div>
+                    <Skeleton className="h-3 w-24" />
+                  </div>
+                  <Skeleton className="h-4 w-full max-w-lg" />
+                  <Skeleton className="h-4 w-3/4" />
+                  <div className="flex gap-1.5 flex-wrap">
+                    <Skeleton className="h-5 w-14 rounded-full" />
+                    <Skeleton className="h-5 w-20 rounded-full" />
+                    <Skeleton className="h-5 w-16 rounded-full" />
+                    <Skeleton className="h-5 w-12 rounded-full" />
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        {/* Cost Breakdown skeleton */}
+        <section className="mb-12">
+          <Skeleton className="h-8 w-64 mb-6" />
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            {[...Array(3)].map((_, i) => (
+              <Card key={i}>
+                <CardHeader className="pb-3">
+                  <Skeleton className="h-4 w-20" />
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {[...Array(4)].map((_, j) => (
+                    <div key={j} className="flex items-center justify-between">
+                      <Skeleton className="h-3 w-28" />
+                      <Skeleton className="h-3 w-14" />
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
       </main>
     )
   }
@@ -140,7 +237,7 @@ export default function JudgeModePage() {
       <div className="mb-8 flex flex-wrap items-center gap-3">
         <span className="text-sm text-muted-foreground">Filter by:</span>
         <Select value={selectedCron} onValueChange={(v) => v && setSelectedCron(v)}>
-          <SelectTrigger className="w-[200px]">
+          <SelectTrigger className="w-full sm:w-[200px]">
             <SelectValue placeholder="All Crons" />
           </SelectTrigger>
           <SelectContent>
@@ -152,7 +249,7 @@ export default function JudgeModePage() {
         </Select>
 
         <Select value={selectedPhase} onValueChange={(v) => v && setSelectedPhase(v)}>
-          <SelectTrigger className="w-[160px]">
+          <SelectTrigger className="w-full sm:w-[160px]">
             <SelectValue placeholder="All Phases" />
           </SelectTrigger>
           <SelectContent>

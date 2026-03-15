@@ -10,6 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from '@/components/ui/table'
+// Table kept for sm+ screens; mobile uses stacked cards
 
 interface CostBreakdown {
   cron: string
@@ -55,11 +56,93 @@ export default function CostsPage() {
   if (loading) {
     return (
       <main className="mx-auto max-w-5xl px-4 py-8">
-        <h1 className="text-3xl font-bold tracking-tight mb-2">LLM Cost Transparency</h1>
-        <p className="text-muted-foreground mb-8">Loading Bankr LLM credit spending data...</p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-28 w-full" />)}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold tracking-tight mb-2">LLM Cost Transparency</h1>
+          <Skeleton className="h-5 w-96 mb-2" />
         </div>
+
+        {/* Summary cards skeleton */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          {[...Array(4)].map((_, i) => (
+            <Card key={i}>
+              <CardContent className="p-6 space-y-2">
+                <Skeleton className="h-3 w-20" />
+                <Skeleton className="h-8 w-24" />
+                <Skeleton className="h-3 w-16" />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {/* Total cost bar skeleton */}
+        <Card className="mb-8">
+          <CardContent className="p-6 space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="space-y-2">
+                <Skeleton className="h-10 w-32" />
+                <Skeleton className="h-4 w-48" />
+              </div>
+              <div className="space-y-2 text-right">
+                <Skeleton className="h-8 w-16 ml-auto" />
+                <Skeleton className="h-4 w-28" />
+              </div>
+            </div>
+            <Skeleton className="h-2 w-full" />
+          </CardContent>
+        </Card>
+
+        {/* By Cron skeleton */}
+        <section className="mb-8 space-y-2">
+          <Skeleton className="h-7 w-48 mb-4" />
+          {[...Array(3)].map((_, i) => (
+            <Card key={i}>
+              <CardContent className="p-4 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <Skeleton className="h-4 w-48" />
+                    <Skeleton className="h-3 w-24" />
+                  </div>
+                  <div className="space-y-1 text-right">
+                    <Skeleton className="h-5 w-16 ml-auto" />
+                    <Skeleton className="h-3 w-12" />
+                  </div>
+                </div>
+                <Skeleton className="h-1.5 w-full" />
+                <div className="flex gap-2">
+                  <Skeleton className="h-5 w-24 rounded-full" />
+                  <Skeleton className="h-5 w-20 rounded-full" />
+                  <Skeleton className="h-5 w-16 rounded-full" />
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </section>
+
+        {/* By Model table skeleton */}
+        <section className="mb-8">
+          <Skeleton className="h-7 w-36 mb-4" />
+          <Card>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  {['Model', 'Entries', 'Total', 'Avg per Entry'].map((h) => (
+                    <TableHead key={h}>{h}</TableHead>
+                  ))}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {[...Array(4)].map((_, i) => (
+                  <TableRow key={i}>
+                    <TableCell><Skeleton className="h-4 w-40" /></TableCell>
+                    <TableCell><Skeleton className="h-4 w-8" /></TableCell>
+                    <TableCell><Skeleton className="h-4 w-16" /></TableCell>
+                    <TableCell><Skeleton className="h-4 w-14" /></TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Card>
+        </section>
       </main>
     )
   }
@@ -96,9 +179,9 @@ export default function CostsPage() {
           { label: 'Phases', value: `${data.byPhase.length}`, sub: 'discover, plan, execute, verify, cron' },
         ].map((card) => (
           <Card key={card.label}>
-            <CardContent className="p-6">
+            <CardContent className="p-4 sm:p-6">
               <div className="text-sm text-muted-foreground mb-1">{card.label}</div>
-              <div className={`text-2xl font-bold ${card.accent ? 'text-success' : ''}`}>{card.value}</div>
+              <div className={`text-xl sm:text-2xl font-bold ${card.accent ? 'text-success' : ''}`}>{card.value}</div>
               <div className="text-xs text-muted-foreground mt-1">{card.sub}</div>
             </CardContent>
           </Card>
@@ -107,13 +190,13 @@ export default function CostsPage() {
 
       {/* Total Cost Visual */}
       <Card className="mb-8">
-        <CardContent className="p-6">
-          <div className="flex items-center justify-between mb-4">
+        <CardContent className="p-4 sm:p-6">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
             <div>
-              <div className="text-4xl font-bold text-success tabular-nums">{formatCurrency(data.totalCost)}</div>
+              <div className="text-3xl sm:text-4xl font-bold text-success tabular-nums">{formatCurrency(data.totalCost)}</div>
               <div className="text-sm text-muted-foreground">Total Bankr LLM credit spent</div>
             </div>
-            <div className="text-right">
+            <div className="sm:text-right">
               <div className="text-2xl font-semibold tabular-nums">{data.totalEntries}</div>
               <div className="text-sm text-muted-foreground">Log entries tracked</div>
             </div>
@@ -163,13 +246,33 @@ export default function CostsPage() {
         </div>
       </section>
 
-      {/* By Model — Table */}
+      {/* By Model — stacked cards on mobile, table on sm+ */}
       <section className="mb-8">
         <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
           <span className="flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-amber-600 to-orange-600 text-xs">🤖</span>
           Cost by Model
         </h2>
-        <Card>
+
+        {/* Mobile: stacked cards */}
+        <div className="space-y-2 sm:hidden">
+          {data.byModel.map((model, idx) => (
+            <Card key={idx}>
+              <CardContent className="p-4">
+                <div className="flex items-start justify-between mb-1">
+                  <span className="font-medium text-sm leading-tight break-all pr-2">{model.model}</span>
+                  <span className="font-semibold text-success tabular-nums shrink-0">{formatCurrency(model.totalCost)}</span>
+                </div>
+                <div className="flex gap-4 text-xs text-muted-foreground">
+                  <span>{model.count} entries</span>
+                  <span>avg {formatCurrency(model.totalCost / model.count)}</span>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {/* Desktop: table */}
+        <Card className="hidden sm:block">
           <Table>
             <TableHeader>
               <TableRow>
