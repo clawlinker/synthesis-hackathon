@@ -5,6 +5,13 @@ export interface AgentInfo {
   avatar?: string
 }
 
+export interface ModelInfo {
+  model: string
+  inputCost: number
+  outputCost: number
+  tokens: number
+}
+
 export interface Receipt {
   hash: string
   from: string
@@ -25,6 +32,7 @@ export interface Receipt {
   fromAgent?: AgentInfo
   toAgent?: AgentInfo
   notes?: string       // additional context (for inference receipts, etc)
+  modelInfo?: ModelInfo // for LLM inference receipts
 }
 
 export interface AgentIdentity {
