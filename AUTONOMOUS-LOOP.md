@@ -187,7 +187,7 @@ _These differentiate "good enough" from winner. Use budget aggressively._
 - [x] **Shareable receipt pages** — `/receipt/[txhash]` standalone page with OG meta tags for social sharing. Wire up existing SVG endpoint. ✅ (built and committed, bug fixed)
 - [x] **Agent-to-agent receipt verification** — `/api/verify/[txhash]` endpoint that verifies a receipt against Blockscout and returns structured verification result with ERC-8004 identity. ✅
 - [x] **Multi-chain receipts** — add Ethereum mainnet alongside Base. Show our ERC-8004 registration tx as a receipt. UI chain selector (Base/Ethereum) with live API routes. ✅
-- [ ] **Landing/hero section** — proper above-the-fold hero explaining what Agent Receipts is, with CTA to scroll to feed. Not just raw data.
+- [x] **Landing/hero section** — proper above-the-fold hero explaining what Agent Receipts is, with CTA to scroll to feed. Not just raw data.
 - [ ] **Live Agent Demo** — `/demo` page with embedded chatbot asking "Ask me about my receipts" → shows real agent interacting with its own data. Judges see agent personality, not just static UI.
 
 ### Phase 8: Final Polish + Submit (Mar 19-22)
