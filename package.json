@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/fetch-receipts.js || echo 'Prebuild: Cache fetch skipped'",
     "build": "next build",
     "start": "next start"
   },
