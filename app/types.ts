@@ -42,5 +42,16 @@ export const AGENT: AgentIdentity = {
   wallet: '0x5793BFc1331538C5A8028e71Cc22B43750163af8',
 }
 
+export const BANKR_AGENT: AgentIdentity = {
+  id: 22946,
+  name: 'Bankr',
+  ens: 'bankr.eth',
+  avatar: 'https://bankr.xyz/favicon.png',
+  wallet: '0x4de9236423ccf24c084d5dfd3581177699477699',
+}
+
 export const USDC_CONTRACT = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
 export const CHAIN_ID = 8453  // Base
+
+export const AGENTS = [AGENT, BANKR_AGENT] as const
+export type AgentKey = typeof AGENTS[number]['wallet']

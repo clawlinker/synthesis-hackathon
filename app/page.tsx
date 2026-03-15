@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { type Receipt } from '@/app/types'
+import { type Receipt, AGENTS, AGENT, BANKR_AGENT } from '@/app/types'
 import { ReceiptCard } from '@/components/ReceiptCard'
 import { AgentHeader } from '@/components/AgentHeader'
 import { ReceiptStats } from '@/components/ReceiptStats'
@@ -10,11 +10,13 @@ export default function Home() {
   const [receipts, setReceipts] = useState<Receipt[]>([])
   const [source, setSource] = useState<string>('loading')
   const [error, setError] = useState<string | null>(null)
+  const [selectedWallet, setSelectedWallet] = useState<string | null>(null)
 
   useEffect(() => {
     async function fetchReceipts() {
       try {
-        const res = await fetch('/api/receipts')
+        const url = selectedWallet ? `/api/receipts?wallet=${selectedWallet}` : '/api/receipts'
+        const res = await fetch(url)
         const data = await res.json()
         setReceipts(data.receipts)
         setSource(data.source)
@@ -26,7 +28,7 @@ export default function Home() {
     fetchReceipts()
     const interval = setInterval(fetchReceipts, 30000)
     return () => clearInterval(interval)
-  }, [])
+  }, [selectedWallet])
 
   return (
     <main className="max-w-2xl mx-auto px-4 py-8">
@@ -41,6 +43,33 @@ export default function Home() {
           Loading receipts…
         </div>
       )}
+
+      {/* Wallet selector for multi-wallet support */}
+      <div className="flex gap-2 mb-4 flex-wrap">
+        <button
+          onClick={() => setSelectedWallet(null)}
+          className={`px-3 py-1 rounded text-sm transition-colors ${
+            selectedWallet === null
+              ? 'bg-white text-black'
+              : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+          }`}
+        >
+          Both Wallets
+        </button>
+        {AGENTS.map((agent) => (
+          <button
+            key={agent.wallet}
+            onClick={() => setSelectedWallet(agent.wallet)}
+            className={`px-3 py-1 rounded text-sm transition-colors ${
+              selectedWallet === agent.wallet
+                ? 'bg-white text-black'
+                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+            }`}
+          >
+            {agent.name} ({agent.wallet.slice(0, 6)}...{agent.wallet.slice(-4)})
+          </button>
+        ))}
+      </div>
 
       <ReceiptStats receipts={receipts} />
 
