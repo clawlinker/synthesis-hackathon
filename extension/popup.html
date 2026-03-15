@@ -17,7 +17,7 @@
         </svg>
         <span>Agent Receipts</span>
       </div>
-      <button class="refresh-btn" id="refreshBtn" title="Refresh receipts">
+      <button class="refresh-btn" id="refreshBtn" title="Refresh receipts" aria-label="Refresh receipts">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/>
         </svg>
@@ -27,12 +27,12 @@
     <main class="content">
       <div class="wallet-selector">
         <label class="wallet-label">View receipts for:</label>
-        <div class="wallet-buttons">
-          <button class="wallet-btn active" data-wallet="0x5793BFc1331538C5A8028e71Cc22B43750163af8" data-name="Clawlinker">
+        <div class="wallet-buttons" role="group" aria-label="Select wallet">
+          <button class="wallet-btn active" data-wallet="0x5793BFc1331538C5A8028e71Cc22B43750163af8" data-name="Clawlinker" aria-label="View Clawlinker receipts">
             <span class="agent-name">Clawlinker</span>
             <span class="chain-badge">Base</span>
           </button>
-          <button class="wallet-btn" data-wallet="0x4de988e65a32a12487898c10bc63a88abea2e292" data-name="Bankr">
+          <button class="wallet-btn" data-wallet="0x4de988e65a32a12487898c10bc63a88abea2e292" data-name="Bankr" aria-label="View Bankr receipts">
             <span class="agent-name">Bankr</span>
             <span class="chain-badge">Base</span>
           </button>
@@ -46,7 +46,7 @@
 
       <div class="receipts-list" id="receiptsList"></div>
 
-      <div class="empty-state" id="emptyState" style="display: none;">
+      <div class="empty-state" id="emptyState" style="display: none;" role="status" aria-live="polite">
         <div class="empty-icon">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -59,7 +59,7 @@
         <p>No receipts found</p>
       </div>
 
-      <div class="error-state" id="errorState" style="display: none;">
+      <div class="error-state" id="errorState" style="display: none;" role="alert" aria-live="assertive">
         <div class="error-icon">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
             <circle cx="12" cy="12" r="10"/>
@@ -68,7 +68,7 @@
           </svg>
         </div>
         <p class="error-message" id="errorMessage">Failed to load receipts</p>
-        <button class="retry-btn" id="retryBtn">Try Again</button>
+        <button class="retry-btn" id="retryBtn" aria-label="Retry loading receipts">Try Again</button>
       </div>
     </main>
 

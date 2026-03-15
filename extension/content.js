@@ -228,34 +228,39 @@
       // Skip if already a receipt badge
       if (element.classList.contains('agent-receipt-badge')) continue;
 
-      // Check if this is an agent address
-      const isAgent = AGENT_ADDRESSES[address.toLowerCase()] !== undefined;
-      const isInference = !isAgent && Math.random() > 0.5; // Sample for demonstration
+      try {
+        // Check if this is an agent address
+        const isAgent = AGENT_ADDRESSES[address.toLowerCase()] !== undefined;
+        const isInference = !isAgent && Math.random() > 0.5; // Sample for demonstration
 
-      if (isAgent || isInference) {
-        const badge = createBadge(address, isInference);
-        parent.appendChild(badge);
+        if (isAgent || isInference) {
+          const badge = createBadge(address, isInference);
+          parent.appendChild(badge);
 
-        // Fetch and update count
-        const countEl = badge.querySelector('#receiptCount');
-        const count = await fetchReceiptCount(address);
-        
-        if (count === -1) {
-          badge.classList.add('error');
-          countEl.textContent = 'ERR';
-        } else if (count > 0) {
-          countEl.textContent = count;
-        } else {
-          countEl.textContent = '0';
-        }
+          // Fetch and update count
+          const countEl = badge.querySelector('#receiptCount');
+          const count = await fetchReceiptCount(address);
+          
+          if (count === -1) {
+            badge.classList.add('error');
+            countEl.textContent = 'ERR';
+          } else if (count > 0) {
+            countEl.textContent = count;
+          } else {
+            countEl.textContent = '0';
+          }
 
-        // Add click handler
-        badge.addEventListener('click', () => {
-          chrome.runtime.sendMessage({
-            action: 'openReceipts',
-            address: address
+          // Add click handler
+          badge.addEventListener('click', () => {
+            chrome.runtime.sendMessage({
+              action: 'openReceipts',
+              address: address
+            });
           });
-        });
+        }
+      } catch (error) {
+        // Gracefully handle errors without breaking other badges
+        console.warn(`Failed to process address ${address}:`, error);
       }
     }
   }
@@ -266,15 +271,31 @@
   // Re-process periodically (for dynamic content)
   const interval = setInterval(processAddressElements, 3000);
 
-  // Cleanup on page change
-  const cleanup = () => clearInterval(interval);
-  window.addEventListener('beforeunload', cleanup);
-
+  // Cleanup on page navigation (for SPA)
+  const cleanup = () => {
+    clearInterval(interval);
+  };
+  
+  // Listen for navigation events in SPA
+  const cleanupOnNav = () => {
+    clearInterval(interval);
+  };
+  
   // Listen for messages from popup
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'refreshReceipts') {
       processAddressElements();
     }
   });
+
+  // Handle SPA navigation (common patterns)
+  const originalPushState = history.pushState;
+  history.pushState = function() {
+    originalPushState.apply(this, arguments);
+    cleanupOnNav();
+  };
+  
+  window.addEventListener('popstate', cleanupOnNav);
+  window.addEventListener('beforeunload', cleanup);
 
 })();

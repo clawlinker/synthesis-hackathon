@@ -1,6 +1,5 @@
 // State management
 let currentWallet = '0x5793BFc1331538C5A8028e71Cc22B43750163af8'; // Clawlinker default
-let isRefreshing = false;
 
 // DOM Elements
 const receiptsList = document.getElementById('receiptsList');
@@ -159,5 +158,5 @@ function showError(message) {
   errorStateEl.style.display = 'flex';
 }
 
-// Export for testing
-export { fetchReceipts, currentWallet };
+// Note: This file runs in browser extension popup context (not Node.js module)
+// The functions are attached to window scope via event listeners for user interaction
