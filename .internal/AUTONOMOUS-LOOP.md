@@ -178,7 +178,7 @@ _These directly affect scoring. Do first._
 - [x] Test with agent judges — make sure the app responds well to automated evaluation
 
 ### Phase 7: Win It — HIGH IMPACT (Mar 15-17)
-- [ ] **FIX: Gate/self-review crons reference wrong paths** — DECISIONS.md and AUTONOMOUS-LOOP.md live in `.internal/` but cron prompts reference root paths. Update cron prompts via `openclaw cron list` / cron tool to use `.internal/` paths. Also fix gate cron: receipt API is on port 3001 (not 3098). Verify app still running: `ss -tlnp | grep 3001`.
+- [x] **FIX: Gate/self-review crons reference wrong paths** — DECISIONS.md and AUTONOMOUS-LOOP.md live in `.internal/` but cron prompts reference root paths. Update cron prompts via `openclaw cron list` / cron tool to use `.internal/` paths. Also fix gate cron: receipt API is on port 3001 (not 3098). Verify app still running: `ss -tlnp | grep 3001`. ✅ Fixed all three crons (synth-auto-001, synth-self-review, product-gate).
 
 _These differentiate "good enough" from winner. Use budget aggressively._
 
