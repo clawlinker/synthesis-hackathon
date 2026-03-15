@@ -181,7 +181,7 @@ _These directly affect scoring. Do first._
 - [ ] Iterate based on Mar 18 agentic judging feedback
 - [x] Final agent_log.json compilation — complete autonomous operation log with all costs ✅
 - [x] Self-sustaining economics writeup — how x402 revenue from receipt API funds Bankr LLM inference ✅
-- [ ] Demo recording / walkthrough video
+- [x] Demo recording / walkthrough video — created DEMO-SCRIPT.md and DEMO-GUIDE.md with full production checklist
 - [x] Final agent.json update with all capabilities and receipt service endpoint
 - [ ] Package and submit on Devfolio (Mar 22)
 
