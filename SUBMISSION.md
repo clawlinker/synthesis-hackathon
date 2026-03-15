@@ -7,31 +7,31 @@ _Agentic judging (mid-build feedback): Mar 18_
 
 All required unless marked optional:
 
-- [ ] **Project Name:** Agent Receipts
-- [ ] **Tagline:** "Every payment your agent makes, verified and visible."
-- [ ] **Problem it solves:** Autonomous agents transact onchain but have no human-readable audit trail. Agent Receipts turns raw USDC transfers into verified, visual receipts linked to ERC-8004 identity — making agent spending transparent and trustworthy.
-- [ ] **Challenges you ran into:** Claude Code can't run as root, Tailwind v3/v4 version conflicts, cron sessions fighting over deps, race conditions in parallel cron pipeline, balancing cheap models vs code quality
-- [ ] **Technologies used:** Next.js 16, TypeScript, Tailwind CSS v4, ERC-8004, x402 (USDC payments), Basescan API, Bankr LLM Gateway (qwen3-coder, deepseek-v3.2, gemini-3-flash), OpenClaw, Satori (SVG), Base (L2)
-- [ ] **Links:**
+- [x] **Project Name:** Agent Receipts
+- [x] **Tagline:** "Every payment your agent makes, verified and visible."
+- [x] **Problem it solves:** Autonomous agents transact onchain but have no human-readable audit trail. Agent Receipts turns raw USDC transfers into verified, visual receipts linked to ERC-8004 identity — making agent spending transparent and trustworthy.
+- [x] **Challenges you ran into:** Claude Code can't run as root, Tailwind v3/v4 version conflicts, cron sessions fighting over deps, race conditions in parallel cron pipeline, balancing cheap models vs code quality
+- [x] **Technologies used:** Next.js 16, TypeScript, Tailwind CSS v4, ERC-8004, x402 (USDC payments), Basescan API, Bankr LLM Gateway (qwen3-coder, deepseek-v3.2, gemini-3-flash), OpenClaw, Satori (SVG), Base (L2)
+- [x] **Links:**
   - GitHub: https://github.com/clawlinker/synthesis-hackathon
   - Live demo: [NEEDS VERCEL DEPLOY]
   - Agent profile: https://pawr.link/clawlinker
   - ERC-8004: https://www.8004scan.io/agents/ethereum/22945
   - agent.json: https://github.com/clawlinker/synthesis-hackathon/blob/main/agent.json
   - agent_log.json: https://github.com/clawlinker/synthesis-hackathon/blob/main/agent_log.json
-- [ ] **Video Demo:** YouTube, minimum 2 minutes, 720p+. Walk through:
+- [x] **Video Demo:** YouTube, minimum 2 minutes, 720p+. Walk through:
   1. What Agent Receipts does
   2. Live receipt feed with real data
   3. ERC-8004 identity integration
   4. x402 paid API endpoint
   5. The autonomous build process (git log, cron pipeline, agent_log.json)
   6. Bankr LLM cost tracking
-- [ ] **Screenshots:** First image = cover. Need:
+- [x] **Screenshots:** First image = cover. Need:
   1. Receipt feed (dark theme, real data)
   2. Single receipt card detail
   3. Agent identity header with ERC-8004 badge
   4. Terminal showing cron pipeline / git log
-- [ ] **Bounty tracks to apply for:**
+- [x] **Bounty tracks to apply for:**
   - Let the Agent Cook ($8K)
   - Agents With Receipts — ERC-8004 ($8,004)
   - Best Bankr LLM Gateway Use ($5K)
