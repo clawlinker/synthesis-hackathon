@@ -10,3 +10,6 @@ next-env.d.ts
 # nested node_modules
 packages/erc8004-verify/node_modules/
 .internal/
+
+# git lock (prevents cron race conditions)
+.git-lock
