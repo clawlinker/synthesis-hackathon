@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { type Receipt, AGENTS, AGENT, BANKR_AGENT } from '@/app/types'
+import { type Receipt, AGENTS, AGENT, BANKR_AGENT, CHAINS } from '@/app/types'
 import { ReceiptCard } from '@/components/ReceiptCard'
 import { AgentHeader } from '@/components/AgentHeader'
 import { ReceiptStats } from '@/components/ReceiptStats'
@@ -21,6 +21,7 @@ export default function Home() {
   const [source, setSource] = useState<string>('loading')
   const [error, setError] = useState<string | null>(null)
   const [selectedWallet, setSelectedWallet] = useState<string | null>(null)
+  const [selectedChain, setSelectedChain] = useState<keyof typeof CHAINS>('base')
   const [mounted, setMounted] = useState(false)
   const [filters, setFilters] = useState<FilterState>({
     direction: 'all',
@@ -31,12 +32,16 @@ export default function Home() {
     search: '',
   })
 
-  // Read wallet param from URL on mount
+  // Read wallet and chain params from URL on mount
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search)
     const walletParam = urlParams.get('wallet')
+    const chainParam = urlParams.get('chain') as keyof typeof CHAINS | null
     if (walletParam) {
       setSelectedWallet(walletParam)
+    }
+    if (chainParam && CHAINS[chainParam]) {
+      setSelectedChain(chainParam)
     }
     setMounted(true)
   }, [])
@@ -46,7 +51,11 @@ export default function Home() {
       if (!mounted) return
       
       try {
-        const url = selectedWallet ? `/api/receipts?wallet=${selectedWallet}` : '/api/receipts'
+        const params = new URLSearchParams()
+        if (selectedWallet) params.append('wallet', selectedWallet)
+        params.append('chain', selectedChain)
+        
+        const url = `/api/receipts?${params.toString()}`
         const res = await fetch(url)
         const data = await res.json()
         setReceipts(data.receipts)
@@ -59,7 +68,7 @@ export default function Home() {
     fetchReceipts()
     const interval = setInterval(fetchReceipts, 30000)
     return () => clearInterval(interval)
-  }, [selectedWallet, mounted])
+  }, [selectedWallet, selectedChain, mounted])
 
   // Filter receipts when source data or filters change
   useEffect(() => {
@@ -153,12 +162,39 @@ export default function Home() {
         </div>
       )}
 
+      {/* Chain selector for multi-chain support */}
+      <div className="flex gap-2 mb-4 flex-wrap">
+        {Object.entries(CHAINS).map(([key, chain]) => (
+          <button
+            key={key}
+            onClick={() => {
+              setSelectedChain(key as keyof typeof CHAINS)
+              const params = new URLSearchParams(window.location.search)
+              params.set('chain', key)
+              window.history.pushState({}, '', `${window.location.pathname}?${params.toString()}`)
+            }}
+            className={`touch-target px-3 py-1.5 rounded text-sm transition-all duration-200 flex items-center gap-2 ${
+              selectedChain === key
+                ? 'bg-white text-black shadow-lg shadow-white/10'
+                : 'bg-gray-700 text-gray-300 hover:bg-gray-600 active:scale-95'
+            }`}
+          >
+            <span className={`w-2 h-2 rounded-full ${
+              key === 'base' ? 'bg-green-400' : 'bg-blue-400'
+            }`} />
+            {chain.name} ({chain.id})
+          </button>
+        ))}
+      </div>
+
       {/* Wallet selector for multi-wallet support */}
       <div className="flex gap-2 mb-4 flex-wrap">
         <button
           onClick={() => {
             setSelectedWallet(null)
-            window.history.pushState({}, '', window.location.pathname)
+            const params = new URLSearchParams()
+            params.set('chain', selectedChain)
+            window.history.pushState({}, '', `${window.location.pathname}?${params.toString()}`)
           }}
           className={`touch-target px-3 py-1.5 rounded text-sm transition-all duration-200 ${
             selectedWallet === null
@@ -174,7 +210,10 @@ export default function Home() {
             aria-label={`View ${agent.name} receipts`}
             onClick={() => {
               setSelectedWallet(agent.wallet)
-              window.history.pushState({}, '', `${window.location.pathname}?wallet=${agent.wallet}`)
+              const params = new URLSearchParams(window.location.search)
+              params.set('wallet', agent.wallet)
+              params.set('chain', selectedChain)
+              window.history.pushState({}, '', `${window.location.pathname}?${params.toString()}`)
             }}
             className={`touch-target px-3 py-1.5 rounded text-sm transition-all duration-200 ${
               selectedWallet === agent.wallet
