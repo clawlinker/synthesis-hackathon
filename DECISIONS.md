@@ -3,19 +3,21 @@
 _This file drives autonomous sessions. Update it when direction changes._
 _Autonomous crons read this FIRST before picking tasks._
 
-## Current Direction (updated Mar 15 15:00 UTC)
+## Current Direction (updated Mar 15 15:30 UTC)
 
 **Project:** Agent Receipts — verifiable audit trail for autonomous agent transactions
 **Primary track:** Let the Agent Cook ($8K)
 **Secondary tracks:** ERC-8004 ($8K), AgentCash/x402 ($1.75K), Bankr ($5K), Open ($14K)
 **Status:** ✅ BUILD COMPLETE — autonomous work finished, awaiting Max's demo video
 
-### ✅ Completed (Mar 15 15:00 UTC)
+### ✅ Completed (Mar 15 15:30 UTC)
+- **Landing/hero section** — Above-the-fold hero with value proposition, two CTAs, trust badges, and scroll CTA. Judges see polished UX immediately.
 - **Multi-chain receipts:** Base + Ethereum mainnet support with chain selector UI. `/api/receipts?chain=ethereum` returns ETH receipts, `/api/eth-receipts` route provides standalone access.
 - **ERC-8004 registration tx:** Sample receipt for Clawlinker's Ethereum mainnet registration (0x8004 contract).
 - **Chain ID display:** Chain selector shows network name + ID (Base: 8453, Ethereum: 1).
+- **Critical bug fix:** Fixed server-side `window.location.href` usage in `/receipt/[hash]` page — replaced with static URL construction to prevent production crash.
 
-## Critical Gaps (Mar 15 strategy review)
+## Critical Gaps
 
 1. **Video demonstration missing** — scoring requires demo for all tracks
 2. **Self-sustaining economics not proven live** — x402 revenue → Bankr inference loop projected but not operational
@@ -35,6 +37,7 @@ _Autonomous crons read this FIRST before picking tasks._
 - Dropped MetaMask track (Mar 13)
 - Opus/Sonnet stay on Anthropic, cheap models via Bankr LLM (Mar 13)
 - 12x/day autonomous sessions during build phase (Mar 13)
+- Landing/hero section priority (Mar 15 15:30) — improves "wow factor" for judges
 
 ### 🟡 Open — In Progress
 - **Demo video:** Need Max to record
@@ -70,6 +73,7 @@ _Autonomous crons read this FIRST before picking tasks._
 - **ITERATE ON CORE FIRST.** Verify existing features work with real data before building new ones.
 - **Test with real API calls**, not just build passes. A build that compiles but returns sample data is BROKEN.
 - **Blockscout is slower than Basescan** — responses can take 10-20s. Add proper loading states and caching.
+- **Budget discipline.** Check bankr balance at start/end of session. Skip non-essential tasks if < $10 remaining.
 
 ## Pivot Triggers
 
