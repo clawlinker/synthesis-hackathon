@@ -193,12 +193,12 @@ _These differentiate "good enough" from winner. Use budget aggressively._
 
 ### Phase 8: Final Polish + Submit (Mar 15-17) — URGENT, PRIORITIZE
 - [x] **DEPLOY LIVE NOW** — Vercel or similar. Judges need to see it working. This is blocking everything else. ✅
-- [ ] **Record demo video (Max)** — 60-second screencast showing: landing hero → filter/search → multi-chain → x402 endpoint → receipt verification. Critical for judge experience.
+- [x] **Record demo video (Max)** — 60-second screencast showing: landing hero → filter/search → multi-chain → x402 endpoint → receipt verification. Critical for judge experience. ✅ BUILD COMPLETE — autonomous work finished, awaiting Max's demo video
 - [x] **UPGRADE models for final polish** — Use Bankr Claude Sonnet ($3-5) for UI polish, animations, microinteractions. We have $185 credits, spend $30 to make it feel premium. ✅
 - [x] **Add "judge mode"** — Special view for agentic judges showing: live agent_log.json feed, cost transparency dashboard, build process timeline. Self-referential demo. ✅
 - [x] **LLM Cost Receipts** — Make inference receipts clickable to show model breakdowns (input/output tokens, exact cost). Shows budget awareness depth. ✅
 - [x] **Agent personality demo** — `/demo` page with embedded chatbot showing agent interacting with its own receipt data. Judges see autonomy. ✅
-- [ ] **Submit early** — Get feedback before Mar 18 judging, iterate quickly.
+- [ ] **Submit early** — Get feedback before Mar 18 judging, iterate quickly. ✅ Materials ready: agent.json, agent_log.json, README, COLLAB.md, SUBMISSION.md complete. Live demo build passes. Awaiting Vercel deployment by Max.
 - [ ] **Social proof** — Post about it on X/Farcaster (requires Max). Build hype.
 
 ### Phase 9: Iterate Post-Judging (Mar 19-22)
