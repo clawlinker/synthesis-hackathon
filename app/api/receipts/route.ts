@@ -1,6 +1,4 @@
 import { NextResponse } from 'next/server'
-import fs from 'fs'
-import path from 'path'
 import { createHash } from 'crypto'
 import { AGENT, BANKR_AGENT, type Receipt, CHAINS, type ChainKey } from '@/app/types'
 import sampleReceipts from '@/data/sample-receipts.json'
@@ -8,13 +6,18 @@ import { ADDRESS_LABELS, CONTRACTS, RATE_LIMIT, SERVICE_LABELS } from '@/data/co
 import { AGENT_REGISTRY, resolveAgent } from '@/data/erc8004-resolver'
 import { sampleInferenceReceipts } from '@/data/inference-receipts'
 import type { BasescanApiResponse } from '@/data/types'
+// Import agent_log.json as a module — bundled at build time, no fs.readFileSync on serverless
+import agentLogRaw from '@/agent_log.json'
 
 // Basescan V1 deprecated — use Blockscout's etherscan-compatible API (free, no key needed)
 const BASESCAN_API = 'https://base.blockscout.com/api'
 const ETH_BLOCKSCOUT_API = 'https://eth.blockscout.com/api'
 
-// API fetch timeout (2 seconds for Vercel cold-start tolerance)
-const API_TIMEOUT_MS = 2000
+// API fetch timeout per-request
+const API_TIMEOUT_MS = 3000
+
+// Overall route timeout — return sample data if everything takes too long
+const ROUTE_TIMEOUT_MS = 8000
 
 // Rate limiting helpers
 function getClientIp(req: Request): string {
@@ -102,12 +105,10 @@ function enrichReceiptWithAgentData(tx: { from: string; to: string }): Partial<E
   }
 }
 
-// Load agent_log.json for inference receipts
+// Load inference receipts from bundled agent_log.json (no fs I/O at runtime)
 function loadInferenceReceiptsFromLog(): Receipt[] {
   try {
-    const logPath = path.join(process.cwd(), 'agent_log.json')
-    const logContent = fs.readFileSync(logPath, 'utf-8')
-    const logs = JSON.parse(logContent) as Array<{
+    const logs = agentLogRaw as Array<{
       timestamp: string
       model: string
       model_cost_usd: number
@@ -141,13 +142,12 @@ function loadInferenceReceiptsFromLog(): Receipt[] {
     
     return inferenceReceipts
   } catch (e) {
-    // Fail gracefully - return empty array instead of crashing
-    console.warn('Failed to load inference receipts from agent_log.json:', e)
+    console.warn('Failed to parse inference receipts from agent_log.json:', e)
     return []
   }
 }
 
-export async function GET(request: Request) {
+async function fetchReceipts(request: Request): Promise<NextResponse> {
   const clientIp = getClientIp(request)
   const { allowed, remaining } = checkRateLimit(clientIp)
   
@@ -188,13 +188,11 @@ export async function GET(request: Request) {
       walletsToFetch.push({ wallet: BANKR_AGENT.wallet, name: 'Bankr', agentId: BANKR_AGENT.id.toString() })
     }
     
-    // Fetch receipts for all wallets
-    const allReceipts: Receipt[] = []
-    
     const contractAddress = useBase ? CONTRACTS.USDC_CONTRACT : CONTRACTS.ETH_USDC_CONTRACT
     const apiBase = useBase ? BASESCAN_API : ETH_BLOCKSCOUT_API
-    
-    for (const { wallet, agentId } of walletsToFetch) {
+
+    // Fetch all wallets in parallel with Promise.allSettled
+    const fetchPromises = walletsToFetch.map(async ({ wallet, agentId }) => {
       const params = new URLSearchParams({
         module: 'account',
         action: 'tokentx',
@@ -205,76 +203,78 @@ export async function GET(request: Request) {
         offset: '50',
       })
 
-      // Add API key if available
       if (process.env.BASESCAN_API_KEY) {
         params.set('apikey', process.env.BASESCAN_API_KEY)
       }
 
       const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS) // 2s timeout
-      
-      let res: Response
+      const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS)
+
       try {
-        res = await fetch(`${apiBase}?${params}`, {
+        const res = await fetch(`${apiBase}?${params}`, {
           next: { revalidate: 60 },
           signal: controller.signal,
         })
-      } catch (fetchErr) {
-        console.warn(`Basescan fetch failed/timed out for ${wallet}:`, fetchErr)
         clearTimeout(timeoutId)
-        continue
-      }
-      clearTimeout(timeoutId)
 
-      if (!res.ok) {
-        console.warn(`Basescan API error for ${wallet}: ${res.status}`)
-        continue
-      }
-
-      const data = await res.json() as BasescanApiResponse
-
-      if (data.status !== '1' || !Array.isArray(data.result)) {
-        console.warn(`No results for ${wallet}`)
-        continue
-      }
-
-      const receipts: Receipt[] = data.result.map((tx) => {
-        const direction = tx.from.toLowerCase() === wallet.toLowerCase() ? 'sent' : 'received'
-        const agentData = enrichReceiptWithAgentData(tx)
-        
-        return {
-          hash: tx.hash,
-          from: tx.from,
-          to: tx.to,
-          value: tx.value,
-          amount: (parseInt(tx.value) / 1e6).toFixed(2),
-          timestamp: parseInt(tx.timeStamp),
-          blockNumber: tx.blockNumber,
-          direction,
-          status: 'confirmed' as const,
-          tokenSymbol: tx.tokenSymbol,
-          tokenDecimal: tx.tokenDecimal,
-          agentId: agentId,
-          service: getServiceFromTx(tx, wallet),
-          fromLabel: labelAddress(tx.from),
-          toLabel: labelAddress(tx.to),
-          fromAgent: agentData.fromAgent,
-          toAgent: agentData.toAgent,
+        if (!res.ok) {
+          console.warn(`Blockscout API error for ${wallet}: ${res.status}`)
+          return []
         }
-      })
-      
-      allReceipts.push(...receipts)
-    }
+
+        const data = await res.json() as BasescanApiResponse
+
+        if (data.status !== '1' || !Array.isArray(data.result)) {
+          console.warn(`No results for ${wallet}`)
+          return []
+        }
+
+        return data.result.map((tx) => {
+          const direction = tx.from.toLowerCase() === wallet.toLowerCase() ? 'sent' : 'received'
+          const agentData = enrichReceiptWithAgentData(tx)
+          
+          return {
+            hash: tx.hash,
+            from: tx.from,
+            to: tx.to,
+            value: tx.value,
+            amount: (parseInt(tx.value) / 1e6).toFixed(2),
+            timestamp: parseInt(tx.timeStamp),
+            blockNumber: tx.blockNumber,
+            direction,
+            status: 'confirmed' as const,
+            tokenSymbol: tx.tokenSymbol,
+            tokenDecimal: tx.tokenDecimal,
+            agentId: agentId,
+            service: getServiceFromTx(tx, wallet),
+            fromLabel: labelAddress(tx.from),
+            toLabel: labelAddress(tx.to),
+            fromAgent: agentData.fromAgent,
+            toAgent: agentData.toAgent,
+          } as Receipt
+        })
+      } catch (fetchErr) {
+        clearTimeout(timeoutId)
+        console.warn(`Blockscout fetch failed/timed out for ${wallet}:`, fetchErr)
+        return []
+      }
+    })
+
+    // Wait for all parallel fetches
+    const results = await Promise.allSettled(fetchPromises)
+    const allReceipts: Receipt[] = results.flatMap((r) =>
+      r.status === 'fulfilled' ? r.value : []
+    )
 
     // Sort USDC receipts by timestamp (newest first)
     allReceipts.sort((a, b) => b.timestamp - a.timestamp)
     
-    // Load inference receipts from agent_log.json
+    // Load inference receipts from bundled agent_log.json (no fs I/O)
     let inferenceReceipts: Receipt[] = []
     if (includeInference) {
       inferenceReceipts = loadInferenceReceiptsFromLog()
       
-      // Fallback to sample inference receipts if agent_log.json is empty
+      // Fallback to sample inference receipts if agent_log.json parsed empty
       if (inferenceReceipts.length === 0) {
         inferenceReceipts = sampleInferenceReceipts
       }
@@ -320,7 +320,7 @@ export async function GET(request: Request) {
     })
   } catch (error) {
     console.warn('Failed to fetch receipts:', error)
-    // Still load inference receipts in error fallback
+    // Load inference receipts from bundled log in error fallback
     let inferenceReceipts: Receipt[] = []
     try {
       inferenceReceipts = loadInferenceReceiptsFromLog()
@@ -349,4 +349,33 @@ export async function GET(request: Request) {
       } 
     })
   }
+}
+
+// Fallback response used when overall timeout fires
+function timeoutFallback(): NextResponse {
+  const inferenceReceipts = sampleInferenceReceipts
+  const enrichedReceipts = [...sampleReceipts, ...inferenceReceipts].map(r => {
+    const fromAgent = resolveAgent(r.from)
+    const toAgent = resolveAgent(r.to)
+    return {
+      ...r,
+      fromAgent: fromAgent ? { id: fromAgent.id, name: fromAgent.name, ens: fromAgent.ens, avatar: fromAgent.avatar } : undefined,
+      toAgent: toAgent ? { id: toAgent.id, name: toAgent.name, ens: toAgent.ens, avatar: toAgent.avatar } : undefined,
+    }
+  })
+  return NextResponse.json({
+    receipts: enrichedReceipts,
+    source: 'sample+inference',
+    hasInferenceReceipts: inferenceReceipts.length > 0,
+  }, {
+    headers: { 'Cache-Control': 'public, max-age=30, s-maxage=60' }
+  })
+}
+
+export async function GET(request: Request) {
+  // Wrap entire handler in a race against an 8s timeout
+  const timeoutPromise = new Promise<NextResponse>((resolve) =>
+    setTimeout(() => resolve(timeoutFallback()), ROUTE_TIMEOUT_MS)
+  )
+  return Promise.race([fetchReceipts(request), timeoutPromise])
 }
