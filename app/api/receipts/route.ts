@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server'
 import fs from 'fs'
 import path from 'path'
-import { AGENT, BANKR_AGENT, USDC_CONTRACT, type Receipt, AGENTS } from '@/app/types'
+import { createHash } from 'crypto'
+import { AGENT, BANKR_AGENT, type Receipt } from '@/app/types'
 import sampleReceipts from '@/data/sample-receipts.json'
-import { ADDRESS_LABELS } from '@/data/address-labels'
+import { ADDRESS_LABELS, CONTRACTS, RATE_LIMIT, SERVICE_LABELS } from '@/data/config'
 import { AGENT_REGISTRY, resolveAgent } from '@/data/erc8004-resolver'
 import { sampleInferenceReceipts } from '@/data/inference-receipts'
 import type { BasescanApiResponse } from '@/data/types'
@@ -15,6 +16,32 @@ function validateEnv(): void {
   if (!process.env.BASESCAN_API_KEY) {
     throw new Error('BASESCAN_API_KEY environment variable is required')
   }
+}
+
+// Rate limiting helpers
+function getClientIp(req: Request): string {
+  const forwarded = req.headers.get('x-forwarded-for')
+  if (forwarded) return forwarded.split(',')[0].trim()
+  return '127.0.0.1'
+}
+
+const rateLimitCache = new Map<string, { count: number; reset: number }>()
+
+function checkRateLimit(ip: string): { allowed: boolean; remaining: number } {
+  const now = Date.now()
+  const entry = rateLimitCache.get(ip)
+  
+  if (!entry || now > entry.reset) {
+    rateLimitCache.set(ip, { count: 0, reset: now + RATE_LIMIT.windowMs })
+    return { allowed: true, remaining: RATE_LIMIT.maxRequests - 1 }
+  }
+  
+  if (entry.count >= RATE_LIMIT.maxRequests) {
+    return { allowed: false, remaining: 0 }
+  }
+  
+  entry.count++
+  return { allowed: true, remaining: RATE_LIMIT.maxRequests - entry.count }
 }
 
 function labelAddress(address: string): string | undefined {
@@ -30,9 +57,9 @@ function getServiceFromTx(tx: { to: string; from: string }, wallet: string): str
   const from = tx.from.toLowerCase()
   const other = from === wallet.toLowerCase() ? to : from
   
-  // Specific service logic
-  if (other === '0x5776d6d49132516709e11e6e3676e43750163af8') return 'x402 Payment'
-  if (other === '0x9c9563816900f862356b243750163af850163af8') return 'Virtuals Job'
+  // Check against hardcoded contract addresses first
+  if (other === CONTRACTS.X402_FACILITATOR.toLowerCase()) return SERVICE_LABELS[CONTRACTS.X402_FACILITATOR.toLowerCase()]
+  if (other === CONTRACTS.VIRTUALS_ACP.toLowerCase()) return SERVICE_LABELS[CONTRACTS.VIRTUALS_ACP.toLowerCase()]
   
   return labelAddress(other)
 }
@@ -123,11 +150,21 @@ function loadInferenceReceiptsFromLog(): Receipt[] {
 }
 
 export async function GET(request: Request) {
+  const clientIp = getClientIp(request)
+  const { allowed, remaining } = checkRateLimit(clientIp)
+  
+  if (!allowed) {
+    return NextResponse.json(
+      { error: 'Rate limit exceeded. Try again later.' },
+      { status: 429, headers: { 'X-RateLimit-Remaining': '0' } }
+    )
+  }
+
   try {
     // Validate required environment variables
     validateEnv()
   } catch (error) {
-    console.error('Environment validation failed:', error)
+    console.warn('Environment validation failed:', error)
     const enrichedReceipts = sampleReceipts.map(r => {
       const fromAgent = resolveAgent(r.from)
       const toAgent = resolveAgent(r.to)
@@ -141,7 +178,8 @@ export async function GET(request: Request) {
       receipts: enrichedReceipts, 
       source: 'sample+inference',
       hasInferenceReceipts: false,
-      warning: 'BASESCAN_API_KEY not configured - showing sample data only'
+      warning: 'BASESCAN_API_KEY not configured - showing sample data only',
+      'X-RateLimit-Remaining': remaining.toString(),
     }, { status: 200 })
   }
 
@@ -178,7 +216,7 @@ export async function GET(request: Request) {
         module: 'account',
         action: 'tokentx',
         address: wallet,
-        contractaddress: USDC_CONTRACT,
+        contractaddress: CONTRACTS.USDC_CONTRACT,
         sort: 'desc',
         page: '1',
         offset: '50',
@@ -256,7 +294,7 @@ export async function GET(request: Request) {
         receipts: combinedReceipts, 
         source: allReceipts.length > 0 ? 'live+inference' : 'sample+inference',
         hasInferenceReceipts: includeInference && inferenceReceipts.length > 0,
-      })
+      }, { headers: { 'X-RateLimit-Remaining': remaining.toString() } })
     }
     
     // Fall back to sample data if live fetch failed
@@ -274,9 +312,9 @@ export async function GET(request: Request) {
       receipts: enrichedReceipts, 
       source: 'sample+inference',
       hasInferenceReceipts: false,
-    })
+    }, { headers: { 'X-RateLimit-Remaining': remaining.toString() } })
   } catch (error) {
-    console.error('Failed to fetch receipts:', error)
+    console.warn('Failed to fetch receipts:', error)
     const enrichedReceipts = sampleReceipts.map(r => {
       const fromAgent = resolveAgent(r.from)
       const toAgent = resolveAgent(r.to)
@@ -290,6 +328,6 @@ export async function GET(request: Request) {
       receipts: enrichedReceipts, 
       source: 'sample+inference',
       hasInferenceReceipts: false,
-    })
+    }, { headers: { 'X-RateLimit-Remaining': remaining.toString() } })
   }
 }
