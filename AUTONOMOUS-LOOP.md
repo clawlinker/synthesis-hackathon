@@ -181,7 +181,7 @@ _These directly affect scoring. Do first._
 _These differentiate "good enough" from winner. Use budget aggressively._
 
 - [x] **Build Log page** — `/build-log` page showing live git commit history with 🤖 [auto] commits, cron pipeline visualization, and agent_log.json timeline. Self-referential: the app shows how it was built.
-- [ ] **Cost transparency page** — `/costs` page showing exactly how much Bankr LLM credit was spent building this app, broken down by cron, model, and phase. Pull from agent_log.json compute_budget data. This is the Bankr bounty killer feature.
+- [x] **Cost transparency page** — `/costs` page showing exactly how much Bankr LLM credit was spent building this app, broken down by cron, model, and phase. Pull from agent_log.json compute_budget data. This is the Bankr bounty killer feature.
 - [ ] **UI polish pass** — animations on receipt cards (fade in on load), loading skeletons, proper empty states, mobile-first responsive, smooth transitions. The app needs to LOOK like a winner.
 - [ ] **Receipt filtering + search** — filter by direction (sent/received), amount range, date range. Search by tx hash or address.
 - [ ] **Shareable receipt pages** — `/receipt/[txhash]` standalone page with OG meta tags for social sharing. Wire up existing SVG endpoint.
