@@ -279,7 +279,72 @@
       "name": "agent_receipts_api",
       "endpoint": "https://pawr.link/api/receipts",
       "version": "1.0.0",
-      "description": "Agent receipt feed - verifiable audit trail for agent transactions"
+      "description": "Agent receipt feed - verifiable audit trail for agent transactions",
+      "methods": ["GET"],
+      "parameters": {
+        "wallet": {
+          "type": "string",
+          "required": false,
+          "description": "Filter receipts by wallet address (e.g., ?wallet=0x5793...)"
+        },
+        "inference": {
+          "type": "boolean",
+          "required": false,
+          "default": true,
+          "description": "Include Bankr LLM inference receipts in response"
+        }
+      }
+    },
+    {
+      "name": "agent_receipts_x402",
+      "endpoint": "https://pawr.link/api/x402/receipts",
+      "version": "1.0.0",
+      "description": "x402-gated agent receipt feed - $0.01 USDC per request",
+      "methods": ["GET"],
+      "payment": {
+        "protocol": "x402",
+        "price": "$0.01 USDC",
+        "network": "eip155:8453",
+        "currency": "USDC",
+        "currencyAddress": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+      },
+      "parameters": {
+        "wallet": {
+          "type": "string",
+          "required": false,
+          "description": "Filter receipts by wallet address"
+        }
+      }
+    },
+    {
+      "name": "agent_receipt_svg",
+      "endpoint": "https://pawr.link/api/receipt/svg/[hash]",
+      "version": "1.0.0",
+      "description": "Generate SVG receipt card for a transaction hash",
+      "methods": ["GET"],
+      "parameters": {
+        "hash": {
+          "type": "string",
+          "required": true,
+          "description": "Transaction hash (e.g., 0x123...)"
+        }
+      },
+      "format": "image/svg+xml"
+    },
+    {
+      "name": "agent_receipt_og",
+      "endpoint": "https://pawr.link/api/og/[txhash]",
+      "version": "1.0.0",
+      "description": "Generate Open Graph image for a receipt for social sharing",
+      "methods": ["GET"],
+      "parameters": {
+        "txhash": {
+          "type": "string",
+          "required": true,
+          "description": "Transaction hash"
+        }
+      },
+      "format": "image/png"
     }
   ],
   "supportedTrust": ["reputation", "crypto-economic"],
