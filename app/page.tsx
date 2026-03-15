@@ -200,9 +200,25 @@ export default function Home() {
             className="gap-2"
           >
             <span className={`h-2 w-2 rounded-full ${key === 'base' ? 'bg-success' : 'bg-blue-400'}`} />
-            {chain.name} ({chain.id})
+            {chain.name}
           </Button>
         ))}
+      </div>
+
+      {/* Navigation */}
+      <div className="flex gap-2 mb-6 flex-wrap">
+        <a href="#feed" className={buttonVariants({ variant: "outline", size: "sm" })}>
+          Receipts
+        </a>
+        <a href="/build-log" className={buttonVariants({ variant: "outline", size: "sm" })}>
+          Build Log
+        </a>
+        <a href="/costs" className={buttonVariants({ variant: "outline", size: "sm" })}>
+          Costs
+        </a>
+        <a href="/judge" className={buttonVariants({ variant: "outline", size: "sm" })}>
+          Judge Mode
+        </a>
       </div>
 
       {/* Wallet selector */}

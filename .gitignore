@@ -6,3 +6,6 @@ out/
 *.tsbuildinfo
 next-env.d.ts
 .vercel
+
+# nested node_modules
+packages/erc8004-verify/node_modules/
