@@ -385,16 +385,27 @@ export default function Home() {
         </CardContent>
       </Card>
 
-      {/* Receipt count */}
-      {filteredReceipts.length > 0 && (
-        <div className="mb-3 flex items-center text-xs text-zinc-500">
-          <span>
-            {filteredReceipts.length !== receipts.length
-              ? `${filteredReceipts.length} of ${receipts.length} receipts`
-              : `${filteredReceipts.length} receipt${filteredReceipts.length !== 1 ? 's' : ''}`}
-          </span>
-        </div>
-      )}
+      {/* Feed summary bar */}
+      {filteredReceipts.length > 0 && (() => {
+        const usdcReceipts = filteredReceipts.filter(r => !(r.hash?.startsWith('inference-') || !!r.modelInfo))
+        const inferenceReceipts = filteredReceipts.filter(r => r.hash?.startsWith('inference-') || !!r.modelInfo)
+        const totalSpent = filteredReceipts
+          .filter(r => r.direction === 'sent')
+          .reduce((sum, r) => sum + parseFloat(r.amount || '0'), 0)
+        const totalEarned = usdcReceipts
+          .filter(r => r.direction === 'received')
+          .reduce((sum, r) => sum + parseFloat(r.amount || '0'), 0)
+        const parts: string[] = []
+        if (usdcReceipts.length) parts.push(`${usdcReceipts.length} USDC transaction${usdcReceipts.length !== 1 ? 's' : ''}`)
+        if (inferenceReceipts.length) parts.push(`${inferenceReceipts.length} LLM inference call${inferenceReceipts.length !== 1 ? 's' : ''}`)
+        if (totalSpent > 0) parts.push(`$${totalSpent.toFixed(2)} spent`)
+        if (totalEarned > 0) parts.push(`$${totalEarned.toFixed(2)} earned`)
+        return (
+          <div className="mb-3 text-xs text-zinc-500 tabular-nums">
+            {parts.join(' · ')}
+          </div>
+        )
+      })()}
 
       {/* Receipt feed — grouped by day */}
       <div className="space-y-4">
@@ -421,10 +432,22 @@ export default function Home() {
             }
           }
 
-          return groups.map((group) => (
+          // Smart sort: within each day group, USDC receipts first (by timestamp desc),
+          // then inference receipts (by timestamp desc). Judges see real transactions first.
+          for (const group of groups) {
+            const isInference = (r: Receipt) => r.hash?.startsWith('inference-') || !!r.modelInfo
+            const usdc = group.receipts.filter(r => !isInference(r)).sort((a, b) => b.timestamp - a.timestamp)
+            const inference = group.receipts.filter(r => isInference(r)).sort((a, b) => b.timestamp - a.timestamp)
+            group.receipts = [...usdc, ...inference]
+          }
+
+          // Hide empty day groups (e.g. when LLM toggle hides all receipts for a day)
+          const nonEmptyGroups = groups.filter(g => g.receipts.length > 0)
+
+          return nonEmptyGroups.map((group) => (
             <div key={group.date}>
-              {/* Day header */}
-              <div className="sticky top-0 z-10 mb-1.5 flex items-center gap-3 py-1 backdrop-blur-sm">
+              {/* Day header — sticky below nav bar (top-11 = 44px nav height) */}
+              <div className="sticky top-11 z-10 mb-1.5 flex items-center gap-3 py-1 backdrop-blur-sm">
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 shrink-0">
                   {group.label}
                 </span>

@@ -139,7 +139,7 @@ function loadInferenceReceiptsFromLog(): Receipt[] {
           tokenDecimal: '6',
           service: `Bankr LLM — ${entry.action || entry.phase || 'inference'} (${entry.model.split('/')[1] || 'unknown'})`,
           agentId: AGENT.id.toString(),
-          notes: entry.description || 'LLM-powered autonomous operation',
+          notes: `phase:${entry.phase || 'unknown'}|${entry.description || 'LLM-powered autonomous operation'}`,
         }
       })
     
