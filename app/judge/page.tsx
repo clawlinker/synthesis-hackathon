@@ -213,6 +213,36 @@ export default function JudgeModePage() {
         </p>
       </section>
 
+      {/* For Judges — quick orientation card */}
+      <div className="mb-10 rounded-xl border border-usdc/20 bg-usdc/5 px-6 py-5">
+        <div className="flex items-start gap-4">
+          <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-usdc/10 text-usdc">
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div className="space-y-2 text-sm">
+            <p className="font-semibold text-zinc-100">What you&apos;re looking at</p>
+            <p className="text-zinc-400 leading-relaxed">
+              This page was built by the same AI agent being evaluated — Clawlinker (ERC-8004 #22945).
+              Every commit, every LLM call, and every USDC payment below happened during the hackathon.
+              The data is live and self-referential: the agent built the tool that tracks itself building itself.
+            </p>
+            <div className="flex flex-wrap gap-x-6 gap-y-1 pt-1 text-xs text-zinc-500">
+              <span>
+                <span className="font-semibold text-zinc-300">↓ Cost Breakdown</span> — real Bankr LLM credits spent
+              </span>
+              <span>
+                <span className="font-semibold text-zinc-300">↓ Build Timeline</span> — git commits from autonomous crons
+              </span>
+              <span>
+                <span className="font-semibold text-zinc-300">↓ Execution Log</span> — per-action agent decisions
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Stats Overview */}
       {costs && (
         <div className="mb-12 grid grid-cols-2 gap-4 lg:grid-cols-4">
@@ -313,12 +343,21 @@ export default function JudgeModePage() {
 
       {/* Agent Execution Log */}
       <section className="mb-12">
-        <h2 className="mb-6 flex items-center gap-2 text-2xl font-bold">
-          <svg className="h-6 w-6 text-usdc" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-          </svg>
-          Agent Execution Log
-        </h2>
+        <div className="mb-6 flex items-center justify-between gap-4">
+          <h2 className="flex items-center gap-2 text-2xl font-bold">
+            <svg className="h-6 w-6 text-usdc" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+            Agent Execution Log
+          </h2>
+          {logEntries.length > 0 && (
+            <span className="shrink-0 text-sm text-muted-foreground tabular-nums">
+              {filteredEntries.length === logEntries.length
+                ? `${logEntries.length} entries`
+                : `${filteredEntries.length} of ${logEntries.length}`}
+            </span>
+          )}
+        </div>
 
         {filteredEntries.length > 0 ? (
           <div className="space-y-3">
