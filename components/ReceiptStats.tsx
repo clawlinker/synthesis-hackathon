@@ -69,11 +69,20 @@ export function ReceiptStats({ receipts }: { receipts: Receipt[] }) {
       }`}
     >
       {/* Desktop: single row | Mobile: 2x2 grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 divide-x-0 sm:divide-x divide-zinc-800">
+      <div className="grid grid-cols-2 sm:grid-cols-4">
         {stats.map((stat, idx) => (
           <div
             key={idx}
-            className={`py-3 px-4 ${idx > 0 && idx % 2 === 0 ? 'border-t border-zinc-800 sm:border-t-0' : ''}`}
+            className={[
+              'py-3 px-4',
+              // Mobile: right column gets a left border
+              idx % 2 === 1 ? 'border-l border-zinc-800' : '',
+              // Mobile: bottom row gets a top border
+              idx >= 2 ? 'border-t border-zinc-800' : '',
+              // Desktop: only left borders between columns, no top borders
+              'sm:border-t-0',
+              idx > 0 ? 'sm:border-l sm:border-zinc-800' : 'sm:border-l-0',
+            ].filter(Boolean).join(' ')}
           >
             <div className="text-[10px] uppercase tracking-wider text-zinc-500 mb-0.5">
               {stat.label}
