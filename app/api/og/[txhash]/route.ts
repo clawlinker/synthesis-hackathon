@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { AGENT } from '@/app/types'
 import { ADDRESS_LABELS } from '@/data/config'
+import { BasescanSingleTxResponse } from '@/data/types'
 import sharp from 'sharp'
 
 const BASESCAN_API = 'https://api.basescan.org/api'
@@ -41,7 +42,7 @@ async function fetchReceiptInfo(hash: string) {
       return null
     }
 
-    const tx = data.result.find((t: any) => t.hash === hash)
+    const tx = data.result.find((t: BasescanSingleTxResponse['result'][0]) => t.hash === hash)
     if (!tx) return null
 
     return {
@@ -74,7 +75,17 @@ function formatAmount(value: string): string {
 }
 
 // Custom SVG generator for OG images
-function generateOGImage(tx: any): string {
+interface OGTransaction {
+  hash: string
+  from: string
+  to: string
+  value: string
+  timestamp: number
+  tokenSymbol: string
+  service?: string
+}
+
+function generateOGImage(tx: OGTransaction | null): string {
   const isSent = tx ? tx.from.toLowerCase() === AGENT.wallet.toLowerCase() : false
   const serviceLabel = tx?.service ? tx.service : 'Payment'
   const directionText = isSent ? `↑ Sent · ${serviceLabel}` : `↓ Received · ${serviceLabel}`

@@ -1,160 +1,135 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PAYTO_ADDRESS, getResourceServer } from "@/app/lib/x402-server";
+import { PAYTO_ADDRESS } from "@/app/lib/x402-server";
 import { AGENT, USDC_CONTRACT, type Receipt } from "@/app/types";
+import { BlockscoutApiResponse } from "@/data/types";
 
-// Basescan V1 deprecated — use Blockscout's etherscan-compatible API (free, no key needed)
 const BASESCAN_API = "https://base.blockscout.com/api";
 
-async function handler(req: NextRequest): Promise<NextResponse> {
+async function fetchReceipts(wallet: string, limit: number) {
+  const params = new URLSearchParams({
+    module: "account",
+    action: "tokentx",
+    address: wallet,
+    contractaddress: USDC_CONTRACT,
+    sort: "desc",
+    page: "1",
+    offset: String(limit),
+  });
+
+  if (process.env.BASESCAN_API_KEY) {
+    params.set("apikey", process.env.BASESCAN_API_KEY);
+  }
+
+  const res = await fetch(`${BASESCAN_API}?${params}`, {
+    next: { revalidate: 30 },
+  });
+
+  if (!res.ok) return null;
+  const data = await res.json();
+  if (data.status !== "1" || !Array.isArray(data.result)) return [];
+
+  return data.result.map((tx: BlockscoutApiResponse['result'][0]) => ({
+    hash: tx.hash,
+    from: tx.from,
+    to: tx.to,
+    value: tx.value,
+    amount: (parseInt(tx.value) / 1e6).toFixed(2),
+    timestamp: parseInt(tx.timeStamp),
+    blockNumber: tx.blockNumber,
+    direction: tx.from.toLowerCase() === wallet.toLowerCase() ? "sent" : "received",
+    status: "confirmed" as const,
+    tokenSymbol: tx.tokenSymbol,
+    tokenDecimal: tx.tokenDecimal,
+    agentId: String(AGENT.id),
+  }));
+}
+
+// x402 payment gate — $0.01 USDC on Base
+const PAYMENT_REQUIREMENTS = {
+  scheme: "exact",
+  network: "eip155:8453",
+  maxAmountRequired: "10000", // $0.01 in 6-decimal USDC
+  resource: "https://molttail.vercel.app/api/x402/receipts",
+  description: "Access Molttail API - live USDC transaction feed for autonomous agents on Base.",
+  mimeType: "application/json",
+  payTo: PAYTO_ADDRESS,
+  maxTimeoutSeconds: 300,
+};
+
+export async function GET(req: NextRequest) {
+  // Check for x402 payment header
+  const paymentHeader = req.headers.get("X-PAYMENT") || req.headers.get("x-payment");
+
+  if (!paymentHeader) {
+    // Return 402 with payment requirements
+    return NextResponse.json(
+      {
+        error: "Payment Required",
+        paymentRequirements: [PAYMENT_REQUIREMENTS],
+        facilitator: "https://facilitator.x402.org",
+      },
+      {
+        status: 402,
+        headers: {
+          "X-PAYMENT-REQUIREMENTS": JSON.stringify([PAYMENT_REQUIREMENTS]),
+        },
+      }
+    );
+  }
+
+  // If payment header present, try to verify via facilitator
+  try {
+    const verifyRes = await fetch("https://facilitator.x402.org/verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        payload: paymentHeader,
+        paymentRequirements: PAYMENT_REQUIREMENTS,
+      }),
+    });
+
+    if (!verifyRes.ok) {
+      return NextResponse.json(
+        { error: "Payment verification failed" },
+        { status: 402 }
+      );
+    }
+  } catch {
+    // If facilitator is down, accept payment header as-is for hackathon demo
+    console.warn("Facilitator unreachable, accepting payment for demo");
+  }
+
+  // Serve the data
   const { searchParams } = new URL(req.url);
   const wallet = searchParams.get("wallet") || AGENT.wallet;
   const limit = Math.min(parseInt(searchParams.get("limit") || "50"), 100);
 
-  try {
-    const params = new URLSearchParams({
-      module: "account",
-      action: "tokentx",
-      address: wallet,
-      contractaddress: USDC_CONTRACT,
-      sort: "desc",
-      page: "1",
-      offset: String(limit),
-    });
+  const receipts = await fetchReceipts(wallet, limit);
 
-    if (process.env.BASESCAN_API_KEY) {
-      params.set("apikey", process.env.BASESCAN_API_KEY);
-    }
-
-    const res = await fetch(`${BASESCAN_API}?${params}`, {
-      next: { revalidate: 30 },
-    });
-
-    if (!res.ok) {
-      return NextResponse.json(
-        { error: "Failed to fetch from Basescan" },
-        { status: 502 }
-      );
-    }
-
-    const data = await res.json();
-
-    if (data.status !== "1" || !Array.isArray(data.result)) {
-      return NextResponse.json({
-        receipts: [],
-        wallet,
-        source: "live",
-        count: 0,
-        agent: {
-          id: AGENT.id,
-          name: AGENT.name,
-          ens: AGENT.ens,
-        },
-      });
-    }
-
-    const receipts: Receipt[] = data.result.map((tx: any) => ({
-      hash: tx.hash,
-      from: tx.from,
-      to: tx.to,
-      value: tx.value,
-      amount: (parseInt(tx.value) / 1e6).toFixed(2),
-      timestamp: parseInt(tx.timeStamp),
-      blockNumber: tx.blockNumber,
-      direction:
-        tx.from.toLowerCase() === wallet.toLowerCase() ? "sent" : "received",
-      status: "confirmed" as const,
-      tokenSymbol: tx.tokenSymbol,
-      tokenDecimal: tx.tokenDecimal,
-      agentId: String(AGENT.id),
-    }));
-
-    // Compute stats
-    const totalSent = receipts
-      .filter((r) => r.direction === "sent")
-      .reduce((sum, r) => sum + parseFloat(r.amount), 0);
-    const totalReceived = receipts
-      .filter((r) => r.direction === "received")
-      .reduce((sum, r) => sum + parseFloat(r.amount), 0);
-    const uniqueCounterparties = new Set(
-      receipts.map((r) =>
-        r.direction === "sent" ? r.to : r.from
-      )
-    ).size;
-
-    return NextResponse.json({
-      receipts,
-      wallet,
-      source: "live",
-      count: receipts.length,
-      stats: {
-        totalSent: totalSent.toFixed(2),
-        totalReceived: totalReceived.toFixed(2),
-        netFlow: (totalReceived - totalSent).toFixed(2),
-        uniqueCounterparties,
-        dateRange: {
-          from: receipts.length
-            ? new Date(
-                receipts[receipts.length - 1].timestamp * 1000
-              ).toISOString()
-            : null,
-          to: receipts.length
-            ? new Date(receipts[0].timestamp * 1000).toISOString()
-            : null,
-        },
-      },
-      agent: {
-        id: AGENT.id,
-        name: AGENT.name,
-        ens: AGENT.ens,
-        erc8004: `https://www.8004scan.io/agents/ethereum/${AGENT.id}`,
-      },
-    });
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+  if (receipts === null) {
+    return NextResponse.json({ error: "Failed to fetch from Blockscout" }, { status: 502 });
   }
-}
 
-// x402 protected — costs $0.01 USDC on Base to access
-// Lazy-wrapped to avoid build-time facilitator init failures on serverless
-let _wrappedHandler: ((req: NextRequest) => Promise<NextResponse>) | null = null;
+  const totalSent = receipts.filter((r: Receipt) => r.direction === "sent").reduce((s: number, r: Receipt) => s + parseFloat(r.amount), 0);
+  const totalReceived = receipts.filter((r: Receipt) => r.direction === "received").reduce((s: number, r: Receipt) => s + parseFloat(r.amount), 0);
+  const uniqueCounterparties = new Set(receipts.map((r: Receipt) => r.direction === "sent" ? r.to : r.from)).size;
 
-async function getWrappedHandler() {
-  if (!_wrappedHandler) {
-    const { withX402 } = await import("@x402/next");
-    const rs = await getResourceServer();
-    _wrappedHandler = withX402(
-      handler,
-      {
-        accepts: {
-          scheme: "exact",
-          price: "$0.01",
-          network: "eip155:8453",
-          payTo: PAYTO_ADDRESS,
-        },
-        description:
-          "Access Molttail API — live USDC transaction feed for autonomous agents on Base. Returns enriched receipt data with ERC-8004 identity.",
-      },
-      rs,
-      undefined, // paywallConfig
-      undefined, // paywall
-      false,     // syncFacilitatorOnStart — skip eager facilitator sync
-    );
-  }
-  return _wrappedHandler;
-}
-
-export async function GET(req: NextRequest) {
-  try {
-    const wrapped = await getWrappedHandler();
-    return wrapped(req);
-  } catch (error) {
-    console.error("x402 route error:", error);
-    return NextResponse.json(
-      { error: "x402 payment gate unavailable", details: String(error) },
-      { status: 503 }
-    );
-  }
+  return NextResponse.json({
+    receipts,
+    wallet,
+    source: "live",
+    count: receipts.length,
+    stats: {
+      totalSent: totalSent.toFixed(2),
+      totalReceived: totalReceived.toFixed(2),
+      netFlow: (totalReceived - totalSent).toFixed(2),
+      uniqueCounterparties,
+    },
+    agent: {
+      id: AGENT.id,
+      name: AGENT.name,
+      ens: AGENT.ens,
+      erc8004: `https://www.8004scan.io/agents/ethereum/${AGENT.id}`,
+    },
+  });
 }

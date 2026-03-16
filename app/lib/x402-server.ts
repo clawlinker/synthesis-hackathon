@@ -2,7 +2,7 @@
 export const PAYTO_ADDRESS = "0x5793BFc1331538C5A8028e71Cc22B43750163af8";
 
 // Lazy-init to avoid build-time facilitator fetch failures on serverless
-let _resourceServer: any = null;
+let _resourceServer: import("@x402/next").x402ResourceServer | null = null;
 
 export async function getResourceServer() {
   if (!_resourceServer) {
