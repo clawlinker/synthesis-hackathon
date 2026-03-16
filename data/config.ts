@@ -29,6 +29,7 @@ export const SERVICE_LABELS: Record<string, string> = {
 // Address labels (should match address-labels.ts)
 export const ADDRESS_LABELS: Record<string, string> = {
   '0x5793BFc1331538C5A8028e71Cc22B43750163af8': 'Clawlinker (Agent)',
+  '0x4de988e65a32a12487898c10bc63a88abea2e292': 'Bankr (Clawlinker)',
   '0x4de9236423ccf24c084d5dfd3581177699477699': 'Bankr Wallet',
   '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913': 'USDC Contract',
   '0x5776d6D49132516709E11e6E3676E43750163AF8': 'x402 Facilitator (CDP)',

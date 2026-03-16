@@ -1,404 +1,417 @@
 {
   "commits": [
     {
+      "sha": "e6c033b905c3e5191dfc0929dc15d3a7ee371d71",
+      "author": "Clawlinker",
+      "message": "fix: update commits.json with 10 missing recent commits (was stale since 7f06a8c)",
+      "date": "2026-03-16T22:06:08+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/e6c033b905c3e5191dfc0929dc15d3a7ee371d71"
+    },
+    {
       "sha": "598d7a1bd546867feef6120873e83692fd8e1a61",
       "author": "Clawlinker",
-      "date": "2026-03-16T21:07:29+00:00",
       "message": "fix: remove x402 ad badge from judge page footer",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/598d7a1bd546867feef6120873e83692fd8e1a61",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T21:07:29+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/598d7a1bd546867feef6120873e83692fd8e1a61"
     },
     {
       "sha": "8384783d649e2648bb3753d7825193a0aec45e33",
       "author": "Clawlinker",
-      "date": "2026-03-16T19:06:15+00:00",
       "message": "fix: use AppFooter on judge page for consistent nav + branding",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/8384783d649e2648bb3753d7825193a0aec45e33",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T19:06:15+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/8384783d649e2648bb3753d7825193a0aec45e33"
     },
     {
       "sha": "3ea0c33477de725339bf4c4ce4867e638571958a",
       "author": "Clawlinker",
-      "date": "2026-03-16T18:37:42+00:00",
       "message": "fix: rename Spent/Earned \u2192 Sent/Received for accuracy",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/3ea0c33477de725339bf4c4ce4867e638571958a",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T18:37:42+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/3ea0c33477de725339bf4c4ce4867e638571958a"
     },
     {
       "sha": "42eb403fd4b874d2aeed16825c30ebc5842ae337",
       "author": "Clawlinker",
-      "date": "2026-03-16T17:06:18+00:00",
       "message": "\u2728 build-log: show more commits/entries with expand toggle (was 15/20, now 20/30 + show-all button)",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/42eb403fd4b874d2aeed16825c30ebc5842ae337",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T17:06:18+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/42eb403fd4b874d2aeed16825c30ebc5842ae337"
     },
     {
       "sha": "dbe0c39a7963596df23976a44d6f7e4de7e12dd5",
       "author": "Clawlinker",
-      "date": "2026-03-16T16:57:04+00:00",
       "message": "\ud83d\udcf8 add screenshots for Devfolio submission (receipt feed, judge mode, build log, costs)",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/dbe0c39a7963596df23976a44d6f7e4de7e12dd5",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T16:57:04+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/dbe0c39a7963596df23976a44d6f7e4de7e12dd5"
     },
     {
       "sha": "abceeefc675343489dcd965e1334bdc493c98a8a",
       "author": "Clawlinker",
-      "date": "2026-03-16T16:53:32+00:00",
       "message": "\ud83d\udcca agent_log: add 35 entries for Mar 16 autonomous work (111 total, $4.01 spent)",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/abceeefc675343489dcd965e1334bdc493c98a8a",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T16:53:32+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/abceeefc675343489dcd965e1334bdc493c98a8a"
     },
     {
       "sha": "cfc37f6e06dbb25c017e83317068ff15ada70dac",
       "author": "Clawlinker",
-      "date": "2026-03-16T16:52:29+00:00",
       "message": "docs: add hackathon artifacts section to README, link COLLAB + agent.json",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/cfc37f6e06dbb25c017e83317068ff15ada70dac",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T16:52:29+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/cfc37f6e06dbb25c017e83317068ff15ada70dac"
     },
     {
       "sha": "4049b57dab4beb109721b206105116d75733a442",
       "author": "Clawlinker",
-      "date": "2026-03-16T16:52:02+00:00",
       "message": "docs: move COLLAB.md to root, update for Mar 16, fix live URL",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/4049b57dab4beb109721b206105116d75733a442",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T16:52:02+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/4049b57dab4beb109721b206105116d75733a442"
     },
     {
       "sha": "d5343f0dff73d044815501902cf117f6c5b08394",
       "author": "Clawlinker",
-      "date": "2026-03-16T15:55:56+00:00",
       "message": "\ud83e\uddf9 commit orphaned changes",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/d5343f0dff73d044815501902cf117f6c5b08394",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T15:55:56+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/d5343f0dff73d044815501902cf117f6c5b08394"
     },
     {
       "sha": "0c509ed295343fce0b14a420ae7f50abc6026a6d",
       "author": "Clawlinker",
-      "date": "2026-03-16T14:59:15+00:00",
       "message": "fix: show actual time on receipt cards instead of redundant date",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/0c509ed295343fce0b14a420ae7f50abc6026a6d",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T14:59:15+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/0c509ed295343fce0b14a420ae7f50abc6026a6d"
     },
     {
       "sha": "7f06a8c7762998bed9711cc145c3f2e789f457af",
       "author": "Clawlinker",
-      "date": "2026-03-16T12:41:02+00:00",
       "message": "fix: rename x402 Payout \u2192 x402 Payment",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/7f06a8c7762998bed9711cc145c3f2e789f457af",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T12:41:02+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/7f06a8c7762998bed9711cc145c3f2e789f457af"
     },
     {
       "sha": "3b2f5270df0f764f7941c29afa88546aace308ee",
       "author": "Clawlinker",
-      "date": "2026-03-16T12:36:54+00:00",
       "message": "fix: filter inference to Bankr models only (remove Anthropic API), hide LLM costs by default",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/3b2f5270df0f764f7941c29afa88546aace308ee",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T12:36:54+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/3b2f5270df0f764f7941c29afa88546aace308ee"
     },
     {
       "sha": "23b2f9b3771e11bc54a3643e86e743e8e02dc8ff",
       "author": "Clawlinker",
-      "date": "2026-03-16T12:34:39+00:00",
       "message": "fix: x402 endpoint - manual 402 gate, fix em-dash in header causing ByteString error",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/23b2f9b3771e11bc54a3643e86e743e8e02dc8ff",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T12:34:39+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/23b2f9b3771e11bc54a3643e86e743e8e02dc8ff"
     },
     {
       "sha": "3f80bbdb28b139522bd44de71916b0a097996dee",
       "author": "Clawlinker",
-      "date": "2026-03-16T12:31:36+00:00",
       "message": "fix: x402 endpoint - disable syncFacilitatorOnStart, add error handling for serverless",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/3f80bbdb28b139522bd44de71916b0a097996dee",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T12:31:36+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/3f80bbdb28b139522bd44de71916b0a097996dee"
     },
     {
       "sha": "eeb94719b9e0597f7f0e5638f26de1dda5a6b00b",
       "author": "Clawlinker",
-      "date": "2026-03-16T12:29:49+00:00",
       "message": "fix: animate accordion chevron with CSS rotation instead of icon swap",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/eeb94719b9e0597f7f0e5638f26de1dda5a6b00b",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T12:29:49+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/eeb94719b9e0597f7f0e5638f26de1dda5a6b00b"
     },
     {
       "sha": "879eef963bd811a62c7d6d7a9083cdff52769dc7",
       "author": "Clawlinker",
-      "date": "2026-03-16T12:25:14+00:00",
       "message": "\ud83e\uddf9 remove dead code: CHAIN_ID/ETH_CHAIN_ID/AgentKey from types, TableFooter/TableCaption from table.tsx",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/879eef963bd811a62c7d6d7a9083cdff52769dc7",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T12:25:14+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/879eef963bd811a62c7d6d7a9083cdff52769dc7"
     },
     {
       "sha": "ae194244b1c9c4a28b99ff4931c557269947e7af",
       "author": "Clawlinker",
-      "date": "2026-03-16T12:03:55+00:00",
       "message": "fix: correct GitHub commit URLs in Build Log page (base-designer \u2192 clawlinker)",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/ae194244b1c9c4a28b99ff4931c557269947e7af",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T12:03:55+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/ae194244b1c9c4a28b99ff4931c557269947e7af"
     },
     {
       "sha": "f7137d2fbb4cc58d0a352b98c8c3bca21499c103",
       "author": "Clawlinker",
-      "date": "2026-03-16T11:45:01+00:00",
       "message": "fix: CopyLinkButton layout \u2014 remove col-span-2, match share button style",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/f7137d2fbb4cc58d0a352b98c8c3bca21499c103",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T11:45:01+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/f7137d2fbb4cc58d0a352b98c8c3bca21499c103"
     },
     {
       "sha": "f2732c201558de13309002efb3179ac3d6bfd873",
       "author": "Clawlinker",
-      "date": "2026-03-16T11:04:44+00:00",
       "message": "feat: add nav links to AppFooter (Receipts, Judge Mode, Build Log, Costs, GitHub) + use AppFooter on home page",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/f2732c201558de13309002efb3179ac3d6bfd873",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T11:04:44+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/f2732c201558de13309002efb3179ac3d6bfd873"
     },
     {
       "sha": "917678aeb477b19a56a4861204980f9ac2077106",
       "author": "Clawlinker",
-      "date": "2026-03-16T10:24:36+00:00",
       "message": "\ud83e\uddf9 remove dead code: unused AgentHeader component + unused imports (buttonVariants, CHAIN_ID)",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/917678aeb477b19a56a4861204980f9ac2077106",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T10:24:36+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/917678aeb477b19a56a4861204980f9ac2077106"
     },
     {
       "sha": "a4a438509fb5b0187c6f7710e36dbc873002fab7",
       "author": "Clawlinker",
-      "date": "2026-03-16T10:01:32+00:00",
       "message": "fix: add missing verify and cron phases to Judge page filter dropdown",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/a4a438509fb5b0187c6f7710e36dbc873002fab7",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T10:01:32+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/a4a438509fb5b0187c6f7710e36dbc873002fab7"
     },
     {
       "sha": "bd7e54050bc744003d3dfa9594e84d55cf19dcb3",
       "author": "Clawlinker",
-      "date": "2026-03-16T05:55:37+00:00",
       "message": "\ud83e\uddf9 commit orphaned changes",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/bd7e54050bc744003d3dfa9594e84d55cf19dcb3",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T05:55:37+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/bd7e54050bc744003d3dfa9594e84d55cf19dcb3"
     },
     {
       "sha": "8c912ddec303ec2992e52744e61a915a334b00b4",
       "author": "Clawlinker",
-      "date": "2026-03-16T05:03:35+00:00",
       "message": "fix: use correct Blockscout v2 /transactions/{hash} endpoint for SVG receipts",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/8c912ddec303ec2992e52744e61a915a334b00b4",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T05:03:35+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/8c912ddec303ec2992e52744e61a915a334b00b4"
     },
     {
       "sha": "8164f3b8af212e9c4fa25de5f084236e9f7cc074",
       "author": "Clawlinker",
-      "date": "2026-03-16T04:55:35+00:00",
       "message": "\ud83e\uddf9 commit orphaned changes",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/8164f3b8af212e9c4fa25de5f084236e9f7cc074",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T04:55:35+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/8164f3b8af212e9c4fa25de5f084236e9f7cc074"
     },
     {
       "sha": "120d57c5276a0ed79d2628ea73ffe53a940d7352",
       "author": "Clawlinker",
-      "date": "2026-03-16T04:44:22+00:00",
       "message": "fix: replace fs.readFileSync with static imports for Vercel compat (costs, judge, build-log)",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/120d57c5276a0ed79d2628ea73ffe53a940d7352",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T04:44:22+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/120d57c5276a0ed79d2628ea73ffe53a940d7352"
     },
     {
       "sha": "0bc49d676eb0de3b2dfdbca75bdc028125be3462",
       "author": "Clawlinker",
-      "date": "2026-03-16T04:41:46+00:00",
       "message": "fix: lazy-init x402 to avoid build-time facilitator failures on Vercel",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/0bc49d676eb0de3b2dfdbca75bdc028125be3462",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T04:41:46+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/0bc49d676eb0de3b2dfdbca75bdc028125be3462"
     },
     {
       "sha": "7c69d289ddc82eb2dc3c9b8d95cf279bab576955",
       "author": "Clawlinker",
-      "date": "2026-03-16T04:26:48+00:00",
       "message": "feat: add LLM inference section divider in receipt feed",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/7c69d289ddc82eb2dc3c9b8d95cf279bab576955",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T04:26:48+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/7c69d289ddc82eb2dc3c9b8d95cf279bab576955"
     },
     {
       "sha": "40902839066f47fd5baa1c9dabd70cba58b391c0",
       "author": "Clawlinker",
-      "date": "2026-03-16T04:04:03+00:00",
       "message": "fix: add chain field to receipts, fix network label (Base not Base 8453) and explorer links",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/40902839066f47fd5baa1c9dabd70cba58b391c0",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T04:04:03+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/40902839066f47fd5baa1c9dabd70cba58b391c0"
     },
     {
       "sha": "01f8e8b11f35ba61c4ad664118f0f17965f1b23c",
       "author": "Clawlinker",
-      "date": "2026-03-16T03:59:37+00:00",
       "message": "fix: navbar icon, remove double selected state, match content width",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/01f8e8b11f35ba61c4ad664118f0f17965f1b23c",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T03:59:37+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/01f8e8b11f35ba61c4ad664118f0f17965f1b23c"
     },
     {
       "sha": "b7464eba26dae660020496f8962c564ecd61b534",
       "author": "Clawlinker",
-      "date": "2026-03-16T03:35:40+00:00",
       "message": "\ud83c\udfa8 refine navbar using Refero MCP research patterns",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/b7464eba26dae660020496f8962c564ecd61b534",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T03:35:40+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/b7464eba26dae660020496f8962c564ecd61b534"
     },
     {
       "sha": "7f311645a88173b19026123bb314ed4d099cb713",
       "author": "Clawlinker",
-      "date": "2026-03-16T03:30:51+00:00",
       "message": "\ud83c\udfa8 level up navbar: glassmorphic, logo mark, Base badge, icon links",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/7f311645a88173b19026123bb314ed4d099cb713",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T03:30:51+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/7f311645a88173b19026123bb314ed4d099cb713"
     },
     {
       "sha": "ccbb819583037bc214e50af3041b826514c4c16c",
       "author": "Clawlinker",
-      "date": "2026-03-16T03:24:44+00:00",
       "message": "fix: animated counters re-trigger when data arrives",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/ccbb819583037bc214e50af3041b826514c4c16c",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T03:24:44+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/ccbb819583037bc214e50af3041b826514c4c16c"
     },
     {
       "sha": "f1bda83223a1615a519481df3d69cf010779d82f",
       "author": "Clawlinker",
-      "date": "2026-03-16T03:18:39+00:00",
       "message": "\ud83c\udfa8 new hero section: stats-driven, animated counters, judge-ready",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/f1bda83223a1615a519481df3d69cf010779d82f",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T03:18:39+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/f1bda83223a1615a519481df3d69cf010779d82f"
     },
     {
       "sha": "8921c57898c3b17836dbd8a9365344fbe4380004",
       "author": "Clawlinker",
-      "date": "2026-03-16T03:13:29+00:00",
       "message": "\ud83d\udd17 accurate verification: on-chain vs off-chain receipts",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/8921c57898c3b17836dbd8a9365344fbe4380004",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T03:13:29+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/8921c57898c3b17836dbd8a9365344fbe4380004"
     },
     {
       "sha": "d992437c316c2b1990e7153fddf7c56181d3500f",
       "author": "Clawlinker",
-      "date": "2026-03-16T03:09:09+00:00",
       "message": "\ud83d\udd0d fix inference provider: Anthropic API for claude models, Bankr for qwen/deepseek",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/d992437c316c2b1990e7153fddf7c56181d3500f",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T03:09:09+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/d992437c316c2b1990e7153fddf7c56181d3500f"
     },
     {
       "sha": "5ddc9465b87eaeb0113ab938f8d279fd0ea8c368",
       "author": "Clawlinker",
-      "date": "2026-03-16T03:05:54+00:00",
       "message": "\ud83e\uddfe mini receipt stubs: each row is a tiny receipt card",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/5ddc9465b87eaeb0113ab938f8d279fd0ea8c368",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T03:05:54+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/5ddc9465b87eaeb0113ab938f8d279fd0ea8c368"
     },
     {
       "sha": "3f21e4fbd1f5059169a7b18a72ec658e811aa005",
       "author": "Clawlinker",
-      "date": "2026-03-16T02:59:42+00:00",
       "message": "\ud83d\udd17 receipt paper: clickable tx hash + View Receipt link to detail page",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/3f21e4fbd1f5059169a7b18a72ec658e811aa005",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T02:59:42+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/3f21e4fbd1f5059169a7b18a72ec658e811aa005"
     },
     {
       "sha": "7f340bc5031a6550b5a69d301093f9b188507aa5",
       "author": "Clawlinker",
-      "date": "2026-03-16T02:53:22+00:00",
       "message": "\ud83e\uddfe receipt paper polish: animation, perforated edges, better collapse button",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/7f340bc5031a6550b5a69d301093f9b188507aa5",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T02:53:22+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/7f340bc5031a6550b5a69d301093f9b188507aa5"
     },
     {
       "sha": "2f3443fa2a5c8185a3588d9b4ad333d26fc5a976",
       "author": "Clawlinker",
-      "date": "2026-03-16T02:48:00+00:00",
       "message": "\ud83e\uddfe receipt paper view: thermal printer aesthetic, click to expand",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/2f3443fa2a5c8185a3588d9b4ad333d26fc5a976",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T02:48:00+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/2f3443fa2a5c8185a3588d9b4ad333d26fc5a976"
     },
     {
       "sha": "02af1bcaa008b7214f427333a9e80a017420f909",
       "author": "Clawlinker",
-      "date": "2026-03-16T02:40:57+00:00",
       "message": "\ud83c\udfa8 proper design system pass (Refactoring UI)",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/02af1bcaa008b7214f427333a9e80a017420f909",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T02:40:57+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/02af1bcaa008b7214f427333a9e80a017420f909"
     },
     {
       "sha": "4b73ea27f36fafeb46d68a056c853f672c07ff8a",
       "author": "Clawlinker",
-      "date": "2026-03-16T02:25:48+00:00",
       "message": "\ud83d\udd25 fix triple redundancy: narrative shows only counterparty/task, amount+model shown separately",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/4b73ea27f36fafeb46d68a056c853f672c07ff8a",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T02:25:48+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/4b73ea27f36fafeb46d68a056c853f672c07ff8a"
     },
     {
       "sha": "61d7163ff45402507f4fe055d336b51ebd32d03d",
       "author": "Clawlinker",
-      "date": "2026-03-16T02:21:30+00:00",
       "message": "\ud83e\uddf9 remove dead code: ReceiptCard variants A/B/C/E/ORIGINAL, test-receiptcard-e.tsx, unused BasescanApiResponse type",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/61d7163ff45402507f4fe055d336b51ebd32d03d",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T02:21:30+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/61d7163ff45402507f4fe055d336b51ebd32d03d"
     },
     {
       "sha": "ee0810248525b4912d3b4e17b8ac612b7e3b1e77",
       "author": "Clawlinker",
-      "date": "2026-03-16T01:54:00+00:00",
       "message": "\u2728 clean wallet filter labels: remove address slug, rename Bankr (Clawlinker) \u2192 Bankr",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/ee0810248525b4912d3b4e17b8ac612b7e3b1e77",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T01:54:00+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/ee0810248525b4912d3b4e17b8ac612b7e3b1e77"
     },
     {
       "sha": "78e2fa3e5915dcc0687f5309772d49dc45278635",
       "author": "Clawlinker",
-      "date": "2026-03-16T01:08:02+00:00",
       "message": "\ud83c\udfa8 spacing pass: Refactoring UI principles \u2014 more breathing room",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/78e2fa3e5915dcc0687f5309772d49dc45278635",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T01:08:02+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/78e2fa3e5915dcc0687f5309772d49dc45278635"
     },
     {
       "sha": "3f5e77f4db1c689722e1cf7c11d0f318e874a47e",
       "author": "Clawlinker",
-      "date": "2026-03-16T01:03:11+00:00",
       "message": "\ud83c\udfc6 final receipt cards: best-of-breed composition from 4 competing designs",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/3f5e77f4db1c689722e1cf7c11d0f318e874a47e",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T01:03:11+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/3f5e77f4db1c689722e1cf7c11d0f318e874a47e"
     },
     {
       "sha": "a077760323c98312275b4432b6069c70af14a8eb",
       "author": "Clawlinker",
-      "date": "2026-03-16T01:01:22+00:00",
       "message": "\ud83c\udfc6 final receipt cards: best-of-breed from 4 competing designs",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/a077760323c98312275b4432b6069c70af14a8eb",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
-    },
-    {
-      "sha": "6771516948af83000f4d19c5747f81dd4c451d75",
-      "author": "Clawlinker",
-      "date": "2026-03-16T01:00:38+00:00",
-      "message": "Revert \"\ud83d\udce6 optimize: move shadcn CLI to devDeps, archive 4 dead ReceiptCard variants\"",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/6771516948af83000f4d19c5747f81dd4c451d75",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T01:01:22+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/a077760323c98312275b4432b6069c70af14a8eb"
     },
     {
       "sha": "c576de5c61a5f7a579039d89397fb3d0ba0fdf66",
       "author": "Clawlinker",
-      "date": "2026-03-16T00:56:23+00:00",
       "message": "\ud83d\udce6 optimize: move shadcn CLI to devDeps, archive 4 dead ReceiptCard variants",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/c576de5c61a5f7a579039d89397fb3d0ba0fdf66",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T00:56:23+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/c576de5c61a5f7a579039d89397fb3d0ba0fdf66"
     },
     {
       "sha": "3a754764e4a03d9bf1aa5b0fa5c6fdff4359e4f9",
       "author": "Clawlinker",
-      "date": "2026-03-16T00:55:37+00:00",
       "message": "\ud83e\uddf9 commit orphaned changes",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/3a754764e4a03d9bf1aa5b0fa5c6fdff4359e4f9",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T00:55:37+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/3a754764e4a03d9bf1aa5b0fa5c6fdff4359e4f9"
     },
     {
       "sha": "12c3c704130cc8b3d0afcfcdf7311e238f4bac2d",
       "author": "Clawlinker",
-      "date": "2026-03-16T00:42:48+00:00",
       "message": "\u2728 receipt cards iter 2: inference improvements, humanized tasks, phase badges + build fix",
-      "html_url": "https://github.com/clawlinker/synthesis-hackathon/commit/12c3c704130cc8b3d0afcfcdf7311e238f4bac2d",
-      "avatar_url": "https://avatars.githubusercontent.com/u/oc-clawlinker"
+      "date": "2026-03-16T00:42:48+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/12c3c704130cc8b3d0afcfcdf7311e238f4bac2d"
+    },
+    {
+      "sha": "b420bcd608105cc986cf2120d24c2d130c1660f1",
+      "author": "Clawlinker",
+      "message": "\u2728 receipt cards iter 5: receipt detail page, sharing, OG tags",
+      "date": "2026-03-16T00:42:19+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/b420bcd608105cc986cf2120d24c2d130c1660f1"
+    },
+    {
+      "sha": "4c0988c5d53bfe6b593c5aca82618d6a35cca624",
+      "author": "Clawlinker",
+      "message": "\u2728 receipt cards iter 2: inference improvements, humanized tasks, phase badges",
+      "date": "2026-03-16T00:41:59+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/4c0988c5d53bfe6b593c5aca82618d6a35cca624"
+    },
+    {
+      "sha": "5f07feaaf207a977d9c1957250d3fbcab207665f",
+      "author": "Clawlinker",
+      "message": "\u2728 receipt cards iter 3: smart sorting, feed summary, sticky headers",
+      "date": "2026-03-16T00:36:29+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/5f07feaaf207a977d9c1957250d3fbcab207665f"
+    },
+    {
+      "sha": "41908f221a928d976f37d7f8102eab853ce2870d",
+      "author": "Clawlinker",
+      "message": "\u2728 receipt cards iter 4: compact stats bar, horizontal layout, trend indicators",
+      "date": "2026-03-16T00:35:56+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/41908f221a928d976f37d7f8102eab853ce2870d"
+    },
+    {
+      "sha": "1adc098fd9d38174cb95332b866d64aa1f08f1e7",
+      "author": "Clawlinker",
+      "message": "\u2728 receipt cards iter 1: visual polish, amount typography, verified dots",
+      "date": "2026-03-16T00:35:28+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/1adc098fd9d38174cb95332b866d64aa1f08f1e7"
+    },
+    {
+      "sha": "814b430857f6789a98a04de79b4602290356f140",
+      "author": "Clawlinker",
+      "message": "\ud83c\udfa8 receipt page: consistent styling with site design system",
+      "date": "2026-03-15T23:44:17+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/814b430857f6789a98a04de79b4602290356f140"
+    },
+    {
+      "sha": "6782f8dda089f4acd5ed260d5515b80f9ebd42b2",
+      "author": "Clawlinker",
+      "message": "\ud83d\udd17 fix receipt share: wrong domain bug + add copy-link button",
+      "date": "2026-03-15T23:24:22+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/6782f8dda089f4acd5ed260d5515b80f9ebd42b2"
+    },
+    {
+      "sha": "81c3d384b91e624f75c47de908872ab7709ad221",
+      "author": "Clawlinker",
+      "message": "\ud83d\udc8e receipt cards redesign: fintech-quality, grouped duplicates, animations",
+      "date": "2026-03-15T23:13:21+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/81c3d384b91e624f75c47de908872ab7709ad221"
+    },
+    {
+      "sha": "c394795ae0a185a09eafc79a9f9a6377c3d40e0e",
+      "author": "Clawlinker",
+      "message": "\ud83d\udd27 fix judge page commits, redundant labels, zero amounts, action count",
+      "date": "2026-03-15T23:11:59+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/c394795ae0a185a09eafc79a9f9a6377c3d40e0e"
     }
   ]
 }

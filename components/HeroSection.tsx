@@ -105,8 +105,8 @@ export function HeroSection({ stats, source }: { stats: HeroStats; source: strin
         </div>
       </div>
 
-      {/* Scroll CTA */}
-      <div className="mt-5 flex items-center justify-center">
+      {/* Scroll CTA + Judge Mode link */}
+      <div className="mt-5 flex items-center justify-between gap-4">
         <a
           href="#feed"
           className="group flex items-center gap-2 text-xs text-zinc-500 hover:text-usdc transition-colors"
@@ -115,6 +115,15 @@ export function HeroSection({ stats, source }: { stats: HeroStats; source: strin
           <svg className="h-3.5 w-3.5 transition-transform group-hover:translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
+        </a>
+        <a
+          href="/judge"
+          className="group flex items-center gap-1.5 rounded-full border border-usdc/25 bg-usdc/5 px-3 py-1 text-xs font-medium text-usdc hover:border-usdc/50 hover:bg-usdc/10 transition-all"
+        >
+          <svg className="h-3 w-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          Judge Mode
         </a>
       </div>
     </section>
