@@ -1,5 +1,5 @@
 import { type Metadata } from 'next'
-import { AGENT, CHAIN_ID } from '@/app/types'
+import { AGENT } from '@/app/types'
 import { ADDRESS_LABELS } from '@/data/config'
 import { AGENT_REGISTRY } from '@/data/erc8004-resolver'
 import { CopyLinkButton } from '@/components/CopyLinkButton'
