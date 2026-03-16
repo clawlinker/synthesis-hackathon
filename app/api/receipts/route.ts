@@ -120,9 +120,9 @@ function loadInferenceReceiptsFromLog(): Receipt[] {
       phase?: string
     }>
     
-    // Filter for LLM-powered entries and convert to inference receipts
+    // Filter for Bankr LLM entries only (Anthropic API calls are direct, not via Bankr)
     const inferenceReceipts: Receipt[] = logs
-      .filter((entry) => entry.model && entry.model_cost_usd && entry.model_cost_usd > 0)
+      .filter((entry) => entry.model && entry.model.startsWith('bankr/') && entry.model_cost_usd && entry.model_cost_usd > 0)
       .map((entry, index) => {
         const timestamp = Date.parse(entry.timestamp) / 1000
         return {

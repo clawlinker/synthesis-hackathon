@@ -31,7 +31,7 @@ export default function Home() {
   const [selectedChain, setSelectedChain] = useState<keyof typeof CHAINS>('base')
   const [mounted, setMounted] = useState(false)
   const [showFilters, setShowFilters] = useState(false)
-  const [showInference, setShowInference] = useState(true)
+  const [showInference, setShowInference] = useState(false)
   const [filters, setFilters] = useState<FilterState>({
     direction: 'all',
     minAmount: '',
