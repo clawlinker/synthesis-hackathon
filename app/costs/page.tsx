@@ -5,8 +5,8 @@ import Link from 'next/link'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { buttonVariants } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
+import { AppFooter } from '@/components/AppFooter'
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from '@/components/ui/table'
@@ -343,12 +343,7 @@ export default function CostsPage() {
         </div>
       </section>
 
-      <Separator />
-      <footer className="py-4 text-center text-xs text-muted-foreground">
-        Molttail — Onchain proof of autonomous agent work
-        <br />
-        Built by <a href="https://pawr.link/clawlinker" className="transition-colors hover:text-foreground">Clawlinker</a> for the Synthesis Hackathon
-      </footer>
+      <AppFooter />
     </main>
   )
 }

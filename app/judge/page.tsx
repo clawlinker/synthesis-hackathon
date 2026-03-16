@@ -4,11 +4,12 @@ import { useEffect, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
+import { AppFooter } from '@/components/AppFooter'
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@/components/ui/select'
+import { Separator } from '@/components/ui/separator'
 
 type AgentLogEntry = {
   timestamp: string
@@ -257,6 +258,8 @@ export default function JudgeModePage() {
             <SelectItem value="discover">discover</SelectItem>
             <SelectItem value="plan">plan</SelectItem>
             <SelectItem value="execute">execute</SelectItem>
+            <SelectItem value="verify">verify</SelectItem>
+            <SelectItem value="cron">cron</SelectItem>
           </SelectContent>
         </Select>
       </div>
