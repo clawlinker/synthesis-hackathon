@@ -21,7 +21,7 @@ export const SERVICE_LABELS: Record<string, string> = {
   [CONTRACTS.X402_EXACT_PERMIT2_PROXY.toLowerCase()]: 'x402 Exact Permit2 Proxy',
   [CONTRACTS.ETH_USDC_CONTRACT.toLowerCase()]: 'USDC Transfer (ETH)',
   '0xdc5d8200a030798bc6227240f68b4dd9542686ef': 'Uniswap (BaseSettler)',
-  '0xec9641ebdcdfcad27bc10472d26bdd61cbf71d5c': 'x402 Payout',
+  '0xec9641ebdcdfcad27bc10472d26bdd61cbf71d5c': 'x402 Payment',
   '0xa6a8736f18f383f1cc2d938576933e5ea7df01a1': 'x402 Facilitator Fee',
   '0xf0c7ff3141d37e8c70b08e0afbc68aad3364ebc6': 'x402 Customer',
 }
@@ -41,7 +41,7 @@ export const ADDRESS_LABELS: Record<string, string> = {
   '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48': 'USDC Contract (ETH)',
   // Discovered from receipt analysis
   '0xdc5d8200A030798bc6227240f68b4dd9542686ef': 'BaseSettler (Uniswap)',
-  '0xec9641ebdcdfcad27bc10472d26bdd61cbf71d5c': 'x402 Payout',
+  '0xec9641ebdcdfcad27bc10472d26bdd61cbf71d5c': 'x402 Payment',
   '0x071Feb1CF5837d5a988ccd61eef9379cdf1f0c31': 'Bankr Top-up',
   '0x071f7dd29185a3b84406edeac50f042cdf1f0c31': 'Bankr Top-up',
   '0xbaba5d4bd641db7de8001df70c9f313b1ded8f73': 'Baba Protocol',
