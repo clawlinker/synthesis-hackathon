@@ -308,24 +308,47 @@ function ReceiptPaper({ receipt: r, onClose }: { receipt: Receipt; onClose: () =
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
-                  className="text-right font-mono text-xs text-usdc hover:underline break-all"
+                  className="text-right font-mono text-xs text-blue-400 hover:text-blue-300 hover:underline break-all transition-colors"
                 >
-                  {r.hash.slice(0, 10)}…{r.hash.slice(-8)}
+                  {r.hash.slice(0, 10)}…{r.hash.slice(-8)} ↗
                 </a>
               </div>
-              {r.blockNumber && <RRow label="Block" value={`#${parseInt(r.blockNumber).toLocaleString()}`} />}
+              {r.blockNumber && (
+                <div className="flex justify-between items-baseline gap-4">
+                  <span className="text-zinc-500 shrink-0 text-xs">Block</span>
+                  <a
+                    href={`https://basescan.org/block/${r.blockNumber}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-right font-mono text-xs text-blue-400 hover:text-blue-300 hover:underline transition-colors"
+                  >
+                    #{parseInt(r.blockNumber).toLocaleString()} ↗
+                  </a>
+                </div>
+              )}
             </>
           )}
-          <RRow label="Status" value="✓ CONFIRMED" highlight />
-          <RRow label="Network" value="Base" />
+          {r.hash && !r.hash.startsWith('inference-') ? (
+            <>
+              <RRow label="Status" value="✓ ON-CHAIN" highlight />
+              <RRow label="Network" value="Base (8453)" />
+            </>
+          ) : (
+            <>
+              <RRow label="Source" value="Agent Execution Log" />
+              <RRow label="Provider" value={inferenceProvider(r.service)} />
+            </>
+          )}
         </div>
 
         <Divider />
 
         {/* Footer */}
         <p className="text-zinc-600 text-[10px] leading-relaxed tracking-wide">
-          Verified on-chain receipt
-          <br />clawlinker.eth
+          {r.hash && !r.hash.startsWith('inference-')
+            ? 'Verified on-chain · clawlinker.eth'
+            : 'Logged by agent · clawlinker.eth'}
         </p>
 
         {/* Action buttons */}
