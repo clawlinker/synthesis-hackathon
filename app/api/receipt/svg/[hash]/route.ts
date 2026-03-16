@@ -65,26 +65,39 @@ const BLOCKSCOUT_REST_API = 'https://base.blockscout.com/api/v2'
 /** Primary lookup: Blockscout direct-by-hash (works for any tx, not just last 50) */
 async function fetchReceiptByHashBlockscout(hash: string): Promise<Receipt | null> {
   try {
+    // Correct Blockscout v2 endpoint: fetch transaction which embeds token_transfers
     const res = await fetch(
-      `${BLOCKSCOUT_REST_API}/tokens/${CONTRACTS.USDC_CONTRACT}/transfers?transaction_hash=${hash}`,
+      `${BLOCKSCOUT_REST_API}/transactions/${hash}`,
       { next: { revalidate: 300 } }
     )
     if (!res.ok) throw new Error(`Blockscout error: ${res.status}`)
     const data = await res.json()
-    if (!Array.isArray(data.items) || data.items.length === 0) return null
 
-    const t = data.items[0]
-    const rawValue = t.total?.value ?? '0'
-    const from = (t.from?.hash ?? '').toLowerCase()
-    const to = (t.to?.hash ?? '').toLowerCase()
-    const ts = t.timestamp ? Math.floor(new Date(t.timestamp).getTime() / 1000) : 0
-    const block = t.block_number?.toString() ?? ''
+    // token_transfers is embedded in the transaction response
+    const transfers: Array<Record<string, unknown>> = Array.isArray(data.token_transfers) ? data.token_transfers : []
+    // Find the USDC transfer (token address matches)
+    const t = transfers.find((tf: Record<string, unknown>) => {
+      const token = tf.token as Record<string, unknown> | undefined
+      return token?.address?.toString().toLowerCase() === CONTRACTS.USDC_CONTRACT.toLowerCase()
+    }) ?? transfers[0]
+
+    if (!t) return null
+
+    const rawValue = (t.total as Record<string, unknown>)?.value?.toString() ?? '0'
+    const fromObj = t.from as Record<string, unknown> | undefined
+    const toObj = t.to as Record<string, unknown> | undefined
+    const fromHash = (fromObj?.hash as string) ?? ''
+    const toHash = (toObj?.hash as string) ?? ''
+    const from = fromHash.toLowerCase()
+    const to = toHash.toLowerCase()
+    const ts = data.timestamp ? Math.floor(new Date(data.timestamp as string).getTime() / 1000) : 0
+    const block = (t.block_number ?? data.block)?.toString() ?? ''
     const direction: 'sent' | 'received' = from === AGENT.wallet.toLowerCase() ? 'sent' : 'received'
 
     return {
       hash,
-      from: t.from?.hash ?? '',
-      to: t.to?.hash ?? '',
+      from: fromHash,
+      to: toHash,
       value: rawValue,
       amount: (parseInt(rawValue) / 1e6).toFixed(2),
       timestamp: ts,
