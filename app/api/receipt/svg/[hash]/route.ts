@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server'
-import { AGENT, type Receipt } from '@/app/types'
+import { AGENT, type Receipt, type TokenTransferApiResponse } from '@/app/types'
 import { sampleReceipts } from '@/data/sample-receipts'
 import { ADDRESS_LABELS, CONTRACTS, RATE_LIMIT, SERVICE_LABELS } from '@/data/config'
-import type { BasescanSingleTxResponse } from '@/data/types'
 import { createHash } from 'crypto'
 
 const BASESCAN_API = 'https://api.basescan.org/api'
@@ -144,7 +143,7 @@ async function fetchReceiptByHash(hash: string): Promise<Receipt | null> {
 
     if (!res.ok) throw new Error(`Basescan API error: ${res.status}`)
 
-    const data = await res.json() as BasescanSingleTxResponse
+    const data = await res.json() as TokenTransferApiResponse
 
     if (data.status !== '1' || !Array.isArray(data.result)) {
       return null

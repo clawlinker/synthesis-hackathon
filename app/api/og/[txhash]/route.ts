@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
-import { AGENT } from '@/app/types'
+import { AGENT, type TokenTransferApiResponse } from '@/app/types'
 import { ADDRESS_LABELS } from '@/data/config'
-import { BasescanSingleTxResponse } from '@/data/types'
 import sharp from 'sharp'
 
 const BASESCAN_API = 'https://api.basescan.org/api'
@@ -42,7 +41,7 @@ async function fetchReceiptInfo(hash: string) {
       return null
     }
 
-    const tx = data.result.find((t: BasescanSingleTxResponse['result'][0]) => t.hash === hash)
+    const tx = data.result.find((t: TokenTransferApiResponse['result'][0]) => t.hash === hash)
     if (!tx) return null
 
     return {

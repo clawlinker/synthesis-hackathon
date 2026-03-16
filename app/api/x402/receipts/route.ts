@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PAYTO_ADDRESS } from "@/app/lib/x402-server";
-import { AGENT, USDC_CONTRACT, type Receipt } from "@/app/types";
-import { BlockscoutApiResponse } from "@/data/types";
+import { AGENT, USDC_CONTRACT, type Receipt, type TokenTransferApiResponse } from "@/app/types";
 
 const BASESCAN_API = "https://base.blockscout.com/api";
 
@@ -28,7 +27,7 @@ async function fetchReceipts(wallet: string, limit: number) {
   const data = await res.json();
   if (data.status !== "1" || !Array.isArray(data.result)) return [];
 
-  return data.result.map((tx: BlockscoutApiResponse['result'][0]) => ({
+  return data.result.map((tx: TokenTransferApiResponse['result'][0]) => ({
     hash: tx.hash,
     from: tx.from,
     to: tx.to,

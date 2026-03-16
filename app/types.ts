@@ -72,3 +72,19 @@ export const CHAINS = {
 } as const
 
 export type ChainKey = keyof typeof CHAINS
+
+// API response types for blockchain explorers
+export interface TokenTransferApiResponse {
+  status: string
+  message: string
+  result: Array<{
+    hash: string
+    from: string
+    to: string
+    value: string
+    tokenSymbol: string
+    timeStamp: string
+    blockNumber: string
+    tokenDecimal: string
+  }>
+}

@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server'
-import { AGENT, ETH_USDC_CONTRACT, type Receipt } from '@/app/types'
+import { AGENT, ETH_USDC_CONTRACT, type Receipt, type TokenTransferApiResponse } from '@/app/types'
 import { ADDRESS_LABELS, CONTRACTS, RATE_LIMIT, SERVICE_LABELS } from '@/data/config'
 import { resolveAgent } from '@/data/erc8004-resolver'
 import { sampleReceipts } from '@/data/sample-receipts'
-import type { BlockscoutApiResponse } from '@/data/types'
 
 // Blockscout API for Ethereum mainnet
 const ETH_BLOCKSCOUT_API = 'https://eth.blockscout.com/api'
@@ -192,7 +191,7 @@ export async function GET(request: Request) {
         continue
       }
 
-      const data = await res.json() as BlockscoutApiResponse
+      const data = await res.json() as TokenTransferApiResponse
 
       if (data.status !== '1' || !Array.isArray(data.result)) {
         console.warn(`No results for Ethereum ${wallet}`)
