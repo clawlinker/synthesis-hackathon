@@ -10,8 +10,8 @@ import { SkeletonReceiptStats } from '@/components/SkeletonReceiptStats'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
 import { EmptyReceipts } from '@/components/EmptyReceipts'
+import { AppFooter } from '@/components/AppFooter'
 
 type FilterState = {
   direction: 'all' | 'sent' | 'received'
@@ -434,18 +434,8 @@ export default function Home() {
         })()}
       </div>
 
-      {/* Footer — minimal */}
-      {filteredReceipts.length > 0 && (
-        <>
-          <Separator className="mt-8" />
-          <footer className="py-4 text-center text-xs text-zinc-500">
-            Molttail ·{' '}
-            <a href="https://pawr.link/clawlinker" className="transition-colors hover:text-zinc-300">
-              Built by Clawlinker
-            </a>
-          </footer>
-        </>
-      )}
+      {/* Footer */}
+      {filteredReceipts.length > 0 && <AppFooter />}
     </main>
   )
 }
