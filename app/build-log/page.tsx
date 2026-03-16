@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { buttonVariants } from '@/components/ui/button'
+import { buttonVariants, Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { AppFooter } from '@/components/AppFooter'
 
@@ -26,10 +26,15 @@ interface LogEntry {
 
 import { phaseColorsWithBorder as phaseVariant } from '@/lib/phase-colors'
 
+const COMMITS_INITIAL = 20
+const LOGS_INITIAL = 30
+
 export default function BuildLogPage() {
   const [commits, setCommits] = useState<GitCommit[]>([])
   const [logs, setLogs] = useState<LogEntry[]>([])
   const [loading, setLoading] = useState(true)
+  const [showAllCommits, setShowAllCommits] = useState(false)
+  const [showAllLogs, setShowAllLogs] = useState(false)
 
   useEffect(() => {
     async function fetchData() {
@@ -169,7 +174,7 @@ export default function BuildLogPage() {
               Git Commits ({commits.length})
             </h2>
             <div className="space-y-2">
-              {commits.slice(0, 15).map((commit) => (
+              {(showAllCommits ? commits : commits.slice(0, COMMITS_INITIAL)).map((commit) => (
                 <Card key={commit.sha} className="border-l-4 border-l-muted-foreground/20 hover:border-l-muted-foreground/40 transition-colors">
                   <CardContent className="p-3 sm:p-4">
                     <div className="flex items-start gap-2 mb-1 min-w-0">
@@ -188,10 +193,19 @@ export default function BuildLogPage() {
                 </Card>
               ))}
             </div>
-            {commits.length > 15 && (
-              <p className="mt-4 text-center text-sm text-muted-foreground">
-                Showing last 15 commits. {commits.length - 15} older commits hidden.
-              </p>
+            {commits.length > COMMITS_INITIAL && (
+              <div className="mt-4 text-center">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowAllCommits((v) => !v)}
+                  className="text-xs"
+                >
+                  {showAllCommits
+                    ? `▲ Show less`
+                    : `▼ Show all ${commits.length} commits (${commits.length - COMMITS_INITIAL} more)`}
+                </Button>
+              </div>
             )}
           </section>
 
@@ -202,7 +216,7 @@ export default function BuildLogPage() {
               Agent Log Timeline ({logs.length} entries)
             </h2>
             <div className="space-y-2">
-              {logs.slice(0, 20).map((entry, idx) => {
+              {(showAllLogs ? logs : logs.slice(0, LOGS_INITIAL)).map((entry, idx) => {
                 const color = phaseVariant[entry.phase] || 'bg-muted text-muted-foreground'
                 return (
                   <Card key={idx} className="border-l-4 border-l-muted-foreground/20 hover:border-l-muted-foreground/40 transition-colors">
@@ -244,10 +258,19 @@ export default function BuildLogPage() {
                 )
               })}
             </div>
-            {logs.length > 20 && (
-              <p className="mt-4 text-center text-sm text-muted-foreground">
-                Showing last 20 entries. {logs.length - 20} older entries hidden.
-              </p>
+            {logs.length > LOGS_INITIAL && (
+              <div className="mt-4 text-center">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowAllLogs((v) => !v)}
+                  className="text-xs"
+                >
+                  {showAllLogs
+                    ? `▲ Show less`
+                    : `▼ Show all ${logs.length} entries (${logs.length - LOGS_INITIAL} more)`}
+                </Button>
+              </div>
             )}
           </section>
         </div>
