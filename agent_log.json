@@ -1699,5 +1699,477 @@
       "agent_log.json",
       ".gitignore"
     ]
+  },
+  {
+    "timestamp": "2026-03-16T00:35:28Z",
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.02,
+    "action": "ui_iteration",
+    "description": "Receipt card visual polish \u2014 amount typography, verified dots, 4 competing design iterations",
+    "phase": "build",
+    "tools_used": [
+      "read",
+      "write",
+      "edit",
+      "exec"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T00:42:48Z",
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.03,
+    "action": "ui_iteration",
+    "description": "Receipt cards iter 2-5: inference improvements, humanized tasks, phase badges, detail page, sharing, OG tags, smart sorting, sticky headers",
+    "phase": "build",
+    "tools_used": [
+      "read",
+      "write",
+      "edit",
+      "exec"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T01:03:11Z",
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.02,
+    "action": "design_review",
+    "description": "Final receipt cards: best-of-breed composition from 4 competing designs using Refactoring UI principles",
+    "phase": "build",
+    "tools_used": [
+      "read",
+      "write",
+      "edit"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T01:08:02Z",
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "action": "ui_polish",
+    "description": "Spacing pass using Refactoring UI principles \u2014 more breathing room across all card types",
+    "phase": "polish",
+    "tools_used": [
+      "read",
+      "edit"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T01:54:00Z",
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "action": "ui_fix",
+    "description": "Clean wallet filter labels: remove address slug, rename Bankr (Clawlinker) \u2192 Bankr",
+    "phase": "polish",
+    "tools_used": [
+      "read",
+      "edit"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T02:21:30Z",
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "action": "code_cleanup",
+    "description": "Remove dead code: ReceiptCard variants A/B/C/E/ORIGINAL, test file, unused types",
+    "phase": "polish",
+    "tools_used": [
+      "read",
+      "exec"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T02:40:57Z",
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.03,
+    "action": "ui_feature",
+    "description": "Receipt paper view: thermal printer aesthetic, perforated edges, click-to-expand animation",
+    "phase": "build",
+    "tools_used": [
+      "read",
+      "write",
+      "edit"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T02:59:42Z",
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "action": "ui_fix",
+    "description": "Receipt paper: clickable tx hash + View Receipt link to detail page",
+    "phase": "build",
+    "tools_used": [
+      "read",
+      "edit"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T03:05:54Z",
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.02,
+    "action": "ui_feature",
+    "description": "Mini receipt stubs: each row is a tiny receipt card with dashed edge + icon",
+    "phase": "build",
+    "tools_used": [
+      "read",
+      "write",
+      "edit"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T03:09:09Z",
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "action": "code_fix",
+    "description": "Fix inference provider detection: Anthropic API for claude models, Bankr for qwen/deepseek",
+    "phase": "build",
+    "tools_used": [
+      "read",
+      "edit"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T03:13:29Z",
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "action": "verification",
+    "description": "Accurate verification badges: distinguish on-chain vs off-chain receipts",
+    "phase": "build",
+    "tools_used": [
+      "read",
+      "edit"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T03:18:39Z",
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.02,
+    "action": "ui_feature",
+    "description": "New hero section: stats-driven with animated counters, judge-ready presentation",
+    "phase": "build",
+    "tools_used": [
+      "read",
+      "write",
+      "edit"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T03:24:44Z",
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "action": "code_fix",
+    "description": "Animated counters re-trigger when data arrives after initial load",
+    "phase": "build",
+    "tools_used": [
+      "read",
+      "edit"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T03:30:51Z",
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.02,
+    "action": "ui_feature",
+    "description": "Level up navbar: glassmorphic effect, logo mark, Base badge, icon links",
+    "phase": "build",
+    "tools_used": [
+      "read",
+      "write",
+      "edit"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T03:35:40Z",
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "action": "design_review",
+    "description": "Refine navbar using Refero MCP research patterns",
+    "phase": "polish",
+    "tools_used": [
+      "read",
+      "edit"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T03:59:37Z",
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "action": "ui_fix",
+    "description": "Navbar icon fix, remove double selected state, match content width",
+    "phase": "polish",
+    "tools_used": [
+      "read",
+      "edit"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T04:04:03Z",
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "action": "code_fix",
+    "description": "Add chain field to receipts, fix network label (Base not Base 8453) and explorer links",
+    "phase": "build",
+    "tools_used": [
+      "read",
+      "edit"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T04:26:48Z",
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "action": "ui_feature",
+    "description": "Add LLM inference section divider in receipt feed",
+    "phase": "build",
+    "tools_used": [
+      "read",
+      "edit"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T04:41:46Z",
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.02,
+    "action": "deploy_fix",
+    "description": "Lazy-init x402 to avoid build-time facilitator failures on Vercel serverless",
+    "phase": "deploy",
+    "tools_used": [
+      "read",
+      "edit",
+      "exec"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T04:44:22Z",
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.02,
+    "action": "deploy_fix",
+    "description": "Replace fs.readFileSync with static imports for Vercel compat (costs, judge, build-log)",
+    "phase": "deploy",
+    "tools_used": [
+      "read",
+      "edit",
+      "exec"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T05:03:35Z",
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "action": "code_fix",
+    "description": "Use correct Blockscout v2 /transactions/{hash} endpoint for SVG receipts",
+    "phase": "build",
+    "tools_used": [
+      "read",
+      "edit"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T10:01:32Z",
+    "model": "bankr/qwen3.5-flash",
+    "model_cost_usd": 0.01,
+    "action": "code_fix",
+    "description": "Add missing verify and cron phases to Judge page filter dropdown",
+    "phase": "polish",
+    "tools_used": [
+      "read",
+      "edit"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T10:24:36Z",
+    "model": "bankr/qwen3.5-flash",
+    "model_cost_usd": 0.01,
+    "action": "code_cleanup",
+    "description": "Remove dead code: unused AgentHeader component + unused imports",
+    "phase": "polish",
+    "tools_used": [
+      "read",
+      "exec"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T11:04:44Z",
+    "model": "bankr/qwen3.5-flash",
+    "model_cost_usd": 0.01,
+    "action": "ui_feature",
+    "description": "Add nav links to AppFooter (Receipts, Judge Mode, Build Log, Costs, GitHub)",
+    "phase": "build",
+    "tools_used": [
+      "read",
+      "edit"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T11:45:01Z",
+    "model": "bankr/qwen3.5-flash",
+    "model_cost_usd": 0.01,
+    "action": "ui_fix",
+    "description": "CopyLinkButton layout fix \u2014 remove col-span-2, match share button style",
+    "phase": "polish",
+    "tools_used": [
+      "read",
+      "edit"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T12:03:55Z",
+    "model": "bankr/qwen3.5-flash",
+    "model_cost_usd": 0.01,
+    "action": "code_fix",
+    "description": "Correct GitHub commit URLs in Build Log page (base-designer \u2192 clawlinker)",
+    "phase": "polish",
+    "tools_used": [
+      "read",
+      "edit"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T12:25:14Z",
+    "model": "bankr/qwen3.5-flash",
+    "model_cost_usd": 0.01,
+    "action": "code_cleanup",
+    "description": "Remove dead code: CHAIN_ID/ETH_CHAIN_ID/AgentKey from types, TableFooter/TableCaption from table.tsx",
+    "phase": "polish",
+    "tools_used": [
+      "read",
+      "exec"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T12:29:49Z",
+    "model": "anthropic/claude-opus-4-6",
+    "model_cost_usd": 0.05,
+    "action": "ui_fix",
+    "description": "Animate accordion chevron with CSS rotation instead of icon swap",
+    "phase": "polish",
+    "tools_used": [
+      "read",
+      "edit"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T12:31:36Z",
+    "model": "anthropic/claude-opus-4-6",
+    "model_cost_usd": 0.08,
+    "action": "deploy_fix",
+    "description": "x402 endpoint: disable syncFacilitatorOnStart, add error handling for Vercel serverless",
+    "phase": "deploy",
+    "tools_used": [
+      "read",
+      "edit",
+      "exec"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T12:34:39Z",
+    "model": "anthropic/claude-opus-4-6",
+    "model_cost_usd": 0.08,
+    "action": "deploy_fix",
+    "description": "x402 endpoint: manual 402 gate, fix em-dash in header causing ByteString error",
+    "phase": "deploy",
+    "tools_used": [
+      "read",
+      "edit",
+      "exec"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T12:36:54Z",
+    "model": "anthropic/claude-opus-4-6",
+    "model_cost_usd": 0.05,
+    "action": "code_fix",
+    "description": "Filter inference to Bankr models only (remove Anthropic API receipts), hide LLM costs by default",
+    "phase": "polish",
+    "tools_used": [
+      "read",
+      "edit"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T12:41:02Z",
+    "model": "anthropic/claude-opus-4-6",
+    "model_cost_usd": 0.03,
+    "action": "ui_fix",
+    "description": "Rename x402 Payout \u2192 x402 Payment for clarity",
+    "phase": "polish",
+    "tools_used": [
+      "read",
+      "edit"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T14:59:15Z",
+    "model": "anthropic/claude-opus-4-6",
+    "model_cost_usd": 0.1,
+    "action": "ui_fix",
+    "description": "Show actual time (HH:MM) on receipt cards instead of redundant date \u2014 receipts already grouped by day",
+    "phase": "polish",
+    "tools_used": [
+      "read",
+      "edit",
+      "exec"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T15:55:56Z",
+    "model": "anthropic/claude-opus-4-6",
+    "model_cost_usd": 0.15,
+    "action": "deploy",
+    "description": "Enrich cached receipts with service labels + address labels, manual Vercel production deploy",
+    "phase": "deploy",
+    "tools_used": [
+      "read",
+      "edit",
+      "exec"
+    ],
+    "outcome": "success"
+  },
+  {
+    "timestamp": "2026-03-16T16:44:00Z",
+    "model": "anthropic/claude-opus-4-6",
+    "model_cost_usd": 0.12,
+    "action": "submission_prep",
+    "description": "Judge readiness audit, COLLAB.md to repo root with Mar 16 updates, README hackathon artifacts section, fix SUBMISSION.md live URL",
+    "phase": "submit",
+    "tools_used": [
+      "read",
+      "write",
+      "edit",
+      "exec"
+    ],
+    "outcome": "success"
   }
 ]
