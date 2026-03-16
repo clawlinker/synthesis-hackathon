@@ -419,7 +419,7 @@ function USDCRow({ receipt, index, nested = false }: { receipt: Receipt; index: 
   return (
     <CardWrapper type={type} index={index} className={`${padding} ${hoverBg}`} onClick={nested ? undefined : onLeave}>
       {/* Line 1: icon + narrative + timestamp + badge */}
-      <div className={`flex items-center gap-2 ${nested ? 'mt-1' : 'py-1.5'}`}>
+      <div className={`flex items-center gap-3 ${nested ? 'mt-1' : 'py-2'}`}>
         {/* Colored dot (inside card, not timeline) */}
         <div
           className="h-2 w-2 rounded-full shrink-0"
@@ -427,7 +427,7 @@ function USDCRow({ receipt, index, nested = false }: { receipt: Receipt; index: 
         />
         
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-zinc-100 truncate">{narrative}</p>
+          <p className="text-[15px] font-medium text-zinc-100 truncate leading-tight">{narrative}</p>
         </div>
         
         <span
@@ -444,7 +444,7 @@ function USDCRow({ receipt, index, nested = false }: { receipt: Receipt; index: 
       </div>
       
       {/* Line 2: address + tx hash (subtle) */}
-      <div className={`flex items-center gap-2 text-[10px] text-zinc-500 mt-0.5 ${nested ? 'mb-1' : 'py-0.5'}`}>
+      <div className={`flex items-center gap-2 text-[11px] text-zinc-500 mt-1 ${nested ? 'mb-1.5' : 'pb-1'}`}>
         {addr && <span className="font-mono truncate">{addr}</span>}
         {receipt.hash && !receipt.hash.startsWith('inference-') && (
           <>
@@ -488,12 +488,12 @@ function InferenceRow({ receipt, index, nested = false }: { receipt: Receipt; in
     <>
       <CardWrapper type="inference" index={index} className={`${padding} ${hoverBg}`} onClick={nested ? undefined : onLeave}>
         {/* Line 1: bot icon + narrative + model pill + timestamp */}
-        <div className={`flex items-center gap-2 ${nested ? 'mt-1' : 'py-1.5'}`}>
+        <div className={`flex items-center gap-3 ${nested ? 'mt-1' : 'py-2'}`}>
           {/* Bot icon with gradient */}
           <TxIcon type="inference" className={nested ? 'h-3 w-3' : 'h-4 w-4'} />
           
           <div className="flex-1 min-w-0">
-            <p className={`text-sm font-medium truncate ${nested ? 'text-zinc-400' : 'text-zinc-100'}`}>
+            <p className={`text-[15px] font-medium truncate leading-tight ${nested ? 'text-zinc-400' : 'text-zinc-100'}`}>
               {narrative}
             </p>
           </div>
@@ -521,7 +521,7 @@ function InferenceRow({ receipt, index, nested = false }: { receipt: Receipt; in
         </div>
         
         {/* Line 2: breakdown link (only if modelInfo exists) */}
-        <div className={`flex items-center gap-2 text-[10px] text-zinc-500 mt-0.5 ${nested ? 'mb-1' : 'py-0.5'}`}>
+        <div className={`flex items-center gap-2 text-[11px] text-zinc-500 mt-1 ${nested ? 'mb-1.5' : 'pb-1'}`}>
           {clickable && (
             <span
               className="flex items-center gap-1 hover:text-purple-400 transition-colors cursor-pointer"
@@ -579,7 +579,7 @@ function GroupedRow({ items, index }: { items: { receipts: Receipt[]; isInf: boo
       {/* Summary row */}
       <div
         className={`
-          px-3 py-2 rounded-lg cursor-pointer
+          px-3 py-3 rounded-lg cursor-pointer
           ${open ? 'bg-zinc-800/20' : 'hover:bg-zinc-800/30'}
           ${isInf ? 'hover:bg-violet-900/20' : ''}
         `}
@@ -615,7 +615,7 @@ function GroupedRow({ items, index }: { items: { receipts: Receipt[]; isInf: boo
 
       {/* Expanded — indented with subtle left border */}
       {open && (
-        <div className="border-l-2 border-zinc-700/25 ml-[36px] pl-3 mt-1 space-y-1">
+        <div className="border-l-2 border-zinc-700/25 ml-[36px] pl-3 mt-2 space-y-1.5">
           {items.receipts.map((r, i) => (
             isInf
               ? <InferenceRow key={r.hash} receipt={r} index={i} nested />
@@ -705,7 +705,7 @@ export function ReceiptList({ receipts }: { receipts: Receipt[] }) {
   const items = groupReceiptsForDisplay(receipts)
 
   return (
-    <div className="rounded-lg border border-zinc-800/60 bg-zinc-950/50 overflow-hidden divide-y-0">
+    <div className="rounded-lg border border-zinc-800/60 bg-zinc-950/50 overflow-hidden divide-y divide-zinc-800/30">
       {items.length === 0 && (
         <div className="h-10 flex items-center justify-center text-xs text-zinc-600 tabular-nums">
           no transactions
