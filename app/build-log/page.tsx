@@ -214,7 +214,7 @@ export default function BuildLogPage() {
                         <span className="text-sm font-medium">{entry.action}</span>
                         {entry.commit && (
                           <a
-                            href={`https://github.com/base-designer/synthesis-hackathon/commit/${entry.commit}`}
+                            href={`https://github.com/clawlinker/synthesis-hackathon/commit/${entry.commit}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-xs text-usdc hover:underline"
