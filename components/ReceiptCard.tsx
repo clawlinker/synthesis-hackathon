@@ -35,6 +35,14 @@ const CARD_CSS = `
   from { opacity: 0; transform: translateY(4px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+@keyframes rc-expand {
+  from { opacity: 0; transform: scaleY(0.95); max-height: 0; }
+  to   { opacity: 1; transform: scaleY(1); max-height: 600px; }
+}
+@keyframes rc-collapse {
+  from { opacity: 1; transform: scaleY(1); }
+  to   { opacity: 0; transform: scaleY(0.95); }
+}
 `
 let _styled = false
 function injectStyles() {
@@ -215,116 +223,117 @@ function ReceiptPaper({ receipt: r, onClose }: { receipt: Receipt; onClose: () =
   const isSent = r.direction === 'sent'
   const [, full] = fmtTime(r.timestamp)
   const amt = fmtUSD(r.amount)
-  const name = counterparty(r)
-  const addr = isSent ? r.to : r.from
   const sign = isSent ? '−' : '+'
+  const type: TxType = isInf ? 'inference' : isSent ? 'sent' : 'received'
 
-  const dash = '─'.repeat(36)
-  const dottedLine = <div className="text-zinc-700 text-center font-mono text-xs select-none my-2">{dash}</div>
+  const Divider = () => (
+    <div className="my-3 border-t border-dashed border-zinc-700/50" />
+  )
 
   return (
-    <div className="bg-zinc-950 border border-zinc-800/60 rounded-lg mx-auto max-w-sm overflow-hidden">
-      {/* Zigzag top edge */}
-      <div className="h-3 w-full" style={{
-        background: 'linear-gradient(135deg, transparent 33.33%, rgb(9 9 11) 33.33%, rgb(9 9 11) 66.66%, transparent 66.66%), linear-gradient(225deg, transparent 33.33%, rgb(9 9 11) 33.33%, rgb(9 9 11) 66.66%, transparent 66.66%)',
-        backgroundSize: '12px 12px',
-        backgroundColor: 'rgb(24 24 27)',
-      }} />
+    <div
+      className="mx-auto max-w-sm overflow-hidden origin-top"
+      style={{ animation: 'rc-expand 0.3s ease-out both' }}
+    >
+      {/* Perforated top edge */}
+      <div className="flex justify-center gap-[3px] py-1">
+        {Array.from({ length: 40 }).map((_, i) => (
+          <div key={i} className="w-1 h-1 rounded-full bg-zinc-800" />
+        ))}
+      </div>
 
-      <div className="px-6 py-4 font-mono text-center">
-        {/* Agent name / store header */}
-        <p className="text-zinc-100 text-base font-bold tracking-wider uppercase">
+      <div className="bg-zinc-950/90 border-x border-zinc-800/40 px-8 py-6 font-mono text-center">
+        {/* Header */}
+        <p className="text-zinc-100 text-lg font-bold tracking-[0.2em] uppercase">
           {isInf ? 'LLM Inference' : 'Clawlinker'}
         </p>
-        <p className="text-zinc-500 text-[11px] mt-1">
+        <p className="text-zinc-500 text-xs mt-1 tracking-wide">
           {isInf ? 'Bankr LLM Gateway' : 'Base Network · USDC'}
         </p>
-        <p className="text-zinc-600 text-[10px] mt-0.5">
-          ERC-8004 Agent #22945
+        <p className="text-zinc-600 text-[10px] mt-0.5 tracking-wider">
+          ERC-8004 #22945
         </p>
 
-        {dottedLine}
+        <Divider />
 
-        {/* Transaction details */}
-        <div className="text-left space-y-1 text-xs">
-          {!isInf && (
+        {/* Details */}
+        <div className="text-left space-y-2 text-sm">
+          {!isInf ? (
             <>
-              <ReceiptRow label="From" value={r.fromLabel || r.fromAgent?.name || shortenAddr(r.from)} />
-              <ReceiptRow label="To" value={r.toLabel || r.toAgent?.name || shortenAddr(r.to)} />
+              <RRow label="From" value={r.fromLabel || r.fromAgent?.name || shortenAddr(r.from)} />
+              <RRow label="To" value={r.toLabel || r.toAgent?.name || shortenAddr(r.to)} />
+              {r.service && <RRow label="Service" value={r.service} />}
+            </>
+          ) : (
+            <>
+              <RRow label="Task" value={humanize(extractTask(r.service))} />
+              {extractModel(r.service) && <RRow label="Model" value={extractModel(r.service)!} />}
             </>
           )}
-          {isInf && (
-            <>
-              <ReceiptRow label="Task" value={humanize(extractTask(r.service))} />
-              {extractModel(r.service) && <ReceiptRow label="Model" value={extractModel(r.service)!} />}
-            </>
-          )}
-          {r.service && !isInf && <ReceiptRow label="Service" value={r.service} />}
-          <ReceiptRow label="Date" value={full} />
+          <RRow label="Date" value={full} />
         </div>
 
-        {dottedLine}
+        <Divider />
 
-        {/* Amount — the big one */}
-        <div className="py-2">
-          <p className="text-zinc-500 text-[10px] uppercase tracking-widest">
-            {isInf ? 'Cost' : isSent ? 'Amount Sent' : 'Amount Received'}
+        {/* Amount — hero element */}
+        <div className="py-4">
+          <p className="text-zinc-500 text-[10px] uppercase tracking-[0.25em]">
+            {isInf ? 'Cost' : isSent ? 'Sent' : 'Received'}
           </p>
-          <p className="text-2xl font-bold mt-1 tabular-nums" style={{ color: COLOR[isInf ? 'inference' : isSent ? 'sent' : 'received'].text }}>
+          <p className="text-3xl font-bold mt-2 tabular-nums tracking-tight" style={{ color: COLOR[type].text }}>
             {isInf ? '' : sign}${amt}
           </p>
-          <p className="text-zinc-600 text-[10px] mt-0.5">
+          <p className="text-zinc-600 text-xs mt-1 tracking-widest">
             {isInf ? 'USD' : 'USDC'}
           </p>
         </div>
 
-        {dottedLine}
+        <Divider />
 
-        {/* Transaction reference */}
-        <div className="text-left space-y-1 text-xs">
+        {/* Reference */}
+        <div className="text-left space-y-2 text-sm">
           {r.hash && !r.hash.startsWith('inference-') && (
             <>
-              <ReceiptRow label="Tx Hash" value={`${r.hash.slice(0, 10)}…${r.hash.slice(-8)}`} />
-              <ReceiptRow label="Block" value={r.blockNumber ? `#${parseInt(r.blockNumber).toLocaleString()}` : '—'} />
+              <RRow label="Tx" value={`${r.hash.slice(0, 10)}…${r.hash.slice(-8)}`} />
+              {r.blockNumber && <RRow label="Block" value={`#${parseInt(r.blockNumber).toLocaleString()}`} />}
             </>
           )}
-          <ReceiptRow label="Status" value="CONFIRMED" highlight />
-          <ReceiptRow label="Network" value="Base (Chain ID: 8453)" />
+          <RRow label="Status" value="✓ CONFIRMED" highlight />
+          <RRow label="Network" value="Base" />
         </div>
 
-        {dottedLine}
+        <Divider />
 
         {/* Footer */}
-        <p className="text-zinc-600 text-[10px] leading-relaxed mt-1">
-          Verified on-chain receipt from
-          <br />autonomous agent Clawlinker
-          <br />clawlinker.eth · ERC-8004 #22945
+        <p className="text-zinc-600 text-[10px] leading-relaxed tracking-wide">
+          Verified on-chain receipt
+          <br />clawlinker.eth
         </p>
 
-        {/* Close button */}
+        {/* Collapse */}
         <button
-          onClick={onClose}
-          className="mt-3 text-[11px] text-zinc-500 hover:text-zinc-300 transition-colors"
+          onClick={(e) => { e.stopPropagation(); onClose() }}
+          className="mt-4 px-4 py-1.5 text-xs text-zinc-500 hover:text-zinc-200 border border-zinc-800 hover:border-zinc-600 rounded-full transition-all duration-200"
         >
           ▲ collapse
         </button>
       </div>
 
-      {/* Zigzag bottom edge */}
-      <div className="h-3 w-full" style={{
-        background: 'linear-gradient(315deg, transparent 33.33%, rgb(9 9 11) 33.33%, rgb(9 9 11) 66.66%, transparent 66.66%), linear-gradient(45deg, transparent 33.33%, rgb(9 9 11) 33.33%, rgb(9 9 11) 66.66%, transparent 66.66%)',
-        backgroundSize: '12px 12px',
-        backgroundColor: 'rgb(24 24 27)',
-      }} />
+      {/* Perforated bottom edge */}
+      <div className="flex justify-center gap-[3px] py-1">
+        {Array.from({ length: 40 }).map((_, i) => (
+          <div key={i} className="w-1 h-1 rounded-full bg-zinc-800" />
+        ))}
+      </div>
     </div>
   )
 }
 
-function ReceiptRow({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) {
+function RRow({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) {
   return (
-    <div className="flex justify-between items-start gap-4">
-      <span className="text-zinc-500 shrink-0">{label}</span>
-      <span className={`text-right break-all ${highlight ? 'text-emerald-400 font-semibold' : 'text-zinc-300'}`}>{value}</span>
+    <div className="flex justify-between items-baseline gap-4">
+      <span className="text-zinc-500 shrink-0 text-xs">{label}</span>
+      <span className={`text-right break-all ${highlight ? 'text-emerald-400 font-medium' : 'text-zinc-200'}`}>{value}</span>
     </div>
   )
 }
