@@ -14,7 +14,7 @@ All required unless marked optional:
 - [x] **Technologies used:** Next.js 16, TypeScript, Tailwind CSS v4, ERC-8004, x402 (USDC payments), Basescan API, Bankr LLM Gateway (qwen3-coder, deepseek-v3.2, gemini-3-flash), OpenClaw, Satori (SVG), Base (L2)
 - [x] **Links:**
   - GitHub: https://github.com/clawlinker/synthesis-hackathon
-  - Live demo: [NEEDS VERCEL DEPLOY]
+  - Live demo: https://molttail.vercel.app
   - Agent profile: https://pawr.link/clawlinker
   - ERC-8004: https://www.8004scan.io/agents/ethereum/22945
   - agent.json: https://github.com/clawlinker/synthesis-hackathon/blob/main/agent.json
