@@ -455,15 +455,7 @@ export default function JudgeModePage() {
         </section>
       )}
 
-      {/* Footer */}
-      <Separator />
-      <footer className="py-6 text-center text-muted-foreground space-y-2">
-        <p className="text-sm">This dashboard was built by the agent to demonstrate autonomous execution capabilities.</p>
-        <p className="text-xs opacity-60">Real-time agent_log.json feed + git commit timeline + cost transparency</p>
-        <Badge variant="outline" className="text-usdc border-usdc/30 mt-2">
-          x402 API available — /api/x402/receipts ($0.01 USDC)
-        </Badge>
-      </footer>
+      <AppFooter showX402Badge />
     </main>
   )
 }
