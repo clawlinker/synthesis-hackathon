@@ -2,7 +2,6 @@
 
 import { type Receipt, AGENT } from '@/app/types'
 import { useEffect, useState } from 'react'
-import { Card, CardContent } from '@/components/ui/card'
 
 export function ReceiptStats({ receipts }: { receipts: Receipt[] }) {
   const [mounted, setMounted] = useState(false)
@@ -39,37 +38,81 @@ export function ReceiptStats({ receipts }: { receipts: Receipt[] }) {
   const stats = [
     {
       label: 'x402 Revenue',
-      value: `${x402Revenue.toFixed(2)} USDC`,
-      delay: 0,
+      value: `$${x402Revenue.toFixed(2)}`,
+      trend: x402Revenue > 0 ? 'up' : null,
       accent: x402Revenue > 0 ? 'text-emerald-400' : 'text-zinc-100',
     },
-    { label: 'Total Spent', value: `${totalSent.toFixed(2)} USDC`, delay: 75 },
-    { label: 'LLM Costs', value: `$${inferenceCost.toFixed(3)}`, delay: 150 },
-    { label: 'Receipts', value: `${totalReceipts}`, delay: 225 },
+    {
+      label: 'Total Spent',
+      value: `$${totalSent.toFixed(2)}`,
+      trend: 'neutral' as const,
+      accent: 'text-zinc-100',
+    },
+    {
+      label: 'LLM Costs',
+      value: `$${inferenceCost.toFixed(3)}`,
+      trend: null,
+      accent: 'text-zinc-100',
+    },
+    {
+      label: 'Receipts',
+      value: `${totalReceipts}`,
+      trend: null,
+      accent: 'text-zinc-100',
+    },
   ]
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-      {stats.map((stat, idx) => (
-        <Card
-          key={idx}
-          className={`transition-all duration-500 ease-out ${
-            mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-          style={{ animationDelay: `${stat.delay}ms` }}
-        >
-          <CardContent className="p-4">
-            <div className="text-[11px] font-medium uppercase tracking-wider text-zinc-400 mb-1">
+    <div
+      className={`mb-6 rounded-xl border border-zinc-800 bg-zinc-900/60 backdrop-blur-sm transition-all duration-500 ease-out ${
+        mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+      }`}
+    >
+      {/* Desktop: single row | Mobile: 2x2 grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 divide-x-0 sm:divide-x divide-zinc-800">
+        {stats.map((stat, idx) => (
+          <div
+            key={idx}
+            className={`py-3 px-4 ${idx > 0 && idx % 2 === 0 ? 'border-t border-zinc-800 sm:border-t-0' : ''}`}
+          >
+            <div className="text-[10px] uppercase tracking-wider text-zinc-500 mb-0.5">
               {stat.label}
             </div>
-            <div
-              className={`text-lg font-bold tracking-tight ${stat.accent ?? 'text-zinc-100'}`}
-            >
+            <div className={`flex items-center gap-1 text-base font-bold ${stat.accent}`}>
               {stat.value}
+              {stat.trend === 'up' && (
+                <svg
+                  className="w-3 h-3 text-emerald-400 shrink-0"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M6 2L10 7H2L6 2Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              )}
+              {stat.trend === 'neutral' && (
+                <svg
+                  className="w-3 h-3 text-zinc-500 shrink-0"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M2 6H10M2 6L5 3M2 6L5 9"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              )}
             </div>
-          </CardContent>
-        </Card>
-      ))}
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
