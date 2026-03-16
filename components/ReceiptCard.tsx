@@ -128,6 +128,17 @@ function fmtTime(ts: number): [string, string] {
   return [short, full]
 }
 
+/** Determine inference provider from service/model string */
+function inferenceProvider(svc: string | undefined): string {
+  if (!svc) return 'LLM Gateway'
+  const model = extractModel(svc)?.toLowerCase() || svc.toLowerCase()
+  if (model.includes('claude') || model.includes('anthropic')) return 'Anthropic API'
+  if (model.includes('gpt') || model.includes('openai')) return 'OpenAI API'
+  if (model.includes('gemini') || model.includes('google')) return 'Bankr · Google AI'
+  // Default for bankr models (qwen, deepseek, etc.)
+  return 'Bankr LLM Gateway'
+}
+
 function gKey(r: Receipt): string {
   return `${r.direction}:${(r.direction === 'sent' ? r.to : r.from).toLowerCase()}`
 }
@@ -244,7 +255,7 @@ function ReceiptPaper({ receipt: r, onClose }: { receipt: Receipt; onClose: () =
           {isInf ? 'LLM Inference' : 'Clawlinker'}
         </p>
         <p className="text-zinc-500 text-xs mt-1 tracking-wide">
-          {isInf ? 'Bankr LLM Gateway' : 'Base Network · USDC'}
+          {isInf ? inferenceProvider(r.service) : 'Base Network · USDC'}
         </p>
         <p className="text-zinc-600 text-[10px] mt-0.5 tracking-wider">
           ERC-8004 #22945
