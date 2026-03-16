@@ -455,7 +455,7 @@ export default function JudgeModePage() {
         </section>
       )}
 
-      <AppFooter showX402Badge />
+      <AppFooter />
     </main>
   )
 }
