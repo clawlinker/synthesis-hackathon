@@ -60,13 +60,10 @@ export const BANKR_AGENT: AgentIdentity = {
 }
 
 export const USDC_CONTRACT = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
-export const CHAIN_ID = 8453  // Base
 
 export const ETH_USDC_CONTRACT = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
-export const ETH_CHAIN_ID = 1  // Ethereum Mainnet
 
 export const AGENTS = [AGENT, BANKR_AGENT] as const
-export type AgentKey = typeof AGENTS[number]['wallet']
 
 // Chain information for multi-chain support
 export const CHAINS = {
