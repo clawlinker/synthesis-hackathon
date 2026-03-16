@@ -19,7 +19,6 @@ import {
   ArrowDownLeft,
   Bot,
   Layers,
-  ChevronDown,
   ChevronRight,
   Zap,
 } from 'lucide-react'
@@ -597,7 +596,7 @@ function GroupedCard({ receipts, isInf, index }: { receipts: Receipt[]; isInf: b
               {count} {isInf ? 'calls' : 'payments'} · {name}
             </p>
             <p className="text-[11px] text-zinc-500 mt-px flex items-center gap-1 font-mono">
-              {open ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
+              <ChevronRight className={`h-3 w-3 transition-transform duration-200 ${open ? 'rotate-90' : ''}`} />
               {open ? 'collapse' : `show ${count}`}
             </p>
           </div>
