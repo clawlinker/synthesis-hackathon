@@ -4,7 +4,8 @@ import { type Receipt } from '@/app/types'
 import { useState } from 'react'
 import { InferenceModal } from './InferenceModal'
 import { Card } from '@/components/ui/card'
-import { ArrowUpRight, ArrowDownLeft, Layers, ChevronDown, ChevronRight } from 'lucide-react'
+import { ArrowUpRight, ArrowDownLeft, Layers, ChevronDown, ChevronRight, Bot } from 'lucide-react'
+import Link from 'next/link'
 
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
@@ -69,6 +70,21 @@ function extractTaskName(service: string | undefined): string {
   return afterDash || withoutParen || 'Inference'
 }
 
+/** Humanize task names: underscores → spaces, title-case, truncate at 35 chars */
+function humanizeTaskName(raw: string): string {
+  const spaced = raw.replace(/_/g, ' ')
+  const titled = spaced.replace(/\b\w/g, (c) => c.toUpperCase())
+  if (titled.length <= 35) return titled
+  return titled.slice(0, 34).trimEnd() + '…'
+}
+
+/** Extract phase from notes field: "phase:execute|description..." → "execute" */
+function extractPhase(notes: string | undefined): string | null {
+  if (!notes) return null
+  const match = notes.match(/^phase:([^|]+)/)
+  return match ? match[1].trim() : null
+}
+
 /** Returns just the display name for a counterparty — name OR address, never both */
 function getCounterpartyName(receipt: Receipt): string {
   const isSent = receipt.direction === 'sent'
@@ -106,6 +122,12 @@ function groupKey(receipt: Receipt): string {
   return `${receipt.direction}:${addr.toLowerCase()}`
 }
 
+/** Format cost string from amount */
+function formatCost(amount: string): string {
+  const val = parseFloat(amount)
+  return `$${val.toFixed(val < 0.01 ? 4 : val < 0.1 ? 3 : 2)}`
+}
+
 // ---------------------------------------------------------------------------
 // Individual USDC Receipt Card
 // ---------------------------------------------------------------------------
@@ -119,7 +141,6 @@ function USDCCard({ receipt, index }: { receipt: Receipt; index: number }) {
   const val = parseFloat(receipt.amount)
   const amountStr = val.toFixed(2)
   const sign = isSent ? '−' : '+'
-  const isVerified = isSent ? !!receipt.toAgent : !!receipt.fromAgent
 
   const borderColor = isSent ? 'border-red-500/50' : 'border-green-500/50'
   const amountColor = isSent ? 'text-red-400' : 'text-green-400'
@@ -130,7 +151,7 @@ function USDCCard({ receipt, index }: { receipt: Receipt; index: number }) {
   return (
     <Card
       className={`group cursor-default border-l-2 ${borderColor} px-3 py-2.5
-        hover:-translate-y-px hover:bg-zinc-800/50 hover:shadow-lg hover:shadow-black/20
+        hover:-translate-y-px hover:shadow-lg hover:shadow-black/20
         active:scale-[0.99] transition-all duration-150`}
       style={{ animation: `fadeIn 0.35s ease-out ${delay}ms both` }}
     >
@@ -144,10 +165,7 @@ function USDCCard({ receipt, index }: { receipt: Receipt; index: number }) {
             }
           </div>
           <div className="min-w-0">
-            <div className="flex items-center gap-1 text-xs font-semibold text-zinc-100 truncate leading-tight">
-              {isVerified && (
-                <span className="h-1.5 w-1.5 rounded-full bg-green-500 shrink-0" />
-              )}
+            <div className="text-xs font-semibold text-zinc-100 truncate leading-tight">
               {counterpartyName}
             </div>
             {counterpartyAddr && (
@@ -160,9 +178,8 @@ function USDCCard({ receipt, index }: { receipt: Receipt; index: number }) {
 
         {/* Right: amount */}
         <div className="shrink-0 text-right">
-          <div className={`text-base tracking-tight tabular-nums leading-tight ${amountColor}`}>
-            <span className="font-normal">{sign}</span>
-            <span className="font-extrabold">{amountStr}</span>
+          <div className={`text-sm font-bold tabular-nums leading-tight ${amountColor}`}>
+            {sign}{amountStr}
           </div>
           <div className="text-[9px] text-zinc-500 leading-tight">USDC</div>
         </div>
@@ -171,20 +188,20 @@ function USDCCard({ receipt, index }: { receipt: Receipt; index: number }) {
       {/* Bottom meta row */}
       <div className="flex items-center justify-between mt-1.5 text-[10px] text-zinc-500 gap-2">
         {receipt.service ? (
-          <span className="truncate flex-1 text-zinc-500">{humanizeService(receipt.service)}</span>
+          <span className="truncate flex-1 text-zinc-600">{receipt.service}</span>
         ) : (
           <span />
         )}
         <div className="flex items-center gap-2 shrink-0">
           <span title={timeFull}>{timeShort}</span>
           {receipt.hash && !receipt.hash.startsWith('inference-') && (
-            <a
+            <Link
               href={`/receipt/${receipt.hash}`}
               onClick={(e) => e.stopPropagation()}
               className="font-mono text-zinc-600 hover:text-zinc-300 transition-colors"
             >
               {receipt.hash.slice(0, 8)}…
-            </a>
+            </Link>
           )}
         </div>
       </div>
@@ -196,14 +213,27 @@ function USDCCard({ receipt, index }: { receipt: Receipt; index: number }) {
 // Inference Receipt Card
 // ---------------------------------------------------------------------------
 
-function InferenceCard({ receipt, index }: { receipt: Receipt; index: number }) {
+function InferenceCard({
+  receipt,
+  index,
+  totalInferenceCost,
+}: {
+  receipt: Receipt
+  index: number
+  totalInferenceCost?: number
+}) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [timeShort, timeFull] = formatTimestamp(receipt.timestamp)
   const modelName = extractModelName(receipt.service)
-  const taskName = extractTaskName(receipt.service)
+  const rawTask = extractTaskName(receipt.service)
+  const taskName = humanizeTaskName(rawTask)
+  const phase = extractPhase(receipt.notes)
 
   const val = parseFloat(receipt.amount)
-  const costStr = `$${val.toFixed(val < 0.01 ? 4 : val < 0.1 ? 3 : 2)}`
+  const costStr = formatCost(receipt.amount)
+  const totalStr = totalInferenceCost != null
+    ? `$${totalInferenceCost.toFixed(totalInferenceCost < 0.1 ? 3 : 2)}`
+    : null
 
   const delay = Math.min(index * 25, 400)
 
@@ -218,26 +248,36 @@ function InferenceCard({ receipt, index }: { receipt: Receipt; index: number }) 
         style={{ animation: `fadeIn 0.35s ease-out ${delay}ms both` }}
       >
         <div className="flex items-center justify-between gap-3">
-          {/* Left: robot icon + task name */}
+          {/* Left: Bot icon + task name */}
           <div className="flex items-center gap-2 min-w-0 flex-1">
-            <span className="text-sm shrink-0 leading-none">🤖</span>
+            <Bot className="h-3.5 w-3.5 shrink-0 text-purple-400" strokeWidth={2} />
             <span className="text-xs font-semibold text-zinc-100 truncate leading-tight">
               {taskName}
             </span>
           </div>
 
-          {/* Right: cost */}
+          {/* Right: cost with total context on hover */}
           <div className="shrink-0">
-            <span className="text-sm font-bold tabular-nums text-purple-300">{costStr}</span>
+            <span
+              className="text-sm font-bold tabular-nums text-purple-300"
+              title={totalStr ? `${costStr} of ${totalStr} total inference` : undefined}
+            >
+              {costStr}
+            </span>
           </div>
         </div>
 
-        {/* Bottom row: model pill + time */}
+        {/* Bottom row: model pill + phase badge + time */}
         <div className="flex items-center justify-between mt-1.5 text-[10px] text-zinc-500 gap-2">
           <div className="flex items-center gap-1.5 min-w-0">
             {modelName && (
               <span className="inline-flex items-center rounded-full bg-purple-500/10 border border-purple-500/20 px-1.5 py-px text-[9px] font-mono text-purple-400 shrink-0">
                 {modelName}
+              </span>
+            )}
+            {phase && phase !== 'unknown' && (
+              <span className="inline-flex items-center rounded-full bg-zinc-700/50 border border-zinc-600/30 px-1.5 py-px text-[9px] text-zinc-400 shrink-0">
+                {phase}
               </span>
             )}
             {receipt.modelInfo && (
@@ -269,6 +309,87 @@ function InferenceCard({ receipt, index }: { receipt: Receipt; index: number }) 
 }
 
 // ---------------------------------------------------------------------------
+// Grouped Inference Card (same task name, 2+ calls)
+// ---------------------------------------------------------------------------
+
+function GroupedInferenceCard({
+  receipts,
+  index,
+  totalInferenceCost,
+}: {
+  receipts: Receipt[]
+  index: number
+  totalInferenceCost?: number
+}) {
+  const [expanded, setExpanded] = useState(false)
+  const first = receipts[0]
+  const rawTask = extractTaskName(first.service)
+  const taskName = humanizeTaskName(rawTask)
+  const total = receipts.reduce((sum, r) => sum + parseFloat(r.amount), 0)
+  const totalStr = `$${total.toFixed(total < 0.1 ? 3 : 2)}`
+  const grandTotalStr = totalInferenceCost != null
+    ? `$${totalInferenceCost.toFixed(totalInferenceCost < 0.1 ? 3 : 2)}`
+    : null
+
+  const delay = Math.min(index * 25, 400)
+
+  return (
+    <div style={{ animation: `fadeIn 0.35s ease-out ${delay}ms both` }}>
+      <Card
+        onClick={() => setExpanded((v) => !v)}
+        className="group cursor-pointer border-l-2 border-purple-500/50 bg-purple-500/[0.04]
+          hover:bg-purple-500/[0.08] hover:-translate-y-px hover:shadow-lg hover:shadow-purple-900/20
+          active:scale-[0.99] transition-all duration-150 px-3 py-2.5"
+      >
+        <div className="flex items-center justify-between gap-3">
+          {/* Left: Bot icon + summary */}
+          <div className="flex items-center gap-2 min-w-0 flex-1">
+            <Bot className="h-3.5 w-3.5 shrink-0 text-purple-400" strokeWidth={2} />
+            <div className="min-w-0">
+              <div className="text-xs font-semibold text-zinc-100 truncate leading-tight">
+                {receipts.length} calls · {taskName}
+              </div>
+              <div className="flex items-center gap-0.5 text-[9px] text-zinc-500 leading-tight">
+                {expanded
+                  ? <ChevronDown className="h-2.5 w-2.5 inline shrink-0" />
+                  : <ChevronRight className="h-2.5 w-2.5 inline shrink-0" />
+                }
+                <span>{expanded ? 'collapse' : 'expand'}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: total cost */}
+          <div className="shrink-0 text-right">
+            <div
+              className="text-sm font-bold tabular-nums leading-tight text-purple-300"
+              title={grandTotalStr ? `${totalStr} of ${grandTotalStr} total inference` : undefined}
+            >
+              {totalStr}
+            </div>
+            <div className="text-[9px] text-zinc-500 leading-tight">total</div>
+          </div>
+        </div>
+      </Card>
+
+      {/* Expanded receipts */}
+      {expanded && (
+        <div className="mt-1 ml-3 pl-2 border-l border-purple-700/30 space-y-1">
+          {receipts.map((r) => (
+            <InferenceCard
+              key={r.hash}
+              receipt={r}
+              index={0}
+              totalInferenceCost={totalInferenceCost}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ---------------------------------------------------------------------------
 // Grouped Receipt Card (3+ consecutive receipts to same counterparty)
 // ---------------------------------------------------------------------------
 
@@ -291,7 +412,7 @@ function GroupedCard({ receipts, index }: { receipts: Receipt[]; index: number }
       <Card
         onClick={() => setExpanded((v) => !v)}
         className={`group cursor-pointer border-l-2 ${borderColor} px-3 py-2.5
-          hover:-translate-y-px hover:bg-zinc-800/50 hover:shadow-lg hover:shadow-black/20
+          hover:-translate-y-px hover:shadow-lg hover:shadow-black/20
           active:scale-[0.99] transition-all duration-150`}
       >
         <div className="flex items-center justify-between gap-3">
@@ -304,20 +425,20 @@ function GroupedCard({ receipts, index }: { receipts: Receipt[]; index: number }
               <div className="text-xs font-semibold text-zinc-100 truncate leading-tight">
                 {receipts.length} transactions · {counterpartyName}
               </div>
-              <div className="flex items-center text-[9px] text-zinc-500 leading-tight">
+              <div className="flex items-center gap-0.5 text-[9px] text-zinc-500 leading-tight">
                 {expanded
-                  ? <ChevronDown className="h-2.5 w-2.5 shrink-0" />
-                  : <ChevronRight className="h-2.5 w-2.5 shrink-0" />
+                  ? <ChevronDown className="h-2.5 w-2.5 inline shrink-0" />
+                  : <ChevronRight className="h-2.5 w-2.5 inline shrink-0" />
                 }
+                <span>{expanded ? 'collapse' : 'expand'}</span>
               </div>
             </div>
           </div>
 
           {/* Right: total */}
           <div className="shrink-0 text-right">
-            <div className={`text-base tracking-tight tabular-nums leading-tight ${amountColor}`}>
-              <span className="font-normal">{sign}</span>
-              <span className="font-extrabold">{total.toFixed(2)}</span>
+            <div className={`text-sm font-bold tabular-nums leading-tight ${amountColor}`}>
+              {sign}{total.toFixed(2)}
             </div>
             <div className="text-[9px] text-zinc-500 leading-tight">USDC total</div>
           </div>
@@ -343,6 +464,7 @@ function GroupedCard({ receipts, index }: { receipts: Receipt[]; index: number }
 type DisplayItem =
   | { kind: 'single'; receipt: Receipt }
   | { kind: 'grouped'; receipts: Receipt[] }
+  | { kind: 'grouped-inference'; receipts: Receipt[] }
 
 export function groupReceiptsForDisplay(receipts: Receipt[]): DisplayItem[] {
   const result: DisplayItem[] = []
@@ -351,10 +473,25 @@ export function groupReceiptsForDisplay(receipts: Receipt[]): DisplayItem[] {
   while (i < receipts.length) {
     const r = receipts[i]
 
-    // Never group inference receipts
+    // Group consecutive inference receipts with the same task name (2+)
     if (isInferenceReceipt(r)) {
-      result.push({ kind: 'single', receipt: r })
-      i++
+      const taskKey = extractTaskName(r.service)
+      let j = i + 1
+      while (
+        j < receipts.length &&
+        isInferenceReceipt(receipts[j]) &&
+        extractTaskName(receipts[j].service) === taskKey
+      ) {
+        j++
+      }
+      const count = j - i
+      if (count >= 2) {
+        result.push({ kind: 'grouped-inference', receipts: receipts.slice(i, j) })
+        i = j
+      } else {
+        result.push({ kind: 'single', receipt: r })
+        i++
+      }
       continue
     }
 
@@ -396,8 +533,13 @@ export function ReceiptCard({ receipt, index = 0 }: { receipt: Receipt; index?: 
 export function ReceiptList({ receipts }: { receipts: Receipt[] }) {
   const items = groupReceiptsForDisplay(receipts)
 
+  // Compute total inference cost for cost context
+  const totalInferenceCost = receipts
+    .filter(isInferenceReceipt)
+    .reduce((sum, r) => sum + parseFloat(r.amount), 0)
+
   return (
-    <div className="space-y-2">
+    <div className="space-y-1.5">
       {items.map((item, i) => {
         if (item.kind === 'grouped') {
           return (
@@ -405,6 +547,16 @@ export function ReceiptList({ receipts }: { receipts: Receipt[] }) {
               key={item.receipts[0].hash}
               receipts={item.receipts}
               index={i}
+            />
+          )
+        }
+        if (item.kind === 'grouped-inference') {
+          return (
+            <GroupedInferenceCard
+              key={item.receipts[0].hash}
+              receipts={item.receipts}
+              index={i}
+              totalInferenceCost={totalInferenceCost}
             />
           )
         }
