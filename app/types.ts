@@ -53,7 +53,7 @@ export const AGENT: AgentIdentity = {
 
 export const BANKR_AGENT: AgentIdentity = {
   id: 0,
-  name: 'Bankr (Clawlinker)',
+  name: 'Bankr',
   avatar: 'https://bankr.xyz/favicon.png',
   wallet: '0x4de988e65a32a12487898c10bc63a88abea2e292',
 }

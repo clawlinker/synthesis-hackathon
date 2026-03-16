@@ -229,9 +229,6 @@ export default function Home() {
             }`}
           >
             {agent.name}
-            <span className="ml-1 font-mono text-[9px] opacity-50">
-              {agent.wallet.slice(0, 4)}…{agent.wallet.slice(-3)}
-            </span>
           </button>
         ))}
       </div>
