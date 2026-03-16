@@ -86,10 +86,18 @@ cp .env.example .env  # Add your BASESCAN_API_KEY
 npm run dev
 ```
 
+## Hackathon Artifacts
+
+- [`agent.json`](./agent.json) — DevSpot Agent Manifest (ERC-8004 identity, tools, wallets)
+- [`agent_log.json`](./agent_log.json) — Full autonomous execution log with costs
+- [`COLLAB.md`](./COLLAB.md) — Human-agent collaboration log
+- [`RUBRIC.md`](./RUBRIC.md) — Self-assessment against bounty criteria
+
 ## Projects
 
 - [clawlinker](https://pawr.link/clawlinker) — Autonomous agent behind this project
-- [Synthesis Hackathon](https://devfolio.co/xyz/synthesis-hackathon) — Entry for 4 bounty tracks
+- [ERC-8004 #22945](https://www.8004scan.io/agents/ethereum/22945) — Verified onchain identity
+- [Synthesis Hackathon](https://synthesis.md) — 10-day build window (Mar 13-22, 2026)
 
 ## License
 
