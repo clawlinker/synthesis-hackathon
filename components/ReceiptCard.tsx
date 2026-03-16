@@ -36,12 +36,8 @@ const CARD_CSS = `
   to   { opacity: 1; transform: translateY(0); }
 }
 @keyframes rc-expand {
-  from { opacity: 0; transform: scaleY(0.95); max-height: 0; }
-  to   { opacity: 1; transform: scaleY(1); max-height: 600px; }
-}
-@keyframes rc-collapse {
-  from { opacity: 1; transform: scaleY(1); }
-  to   { opacity: 0; transform: scaleY(0.95); }
+  from { opacity: 0; transform: scaleY(0.95) translateY(-8px); }
+  to   { opacity: 1; transform: scaleY(1) translateY(0); }
 }
 `
 let _styled = false
@@ -382,64 +378,54 @@ function USDCCard({ receipt: r, index, nested, defaultExpanded }: { receipt: Rec
 
   if (expanded && !nested) {
     return (
-      <div style={{ animation: `rc-fade 0.25s ease-out ${delay}ms both` }}>
+      <div className="py-2 px-3" style={{ animation: 'rc-expand 0.3s ease-out both' }}>
         <ReceiptPaper receipt={r} onClose={() => setExpanded(false)} />
       </div>
     )
   }
 
+  // Mini receipt stub — compact but with receipt character
   return (
     <div
-      className={`relative px-4 py-3 hover:bg-zinc-800/30 transition-colors duration-100
-        ${nested ? 'py-2 px-3' : 'cursor-pointer'}
-        `}
+      className={`relative cursor-pointer group
+        ${nested ? 'py-1.5 px-2' : 'py-2 px-3'}`}
       style={!nested ? { animation: `rc-fade 0.25s ease-out ${delay}ms both` } : undefined}
       onClick={!nested ? () => setExpanded(true) : undefined}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
     >
-      <div className="flex items-center gap-3">
-        {/* Icon — consistent 20px for all types */}
-        <div
-          className="shrink-0 h-8 w-8 rounded-full flex items-center justify-center"
-          style={{ background: COLOR[type].bg, border: `1px solid ${COLOR[type].border}` }}
-        >
-          <TypeIcon type={type} />
+      <div
+        className="flex items-center gap-3 px-3 py-2.5 rounded-lg border border-zinc-800/40 group-hover:border-zinc-700/60 transition-colors duration-150"
+        style={{ background: 'rgba(24,24,27,0.5)' }}
+      >
+        {/* Left: dashed receipt edge + icon */}
+        <div className="flex items-center gap-2.5 shrink-0">
+          <div className="w-px h-8 border-l border-dashed" style={{ borderColor: COLOR[type].text + '40' }} />
+          <div
+            className="h-7 w-7 rounded flex items-center justify-center"
+            style={{ background: COLOR[type].bg }}
+          >
+            <TypeIcon type={type} />
+          </div>
         </div>
 
-        {/* Middle: name + service */}
+        {/* Middle: name + meta */}
         <div className="flex-1 min-w-0">
           <p className="text-sm font-medium text-zinc-100 truncate">{name}</p>
-          {(svc || addr) && (
-            <p className="text-xs text-zinc-500 truncate mt-0.5">
-              {svc && <span>{svc}</span>}
-              {svc && addr && <span className="text-zinc-700"> · </span>}
-              {addr && <span className="font-mono">{addr}</span>}
-            </p>
-          )}
+          <p className="text-[11px] text-zinc-500 truncate mt-px font-mono">
+            {svc ? svc : addr ? addr : ''}
+            {tShort && <span className="text-zinc-600"> · {tShort}</span>}
+          </p>
         </div>
 
-        {/* Right: amount + time */}
-        <div className="shrink-0 text-right">
-          <p className="text-sm font-semibold tabular-nums" style={{ color: COLOR[type].text }}>
+        {/* Right: amount in receipt style */}
+        <div className="shrink-0 text-right font-mono">
+          <p className="text-sm font-bold tabular-nums" style={{ color: COLOR[type].text }}>
             {sign}${amt}
           </p>
-          <p className="text-[11px] text-zinc-600 tabular-nums mt-0.5" title={tFull}>{tShort}</p>
+          <p className="text-[10px] text-zinc-600 mt-px">USDC</p>
         </div>
       </div>
-
-      {/* Tx hash — tertiary, only when not nested */}
-      {!nested && r.hash && !r.hash.startsWith('inference-') && (
-        <div className="ml-11 mt-1">
-          <Link
-            href={`/receipt/${r.hash}`}
-            onClick={e => e.stopPropagation()}
-            className="text-[11px] font-mono text-zinc-600 hover:text-zinc-400 transition-colors"
-          >
-            tx {r.hash.slice(0, 8)}…
-          </Link>
-        </div>
-      )}
 
       {tip && <Tooltip receipt={r} pos={tip} />}
     </div>
@@ -463,52 +449,52 @@ function InferenceCard({ receipt: r, index, nested, defaultExpanded }: { receipt
 
   if (expanded && !nested) {
     return (
-      <div style={{ animation: `rc-fade 0.25s ease-out ${delay}ms both` }}>
+      <div className="py-2 px-3" style={{ animation: 'rc-expand 0.3s ease-out both' }}>
         <ReceiptPaper receipt={r} onClose={() => setExpanded(false)} />
       </div>
     )
   }
 
+  // Mini receipt stub — inference variant
   return (
     <>
       <div
         onClick={() => !nested ? setExpanded(true) : hasBreakdown && setModal(true)}
-        className={`relative px-4 py-3 hover:bg-purple-500/[0.04] transition-colors duration-100
+        className={`relative group
           ${!nested || hasBreakdown ? 'cursor-pointer' : 'cursor-default'}
-          ${nested ? 'py-2 px-3' : ''}`}
+          ${nested ? 'py-1.5 px-2' : 'py-2 px-3'}`}
         style={!nested ? { animation: `rc-fade 0.25s ease-out ${delay}ms both` } : undefined}
       >
-        <div className="flex items-center gap-3">
-          {/* Icon */}
-          <div
-            className="shrink-0 h-8 w-8 rounded-full flex items-center justify-center"
-            style={{ background: COLOR.inference.bg, border: `1px solid ${COLOR.inference.border}` }}
-          >
-            <TypeIcon type="inference" />
+        <div
+          className="flex items-center gap-3 px-3 py-2.5 rounded-lg border border-purple-500/10 group-hover:border-purple-500/25 transition-colors duration-150"
+          style={{ background: 'rgba(168,85,247,0.03)' }}
+        >
+          {/* Left: dashed edge + icon */}
+          <div className="flex items-center gap-2.5 shrink-0">
+            <div className="w-px h-8 border-l border-dashed border-purple-500/30" />
+            <div
+              className="h-7 w-7 rounded flex items-center justify-center"
+              style={{ background: COLOR.inference.bg }}
+            >
+              <TypeIcon type="inference" />
+            </div>
           </div>
 
           {/* Middle: task + model */}
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-zinc-100 truncate">{task}</p>
-            <div className="flex items-center gap-2 mt-0.5">
-              {model && (
-                <span className="text-[11px] font-mono text-purple-400/80">{model}</span>
-              )}
-              {hasBreakdown && (
-                <span className="text-[11px] text-purple-400/50 flex items-center gap-0.5">
-                  <Zap className="h-3 w-3" />
-                  details
-                </span>
-              )}
-            </div>
+            <p className="text-[11px] text-zinc-500 truncate mt-px font-mono">
+              {model || 'inference'}
+              <span className="text-zinc-600"> · {tShort}</span>
+            </p>
           </div>
 
-          {/* Right: cost + time */}
-          <div className="shrink-0 text-right">
-            <p className="text-sm font-semibold tabular-nums" style={{ color: COLOR.inference.text }}>
+          {/* Right: cost in receipt style */}
+          <div className="shrink-0 text-right font-mono">
+            <p className="text-sm font-bold tabular-nums" style={{ color: COLOR.inference.text }}>
               ${amt}
             </p>
-            <p className="text-[11px] text-zinc-600 tabular-nums mt-0.5" title={tFull}>{tShort}</p>
+            <p className="text-[10px] text-zinc-600 mt-px">USD</p>
           </div>
         </div>
       </div>
@@ -544,43 +530,46 @@ function GroupedCard({ receipts, isInf, index }: { receipts: Receipt[]; isInf: b
   useEffect(injectStyles, [])
 
   return (
-    <div style={{ animation: `rc-fade 0.25s ease-out ${delay}ms both` }}>
+    <div className="py-2 px-3" style={{ animation: `rc-fade 0.25s ease-out ${delay}ms both` }}>
       <div
-        className="px-4 py-3 cursor-pointer hover:bg-zinc-800/30 transition-colors duration-100"
+        className="cursor-pointer group"
         onClick={() => setOpen(v => !v)}
       >
-        <div className="flex items-center gap-3">
-          {/* Icon */}
-          <div
-            className="shrink-0 h-8 w-8 rounded-full flex items-center justify-center"
-            style={{ background: COLOR[type].bg, border: `1px solid ${COLOR[type].border}` }}
-          >
-            <Layers className="h-5 w-5" style={{ color: COLOR[type].text }} strokeWidth={1.5} />
+        <div
+          className="flex items-center gap-3 px-3 py-2.5 rounded-lg border border-zinc-800/40 group-hover:border-zinc-700/60 transition-colors duration-150"
+          style={{ background: 'rgba(24,24,27,0.5)' }}
+        >
+          {/* Left: dashed edge + layers icon */}
+          <div className="flex items-center gap-2.5 shrink-0">
+            <div className="w-px h-8 border-l border-dashed" style={{ borderColor: COLOR[type].text + '40' }} />
+            <div className="h-7 w-7 rounded flex items-center justify-center" style={{ background: COLOR[type].bg }}>
+              <Layers className="h-4 w-4" style={{ color: COLOR[type].text }} strokeWidth={1.5} />
+            </div>
           </div>
 
-          {/* Middle: summary */}
+          {/* Middle */}
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-zinc-100 truncate">
-              {count} {isInf ? 'calls' : 'transactions'} · {name}
+              {count} {isInf ? 'calls' : 'payments'} · {name}
             </p>
-            <p className="text-xs text-zinc-500 mt-0.5 flex items-center gap-1">
+            <p className="text-[11px] text-zinc-500 mt-px flex items-center gap-1 font-mono">
               {open ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
-              {open ? 'collapse' : `show ${count} items`}
+              {open ? 'collapse' : `show ${count}`}
             </p>
           </div>
 
           {/* Right: total */}
-          <div className="shrink-0 text-right">
-            <p className="text-sm font-semibold tabular-nums" style={{ color: COLOR[type].text }}>
+          <div className="shrink-0 text-right font-mono">
+            <p className="text-sm font-bold tabular-nums" style={{ color: COLOR[type].text }}>
               {sign}${amt}
             </p>
-            <p className="text-[11px] text-zinc-600 mt-0.5">total</p>
+            <p className="text-[10px] text-zinc-600 mt-px">total</p>
           </div>
         </div>
       </div>
 
       {open && (
-        <div className="ml-8 border-l border-zinc-800/50 divide-y divide-zinc-800/20">
+        <div className="ml-6 mt-1 space-y-0">
           {receipts.map((r, i) => (
             isInf
               ? <InferenceCard key={r.hash} receipt={r} index={i} nested />
@@ -641,7 +630,7 @@ export function ReceiptList({ receipts }: { receipts: Receipt[] }) {
   const items = groupReceiptsForDisplay(receipts)
 
   return (
-    <div className="rounded-xl border border-zinc-800/60 bg-zinc-900/30 overflow-hidden divide-y divide-zinc-800/40">
+    <div className="space-y-0">
       {items.length === 0 && (
         <div className="py-8 text-center text-sm text-zinc-600">No transactions</div>
       )}
