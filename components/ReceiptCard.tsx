@@ -294,7 +294,18 @@ function ReceiptPaper({ receipt: r, onClose }: { receipt: Receipt; onClose: () =
         <div className="text-left space-y-2 text-sm">
           {r.hash && !r.hash.startsWith('inference-') && (
             <>
-              <RRow label="Tx" value={`${r.hash.slice(0, 10)}…${r.hash.slice(-8)}`} />
+              <div className="flex justify-between items-baseline gap-4">
+                <span className="text-zinc-500 shrink-0 text-xs">Tx</span>
+                <a
+                  href={`https://basescan.org/tx/${r.hash}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="text-right font-mono text-xs text-usdc hover:underline break-all"
+                >
+                  {r.hash.slice(0, 10)}…{r.hash.slice(-8)}
+                </a>
+              </div>
               {r.blockNumber && <RRow label="Block" value={`#${parseInt(r.blockNumber).toLocaleString()}`} />}
             </>
           )}
@@ -310,13 +321,24 @@ function ReceiptPaper({ receipt: r, onClose }: { receipt: Receipt; onClose: () =
           <br />clawlinker.eth
         </p>
 
-        {/* Collapse */}
-        <button
-          onClick={(e) => { e.stopPropagation(); onClose() }}
-          className="mt-4 px-4 py-1.5 text-xs text-zinc-500 hover:text-zinc-200 border border-zinc-800 hover:border-zinc-600 rounded-full transition-all duration-200"
-        >
-          ▲ collapse
-        </button>
+        {/* Action buttons */}
+        <div className="mt-4 flex items-center justify-center gap-3">
+          {r.hash && !r.hash.startsWith('inference-') && (
+            <Link
+              href={`/receipt/${r.hash}`}
+              onClick={(e) => e.stopPropagation()}
+              className="px-4 py-1.5 text-xs text-usdc hover:text-zinc-100 border border-usdc/30 hover:border-usdc/60 hover:bg-usdc/5 rounded-full transition-all duration-200"
+            >
+              View Receipt →
+            </Link>
+          )}
+          <button
+            onClick={(e) => { e.stopPropagation(); onClose() }}
+            className="px-4 py-1.5 text-xs text-zinc-500 hover:text-zinc-200 border border-zinc-800 hover:border-zinc-600 rounded-full transition-all duration-200"
+          >
+            ▲ collapse
+          </button>
+        </div>
       </div>
 
       {/* Perforated bottom edge */}
