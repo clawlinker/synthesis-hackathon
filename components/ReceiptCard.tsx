@@ -10,6 +10,7 @@
  * - Consistent icon treatment across card types
  */
 
+import React from 'react'
 import { type Receipt } from '@/app/types'
 import { useState, useEffect, useCallback } from 'react'
 import { InferenceModal } from './InferenceModal'
@@ -669,6 +670,12 @@ export function ReceiptCard({ receipt, index = 0, defaultExpanded }: { receipt: 
     : <USDCCard receipt={receipt} index={index} defaultExpanded={defaultExpanded} />
 }
 
+function isItemInference(item: DisplayItem): boolean {
+  if (item.kind === 'grouped-inference') return true
+  if (item.kind === 'single') return isInferenceReceipt(item.receipt)
+  return false
+}
+
 export function ReceiptList({ receipts }: { receipts: Receipt[] }) {
   const items = groupReceiptsForDisplay(receipts)
 
@@ -679,11 +686,37 @@ export function ReceiptList({ receipts }: { receipts: Receipt[] }) {
       )}
       {items.map((item, idx) => {
         const isFirst = idx === 0
+        const isCurrentInference = isItemInference(item)
+        const isPrevInference = idx > 0 && isItemInference(items[idx - 1])
+        // Show divider when transitioning from USDC → inference, only if there were USDC items above
+        const hasUSDCAbove = items.slice(0, idx).some(i => !isItemInference(i))
+        const showInferenceDivider = isCurrentInference && !isPrevInference && hasUSDCAbove
+
+        let card: React.ReactNode
         if (item.kind === 'grouped')
-          return <GroupedCard key={item.receipts[0].hash} receipts={item.receipts} isInf={false} index={idx} />
-        if (item.kind === 'grouped-inference')
-          return <GroupedCard key={item.receipts[0].hash} receipts={item.receipts} isInf index={idx} />
-        return <ReceiptCard key={item.receipt.hash} receipt={item.receipt} index={idx} defaultExpanded={isFirst} />
+          card = <GroupedCard key={item.receipts[0].hash} receipts={item.receipts} isInf={false} index={idx} />
+        else if (item.kind === 'grouped-inference')
+          card = <GroupedCard key={item.receipts[0].hash} receipts={item.receipts} isInf index={idx} />
+        else
+          card = <ReceiptCard key={item.receipt.hash} receipt={item.receipt} index={idx} defaultExpanded={isFirst} />
+
+        const key = item.kind === 'single' ? item.receipt.hash : item.receipts[0].hash
+
+        return (
+          <React.Fragment key={key}>
+            {showInferenceDivider && (
+              <div className="flex items-center gap-2 px-3 py-2 mt-1">
+                <div className="h-px flex-1 bg-purple-900/25" />
+                <span className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-widest text-purple-500/50">
+                  <Bot className="h-2.5 w-2.5" />
+                  LLM Inference Costs
+                </span>
+                <div className="h-px flex-1 bg-purple-900/25" />
+              </div>
+            )}
+            {card}
+          </React.Fragment>
+        )
       })}
     </div>
   )
