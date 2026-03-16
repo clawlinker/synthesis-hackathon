@@ -60,7 +60,56 @@ function getServiceFromTx(tx: { to: string; from: string }): string | undefined 
   return labelAddress(other)
 }
 
+const BLOCKSCOUT_REST_API = 'https://base.blockscout.com/api/v2'
+
+/** Primary lookup: Blockscout direct-by-hash (works for any tx, not just last 50) */
+async function fetchReceiptByHashBlockscout(hash: string): Promise<Receipt | null> {
+  try {
+    const res = await fetch(
+      `${BLOCKSCOUT_REST_API}/tokens/${CONTRACTS.USDC_CONTRACT}/transfers?transaction_hash=${hash}`,
+      { next: { revalidate: 300 } }
+    )
+    if (!res.ok) throw new Error(`Blockscout error: ${res.status}`)
+    const data = await res.json()
+    if (!Array.isArray(data.items) || data.items.length === 0) return null
+
+    const t = data.items[0]
+    const rawValue = t.total?.value ?? '0'
+    const from = (t.from?.hash ?? '').toLowerCase()
+    const to = (t.to?.hash ?? '').toLowerCase()
+    const ts = t.timestamp ? Math.floor(new Date(t.timestamp).getTime() / 1000) : 0
+    const block = t.block_number?.toString() ?? ''
+    const direction: 'sent' | 'received' = from === AGENT.wallet.toLowerCase() ? 'sent' : 'received'
+
+    return {
+      hash,
+      from: t.from?.hash ?? '',
+      to: t.to?.hash ?? '',
+      value: rawValue,
+      amount: (parseInt(rawValue) / 1e6).toFixed(2),
+      timestamp: ts,
+      blockNumber: block,
+      direction,
+      status: 'confirmed' as const,
+      tokenSymbol: 'USDC',
+      tokenDecimal: '6',
+      agentId: AGENT.id?.toString() ?? '22945',
+      service: labelAddress(direction === 'sent' ? to : from),
+      fromLabel: labelAddress(from),
+      toLabel: labelAddress(to),
+    }
+  } catch {
+    return null
+  }
+}
+
+/** Fallback: Basescan scan (last 50 txns) */
 async function fetchReceiptByHash(hash: string): Promise<Receipt | null> {
+  // Try Blockscout first (exact hash lookup, works for any historical tx)
+  const blockscout = await fetchReceiptByHashBlockscout(hash)
+  if (blockscout) return blockscout
+
+  // Fallback: Basescan recent scan
   try {
     const params = new URLSearchParams({
       module: 'account',
@@ -238,14 +287,6 @@ export async function GET(
       { error: 'Rate limit exceeded. Try again later.' },
       { status: 429, headers: { 'X-RateLimit-Remaining': '0' } }
     )
-  }
-
-  // Validate required environment variables
-  try {
-    validateEnv()
-  } catch (error) {
-    console.warn('Environment validation failed:', error)
-    return NextResponse.json({ error: 'Server configuration error' }, { status: 500 })
   }
 
   let receipt = await fetchReceiptByHash(hash)
