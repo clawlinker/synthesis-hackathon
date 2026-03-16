@@ -20,13 +20,13 @@ export default function NavBar() {
 
   return (
     <nav className="sticky top-0 z-50 border-b border-zinc-800/40 bg-zinc-950/80 backdrop-blur-xl">
-      <div className="mx-auto flex h-11 max-w-6xl items-center justify-between px-4">
+      <div className="mx-auto flex h-12 max-w-2xl items-center justify-between px-4">
         {/* Logo */}
         <Link href="/" className="group flex items-center gap-2">
-          {/* Logo mark — stylized receipt icon */}
+          {/* Logo mark — receipt icon */}
           <div className="relative flex h-6 w-6 items-center justify-center rounded-md bg-gradient-to-br from-usdc/20 to-usdc/5 ring-1 ring-usdc/20 transition-all group-hover:ring-usdc/40 group-hover:from-usdc/30">
-            <svg className="h-3 w-3 text-usdc" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
+            <svg className="h-3.5 w-3.5 text-usdc" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
             </svg>
           </div>
           <div className="flex items-baseline gap-0.5">
@@ -48,9 +48,6 @@ export default function NavBar() {
               }`}
             >
               {label}
-              {isActive(href) && (
-                <span className="absolute -bottom-[9px] left-1/2 h-[2px] w-4 -translate-x-1/2 rounded-full bg-usdc/60" />
-              )}
             </Link>
           ))}
 
