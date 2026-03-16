@@ -208,9 +208,131 @@ function TR({ l, v, mono }: { l: string; v: string; mono?: boolean }) {
   )
 }
 
+// ─── Receipt Paper (thermal receipt detail view) ────────────────────────────
+
+function ReceiptPaper({ receipt: r, onClose }: { receipt: Receipt; onClose: () => void }) {
+  const isInf = isInferenceReceipt(r)
+  const isSent = r.direction === 'sent'
+  const [, full] = fmtTime(r.timestamp)
+  const amt = fmtUSD(r.amount)
+  const name = counterparty(r)
+  const addr = isSent ? r.to : r.from
+  const sign = isSent ? '−' : '+'
+
+  const dash = '─'.repeat(36)
+  const dottedLine = <div className="text-zinc-700 text-center font-mono text-xs select-none my-2">{dash}</div>
+
+  return (
+    <div className="bg-zinc-950 border border-zinc-800/60 rounded-lg mx-auto max-w-sm overflow-hidden">
+      {/* Zigzag top edge */}
+      <div className="h-3 w-full" style={{
+        background: 'linear-gradient(135deg, transparent 33.33%, rgb(9 9 11) 33.33%, rgb(9 9 11) 66.66%, transparent 66.66%), linear-gradient(225deg, transparent 33.33%, rgb(9 9 11) 33.33%, rgb(9 9 11) 66.66%, transparent 66.66%)',
+        backgroundSize: '12px 12px',
+        backgroundColor: 'rgb(24 24 27)',
+      }} />
+
+      <div className="px-6 py-4 font-mono text-center">
+        {/* Agent name / store header */}
+        <p className="text-zinc-100 text-base font-bold tracking-wider uppercase">
+          {isInf ? 'LLM Inference' : 'Clawlinker'}
+        </p>
+        <p className="text-zinc-500 text-[11px] mt-1">
+          {isInf ? 'Bankr LLM Gateway' : 'Base Network · USDC'}
+        </p>
+        <p className="text-zinc-600 text-[10px] mt-0.5">
+          ERC-8004 Agent #22945
+        </p>
+
+        {dottedLine}
+
+        {/* Transaction details */}
+        <div className="text-left space-y-1 text-xs">
+          {!isInf && (
+            <>
+              <ReceiptRow label="From" value={r.fromLabel || r.fromAgent?.name || shortenAddr(r.from)} />
+              <ReceiptRow label="To" value={r.toLabel || r.toAgent?.name || shortenAddr(r.to)} />
+            </>
+          )}
+          {isInf && (
+            <>
+              <ReceiptRow label="Task" value={humanize(extractTask(r.service))} />
+              {extractModel(r.service) && <ReceiptRow label="Model" value={extractModel(r.service)!} />}
+            </>
+          )}
+          {r.service && !isInf && <ReceiptRow label="Service" value={r.service} />}
+          <ReceiptRow label="Date" value={full} />
+        </div>
+
+        {dottedLine}
+
+        {/* Amount — the big one */}
+        <div className="py-2">
+          <p className="text-zinc-500 text-[10px] uppercase tracking-widest">
+            {isInf ? 'Cost' : isSent ? 'Amount Sent' : 'Amount Received'}
+          </p>
+          <p className="text-2xl font-bold mt-1 tabular-nums" style={{ color: COLOR[isInf ? 'inference' : isSent ? 'sent' : 'received'].text }}>
+            {isInf ? '' : sign}${amt}
+          </p>
+          <p className="text-zinc-600 text-[10px] mt-0.5">
+            {isInf ? 'USD' : 'USDC'}
+          </p>
+        </div>
+
+        {dottedLine}
+
+        {/* Transaction reference */}
+        <div className="text-left space-y-1 text-xs">
+          {r.hash && !r.hash.startsWith('inference-') && (
+            <>
+              <ReceiptRow label="Tx Hash" value={`${r.hash.slice(0, 10)}…${r.hash.slice(-8)}`} />
+              <ReceiptRow label="Block" value={r.blockNumber ? `#${parseInt(r.blockNumber).toLocaleString()}` : '—'} />
+            </>
+          )}
+          <ReceiptRow label="Status" value="CONFIRMED" highlight />
+          <ReceiptRow label="Network" value="Base (Chain ID: 8453)" />
+        </div>
+
+        {dottedLine}
+
+        {/* Footer */}
+        <p className="text-zinc-600 text-[10px] leading-relaxed mt-1">
+          Verified on-chain receipt from
+          <br />autonomous agent Clawlinker
+          <br />clawlinker.eth · ERC-8004 #22945
+        </p>
+
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="mt-3 text-[11px] text-zinc-500 hover:text-zinc-300 transition-colors"
+        >
+          ▲ collapse
+        </button>
+      </div>
+
+      {/* Zigzag bottom edge */}
+      <div className="h-3 w-full" style={{
+        background: 'linear-gradient(315deg, transparent 33.33%, rgb(9 9 11) 33.33%, rgb(9 9 11) 66.66%, transparent 66.66%), linear-gradient(45deg, transparent 33.33%, rgb(9 9 11) 33.33%, rgb(9 9 11) 66.66%, transparent 66.66%)',
+        backgroundSize: '12px 12px',
+        backgroundColor: 'rgb(24 24 27)',
+      }} />
+    </div>
+  )
+}
+
+function ReceiptRow({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) {
+  return (
+    <div className="flex justify-between items-start gap-4">
+      <span className="text-zinc-500 shrink-0">{label}</span>
+      <span className={`text-right break-all ${highlight ? 'text-emerald-400 font-semibold' : 'text-zinc-300'}`}>{value}</span>
+    </div>
+  )
+}
+
 // ─── USDC Card ──────────────────────────────────────────────────────────────
 
-function USDCCard({ receipt: r, index, nested }: { receipt: Receipt; index: number; nested?: boolean }) {
+function USDCCard({ receipt: r, index, nested, defaultExpanded }: { receipt: Receipt; index: number; nested?: boolean; defaultExpanded?: boolean }) {
+  const [expanded, setExpanded] = useState(defaultExpanded || false)
   const [tip, setTip] = useState<TPos | null>(null)
   const isSent = r.direction === 'sent'
   const type: TxType = isSent ? 'sent' : 'received'
@@ -227,11 +349,21 @@ function USDCCard({ receipt: r, index, nested }: { receipt: Receipt; index: numb
 
   useEffect(injectStyles, [])
 
+  if (expanded && !nested) {
+    return (
+      <div style={{ animation: `rc-fade 0.25s ease-out ${delay}ms both` }}>
+        <ReceiptPaper receipt={r} onClose={() => setExpanded(false)} />
+      </div>
+    )
+  }
+
   return (
     <div
-      className={`relative px-4 py-3 hover:bg-zinc-800/30 transition-colors duration-100 cursor-default
-        ${nested ? 'py-2 px-3' : ''}`}
+      className={`relative px-4 py-3 hover:bg-zinc-800/30 transition-colors duration-100
+        ${nested ? 'py-2 px-3' : 'cursor-pointer'}
+        `}
       style={!nested ? { animation: `rc-fade 0.25s ease-out ${delay}ms both` } : undefined}
+      onClick={!nested ? () => setExpanded(true) : undefined}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
     >
@@ -285,8 +417,9 @@ function USDCCard({ receipt: r, index, nested }: { receipt: Receipt; index: numb
 
 // ─── Inference Card ─────────────────────────────────────────────────────────
 
-function InferenceCard({ receipt: r, index, nested }: { receipt: Receipt; index: number; nested?: boolean }) {
+function InferenceCard({ receipt: r, index, nested, defaultExpanded }: { receipt: Receipt; index: number; nested?: boolean; defaultExpanded?: boolean }) {
   const [modal, setModal] = useState(false)
+  const [expanded, setExpanded] = useState(defaultExpanded || false)
   const [tShort, tFull] = fmtTime(r.timestamp)
   const task = humanize(extractTask(r.service))
   const model = extractModel(r.service)
@@ -297,12 +430,20 @@ function InferenceCard({ receipt: r, index, nested }: { receipt: Receipt; index:
 
   useEffect(injectStyles, [])
 
+  if (expanded && !nested) {
+    return (
+      <div style={{ animation: `rc-fade 0.25s ease-out ${delay}ms both` }}>
+        <ReceiptPaper receipt={r} onClose={() => setExpanded(false)} />
+      </div>
+    )
+  }
+
   return (
     <>
       <div
-        onClick={() => hasBreakdown && setModal(true)}
+        onClick={() => !nested ? setExpanded(true) : hasBreakdown && setModal(true)}
         className={`relative px-4 py-3 hover:bg-purple-500/[0.04] transition-colors duration-100
-          ${hasBreakdown ? 'cursor-pointer' : 'cursor-default'}
+          ${!nested || hasBreakdown ? 'cursor-pointer' : 'cursor-default'}
           ${nested ? 'py-2 px-3' : ''}`}
         style={!nested ? { animation: `rc-fade 0.25s ease-out ${delay}ms both` } : undefined}
       >
@@ -459,10 +600,10 @@ export function groupReceiptsForDisplay(receipts: Receipt[]): DisplayItem[] {
 
 // ─── Public API ─────────────────────────────────────────────────────────────
 
-export function ReceiptCard({ receipt, index = 0 }: { receipt: Receipt; index?: number; isFirstInference?: boolean }) {
+export function ReceiptCard({ receipt, index = 0, defaultExpanded }: { receipt: Receipt; index?: number; isFirstInference?: boolean; defaultExpanded?: boolean }) {
   return isInferenceReceipt(receipt)
-    ? <InferenceCard receipt={receipt} index={index} />
-    : <USDCCard receipt={receipt} index={index} />
+    ? <InferenceCard receipt={receipt} index={index} defaultExpanded={defaultExpanded} />
+    : <USDCCard receipt={receipt} index={index} defaultExpanded={defaultExpanded} />
 }
 
 export function ReceiptList({ receipts }: { receipts: Receipt[] }) {
@@ -474,11 +615,12 @@ export function ReceiptList({ receipts }: { receipts: Receipt[] }) {
         <div className="py-8 text-center text-sm text-zinc-600">No transactions</div>
       )}
       {items.map((item, idx) => {
+        const isFirst = idx === 0
         if (item.kind === 'grouped')
           return <GroupedCard key={item.receipts[0].hash} receipts={item.receipts} isInf={false} index={idx} />
         if (item.kind === 'grouped-inference')
           return <GroupedCard key={item.receipts[0].hash} receipts={item.receipts} isInf index={idx} />
-        return <ReceiptCard key={item.receipt.hash} receipt={item.receipt} index={idx} />
+        return <ReceiptCard key={item.receipt.hash} receipt={item.receipt} index={idx} defaultExpanded={isFirst} />
       })}
     </div>
   )
