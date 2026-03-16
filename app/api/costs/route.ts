@@ -1,8 +1,5 @@
 import { NextResponse } from 'next/server'
-import fs from 'fs'
-import path from 'path'
-
-const LOG_PATH = '/root/synthesis-hackathon/agent_log.json'
+import agentLogRaw from '@/agent_log.json'
 
 interface LogEntry {
   timestamp: string
@@ -144,11 +141,8 @@ function aggregateCosts(logs: LogEntry[]): CostSummary {
 
 export async function GET() {
   try {
-    const data = fs.readFileSync(LOG_PATH, 'utf-8')
-    const logs: LogEntry[] = JSON.parse(data)
-    
+    const logs: LogEntry[] = agentLogRaw as any
     const summary = aggregateCosts(logs)
-    
     return NextResponse.json(summary)
   } catch (err) {
     console.error('Failed to fetch costs:', err)
