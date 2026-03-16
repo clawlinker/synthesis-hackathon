@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { withX402 } from "@x402/next";
-import { resourceServer, PAYTO_ADDRESS } from "@/app/lib/x402-server";
+import { PAYTO_ADDRESS, getResourceServer } from "@/app/lib/x402-server";
 import { AGENT, USDC_CONTRACT, type Receipt } from "@/app/types";
 
 // Basescan V1 deprecated — use Blockscout's etherscan-compatible API (free, no key needed)
@@ -119,17 +118,23 @@ async function handler(req: NextRequest): Promise<NextResponse> {
 }
 
 // x402 protected — costs $0.01 USDC on Base to access
-export const GET = withX402(
-  handler,
-  {
-    accepts: {
-      scheme: "exact",
-      price: "$0.01",
-      network: "eip155:8453",
-      payTo: PAYTO_ADDRESS,
+// Lazy-wrapped to avoid build-time facilitator init failures on serverless
+export async function GET(req: NextRequest) {
+  const { withX402 } = await import("@x402/next");
+  const rs = await getResourceServer();
+  const wrapped = withX402(
+    handler,
+    {
+      accepts: {
+        scheme: "exact",
+        price: "$0.01",
+        network: "eip155:8453",
+        payTo: PAYTO_ADDRESS,
+      },
+      description:
+        "Access Molttail API — live USDC transaction feed for autonomous agents on Base. Returns enriched receipt data with ERC-8004 identity.",
     },
-    description:
-      "Access Molttail API — live USDC transaction feed for autonomous agents on Base. Returns enriched receipt data with ERC-8004 identity.",
-  },
-  resourceServer
-);
+    rs
+  );
+  return wrapped(req);
+}
