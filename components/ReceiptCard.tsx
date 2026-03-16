@@ -109,37 +109,30 @@ function formatTimestamp(ts: number): [string, string] {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function buildUSDCNarrative(r: Receipt): string {
-  const sign = r.direction === 'sent' ? 'Paid' : 'Received'
-  const amt = formatAmount(r.amount)
-
-  if (r.direction === 'sent') {
-    const cp = getCounterpartyName(r)
-    // CRITICAL: Don't repeat if service matches counterparty
-    if (r.service && r.service.toLowerCase() === cp.toLowerCase()) {
-      return `${sign} ${amt} to ${cp}`
-    }
-    return r.service ? `${sign} ${amt} to ${cp} — ${r.service}` : `${sign} ${amt} USDC to ${cp}`
-  } else {
-    const cp = getCounterpartyName(r)
-    if (r.service && r.service.toLowerCase() === cp.toLowerCase()) {
-      return `${sign} ${amt} from ${cp}`
-    }
-    return r.service ? `${sign} ${amt} from ${cp} — ${r.service}` : `${sign} ${amt} USDC from ${cp}`
+  const verb = r.direction === 'sent' ? 'To' : 'From'
+  const cp = getCounterpartyName(r)
+  // Don't repeat service if it matches counterparty name
+  if (r.service && r.service.toLowerCase() !== cp.toLowerCase()) {
+    return `${verb} ${cp} · ${r.service}`
   }
+  return `${verb} ${cp}`
 }
 
 function buildInferenceNarrative(r: Receipt): string {
-  const task = humanizeTaskName(extractTaskName(r.service))
-  const model = extractModelName(r.service)
-  const amt = formatAmount(r.amount)
-  return model ? `Spent ${amt} on ${task} (${model})` : `Spent ${amt} on ${task}`
+  // Just the task name — amount and model are shown as separate UI elements
+  return humanizeTaskName(extractTaskName(r.service))
 }
 
 function formatAmount(amount: string): string {
   const v = parseFloat(amount)
-  if (v < 0.01) return v.toFixed(4)
-  if (v < 0.1) return v.toFixed(3)
-  return v.toFixed(2)
+  if (v === 0) return '0'
+  // Show enough precision but strip trailing zeros
+  let s: string
+  if (v < 0.001) s = v.toFixed(4)
+  else if (v < 0.01) s = v.toFixed(3)
+  else s = v.toFixed(2)
+  // Strip trailing zeros after decimal: 0.020 → 0.02, 0.10 → 0.1
+  return s.replace(/\.?0+$/, '') || '0'
 }
 
 function groupKey(r: Receipt): string {
