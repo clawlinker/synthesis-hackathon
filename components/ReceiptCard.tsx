@@ -93,6 +93,13 @@ function getCounterpartyAddress(receipt: Receipt): string | null {
   }
 }
 
+/** Humanize service names: replace underscores with spaces, title-case */
+function humanizeService(service: string): string {
+  return service
+    .replace(/_/g, ' ')
+    .replace(/\b\w/g, (c) => c.toUpperCase())
+}
+
 /** Stable key for grouping consecutive receipts to the same counterparty */
 function groupKey(receipt: Receipt): string {
   const addr = receipt.direction === 'sent' ? receipt.to : receipt.from
@@ -112,6 +119,7 @@ function USDCCard({ receipt, index }: { receipt: Receipt; index: number }) {
   const val = parseFloat(receipt.amount)
   const amountStr = val.toFixed(2)
   const sign = isSent ? '−' : '+'
+  const isVerified = isSent ? !!receipt.toAgent : !!receipt.fromAgent
 
   const borderColor = isSent ? 'border-red-500/50' : 'border-green-500/50'
   const amountColor = isSent ? 'text-red-400' : 'text-green-400'
@@ -122,7 +130,7 @@ function USDCCard({ receipt, index }: { receipt: Receipt; index: number }) {
   return (
     <Card
       className={`group cursor-default border-l-2 ${borderColor} px-3 py-2.5
-        hover:-translate-y-px hover:shadow-lg hover:shadow-black/20
+        hover:-translate-y-px hover:bg-zinc-800/50 hover:shadow-lg hover:shadow-black/20
         active:scale-[0.99] transition-all duration-150`}
       style={{ animation: `fadeIn 0.35s ease-out ${delay}ms both` }}
     >
@@ -136,7 +144,10 @@ function USDCCard({ receipt, index }: { receipt: Receipt; index: number }) {
             }
           </div>
           <div className="min-w-0">
-            <div className="text-xs font-semibold text-zinc-100 truncate leading-tight">
+            <div className="flex items-center gap-1 text-xs font-semibold text-zinc-100 truncate leading-tight">
+              {isVerified && (
+                <span className="h-1.5 w-1.5 rounded-full bg-green-500 shrink-0" />
+              )}
               {counterpartyName}
             </div>
             {counterpartyAddr && (
@@ -149,8 +160,9 @@ function USDCCard({ receipt, index }: { receipt: Receipt; index: number }) {
 
         {/* Right: amount */}
         <div className="shrink-0 text-right">
-          <div className={`text-sm font-bold tabular-nums leading-tight ${amountColor}`}>
-            {sign}{amountStr}
+          <div className={`text-base tracking-tight tabular-nums leading-tight ${amountColor}`}>
+            <span className="font-normal">{sign}</span>
+            <span className="font-extrabold">{amountStr}</span>
           </div>
           <div className="text-[9px] text-zinc-500 leading-tight">USDC</div>
         </div>
@@ -159,7 +171,7 @@ function USDCCard({ receipt, index }: { receipt: Receipt; index: number }) {
       {/* Bottom meta row */}
       <div className="flex items-center justify-between mt-1.5 text-[10px] text-zinc-500 gap-2">
         {receipt.service ? (
-          <span className="truncate flex-1 text-zinc-600">{receipt.service}</span>
+          <span className="truncate flex-1 text-zinc-500">{humanizeService(receipt.service)}</span>
         ) : (
           <span />
         )}
@@ -279,7 +291,7 @@ function GroupedCard({ receipts, index }: { receipts: Receipt[]; index: number }
       <Card
         onClick={() => setExpanded((v) => !v)}
         className={`group cursor-pointer border-l-2 ${borderColor} px-3 py-2.5
-          hover:-translate-y-px hover:shadow-lg hover:shadow-black/20
+          hover:-translate-y-px hover:bg-zinc-800/50 hover:shadow-lg hover:shadow-black/20
           active:scale-[0.99] transition-all duration-150`}
       >
         <div className="flex items-center justify-between gap-3">
@@ -292,20 +304,20 @@ function GroupedCard({ receipts, index }: { receipts: Receipt[]; index: number }
               <div className="text-xs font-semibold text-zinc-100 truncate leading-tight">
                 {receipts.length} transactions · {counterpartyName}
               </div>
-              <div className="flex items-center gap-0.5 text-[9px] text-zinc-500 leading-tight">
+              <div className="flex items-center text-[9px] text-zinc-500 leading-tight">
                 {expanded
-                  ? <ChevronDown className="h-2.5 w-2.5 inline shrink-0" />
-                  : <ChevronRight className="h-2.5 w-2.5 inline shrink-0" />
+                  ? <ChevronDown className="h-2.5 w-2.5 shrink-0" />
+                  : <ChevronRight className="h-2.5 w-2.5 shrink-0" />
                 }
-                <span>{expanded ? 'collapse' : 'expand'}</span>
               </div>
             </div>
           </div>
 
           {/* Right: total */}
           <div className="shrink-0 text-right">
-            <div className={`text-sm font-bold tabular-nums leading-tight ${amountColor}`}>
-              {sign}{total.toFixed(2)}
+            <div className={`text-base tracking-tight tabular-nums leading-tight ${amountColor}`}>
+              <span className="font-normal">{sign}</span>
+              <span className="font-extrabold">{total.toFixed(2)}</span>
             </div>
             <div className="text-[9px] text-zinc-500 leading-tight">USDC total</div>
           </div>
@@ -385,7 +397,7 @@ export function ReceiptList({ receipts }: { receipts: Receipt[] }) {
   const items = groupReceiptsForDisplay(receipts)
 
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-2">
       {items.map((item, i) => {
         if (item.kind === 'grouped') {
           return (
