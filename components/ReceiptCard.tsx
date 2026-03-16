@@ -299,40 +299,49 @@ function ReceiptPaper({ receipt: r, onClose }: { receipt: Receipt; onClose: () =
 
         {/* Reference */}
         <div className="text-left space-y-2 text-sm">
-          {r.hash && !r.hash.startsWith('inference-') && (
-            <>
-              <div className="flex justify-between items-baseline gap-4">
-                <span className="text-zinc-500 shrink-0 text-xs">Tx</span>
-                <a
-                  href={`https://basescan.org/tx/${r.hash}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
-                  className="text-right font-mono text-xs text-blue-400 hover:text-blue-300 hover:underline break-all transition-colors"
-                >
-                  {r.hash.slice(0, 10)}…{r.hash.slice(-8)} ↗
-                </a>
-              </div>
-              {r.blockNumber && (
+          {r.hash && !r.hash.startsWith('inference-') && (() => {
+            const isEth = r.chain === 'ethereum'
+            const txUrl = isEth
+              ? `https://etherscan.io/tx/${r.hash}`
+              : `https://basescan.org/tx/${r.hash}`
+            const blockUrl = isEth
+              ? `https://etherscan.io/block/${r.blockNumber}`
+              : `https://basescan.org/block/${r.blockNumber}`
+            return (
+              <>
                 <div className="flex justify-between items-baseline gap-4">
-                  <span className="text-zinc-500 shrink-0 text-xs">Block</span>
+                  <span className="text-zinc-500 shrink-0 text-xs">Tx</span>
                   <a
-                    href={`https://basescan.org/block/${r.blockNumber}`}
+                    href={txUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="text-right font-mono text-xs text-blue-400 hover:text-blue-300 hover:underline transition-colors"
+                    className="text-right font-mono text-xs text-blue-400 hover:text-blue-300 hover:underline break-all transition-colors"
                   >
-                    #{parseInt(r.blockNumber).toLocaleString()} ↗
+                    {r.hash.slice(0, 10)}…{r.hash.slice(-8)} ↗
                   </a>
                 </div>
-              )}
-            </>
-          )}
+                {r.blockNumber && (
+                  <div className="flex justify-between items-baseline gap-4">
+                    <span className="text-zinc-500 shrink-0 text-xs">Block</span>
+                    <a
+                      href={blockUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="text-right font-mono text-xs text-blue-400 hover:text-blue-300 hover:underline transition-colors"
+                    >
+                      #{parseInt(r.blockNumber).toLocaleString()} ↗
+                    </a>
+                  </div>
+                )}
+              </>
+            )
+          })()}
           {r.hash && !r.hash.startsWith('inference-') ? (
             <>
               <RRow label="Status" value="✓ ON-CHAIN" highlight />
-              <RRow label="Network" value="Base (8453)" />
+              <RRow label="Network" value={r.chain === 'ethereum' ? 'Ethereum' : 'Base'} />
             </>
           ) : (
             <>

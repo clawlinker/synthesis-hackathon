@@ -24,6 +24,7 @@ export interface Receipt {
   status: 'confirmed'
   tokenSymbol: string
   tokenDecimal: string
+  chain?: 'base' | 'ethereum'  // which chain this receipt is from
   // enrichment (added later)
   service?: string     // what the payment was for
   agentId?: string     // ERC-8004 ID

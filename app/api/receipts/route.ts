@@ -247,6 +247,7 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
             status: 'confirmed' as const,
             tokenSymbol: 'USDC',
             tokenDecimal: decimals,
+            chain: chain as 'base' | 'ethereum',
             agentId,
             service: getServiceFromTx({ from, to }, wallet),
             fromLabel: labelAddress(from),
