@@ -119,22 +119,42 @@ async function handler(req: NextRequest): Promise<NextResponse> {
 
 // x402 protected — costs $0.01 USDC on Base to access
 // Lazy-wrapped to avoid build-time facilitator init failures on serverless
-export async function GET(req: NextRequest) {
-  const { withX402 } = await import("@x402/next");
-  const rs = await getResourceServer();
-  const wrapped = withX402(
-    handler,
-    {
-      accepts: {
-        scheme: "exact",
-        price: "$0.01",
-        network: "eip155:8453",
-        payTo: PAYTO_ADDRESS,
+let _wrappedHandler: ((req: NextRequest) => Promise<NextResponse>) | null = null;
+
+async function getWrappedHandler() {
+  if (!_wrappedHandler) {
+    const { withX402 } = await import("@x402/next");
+    const rs = await getResourceServer();
+    _wrappedHandler = withX402(
+      handler,
+      {
+        accepts: {
+          scheme: "exact",
+          price: "$0.01",
+          network: "eip155:8453",
+          payTo: PAYTO_ADDRESS,
+        },
+        description:
+          "Access Molttail API — live USDC transaction feed for autonomous agents on Base. Returns enriched receipt data with ERC-8004 identity.",
       },
-      description:
-        "Access Molttail API — live USDC transaction feed for autonomous agents on Base. Returns enriched receipt data with ERC-8004 identity.",
-    },
-    rs
-  );
-  return wrapped(req);
+      rs,
+      undefined, // paywallConfig
+      undefined, // paywall
+      false,     // syncFacilitatorOnStart — skip eager facilitator sync
+    );
+  }
+  return _wrappedHandler;
+}
+
+export async function GET(req: NextRequest) {
+  try {
+    const wrapped = await getWrappedHandler();
+    return wrapped(req);
+  } catch (error) {
+    console.error("x402 route error:", error);
+    return NextResponse.json(
+      { error: "x402 payment gate unavailable", details: String(error) },
+      { status: 503 }
+    );
+  }
 }
