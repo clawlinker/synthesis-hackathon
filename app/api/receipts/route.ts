@@ -297,10 +297,14 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
       if (allReceipts.length > 0) {
         console.warn('Live fetch failed — using cached receipts from build time')
         dataSource = 'cached'
-        // Re-enrich with agent data (not stored in cache)
+        // Re-enrich with agent data + service labels (not stored in cache)
         allReceipts = allReceipts.map(r => {
           const agentData = enrichReceiptWithAgentData(r)
-          return { ...r, fromAgent: agentData.fromAgent, toAgent: agentData.toAgent }
+          const wallet = walletParam || AGENT.wallet
+          const service = r.service || getServiceFromTx({ from: r.from, to: r.to }, wallet)
+          const fromLabel = r.fromLabel || labelAddress(r.from.toLowerCase())
+          const toLabel = r.toLabel || labelAddress(r.to.toLowerCase())
+          return { ...r, fromAgent: agentData.fromAgent, toAgent: agentData.toAgent, service, fromLabel, toLabel }
         })
       } else {
         dataSource = 'sample'

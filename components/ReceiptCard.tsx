@@ -116,15 +116,14 @@ function fmtTime(ts: number): [string, string] {
     hour: '2-digit', minute: '2-digit',
   })
 
+  // Always show time (HH:MM) — receipts are already grouped by day so date is redundant
+  const timeStr = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+
   let short: string
   if (min < 1) short = 'now'
-  else if (min < 60) short = `${min}m`
-  else if (hr < 24) short = `${hr}h`
-  else {
-    short = d.getFullYear() === new Date().getFullYear()
-      ? d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-      : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: '2-digit' })
-  }
+  else if (min < 60) short = `${min}m ago`
+  else if (hr < 24) short = `${hr}h ago`
+  else short = timeStr
   return [short, full]
 }
 

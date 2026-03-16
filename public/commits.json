@@ -1,184 +1,298 @@
 {
   "commits": [
     {
+      "sha": "7f06a8c7762998bed9711cc145c3f2e789f457af",
+      "author": "Clawlinker",
+      "date": "2026-03-16T12:41:02+00:00",
+      "message": "fix: rename x402 Payout \u2192 x402 Payment"
+    },
+    {
+      "sha": "3b2f5270df0f764f7941c29afa88546aace308ee",
+      "author": "Clawlinker",
+      "date": "2026-03-16T12:36:54+00:00",
+      "message": "fix: filter inference to Bankr models only (remove Anthropic API), hide LLM costs by default"
+    },
+    {
+      "sha": "23b2f9b3771e11bc54a3643e86e743e8e02dc8ff",
+      "author": "Clawlinker",
+      "date": "2026-03-16T12:34:39+00:00",
+      "message": "fix: x402 endpoint - manual 402 gate, fix em-dash in header causing ByteString error"
+    },
+    {
+      "sha": "3f80bbdb28b139522bd44de71916b0a097996dee",
+      "author": "Clawlinker",
+      "date": "2026-03-16T12:31:36+00:00",
+      "message": "fix: x402 endpoint - disable syncFacilitatorOnStart, add error handling for serverless"
+    },
+    {
+      "sha": "eeb94719b9e0597f7f0e5638f26de1dda5a6b00b",
+      "author": "Clawlinker",
+      "date": "2026-03-16T12:29:49+00:00",
+      "message": "fix: animate accordion chevron with CSS rotation instead of icon swap"
+    },
+    {
+      "sha": "879eef963bd811a62c7d6d7a9083cdff52769dc7",
+      "author": "Clawlinker",
+      "date": "2026-03-16T12:25:14+00:00",
+      "message": "\ud83e\uddf9 remove dead code: CHAIN_ID/ETH_CHAIN_ID/AgentKey from types, TableFooter/TableCaption from table.tsx"
+    },
+    {
+      "sha": "ae194244b1c9c4a28b99ff4931c557269947e7af",
+      "author": "Clawlinker",
+      "date": "2026-03-16T12:03:55+00:00",
+      "message": "fix: correct GitHub commit URLs in Build Log page (base-designer \u2192 clawlinker)"
+    },
+    {
+      "sha": "f7137d2fbb4cc58d0a352b98c8c3bca21499c103",
+      "author": "Clawlinker",
+      "date": "2026-03-16T11:45:01+00:00",
+      "message": "fix: CopyLinkButton layout \u2014 remove col-span-2, match share button style"
+    },
+    {
+      "sha": "f2732c201558de13309002efb3179ac3d6bfd873",
+      "author": "Clawlinker",
+      "date": "2026-03-16T11:04:44+00:00",
+      "message": "feat: add nav links to AppFooter (Receipts, Judge Mode, Build Log, Costs, GitHub) + use AppFooter on home page"
+    },
+    {
+      "sha": "917678aeb477b19a56a4861204980f9ac2077106",
+      "author": "Clawlinker",
+      "date": "2026-03-16T10:24:36+00:00",
+      "message": "\ud83e\uddf9 remove dead code: unused AgentHeader component + unused imports (buttonVariants, CHAIN_ID)"
+    },
+    {
+      "sha": "a4a438509fb5b0187c6f7710e36dbc873002fab7",
+      "author": "Clawlinker",
+      "date": "2026-03-16T10:01:32+00:00",
+      "message": "fix: add missing verify and cron phases to Judge page filter dropdown"
+    },
+    {
+      "sha": "bd7e54050bc744003d3dfa9594e84d55cf19dcb3",
+      "author": "Clawlinker",
+      "date": "2026-03-16T05:55:37+00:00",
+      "message": "\ud83e\uddf9 commit orphaned changes"
+    },
+    {
+      "sha": "8c912ddec303ec2992e52744e61a915a334b00b4",
+      "author": "Clawlinker",
+      "date": "2026-03-16T05:03:35+00:00",
+      "message": "fix: use correct Blockscout v2 /transactions/{hash} endpoint for SVG receipts"
+    },
+    {
+      "sha": "8164f3b8af212e9c4fa25de5f084236e9f7cc074",
+      "author": "Clawlinker",
+      "date": "2026-03-16T04:55:35+00:00",
+      "message": "\ud83e\uddf9 commit orphaned changes"
+    },
+    {
+      "sha": "120d57c5276a0ed79d2628ea73ffe53a940d7352",
+      "author": "Clawlinker",
+      "date": "2026-03-16T04:44:22+00:00",
+      "message": "fix: replace fs.readFileSync with static imports for Vercel compat (costs, judge, build-log)"
+    },
+    {
+      "sha": "0bc49d676eb0de3b2dfdbca75bdc028125be3462",
+      "author": "Clawlinker",
+      "date": "2026-03-16T04:41:46+00:00",
+      "message": "fix: lazy-init x402 to avoid build-time facilitator failures on Vercel"
+    },
+    {
+      "sha": "7c69d289ddc82eb2dc3c9b8d95cf279bab576955",
+      "author": "Clawlinker",
+      "date": "2026-03-16T04:26:48+00:00",
+      "message": "feat: add LLM inference section divider in receipt feed"
+    },
+    {
+      "sha": "40902839066f47fd5baa1c9dabd70cba58b391c0",
+      "author": "Clawlinker",
+      "date": "2026-03-16T04:04:03+00:00",
+      "message": "fix: add chain field to receipts, fix network label (Base not Base 8453) and explorer links"
+    },
+    {
+      "sha": "01f8e8b11f35ba61c4ad664118f0f17965f1b23c",
+      "author": "Clawlinker",
+      "date": "2026-03-16T03:59:37+00:00",
+      "message": "fix: navbar icon, remove double selected state, match content width"
+    },
+    {
+      "sha": "b7464eba26dae660020496f8962c564ecd61b534",
+      "author": "Clawlinker",
+      "date": "2026-03-16T03:35:40+00:00",
+      "message": "\ud83c\udfa8 refine navbar using Refero MCP research patterns"
+    },
+    {
+      "sha": "7f311645a88173b19026123bb314ed4d099cb713",
+      "author": "Clawlinker",
+      "date": "2026-03-16T03:30:51+00:00",
+      "message": "\ud83c\udfa8 level up navbar: glassmorphic, logo mark, Base badge, icon links"
+    },
+    {
+      "sha": "ccbb819583037bc214e50af3041b826514c4c16c",
+      "author": "Clawlinker",
+      "date": "2026-03-16T03:24:44+00:00",
+      "message": "fix: animated counters re-trigger when data arrives"
+    },
+    {
+      "sha": "f1bda83223a1615a519481df3d69cf010779d82f",
+      "author": "Clawlinker",
+      "date": "2026-03-16T03:18:39+00:00",
+      "message": "\ud83c\udfa8 new hero section: stats-driven, animated counters, judge-ready"
+    },
+    {
+      "sha": "8921c57898c3b17836dbd8a9365344fbe4380004",
+      "author": "Clawlinker",
+      "date": "2026-03-16T03:13:29+00:00",
+      "message": "\ud83d\udd17 accurate verification: on-chain vs off-chain receipts"
+    },
+    {
+      "sha": "d992437c316c2b1990e7153fddf7c56181d3500f",
+      "author": "Clawlinker",
+      "date": "2026-03-16T03:09:09+00:00",
+      "message": "\ud83d\udd0d fix inference provider: Anthropic API for claude models, Bankr for qwen/deepseek"
+    },
+    {
+      "sha": "5ddc9465b87eaeb0113ab938f8d279fd0ea8c368",
+      "author": "Clawlinker",
+      "date": "2026-03-16T03:05:54+00:00",
+      "message": "\ud83e\uddfe mini receipt stubs: each row is a tiny receipt card"
+    },
+    {
+      "sha": "3f21e4fbd1f5059169a7b18a72ec658e811aa005",
+      "author": "Clawlinker",
+      "date": "2026-03-16T02:59:42+00:00",
+      "message": "\ud83d\udd17 receipt paper: clickable tx hash + View Receipt link to detail page"
+    },
+    {
+      "sha": "7f340bc5031a6550b5a69d301093f9b188507aa5",
+      "author": "Clawlinker",
+      "date": "2026-03-16T02:53:22+00:00",
+      "message": "\ud83e\uddfe receipt paper polish: animation, perforated edges, better collapse button"
+    },
+    {
+      "sha": "2f3443fa2a5c8185a3588d9b4ad333d26fc5a976",
+      "author": "Clawlinker",
+      "date": "2026-03-16T02:48:00+00:00",
+      "message": "\ud83e\uddfe receipt paper view: thermal printer aesthetic, click to expand"
+    },
+    {
+      "sha": "02af1bcaa008b7214f427333a9e80a017420f909",
+      "author": "Clawlinker",
+      "date": "2026-03-16T02:40:57+00:00",
+      "message": "\ud83c\udfa8 proper design system pass (Refactoring UI)"
+    },
+    {
+      "sha": "4b73ea27f36fafeb46d68a056c853f672c07ff8a",
+      "author": "Clawlinker",
+      "date": "2026-03-16T02:25:48+00:00",
+      "message": "\ud83d\udd25 fix triple redundancy: narrative shows only counterparty/task, amount+model shown separately"
+    },
+    {
+      "sha": "61d7163ff45402507f4fe055d336b51ebd32d03d",
+      "author": "Clawlinker",
+      "date": "2026-03-16T02:21:30+00:00",
+      "message": "\ud83e\uddf9 remove dead code: ReceiptCard variants A/B/C/E/ORIGINAL, test-receiptcard-e.tsx, unused BasescanApiResponse type"
+    },
+    {
+      "sha": "ee0810248525b4912d3b4e17b8ac612b7e3b1e77",
+      "author": "Clawlinker",
+      "date": "2026-03-16T01:54:00+00:00",
+      "message": "\u2728 clean wallet filter labels: remove address slug, rename Bankr (Clawlinker) \u2192 Bankr"
+    },
+    {
+      "sha": "78e2fa3e5915dcc0687f5309772d49dc45278635",
+      "author": "Clawlinker",
+      "date": "2026-03-16T01:08:02+00:00",
+      "message": "\ud83c\udfa8 spacing pass: Refactoring UI principles \u2014 more breathing room"
+    },
+    {
+      "sha": "3f5e77f4db1c689722e1cf7c11d0f318e874a47e",
+      "author": "Clawlinker",
+      "date": "2026-03-16T01:03:11+00:00",
+      "message": "\ud83c\udfc6 final receipt cards: best-of-breed composition from 4 competing designs"
+    },
+    {
+      "sha": "a077760323c98312275b4432b6069c70af14a8eb",
+      "author": "Clawlinker",
+      "date": "2026-03-16T01:01:22+00:00",
+      "message": "\ud83c\udfc6 final receipt cards: best-of-breed from 4 competing designs"
+    },
+    {
+      "sha": "c576de5c61a5f7a579039d89397fb3d0ba0fdf66",
+      "author": "Clawlinker",
+      "date": "2026-03-16T00:56:23+00:00",
+      "message": "\ud83d\udce6 optimize: move shadcn CLI to devDeps, archive 4 dead ReceiptCard variants"
+    },
+    {
+      "sha": "3a754764e4a03d9bf1aa5b0fa5c6fdff4359e4f9",
+      "author": "Clawlinker",
+      "date": "2026-03-16T00:55:37+00:00",
+      "message": "\ud83e\uddf9 commit orphaned changes"
+    },
+    {
+      "sha": "12c3c704130cc8b3d0afcfcdf7311e238f4bac2d",
+      "author": "Clawlinker",
+      "date": "2026-03-16T00:42:48+00:00",
+      "message": "\u2728 receipt cards iter 2: inference improvements, humanized tasks, phase badges + build fix"
+    },
+    {
+      "sha": "b420bcd608105cc986cf2120d24c2d130c1660f1",
+      "author": "Clawlinker",
+      "date": "2026-03-16T00:42:19+00:00",
+      "message": "\u2728 receipt cards iter 5: receipt detail page, sharing, OG tags"
+    },
+    {
+      "sha": "4c0988c5d53bfe6b593c5aca82618d6a35cca624",
+      "author": "Clawlinker",
+      "date": "2026-03-16T00:41:59+00:00",
+      "message": "\u2728 receipt cards iter 2: inference improvements, humanized tasks, phase badges"
+    },
+    {
+      "sha": "5f07feaaf207a977d9c1957250d3fbcab207665f",
+      "author": "Clawlinker",
+      "date": "2026-03-16T00:36:29+00:00",
+      "message": "\u2728 receipt cards iter 3: smart sorting, feed summary, sticky headers"
+    },
+    {
+      "sha": "41908f221a928d976f37d7f8102eab853ce2870d",
+      "author": "Clawlinker",
+      "date": "2026-03-16T00:35:56+00:00",
+      "message": "\u2728 receipt cards iter 4: compact stats bar, horizontal layout, trend indicators"
+    },
+    {
+      "sha": "1adc098fd9d38174cb95332b866d64aa1f08f1e7",
+      "author": "Clawlinker",
+      "date": "2026-03-16T00:35:28+00:00",
+      "message": "\u2728 receipt cards iter 1: visual polish, amount typography, verified dots"
+    },
+    {
+      "sha": "814b430857f6789a98a04de79b4602290356f140",
+      "author": "Clawlinker",
+      "date": "2026-03-15T23:44:17+00:00",
+      "message": "\ud83c\udfa8 receipt page: consistent styling with site design system"
+    },
+    {
+      "sha": "6782f8dda089f4acd5ed260d5515b80f9ebd42b2",
+      "author": "Clawlinker",
+      "date": "2026-03-15T23:24:22+00:00",
+      "message": "\ud83d\udd17 fix receipt share: wrong domain bug + add copy-link button"
+    },
+    {
+      "sha": "81c3d384b91e624f75c47de908872ab7709ad221",
+      "author": "Clawlinker",
+      "date": "2026-03-15T23:13:21+00:00",
+      "message": "\ud83d\udc8e receipt cards redesign: fintech-quality, grouped duplicates, animations"
+    },
+    {
+      "sha": "c394795ae0a185a09eafc79a9f9a6377c3d40e0e",
+      "author": "Clawlinker",
+      "date": "2026-03-15T23:11:59+00:00",
+      "message": "\ud83d\udd27 fix judge page commits, redundant labels, zero amounts, action count"
+    },
+    {
       "sha": "81e1ab9cd05737d9e9728c3a0c98ebb3987153d9",
-      "message": "\u23f1\ufe0f ux: smart contextual timestamps on receipt cards (was just HH:MM, now relative/dated)",
       "author": "Clawlinker",
-      "date": "2026-03-15T22:43:56+00:00"
-    },
-    {
-      "sha": "f6ddbf53a5c7c33abd38454feef36e2ce6bbd8d4",
-      "message": "\ud83d\uddbc\ufe0f fix: OG image now returns PNG (not SVG) so Twitter/Discord previews actually render",
-      "author": "Clawlinker",
-      "date": "2026-03-15T22:25:37+00:00"
-    },
-    {
-      "sha": "425bad4bc1f59c449998132ac87bc8d27fcae725",
-      "message": "\ud83e\uddf9 remove dead code: duplicate InferenceLogEntry in data/types.ts, unused Receipt import, unused BasescanApiResponse import in receipts route",
-      "author": "Clawlinker",
-      "date": "2026-03-15T22:22:26+00:00"
-    },
-    {
-      "sha": "fdaa1194e261d0179ca0680dcd44345797e50c6f",
-      "message": "\ud83d\udc1b fix: AgentHeader source badge always showed 'Sample data' due to exact string match bug",
-      "author": "Clawlinker",
-      "date": "2026-03-15T22:03:07+00:00"
-    },
-    {
-      "sha": "c70e5aec6a67ae1ba4ea867b01061d2c5163e98f",
-      "message": "\ud83e\uddf9 major cleanup: remove 600MB bloat, deduplicate data files, refresh logs",
-      "author": "Clawlinker",
-      "date": "2026-03-15T21:56:59+00:00"
-    },
-    {
-      "sha": "cbe15d7f7d7d30dce670aed5c30a88af6bbb2ee4",
-      "message": "\ud83e\udde0 [think] Agent judges parse logs; human judges need visuals. Fix gitignore gap, run screenshots.",
-      "author": "Clawlinker",
-      "date": "2026-03-15T21:49:53+00:00"
-    },
-    {
-      "sha": "c56530a941bda2861b2ac25557375f2d3979bd41",
-      "message": "\ud83e\udd16 [auto] All Phase 0-9 complete; Phase 10 pending Max input (demo video, Devfolio submission)",
-      "author": "Clawlinker",
-      "date": "2026-03-15T21:46:08+00:00"
-    },
-    {
-      "sha": "4d897e1725713147691a78b56b4fb16817ae2b32",
-      "message": "\ud83d\uddc2\ufe0f move internal docs out of public repo",
-      "author": "Clawlinker",
-      "date": "2026-03-15T21:40:21+00:00"
-    },
-    {
-      "sha": "e1544fe23fee38997141bff95da723898e2a67b2",
-      "message": "\u267b\ufe0f consolidate: remove unused tabs.tsx, extract shared phase-colors utility",
-      "author": "Clawlinker",
-      "date": "2026-03-15T21:38:07+00:00"
-    },
-    {
-      "sha": "583a9bc8a58ab17521f0040e71d2b51baf9643dc",
-      "message": "\ud83e\udd16 [auto] Screenshots for Devfolio - script created, UI polished, awaiting Max capture",
-      "author": "Clawlinker",
-      "date": "2026-03-15T21:33:43+00:00"
-    },
-    {
-      "sha": "7efa41d887b8fbb00358d41a6b68f28f5674a1da",
-      "message": "\ud83d\udd0d [review] Design pass \u2014 minor UX/accessibility improvements",
-      "author": "Clawlinker",
-      "date": "2026-03-15T21:19:23+00:00"
-    },
-    {
-      "sha": "102c3c222298d5811e2d565429b9acf9391e4ef5",
-      "message": "\ud83e\udd16 [auto] Log autonomous task status session",
-      "author": "Clawlinker",
-      "date": "2026-03-15T21:17:40+00:00"
-    },
-    {
-      "sha": "f7c7eb2614dd48547381891f9bacf8fcc4e6368c",
-      "message": "\ud83e\udd16 [auto] Phase 10 status: all autonomous tasks complete, awaiting Max input",
-      "author": "Clawlinker",
-      "date": "2026-03-15T21:17:20+00:00"
-    },
-    {
-      "sha": "12e1f6a4a338a807ed34722569305da715e74d9f",
-      "message": "\ud83c\udfa8 major design pass: compact hero, denser receipts, cleaner layout",
-      "author": "Clawlinker",
-      "date": "2026-03-15T21:13:42+00:00"
-    },
-    {
-      "sha": "0cb8d661ae23b7c64b3e8ba1a5bf3f9d050e4966",
-      "message": "\ud83c\udff7\ufe0f label remaining addresses: x402 facilitator fee + customer",
-      "author": "Clawlinker",
-      "date": "2026-03-15T21:05:57+00:00"
-    },
-    {
-      "sha": "7ebedeaa3d37f959bce49f6539fdd6564725e6c2",
-      "message": "\ud83e\udd16 [auto] Log no-op session - Phase 10 pending Max input",
-      "author": "Clawlinker",
-      "date": "2026-03-15T21:01:21+00:00"
-    },
-    {
-      "sha": "c352cdfb5ee49f0e415da2e2588c03ffbd7f90e5",
-      "message": "\ud83e\udd16 [auto] Phase 10 pending items updated - awaiting Mar 18 judging feedback",
-      "author": "Clawlinker",
-      "date": "2026-03-15T21:01:04+00:00"
-    },
-    {
-      "sha": "4e659df724cd235a7464cf7ea0086664c68e4076",
-      "message": "\ud83c\udff7\ufe0f label 6 unknown addresses: BaseSettler, x402 payout, Bankr top-ups",
-      "author": "Clawlinker",
-      "date": "2026-03-15T20:59:29+00:00"
-    },
-    {
-      "sha": "774c3d09b2320bb104b77a84a346b27bdcc2e6c2",
-      "message": "\ud83e\udd16 [auto] log gate cron fix execution",
-      "author": "Clawlinker",
-      "date": "2026-03-15T20:48:07+00:00"
-    },
-    {
-      "sha": "2e172a1cb20c010e037ceaf26492f3ed467db70f",
-      "message": "\ud83e\udd16 [auto] mark gate cron fix task complete",
-      "author": "Clawlinker",
-      "date": "2026-03-15T20:47:50+00:00"
-    },
-    {
-      "sha": "ba69a3f220933ee756fec0a64272c179c75c817b",
-      "message": "\ud83e\udd16 [auto] fix cron paths and port: use .internal/ and port 3001",
-      "author": "Clawlinker",
-      "date": "2026-03-15T20:47:06+00:00"
-    },
-    {
-      "sha": "197a0bb668b499ef0648c40e6bd8680fb25ad494",
-      "message": "\ud83e\udd16 [auto] Mobile responsiveness pass - receipt detail page width reduced to max-w-2xl, SVG 16:9 aspect ratio, AgentBadge max-width to 140px, all pages verified with responsive text sizes",
-      "author": "Clawlinker",
-      "date": "2026-03-15T20:34:24+00:00"
-    },
-    {
-      "sha": "ba9dd1c0a8fcc234b24f72dd64dac452bef10664",
-      "message": "\ud83d\udd0d [review] Last 3 commits: x402 revenue fix, cron paths, receipt improvements",
-      "author": "Clawlinker",
-      "date": "2026-03-15T20:20:06+00:00"
-    },
-    {
-      "sha": "7cd665d44ca449c8d8bc04f9a94ae666321e3528",
-      "message": "\ud83e\udd16 [auto] Phase 9: Costs/Judge/Receipt page review completed \u2705",
-      "author": "Clawlinker",
-      "date": "2026-03-15T20:17:46+00:00"
-    },
-    {
-      "sha": "5a7c922998ebf9064c973354ead6f8ae23cb225a",
-      "message": "\ud83d\udea6 [gate] flag: cron paths wrong (.internal/), port 3098\u21923001; receipt data real \u2705",
-      "author": "Clawlinker",
-      "date": "2026-03-15T20:13:27+00:00"
-    },
-    {
-      "sha": "64b4a017e00e2c636213aa503fd4d026d9e3cc5d",
-      "message": "\ud83d\udcca fix stats: separate x402 revenue from wallet top-ups",
-      "author": "Clawlinker",
-      "date": "2026-03-15T20:12:54+00:00"
-    },
-    {
-      "sha": "77df67c83c9ae6aee2c87f6b1ea1039210c6a1f6",
-      "message": "\ud83e\udd16 [auto] Build Log page review: fix git date format, verify API endpoints",
-      "author": "Clawlinker",
-      "date": "2026-03-15T20:08:37+00:00"
-    },
-    {
-      "sha": "b9a0818b990fdcc8070b5859415fd0836e19d16e",
-      "message": "\ud83c\udfa8 add favicon, OG image, and meta tags",
-      "author": "Clawlinker",
-      "date": "2026-03-15T19:58:06+00:00"
-    },
-    {
-      "sha": "4eb461b7c93c2a3ce5be64fc6d541af7d1564f38",
-      "message": "\ud83e\udde0 [think] Agent judges need API coverage; fix agent_log.json tracking gap",
-      "author": "Clawlinker",
-      "date": "2026-03-15T19:50:51+00:00"
-    },
-    {
-      "sha": "24378494b8a5ccf54a2390a5e7058a22e6b43deb",
-      "message": "\ud83d\udd04 add receipt caching \u2014 Blockscout fallback for reliable data",
-      "author": "Clawlinker",
-      "date": "2026-03-15T19:48:46+00:00"
+      "date": "2026-03-15T22:43:56+00:00",
+      "message": "\u23f1\ufe0f ux: smart contextual timestamps on receipt cards (was just HH:MM, now relative/dated)"
     }
   ]
 }
