@@ -1,51 +1,32 @@
 'use client'
 
 /**
- * ReceiptCard — Final best-of-breed composition
+ * ReceiptCard — Final Production Version (Best-of-Breed)
  * 
- * Cherry-picked from 4 competing designs:
- * - A (Minimalist): fixed-column alignment, cursor-tracking tooltip, compact rows
- * - B (Fintech): gradient icon circles, spring entrance, network badge, status bar
- * - C (Timeline): narrative text ("Paid $0.01 to x402 Facilitator")
- * - Original: grouping logic, InferenceModal integration
+ * Summary: Narrative-focused timeline UI with compact cards, gradient icons,
+ * hover tooltips, and smart amount formatting. Designed for hackathon impact.
+ * 
+ * From A (Minimalist): fixed-column amounts, cursor tooltip, compact height
+ * From B (Fintech): gradient icons, border glow, spring animations, status bar
+ * From C (Timeline): NARRATIVE TEXT (the killer feature!), colored dots
+ * From Original: groupReceiptsForDisplay, InferenceModal, helpers
  */
 
 import { type Receipt } from '@/app/types'
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { InferenceModal } from './InferenceModal'
-import {
-  ArrowUpRight,
-  ArrowDownLeft,
-  Bot,
-  Layers,
-  ChevronDown,
-  ChevronRight,
-  ExternalLink,
-} from 'lucide-react'
+import { ChevronRight, ChevronDown, Layers, Bot } from 'lucide-react'
 import Link from 'next/link'
 
-// ─── Constants ───────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// Constants
+// ─────────────────────────────────────────────────────────────────────────────
 
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 
-// ─── Animation styles (injected once) ────────────────────────────────────────
-
-const CARD_CSS = `
-@keyframes rcFadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-`
-let stylesInjected = false
-function ensureStyles() {
-  if (typeof document === 'undefined' || stylesInjected) return
-  stylesInjected = true
-  const el = document.createElement('style')
-  el.textContent = CARD_CSS
-  document.head.appendChild(el)
-}
-
-// ─── Helpers ─────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// Helpers — From Original + A + B
+// ─────────────────────────────────────────────────────────────────────────────
 
 function shortenAddress(addr: string): string {
   if (!addr || addr === ZERO_ADDRESS) return ''
@@ -56,14 +37,8 @@ function isZeroAddress(addr: string): boolean {
   return !addr || addr === ZERO_ADDRESS || addr.replace(/0x0+/, '0x0') === '0x0'
 }
 
-export function isInferenceReceipt(r: Receipt): boolean {
+function isInferenceReceipt(r: Receipt): boolean {
   return r.hash?.startsWith('inference-') || r.tokenSymbol === 'USD'
-}
-
-function extractModelName(service: string | undefined): string | null {
-  if (!service) return null
-  const m = service.match(/\(([^)]+)\)\s*$/)
-  return m ? m[1] : null
 }
 
 function extractTaskName(service: string | undefined): string {
@@ -73,37 +48,34 @@ function extractTaskName(service: string | undefined): string {
   return afterDash || withoutParen || 'Inference'
 }
 
-function humanize(raw: string): string {
-  const s = raw.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
-  return s.length <= 40 ? s : s.slice(0, 39).trimEnd() + '…'
+function extractModelName(service: string | undefined): string | null {
+  if (!service) return null
+  const m = service.match(/\(([^)]+)\)\s*$/)
+  return m ? m[1] : null
 }
 
-/** Smart amount formatting — no trailing zeros */
-function fmtAmt(amount: string): string {
-  const v = parseFloat(amount)
-  if (Number.isNaN(v) || v === 0) return '0.00'
-  if (v < 0.001) return v.toFixed(4)
-  if (v < 0.01) return v.toFixed(3)
-  return v.toFixed(2)
-}
-
-function fmtCost(amount: string): string {
-  const v = parseFloat(amount)
-  if (v < 0.01) return `$${v.toFixed(4)}`
-  if (v < 0.1) return `$${v.toFixed(3)}`
-  return `$${v.toFixed(2)}`
+function humanizeTaskName(raw: string): string {
+  const s = raw.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+  return s.length <= 44 ? s : s.slice(0, 43).trimEnd() + '…'
 }
 
 function getCounterpartyName(r: Receipt): string {
   if (r.direction === 'sent') {
     return r.toAgent?.name || r.toLabel || shortenAddress(r.to)
   }
-  if (isZeroAddress(r.from)) return 'Bankr'
+  if (isZeroAddress(r.from)) return 'Bankr LLM'
   return r.fromAgent?.name || r.fromLabel || shortenAddress(r.from)
 }
 
-function getCounterpartyAddr(r: Receipt): string {
-  return r.direction === 'sent' ? shortenAddress(r.to) : shortenAddress(r.from)
+function getCounterpartyAddress(r: Receipt): string | null {
+  if (r.direction === 'sent') {
+    const hasName = !!(r.toAgent?.name || r.toLabel)
+    return hasName ? shortenAddress(r.to) : null
+  } else {
+    if (isZeroAddress(r.from)) return null
+    const hasName = !!(r.fromAgent?.name || r.fromLabel)
+    return hasName ? shortenAddress(r.from) : null
+  }
 }
 
 function formatTimestamp(ts: number): [string, string] {
@@ -111,24 +83,63 @@ function formatTimestamp(ts: number): [string, string] {
   const diff = Date.now() - ts * 1000
   const sec = Math.floor(diff / 1000)
   const min = Math.floor(sec / 60)
-  const hr = Math.floor(min / 60)
+  const hour = Math.floor(min / 60)
 
   const full = date.toLocaleString('en-US', {
     month: 'short', day: 'numeric', year: 'numeric',
-    hour: '2-digit', minute: '2-digit',
+    hour: '2-digit', minute: '2-digit', second: '2-digit',
   })
 
   let short: string
   if (sec < 60) short = 'now'
   else if (min < 60) short = `${min}m`
-  else if (hr < 24) short = `${hr}h`
+  else if (hour < 24) short = `${hour}h`
   else {
     const sameYear = date.getFullYear() === new Date().getFullYear()
     short = sameYear
       ? date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
       : date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: '2-digit' })
   }
+
   return [short, full]
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// NARRATIVE TEXT GENERATORS — From C (Timeline) — KILLER FEATURE
+// ─────────────────────────────────────────────────────────────────────────────
+
+function buildUSDCNarrative(r: Receipt): string {
+  const sign = r.direction === 'sent' ? 'Paid' : 'Received'
+  const amt = formatAmount(r.amount)
+
+  if (r.direction === 'sent') {
+    const cp = getCounterpartyName(r)
+    // CRITICAL: Don't repeat if service matches counterparty
+    if (r.service && r.service.toLowerCase() === cp.toLowerCase()) {
+      return `${sign} ${amt} to ${cp}`
+    }
+    return r.service ? `${sign} ${amt} to ${cp} — ${r.service}` : `${sign} ${amt} USDC to ${cp}`
+  } else {
+    const cp = getCounterpartyName(r)
+    if (r.service && r.service.toLowerCase() === cp.toLowerCase()) {
+      return `${sign} ${amt} from ${cp}`
+    }
+    return r.service ? `${sign} ${amt} from ${cp} — ${r.service}` : `${sign} ${amt} USDC from ${cp}`
+  }
+}
+
+function buildInferenceNarrative(r: Receipt): string {
+  const task = humanizeTaskName(extractTaskName(r.service))
+  const model = extractModelName(r.service)
+  const amt = formatAmount(r.amount)
+  return model ? `Spent ${amt} on ${task} (${model})` : `Spent ${amt} on ${task}`
+}
+
+function formatAmount(amount: string): string {
+  const v = parseFloat(amount)
+  if (v < 0.01) return v.toFixed(4)
+  if (v < 0.1) return v.toFixed(3)
+  return v.toFixed(2)
 }
 
 function groupKey(r: Receipt): string {
@@ -136,311 +147,479 @@ function groupKey(r: Receipt): string {
   return `${r.direction}:${addr.toLowerCase()}`
 }
 
-// ─── Narrative text (from Design C) ──────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// Gradient Icon Component — From B (Fintech) — Premium look
+// ─────────────────────────────────────────────────────────────────────────────
 
-function buildNarrative(r: Receipt): string {
-  const amt = fmtAmt(r.amount)
-
-  if (isInferenceReceipt(r)) {
-    const task = humanize(extractTaskName(r.service))
-    return `Spent $${amt} on ${task}`
-  }
-
-  const name = getCounterpartyName(r)
-  const svc = r.service
-
-  if (r.direction === 'sent') {
-    if (svc && svc.toLowerCase().includes('fee')) return `Paid $${amt} in fees to ${name}`
-    if (svc && svc !== name) return `Sent $${amt} to ${name} · ${svc}`
-    return `Sent $${amt} to ${name}`
-  }
-  if (svc && svc !== name) return `Received $${amt} from ${name} · ${svc}`
-  return `Received $${amt} from ${name}`
+interface IconConfig {
+  gradientFrom: string
+  gradientTo: string
+  borderColor: string
+  glowColor: string
+  textColor: string
 }
 
-function buildGroupNarrative(receipts: Receipt[]): string {
-  const first = receipts[0]
-  const total = receipts.reduce((s, r) => s + parseFloat(r.amount), 0)
-  const totalStr = fmtAmt(String(total))
-  const name = getCounterpartyName(first)
-
-  if (first.direction === 'sent') return `${receipts.length} payments · ${name} · $${totalStr} total`
-  return `${receipts.length} receipts · ${name} · $${totalStr} total`
+const ICON_CONFIGS: Record<'received' | 'sent' | 'inference' | 'group', IconConfig> = {
+  received: {
+    gradientFrom: 'rgba(34,197,94,0.20)',
+    gradientTo: 'rgba(16,185,129,0.05)',
+    borderColor: 'rgba(34,197,94,0.30)',
+    glowColor: 'rgba(34,197,94,0.15)',
+    textColor: '#4ade80',
+  },
+  sent: {
+    gradientFrom: 'rgba(239,68,68,0.20)',
+    gradientTo: 'rgba(220,38,38,0.05)',
+    borderColor: 'rgba(239,68,68,0.30)',
+    glowColor: 'rgba(239,68,68,0.15)',
+    textColor: '#f87171',
+  },
+  inference: {
+    gradientFrom: 'rgba(168,85,247,0.20)',
+    gradientTo: 'rgba(139,92,246,0.05)',
+    borderColor: 'rgba(168,85,247,0.30)',
+    glowColor: 'rgba(168,85,247,0.15)',
+    textColor: '#c084fc',
+  },
+  group: {
+    gradientFrom: 'rgba(148,163,184,0.20)',
+    gradientTo: 'rgba(100,116,139,0.05)',
+    borderColor: 'rgba(148,163,184,0.30)',
+    glowColor: 'rgba(148,163,184,0.15)',
+    textColor: '#94a3b8',
+  },
 }
 
-// ─── Cursor-tracking tooltip (from Design A) ────────────────────────────────
+function TxIcon({ type, className = '' }: { type: 'received' | 'sent' | 'inference' | 'group'; className?: string }) {
+  const cfg = ICON_CONFIGS[type]
+  
+  const getIcon = () => {
+    switch (type) {
+      case 'inference': return <Bot className={`h-4 w-4 ${className}`} style={{ color: cfg.textColor }} strokeWidth={2} />
+      case 'group': return <Layers className={`h-4 w-4 ${className}`} style={{ color: cfg.textColor }} strokeWidth={2} />
+      case 'sent': return <ChevronRight className={`h-4 w-4 ${className}`} style={{ color: cfg.textColor }} strokeWidth={2} />
+      case 'received': return <ChevronDown className={`h-4 w-4 ${className}`} style={{ color: cfg.textColor }} strokeWidth={2} />
+    }
+  }
+
+  return (
+    <div
+      className="shrink-0 h-8 w-8 rounded-full flex items-center justify-center shadow-sm"
+      style={{
+        background: `radial-gradient(circle at 30% 30%, ${cfg.gradientFrom}, ${cfg.gradientTo})`,
+        border: `1px solid ${cfg.borderColor}`,
+        boxShadow: `0 0 8px ${cfg.glowColor}`,
+      }}
+    >
+      {getIcon()}
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Network Badge — From B
+// ─────────────────────────────────────────────────────────────────────────────
+
+function NetworkBadge() {
+  return (
+    <div
+      className="flex items-center gap-1 px-1.5 py-0.5 rounded-full"
+      style={{
+        background: 'rgba(59,130,246,0.08)',
+        border: '1px solid rgba(59,130,246,0.2)',
+      }}
+    >
+      <div
+        className="h-1.5 w-1.5 rounded-full"
+        style={{
+          background: 'linear-gradient(135deg, #2563eb, #1d4ed8)',
+          boxShadow: '0 0 4px rgba(59,130,246,0.4)',
+        }}
+      />
+      <span className="text-[9px] font-semibold tracking-wide" style={{ color: '#60a5fa' }}>
+        Base
+      </span>
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Hover Tooltip — From A — Cursor-tracking, no navigation needed
+// ─────────────────────────────────────────────────────────────────────────────
 
 interface TPos { x: number; y: number }
 
-function Tooltip({ receipt, pos }: { receipt: Receipt; pos: TPos }) {
+function ReceiptTooltip({ receipt, pos }: { receipt: Receipt; pos: TPos }) {
   const isInf = isInferenceReceipt(receipt)
   const isSent = receipt.direction === 'sent'
   const [, timeFull] = formatTimestamp(receipt.timestamp)
-  const amt = fmtAmt(receipt.amount)
+  const amt = formatAmount(receipt.amount)
+  const sign = isInf ? '' : isSent ? '−' : '+'
 
-  const W = 280
-  let left = pos.x + 12
-  let top = pos.y - 8
+  const W = 320
+  const H = 200
+  let left = pos.x + 14
+  let top = pos.y - 10
+
   if (typeof window !== 'undefined') {
-    if (left + W > window.innerWidth - 8) left = pos.x - W - 12
-    if (top + 200 > window.innerHeight - 8) top = window.innerHeight - 208
+    if (left + W > window.innerWidth - 8) left = pos.x - W - 14
+    if (top + H > window.innerHeight - 8) top = window.innerHeight - H - 8
     if (top < 8) top = 8
   }
 
-  const amtColor = isInf ? 'text-purple-300' : isSent ? 'text-red-400' : 'text-emerald-400'
+  const amtColor = isInf
+    ? 'text-purple-300'
+    : isSent ? 'text-red-400' : 'text-emerald-400'
 
   return (
-    <div className="fixed z-50 pointer-events-none" style={{ left, top, width: W }}>
-      <div className="rounded-lg border border-zinc-700/70 bg-zinc-950/95 shadow-2xl overflow-hidden backdrop-blur-sm">
-        <div className="flex items-center justify-between px-3 py-1.5 bg-zinc-900/60 border-b border-zinc-800">
-          <span className="text-[9px] font-bold tracking-widest uppercase text-zinc-500">
-            {isInf ? 'inference' : isSent ? 'sent' : 'received'}
+    <div
+      className="fixed z-50 pointer-events-none"
+      style={{ left, top, width: W }}
+    >
+      <div className="rounded-lg border border-zinc-700/70 bg-zinc-950 shadow-2xl shadow-black/80 overflow-hidden">
+        {/* header */}
+        <div className="flex items-center justify-between px-3 py-2 bg-zinc-900/60 border-b border-zinc-800">
+          <span className="text-[9px] font-bold tracking-[0.12em] uppercase text-zinc-500 select-none">
+            {isInf ? 'inference cost' : isSent ? 'sent' : 'received'}
           </span>
           <span className={`font-mono text-sm font-bold tabular-nums ${amtColor}`}>
-            {isInf ? `$${amt}` : `${isSent ? '−' : '+'}$${amt} USDC`}
+            {sign}${amt} {receipt.tokenSymbol !== 'USD' ? receipt.tokenSymbol : 'USD'}
           </span>
         </div>
-        <div className="px-3 py-2 space-y-1">
+
+        {/* rows */}
+        <div className="px-3 py-2.5 space-y-2">
           {!isInf && (
             <>
-              <TipRow label="FROM" value={receipt.fromLabel || receipt.fromAgent?.name || receipt.from} mono={!receipt.fromLabel} />
-              <TipRow label="TO" value={receipt.toLabel || receipt.toAgent?.name || receipt.to} mono={!receipt.toLabel} />
+              <TRow l="FROM" v={receipt.from} mono />
+              <TRow l="TO" v={receipt.to} mono />
             </>
           )}
-          {receipt.service && <TipRow label="SERVICE" value={receipt.service} />}
+          {receipt.service && (
+            <TRow l="SERVICE" v={receipt.service} />
+          )}
+          {receipt.notes && (
+            <TRow l="NOTES" v={receipt.notes.slice(0, 60) + (receipt.notes.length > 60 ? '…' : '')} />
+          )}
           {receipt.hash && !receipt.hash.startsWith('inference-') && (
-            <TipRow label="TX" value={`${receipt.hash.slice(0, 14)}…${receipt.hash.slice(-6)}`} mono />
+            <TRow l="TX" v={`${receipt.hash.slice(0, 12)}…${receipt.hash.slice(-6)}`} mono />
           )}
           {receipt.blockNumber && (
-            <TipRow label="BLOCK" value={`#${parseInt(receipt.blockNumber).toLocaleString()}`} mono />
+            <TRow l="BLOCK" v={`#${parseInt(receipt.blockNumber).toLocaleString()}`} mono />
           )}
-          <TipRow label="TIME" value={timeFull} />
+          <TRow l="TIME" v={timeFull} />
         </div>
       </div>
     </div>
   )
 }
 
-function TipRow({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
+function TRow({ l, v, mono }: { l: string; v: string; mono?: boolean }) {
   return (
     <div className="flex items-start gap-2">
-      <span className="text-[9px] font-bold tracking-widest uppercase text-zinc-600 w-[46px] shrink-0 pt-px">{label}</span>
-      <span className={`text-[10px] text-zinc-300 break-all leading-snug ${mono ? 'font-mono' : ''}`}>{value}</span>
+      <span className="text-[9px] font-bold tracking-[0.1em] uppercase text-zinc-600 pt-[1px] w-[52px] shrink-0">
+        {l}
+      </span>
+      <span className={`text-[10px] text-zinc-300 leading-snug break-all ${mono ? 'font-mono' : ''}`}>
+        {v}
+      </span>
     </div>
   )
 }
 
-// ─── Type-colored dot (from Design C) ────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// Card Wrapper — From B — Subtle glow, spring animation
+// ─────────────────────────────────────────────────────────────────────────────
 
-type TxType = 'sent' | 'received' | 'inference'
-
-function TypeDot({ type, size = 'sm' }: { type: TxType; size?: 'sm' | 'md' }) {
-  const colors = {
-    sent: 'bg-red-400',
-    received: 'bg-emerald-400',
-    inference: 'bg-purple-400',
-  }
-  const sizeClass = size === 'md' ? 'w-2.5 h-2.5' : 'w-1.5 h-1.5'
-  return <span className={`rounded-full shrink-0 ${sizeClass} ${colors[type]}`} />
+interface CardWrapperProps {
+  children: React.ReactNode
+  type: 'received' | 'sent' | 'inference'
+  index: number
+  className?: string
+  onClick?: () => void
 }
 
-// ─── Network badge (from Design B) ──────────────────────────────────────────
+function CardWrapper({ children, type, index, className = '', onClick }: CardWrapperProps) {
+  const [hovered, setHovered] = useState(false)
+  const delay = Math.min(index * 30, 400)
 
-function NetworkBadge() {
+  const glowColors: Record<typeof type, string> = {
+    received: 'rgba(34,197,94,0.06)',
+    sent: 'rgba(239,68,68,0.06)',
+    inference: 'rgba(168,85,247,0.08)',
+  }
+
+  const borderColors: Record<typeof type, string> = {
+    received: hovered ? 'rgba(34,197,94,0.25)' : 'rgba(34,197,94,0.15)',
+    sent: hovered ? 'rgba(239,68,68,0.25)' : 'rgba(239,68,68,0.15)',
+    inference: hovered ? 'rgba(168,85,247,0.25)' : 'rgba(168,85,247,0.15)',
+  }
+
   return (
-    <span
-      className="inline-flex items-center gap-0.5 px-1 py-px rounded text-[8px] font-semibold tracking-wide"
+    <div
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className={`relative overflow-hidden rounded-lg border ${onClick ? 'cursor-pointer' : 'cursor-default'} ${className}`}
       style={{
-        background: 'rgba(59,130,246,0.08)',
-        border: '1px solid rgba(59,130,246,0.15)',
-        color: '#60a5fa',
+        border: `2px solid ${borderColors[type]}`,
+        boxShadow: hovered
+          ? `0 0 12px ${glowColors[type]}, 0 4px 12px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.03)`
+          : '0 2px 6px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.02)',
+        transform: hovered ? 'translateY(-1px)' : 'translateY(0)',
+        transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        animation: `springIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) ${delay}ms both`,
+        backdropFilter: 'blur(4px)',
       }}
     >
-      Base
-    </span>
+      {children}
+    </div>
   )
 }
 
-// ─── USDC Receipt Card ──────────────────────────────────────────────────────
+// CSS injected once for spring animation
+if (typeof document !== 'undefined') {
+  if (!document.getElementById('spring-anim')) {
+    const style = document.createElement('style')
+    style.id = 'spring-anim'
+    style.textContent = `
+      @keyframes springIn {
+        0% { opacity: 0; transform: translateY(8px) scale(0.98); }
+        55% { opacity: 1; transform: translateY(-2px) scale(1.005); }
+        75% { transform: translateY(1px) scale(0.998); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
+      }
+    `
+    document.head.appendChild(style)
+  }
+}
 
-function USDCCard({ receipt, index, nested }: { receipt: Receipt; index: number; nested?: boolean }) {
+// ─────────────────────────────────────────────────────────────────────────────
+// USDC Receipt Card — ~50px compact, narrative text
+// ─────────────────────────────────────────────────────────────────────────────
+
+function USDCRow({ receipt, index, nested = false }: { receipt: Receipt; index: number; nested?: boolean }) {
   const [tip, setTip] = useState<TPos | null>(null)
   const isSent = receipt.direction === 'sent'
   const [tShort, tFull] = formatTimestamp(receipt.timestamp)
-  const narrative = buildNarrative(receipt)
-  const addr = getCounterpartyAddr(receipt)
+  const narrative = buildUSDCNarrative(receipt)
+  const addr = getCounterpartyAddress(receipt)
+  const amt = formatAmount(receipt.amount)
+  const sign = isSent ? '−' : '+'
 
-  const borderColor = isSent ? 'border-l-red-500/50' : 'border-l-emerald-500/50'
-  const delay = nested ? 0 : Math.min(index * 20, 400)
+  const type = isSent ? 'sent' : 'received'
+  const hoverBg = nested ? 'hover:bg-zinc-800/20' : 'hover:bg-zinc-800/30'
+  const padding = nested ? 'pl-8' : 'px-3'
 
   const onMove = useCallback((e: React.MouseEvent) => setTip({ x: e.clientX, y: e.clientY }), [])
   const onLeave = useCallback(() => setTip(null), [])
 
-  useEffect(ensureStyles, [])
-
   return (
-    <div
-      className={`relative border-l-2 ${borderColor} rounded-r-lg px-3 py-2
-        hover:bg-zinc-800/40 transition-colors duration-100 cursor-default
-        ${nested ? 'ml-4 border-l' : ''}`}
-      style={!nested ? { animation: `rcFadeIn 0.3s ease-out ${delay}ms both` } : undefined}
-      onMouseMove={onMove}
-      onMouseLeave={onLeave}
-    >
-      {/* Row 1: narrative + timestamp + network */}
-      <div className="flex items-center gap-2">
-        <TypeDot type={isSent ? 'sent' : 'received'} />
-        <span className="text-[13px] text-zinc-200 font-medium truncate flex-1 leading-tight">
-          {narrative}
+    <CardWrapper type={type} index={index} className={`${padding} ${hoverBg}`} onClick={nested ? undefined : onLeave}>
+      {/* Line 1: icon + narrative + timestamp + badge */}
+      <div className={`flex items-center gap-2 ${nested ? 'mt-1' : 'py-1.5'}`}>
+        {/* Colored dot (inside card, not timeline) */}
+        <div
+          className="h-2 w-2 rounded-full shrink-0"
+          style={{ background: isSent ? '#ef4444' : '#22c55e' }}
+        />
+        
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-medium text-zinc-100 truncate">{narrative}</p>
+        </div>
+        
+        <span
+          className="text-xs font-bold tabular-nums text-right shrink-0 w-16"
+          style={{ color: isSent ? '#f87171' : '#4ade80' }}
+          title={tFull}
+        >
+          {sign}${amt}
         </span>
-        <span className="text-[10px] text-zinc-500 tabular-nums shrink-0" title={tFull}>
-          {tShort}
-        </span>
-        <NetworkBadge />
+        
+        <div className="shrink-0">
+          <NetworkBadge />
+        </div>
       </div>
-
-      {/* Row 2: address + tx hash */}
-      <div className="flex items-center gap-2 mt-0.5 ml-4">
-        {addr && (
-          <span className="text-[10px] font-mono text-zinc-600">{addr}</span>
-        )}
+      
+      {/* Line 2: address + tx hash (subtle) */}
+      <div className={`flex items-center gap-2 text-[10px] text-zinc-500 mt-0.5 ${nested ? 'mb-1' : 'py-0.5'}`}>
+        {addr && <span className="font-mono truncate">{addr}</span>}
         {receipt.hash && !receipt.hash.startsWith('inference-') && (
           <>
-            <span className="text-zinc-700 text-[10px]">·</span>
+            <span className="text-zinc-700">·</span>
             <Link
               href={`/receipt/${receipt.hash}`}
-              onClick={e => e.stopPropagation()}
-              className="text-[10px] font-mono text-zinc-600 hover:text-zinc-400 transition-colors inline-flex items-center gap-0.5"
+              onClick={(e) => e.stopPropagation()}
+              className="font-mono hover:text-zinc-300 transition-colors"
             >
-              {receipt.hash.slice(0, 8)}…
-              <ExternalLink className="h-2.5 w-2.5" />
+              {receipt.hash.slice(0, 6)}…
             </Link>
           </>
         )}
       </div>
 
-      {/* Status bar (1px gradient at bottom, from Design B) */}
-      <div
-        className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r ${
-          isSent
-            ? 'from-transparent via-red-500/30 to-transparent'
-            : 'from-transparent via-emerald-500/30 to-transparent'
-        }`}
-      />
-
-      {tip && <Tooltip receipt={receipt} pos={tip} />}
-    </div>
+      {tip && <ReceiptTooltip receipt={receipt} pos={tip} />}
+    </CardWrapper>
   )
 }
 
-// ─── Inference Receipt Card ─────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// Inference Receipt Card — ~50px with model pill, breakdown link
+// ─────────────────────────────────────────────────────────────────────────────
 
-function InferenceCard({ receipt, index }: { receipt: Receipt; index: number }) {
-  const [isModalOpen, setIsModalOpen] = useState(false)
+function InferenceRow({ receipt, index, nested = false }: { receipt: Receipt; index: number; nested?: boolean }) {
+  const [modal, setModal] = useState(false)
+  const [tip, setTip] = useState<TPos | null>(null)
   const [tShort, tFull] = formatTimestamp(receipt.timestamp)
-  const modelName = extractModelName(receipt.service)
-  const narrative = buildNarrative(receipt)
-  const cost = fmtCost(receipt.amount)
-  const delay = Math.min(index * 20, 400)
+  const narrative = buildInferenceNarrative(receipt)
+  const model = extractModelName(receipt.service)
+  const amt = formatAmount(receipt.amount)
 
-  useEffect(ensureStyles, [])
+  const clickable = !!receipt.modelInfo
+  const hoverBg = nested ? 'hover:bg-violet-900/15' : 'hover:bg-violet-900/20'
+  const padding = nested ? 'pl-8' : 'px-3'
+
+  const onMove = useCallback((e: React.MouseEvent) => setTip({ x: e.clientX, y: e.clientY }), [])
+  const onLeave = useCallback(() => setTip(null), [])
 
   return (
     <>
-      <div
-        onClick={() => receipt.modelInfo && setIsModalOpen(true)}
-        className={`relative border-l-2 border-l-purple-500/50 rounded-r-lg px-3 py-2
-          bg-purple-500/[0.03] hover:bg-purple-500/[0.07] transition-colors duration-100
-          ${receipt.modelInfo ? 'cursor-pointer' : 'cursor-default'}`}
-        style={{ animation: `rcFadeIn 0.3s ease-out ${delay}ms both` }}
-      >
-        {/* Row 1: narrative + cost */}
-        <div className="flex items-center gap-2">
-          <Bot className="h-3.5 w-3.5 text-purple-400 shrink-0" strokeWidth={2} />
-          <span className="text-[13px] text-zinc-200 font-medium truncate flex-1 leading-tight">
-            {narrative}
+      <CardWrapper type="inference" index={index} className={`${padding} ${hoverBg}`} onClick={nested ? undefined : onLeave}>
+        {/* Line 1: bot icon + narrative + model pill + timestamp */}
+        <div className={`flex items-center gap-2 ${nested ? 'mt-1' : 'py-1.5'}`}>
+          {/* Bot icon with gradient */}
+          <TxIcon type="inference" className={nested ? 'h-3 w-3' : 'h-4 w-4'} />
+          
+          <div className="flex-1 min-w-0">
+            <p className={`text-sm font-medium truncate ${nested ? 'text-zinc-400' : 'text-zinc-100'}`}>
+              {narrative}
+            </p>
+          </div>
+          
+          <span
+            className="text-xs font-bold tabular-nums text-right shrink-0 w-16 text-purple-300"
+            title={tFull}
+          >
+            ${amt}
           </span>
-          <span className="text-[13px] font-bold tabular-nums text-purple-300 shrink-0">{cost}</span>
+          
+          {/* Model pill */}
+          {model && (
+            <div
+              className="rounded-full px-1.5 py-0.5 text-[9px] font-mono border"
+              style={{
+                background: 'rgba(168,85,247,0.12)',
+                borderColor: 'rgba(168,85,247,0.25)',
+                color: '#c084fc',
+              }}
+            >
+              {model}
+            </div>
+          )}
         </div>
-
-        {/* Row 2: model pill + breakdown + timestamp */}
-        <div className="flex items-center gap-1.5 mt-0.5 ml-5">
-          {modelName && (
-            <span className="inline-flex items-center rounded-full bg-purple-500/10 border border-purple-500/20 px-1.5 py-px text-[9px] font-mono text-purple-400">
-              {modelName}
+        
+        {/* Line 2: breakdown link (only if modelInfo exists) */}
+        <div className={`flex items-center gap-2 text-[10px] text-zinc-500 mt-0.5 ${nested ? 'mb-1' : 'py-0.5'}`}>
+          {clickable && (
+            <span
+              className="flex items-center gap-1 hover:text-purple-400 transition-colors cursor-pointer"
+              onClick={() => setModal(true)}
+            >
+              <span className="w-3 h-3" style={{ color: '#a855f7' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
+                  <path d="M12 3v18M3 12h18" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
+              breakdown
             </span>
           )}
-          {receipt.modelInfo && (
-            <span className="text-purple-400/60 text-[9px]">⚡ breakdown</span>
-          )}
-          <span className="text-[10px] text-zinc-600 tabular-nums ml-auto shrink-0" title={tFull}>
-            {tShort}
-          </span>
         </div>
 
-        {/* Status bar */}
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500/30 to-transparent" />
-      </div>
+        {tip && <ReceiptTooltip receipt={receipt} pos={tip} />}
+      </CardWrapper>
 
       <InferenceModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        receipt={receipt.modelInfo ? {
-          timestamp: receipt.timestamp,
-          service: receipt.service || '',
-          amount: receipt.amount,
-          modelInfo: receipt.modelInfo,
-        } : null}
+        isOpen={modal}
+        onClose={() => setModal(false)}
+        receipt={
+          receipt.modelInfo
+            ? {
+                timestamp: receipt.timestamp,
+                service: receipt.service ?? '',
+                amount: receipt.amount,
+                modelInfo: receipt.modelInfo,
+              }
+            : null
+        }
       />
     </>
   )
 }
 
-// ─── Grouped Receipt Card ───────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// Grouped Receipt Card — with layers icon, expand/collapse
+// ─────────────────────────────────────────────────────────────────────────────
 
-function GroupedCard({ receipts, index }: { receipts: Receipt[]; index: number }) {
-  const [expanded, setExpanded] = useState(false)
-  const first = receipts[0]
-  const isSent = first.direction === 'sent'
-  const total = receipts.reduce((s, r) => s + parseFloat(r.amount), 0)
-  const narrative = buildGroupNarrative(receipts)
-  const borderColor = isSent ? 'border-l-red-500/50' : 'border-l-emerald-500/50'
-  const delay = Math.min(index * 20, 400)
+function GroupedRow({ items, index }: { items: { receipts: Receipt[]; isInf: boolean }; index: number }) {
+  const [open, setOpen] = useState(false)
 
-  useEffect(ensureStyles, [])
+  const first = items.receipts[0]
+  const total = items.receipts.reduce((s, r) => s + parseFloat(r.amount), 0)
+  const count = items.receipts.length
+
+  const isInf = items.isInf
+  const type = isInf ? 'inference' : first.direction === 'sent' ? 'sent' : 'received'
+  const sign = type === 'sent' ? '−' : '+'
+  const amt = formatAmount(total.toString())
 
   return (
-    <div style={{ animation: `rcFadeIn 0.3s ease-out ${delay}ms both` }}>
+    <div>
+      {/* Summary row */}
       <div
-        onClick={() => setExpanded(v => !v)}
-        className={`relative border-l-2 ${borderColor} rounded-r-lg px-3 py-2
-          hover:bg-zinc-800/40 transition-colors duration-100 cursor-pointer`}
+        className={`
+          px-3 py-2 rounded-lg cursor-pointer
+          ${open ? 'bg-zinc-800/20' : 'hover:bg-zinc-800/30'}
+          ${isInf ? 'hover:bg-violet-900/20' : ''}
+        `}
+        onClick={() => setOpen(v => !v)}
       >
-        <div className="flex items-center gap-2">
-          <Layers className={`h-3.5 w-3.5 shrink-0 ${isSent ? 'text-red-400' : 'text-emerald-400'}`} strokeWidth={2} />
-          <span className="text-[13px] text-zinc-200 font-medium truncate flex-1 leading-tight">
-            {narrative}
-          </span>
-          <div className="flex items-center gap-1.5 shrink-0">
-            <span className={`text-[13px] font-bold tabular-nums ${isSent ? 'text-red-400' : 'text-emerald-400'}`}>
-              {isSent ? '−' : '+'}${fmtAmt(String(total))}
+        {/* Line 1: layers icon + narrative + total + timestamp */}
+        <div className="flex items-center gap-2 py-1">
+          {/* Layers icon with gradient */}
+          <TxIcon type="group" className="h-4 w-4" />
+          
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-zinc-100">
+              {count} {isInf ? 'calls' : 'transactions'} · {getCounterpartyName(first)} · {sign}${amt}
+            </p>
+          </div>
+          
+          <div className="shrink-0 flex items-center gap-1">
+            <span className="text-xs font-bold tabular-nums" style={{ color: isInf ? '#c084fc' : type === 'sent' ? '#f87171' : '#4ade80' }}>
+              {sign}${amt}
             </span>
-            {expanded
-              ? <ChevronDown className="h-3 w-3 text-zinc-500" />
-              : <ChevronRight className="h-3 w-3 text-zinc-500" />
-            }
+            {isInf && <NetworkBadge />}
           </div>
         </div>
-
-        <div className={`absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r ${
-          isSent ? 'from-transparent via-red-500/30 to-transparent' : 'from-transparent via-emerald-500/30 to-transparent'
-        }`} />
+        
+        {/* Line 2: expand/collapse indicator */}
+        <div className="flex items-center gap-1.5 text-[10px] text-zinc-500 mt-0.5">
+          <span className="flex items-center gap-0.5">
+            {open ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
+            <span>{open ? 'collapse' : `show ${count}`}</span>
+          </span>
+        </div>
       </div>
 
-      {expanded && (
-        <div className="mt-1 space-y-0.5">
-          {receipts.map(r => (
-            <USDCCard key={r.hash} receipt={r} index={0} nested />
+      {/* Expanded — indented with subtle left border */}
+      {open && (
+        <div className="border-l-2 border-zinc-700/25 ml-[36px] pl-3 mt-1 space-y-1">
+          {items.receipts.map((r, i) => (
+            isInf
+              ? <InferenceRow key={r.hash} receipt={r} index={i} nested />
+              : <USDCRow key={r.hash} receipt={r} index={i} nested />
           ))}
         </div>
       )}
@@ -448,64 +627,101 @@ function GroupedCard({ receipts, index }: { receipts: Receipt[]; index: number }
   )
 }
 
-// ─── Grouping logic ─────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// Grouping logic — From Original, same signatures
+// ─────────────────────────────────────────────────────────────────────────────
 
 type DisplayItem =
   | { kind: 'single'; receipt: Receipt }
   | { kind: 'grouped'; receipts: Receipt[] }
+  | { kind: 'grouped-inference'; receipts: Receipt[] }
 
 export function groupReceiptsForDisplay(receipts: Receipt[]): DisplayItem[] {
-  const result: DisplayItem[] = []
+  const out: DisplayItem[] = []
   let i = 0
 
   while (i < receipts.length) {
     const r = receipts[i]
 
+    // Group consecutive inference receipts (same task name)
     if (isInferenceReceipt(r)) {
-      result.push({ kind: 'single', receipt: r })
-      i++
+      const tk = extractTaskName(r.service)
+      let j = i + 1
+      while (
+        j < receipts.length &&
+        isInferenceReceipt(receipts[j]) &&
+        extractTaskName(receipts[j].service) === tk
+      ) j++
+
+      if (j - i >= 2) {
+        out.push({ kind: 'grouped-inference', receipts: receipts.slice(i, j) })
+      } else {
+        out.push({ kind: 'single', receipt: r })
+      }
+      i = j
       continue
     }
 
-    const key = groupKey(r)
+    // Group USDC (3+ consecutive, same direction+address)
+    const k = groupKey(r)
     let j = i + 1
     while (j < receipts.length) {
-      const next = receipts[j]
-      if (isInferenceReceipt(next) || groupKey(next) !== key) break
+      const nxt = receipts[j]
+      if (isInferenceReceipt(nxt) || groupKey(nxt) !== k) break
       j++
     }
 
     if (j - i >= 3) {
-      result.push({ kind: 'grouped', receipts: receipts.slice(i, j) })
+      out.push({ kind: 'grouped', receipts: receipts.slice(i, j) })
       i = j
     } else {
-      result.push({ kind: 'single', receipt: r })
+      out.push({ kind: 'single', receipt: r })
       i++
     }
   }
 
-  return result
+  return out
 }
 
-// ─── Public exports ─────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// Public Exports — Same signatures as original
+// ─────────────────────────────────────────────────────────────────────────────
 
-export function ReceiptCard({ receipt, index = 0 }: { receipt: Receipt; index?: number; isFirstInference?: boolean }) {
-  if (isInferenceReceipt(receipt)) {
-    return <InferenceCard receipt={receipt} index={index} />
-  }
-  return <USDCCard receipt={receipt} index={index} />
+/** Single receipt card — renders one receipt directly. */
+export function ReceiptCard({
+  receipt,
+  index = 0,
+}: {
+  receipt: Receipt
+  index?: number
+  isFirstInference?: boolean
+}) {
+  if (isInferenceReceipt(receipt)) return <InferenceRow receipt={receipt} index={index} />
+  return <USDCRow receipt={receipt} index={index} />
 }
 
+/** Receipt list with automatic grouping. */
 export function ReceiptList({ receipts }: { receipts: Receipt[] }) {
   const items = groupReceiptsForDisplay(receipts)
 
   return (
-    <div className="space-y-1.5">
-      {items.map((item, i) => {
+    <div className="rounded-lg border border-zinc-800/60 bg-zinc-950/50 overflow-hidden divide-y-0">
+      {items.length === 0 && (
+        <div className="h-10 flex items-center justify-center text-xs text-zinc-600 tabular-nums">
+          no transactions
+        </div>
+      )}
+
+      {items.map((item, idx) => {
         if (item.kind === 'grouped') {
-          return <GroupedCard key={item.receipts[0].hash} receipts={item.receipts} index={i} />
+          return <GroupedRow key={item.receipts[0].hash} items={{ receipts: item.receipts, isInf: false }} index={idx} />
         }
-        return <ReceiptCard key={item.receipt.hash} receipt={item.receipt} index={i} />
+        if (item.kind === 'grouped-inference') {
+          return <GroupedRow key={item.receipts[0].hash} items={{ receipts: item.receipts, isInf: true }} index={idx} />
+        }
+        return isInferenceReceipt(item.receipt)
+          ? <InferenceRow key={item.receipt.hash} receipt={item.receipt} index={idx} />
+          : <USDCRow key={item.receipt.hash} receipt={item.receipt} index={idx} />
       })}
     </div>
   )
