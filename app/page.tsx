@@ -372,8 +372,8 @@ export default function Home() {
         const parts: string[] = []
         if (usdcReceipts.length) parts.push(`${usdcReceipts.length} USDC transaction${usdcReceipts.length !== 1 ? 's' : ''}`)
         if (inferenceReceipts.length) parts.push(`${inferenceReceipts.length} LLM inference call${inferenceReceipts.length !== 1 ? 's' : ''}`)
-        if (totalSpent > 0) parts.push(`$${totalSpent.toFixed(2)} spent`)
-        if (totalEarned > 0) parts.push(`$${totalEarned.toFixed(2)} earned`)
+        if (totalSpent > 0) parts.push(`$${totalSpent.toFixed(2)} sent`)
+        if (totalEarned > 0) parts.push(`$${totalEarned.toFixed(2)} received`)
         return (
           <div className="mb-3 text-xs text-zinc-500 tabular-nums">
             {parts.join(' · ')}

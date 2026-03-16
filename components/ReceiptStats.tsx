@@ -43,7 +43,7 @@ export function ReceiptStats({ receipts }: { receipts: Receipt[] }) {
       accent: x402Revenue > 0 ? 'text-emerald-400' : 'text-zinc-100',
     },
     {
-      label: 'Total Spent',
+      label: 'Total Sent',
       value: `$${totalSent.toFixed(2)}`,
       trend: 'neutral' as const,
       accent: 'text-zinc-100',
