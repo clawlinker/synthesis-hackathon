@@ -129,26 +129,31 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  // If payment header present, try to verify via facilitator
-  try {
-    const verifyRes = await fetch("https://facilitator.x402.org/verify", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        payload: paymentHeader,
-        paymentRequirements: PAYMENT_REQUIREMENTS,
-      }),
-    });
+  // Mock x402 verification for hackathon demo (facilitator often unreachable)
+  // In production, replace with actual facilitator verification
+  if (process.env.NODE_ENV !== "production" || process.env.X402_MOCK_VERIFICATION === "true") {
+    console.log("Mock x402 verification passed");
+  } else {
+    try {
+      const verifyRes = await fetch("https://facilitator.x402.org/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          payload: paymentHeader,
+          paymentRequirements: PAYMENT_REQUIREMENTS,
+        }),
+      });
 
-    if (!verifyRes.ok) {
-      return NextResponse.json(
-        { error: "Payment verification failed" },
-        { status: 402 }
-      );
+      if (!verifyRes.ok) {
+        return NextResponse.json(
+          { error: "Payment verification failed" },
+          { status: 402 }
+        );
+      }
+    } catch {
+      // If facilitator is down, accept payment header as-is for hackathon demo
+      console.warn("Facilitator unreachable, accepting payment for demo");
     }
-  } catch {
-    // If facilitator is down, accept payment header as-is for hackathon demo
-    console.warn("Facilitator unreachable, accepting payment for demo");
   }
 
   // Serve the data
