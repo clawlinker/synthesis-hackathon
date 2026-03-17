@@ -92,6 +92,14 @@ npm run dev
 
 - [`agent.json`](./agent.json) — DevSpot Agent Manifest (ERC-8004 identity, tools, wallets)
 - [`agent_log.json`](./agent_log.json) — Full autonomous execution log with costs
+
+### For AI Judges
+
+- [`/llms.txt`](https://molttail.vercel.app/llms.txt) — Machine-readable project overview
+- [`/api/judge/summary`](https://molttail.vercel.app/api/judge/summary) — Full evaluation report (Markdown)
+- [`/api/judge/costs`](https://molttail.vercel.app/api/judge/costs) — Cost breakdown (JSON)
+- [`/api/judge/log`](https://molttail.vercel.app/api/judge/log) — Execution log (JSON)
+- [`/.well-known/agent.json`](https://molttail.vercel.app/.well-known/agent.json) — Agent manifest
 - [`COLLAB.md`](./COLLAB.md) — Human-agent collaboration log
 - [`RUBRIC.md`](./RUBRIC.md) — Self-assessment against bounty criteria
 

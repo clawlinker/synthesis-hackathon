@@ -58,21 +58,30 @@ export function HeroSection({ stats, source }: { stats: HeroStats; source: strin
 
       {/* Stats grid */}
       <div className="relative grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-        <StatBox
-          label="Total Tracked"
-          mounted={mounted}
-        >
-          <AnimatedCounter end={stats.totalUSDC} prefix="$" decimals={2} className="text-xl md:text-2xl font-bold text-usdc tabular-nums" />
-        </StatBox>
-        <StatBox label="Receipts" mounted={mounted}>
-          <AnimatedCounter end={stats.totalReceipts} className="text-xl md:text-2xl font-bold text-zinc-100 tabular-nums" />
-        </StatBox>
-        <StatBox label="On-Chain Txns" mounted={mounted}>
-          <AnimatedCounter end={stats.onChainCount} className="text-xl md:text-2xl font-bold text-zinc-100 tabular-nums" />
-        </StatBox>
-        <StatBox label="AI Inference" mounted={mounted}>
-          <AnimatedCounter end={stats.inferenceCount} className="text-xl md:text-2xl font-bold text-zinc-100 tabular-nums" />
-        </StatBox>
+        {source === 'loading' ? (
+          <>
+            {['Total Tracked', 'Receipts', 'On-Chain Txns', 'AI Inference'].map((label) => (
+              <StatBox key={label} label={label} mounted={mounted}>
+                <span className="inline-block h-7 w-16 animate-pulse rounded bg-zinc-700/50" />
+              </StatBox>
+            ))}
+          </>
+        ) : (
+          <>
+            <StatBox label="Total Tracked" mounted={mounted}>
+              <AnimatedCounter end={stats.totalUSDC} prefix="$" decimals={2} className="text-xl md:text-2xl font-bold text-usdc tabular-nums" />
+            </StatBox>
+            <StatBox label="Receipts" mounted={mounted}>
+              <AnimatedCounter end={stats.totalReceipts} className="text-xl md:text-2xl font-bold text-zinc-100 tabular-nums" />
+            </StatBox>
+            <StatBox label="On-Chain Txns" mounted={mounted}>
+              <AnimatedCounter end={stats.onChainCount} className="text-xl md:text-2xl font-bold text-zinc-100 tabular-nums" />
+            </StatBox>
+            <StatBox label="AI Inference" mounted={mounted}>
+              <AnimatedCounter end={stats.inferenceCount} className="text-xl md:text-2xl font-bold text-zinc-100 tabular-nums" />
+            </StatBox>
+          </>
+        )}
       </div>
 
       {/* Agent identity strip */}
