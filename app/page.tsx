@@ -22,10 +22,32 @@ type FilterState = {
   search: string
 }
 
+const CACHE_KEY = 'molttail_receipts_cache'
+
+function loadCachedReceipts(): { receipts: Receipt[]; source: string } | null {
+  if (typeof window === 'undefined') return null
+  try {
+    const raw = localStorage.getItem(CACHE_KEY)
+    if (!raw) return null
+    const cached = JSON.parse(raw)
+    // Cache valid for 10 minutes
+    if (Date.now() - cached.ts > 10 * 60 * 1000) return null
+    return { receipts: cached.receipts, source: cached.source + '+cached' }
+  } catch { return null }
+}
+
+function saveCachedReceipts(receipts: Receipt[], source: string) {
+  if (typeof window === 'undefined') return
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({ receipts, source, ts: Date.now() }))
+  } catch { /* quota exceeded — ignore */ }
+}
+
 export default function Home() {
-  const [receipts, setReceipts] = useState<Receipt[]>([])
+  const cached = typeof window !== 'undefined' ? loadCachedReceipts() : null
+  const [receipts, setReceipts] = useState<Receipt[]>(cached?.receipts ?? [])
   const [filteredReceipts, setFilteredReceipts] = useState<Receipt[]>([])
-  const [source, setSource] = useState<string>('loading')
+  const [source, setSource] = useState<string>(cached ? cached.source : 'loading')
   const [error, setError] = useState<string | null>(null)
   const [selectedWallet, setSelectedWallet] = useState<string | null>(null)
   const [selectedChain, setSelectedChain] = useState<keyof typeof CHAINS>('base')
@@ -61,6 +83,7 @@ export default function Home() {
         const data = await res.json()
         setReceipts(data.receipts)
         setSource(data.source)
+        saveCachedReceipts(data.receipts, data.source)
       } catch (err) {
         setError('Failed to load receipts')
         console.error(err)
