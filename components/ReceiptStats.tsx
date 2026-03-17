@@ -16,7 +16,7 @@ export function ReceiptStats({ receipts, allReceipts }: { receipts: Receipt[]; a
   // Use allReceipts for inference cost so LLM Costs always reflects reality,
   // even when the inference toggle is off in the feed.
   const inferencePool = allReceipts ?? receipts
-  const inferenceReceipts = inferencePool.filter((r) => r.tokenSymbol === 'USD')
+  const inferenceReceipts = inferencePool.filter((r) => r.receiptType === 'inference')
 
   // x402 revenue: USDC received to the x402 wallet only (real earned income)
   const x402Revenue = usdcReceipts
