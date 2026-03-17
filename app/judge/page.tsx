@@ -269,6 +269,20 @@ export default function JudgeModePage() {
                 <span className="font-semibold text-zinc-300">↓ Execution Log</span> — per-action agent decisions
               </span>
             </div>
+            {/* Machine-readable API for agentic judges */}
+            <div className="mt-3 flex items-center gap-2 rounded-lg border border-zinc-700/50 bg-zinc-900/60 px-3 py-2">
+              <svg className="h-3.5 w-3.5 shrink-0 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+              </svg>
+              <span className="text-xs text-zinc-500">
+                <span className="font-semibold text-zinc-300">AI judges:</span>{' '}
+                machine-readable summary at{' '}
+                <a href="/api/judge/summary" target="_blank" rel="noopener noreferrer" className="font-mono text-usdc hover:underline">
+                  /api/judge/summary
+                </a>
+                {' '}(Markdown — tracks, costs, agent log, commits)
+              </span>
+            </div>
           </div>
         </div>
       </div>
