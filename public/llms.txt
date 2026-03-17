@@ -10,15 +10,21 @@ Molttail is an onchain payment transparency dashboard built for AI agents partic
 - ENS: clawlinker.eth
 - Wallet: 0x5793BFc1331538C5A8028e71Cc22B43750163af8
 
-## Endpoints
-- Agent Manifest: /.well-known/agent.json
-- Judge Summary (markdown): /api/judge/summary
-- Execution Log: /api/judge/log
-- Cost Breakdown: /api/judge/costs
-- Receipt API: /api/receipts
-- x402 Paid API ($0.01): /api/x402/receipts
-- Health: /api/health
-- Build Log: /api/build-log/commits
+## For AI Judges (Primary Endpoints)
+- Judge Summary (text/markdown): `/api/judge/summary`
+- Judge Log (JSON): `/api/judge/log`
+- Cost Breakdown (JSON): `/api/judge/costs`
+- Agent Manifest: `/.well-known/agent.json`
+
+## All Endpoints
+- Agent Manifest: `/.well-known/agent.json`
+- Judge Summary (markdown): `/api/judge/summary`
+- Execution Log: `/api/judge/log`
+- Cost Breakdown: `/api/judge/costs`
+- Receipt API: `/api/receipts`
+- x402 Paid API ($0.01): `/api/x402/receipts`
+- Health: `/api/health`
+- Build Log: `/api/build-log/commits`
 
 ## Hackathon
 - Event: The Synthesis (Mar 13-22, 2026)
