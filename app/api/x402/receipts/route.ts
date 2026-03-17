@@ -1,8 +1,45 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PAYTO_ADDRESS } from "@/app/lib/x402-server";
-import { AGENT, USDC_CONTRACT, type Receipt, type TokenTransferApiResponse } from "@/app/types";
+import { AGENT, BANKR_AGENT, USDC_CONTRACT, type Receipt, type TokenTransferApiResponse } from "@/app/types";
+import { ADDRESS_LABELS, CONTRACTS, SERVICE_LABELS } from "@/data/config";
 
 const BASESCAN_API = "https://base.blockscout.com/api";
+
+// Helper to label addresses
+function labelAddress(address: string): string | undefined {
+  const addr = address.toLowerCase();
+  for (const [key, label] of Object.entries(ADDRESS_LABELS)) {
+    if (key.toLowerCase() === addr) return label;
+  }
+  return undefined;
+}
+
+// Helper to resolve service from transaction
+function getServiceFromTx(tx: { to: string; from: string }, wallet: string): string | undefined {
+  const to = tx.to.toLowerCase();
+  const from = tx.from.toLowerCase();
+  const other = from === wallet.toLowerCase() ? to : from;
+
+  // Check against hardcoded contract addresses first
+  if (other === CONTRACTS.X402_FACILITATOR.toLowerCase()) return SERVICE_LABELS[CONTRACTS.X402_FACILITATOR.toLowerCase()];
+  if (other === CONTRACTS.VIRTUALS_ACP.toLowerCase()) return SERVICE_LABELS[CONTRACTS.VIRTUALS_ACP.toLowerCase()];
+
+  return labelAddress(other);
+}
+
+// Helper to resolve agent info from address
+function resolveAgent(address: string) {
+  const lower = address.toLowerCase();
+  if (lower === AGENT.wallet.toLowerCase()) return { id: AGENT.id, name: AGENT.name, ens: AGENT.ens, avatar: AGENT.avatar };
+  if (lower === BANKR_AGENT.wallet.toLowerCase()) return { id: BANKR_AGENT.id, name: BANKR_AGENT.name, avatar: BANKR_AGENT.avatar };
+  const label = labelAddress(address);
+  if (label && label.includes('(')) {
+    // Extract name from "Name (Type)" format
+    const parts = label.split(' (');
+    if (parts.length > 0) return { id: 0, name: parts[0], avatar: undefined };
+  }
+  return undefined;
+}
 
 async function fetchReceipts(wallet: string, limit: number) {
   const params = new URLSearchParams({
@@ -27,20 +64,36 @@ async function fetchReceipts(wallet: string, limit: number) {
   const data = await res.json();
   if (data.status !== "1" || !Array.isArray(data.result)) return [];
 
-  return data.result.map((tx: TokenTransferApiResponse['result'][0]) => ({
-    hash: tx.hash,
-    from: tx.from,
-    to: tx.to,
-    value: tx.value,
-    amount: (parseInt(tx.value) / 1e6).toFixed(2),
-    timestamp: parseInt(tx.timeStamp),
-    blockNumber: tx.blockNumber,
-    direction: tx.from.toLowerCase() === wallet.toLowerCase() ? "sent" : "received",
-    status: "confirmed" as const,
-    tokenSymbol: tx.tokenSymbol,
-    tokenDecimal: tx.tokenDecimal,
-    agentId: String(AGENT.id),
-  }));
+  return data.result.map((tx: TokenTransferApiResponse['result'][0]) => {
+    const from = tx.from;
+    const to = tx.to;
+    const service = getServiceFromTx({ from, to }, wallet);
+    const fromLabel = labelAddress(from);
+    const toLabel = labelAddress(to);
+    const fromAgent = resolveAgent(from);
+    const toAgent = resolveAgent(to);
+
+    return {
+      hash: tx.hash,
+      from: from,
+      to: to,
+      value: tx.value,
+      amount: (parseInt(tx.value) / 1e6).toFixed(2),
+      timestamp: parseInt(tx.timeStamp),
+      blockNumber: tx.blockNumber,
+      direction: tx.from.toLowerCase() === wallet.toLowerCase() ? "sent" : "received",
+      status: "confirmed" as const,
+      tokenSymbol: tx.tokenSymbol,
+      tokenDecimal: tx.tokenDecimal,
+      agentId: String(AGENT.id),
+      service: service,
+      fromLabel: fromLabel,
+      toLabel: toLabel,
+      fromAgent: fromAgent,
+      toAgent: toAgent,
+      receiptType: "onchain" as const,
+    } satisfies Receipt;
+  });
 }
 
 // x402 payment gate — $0.01 USDC on Base
@@ -129,6 +182,11 @@ export async function GET(req: NextRequest) {
       name: AGENT.name,
       ens: AGENT.ens,
       erc8004: `https://www.8004scan.io/agents/ethereum/${AGENT.id}`,
+    },
+    _metadata: {
+      enriched: true,
+      serviceLabels: Object.keys(SERVICE_LABELS).length + " services mapped",
+      agentLabels: Object.keys(ADDRESS_LABELS).length + " addresses labeled",
     },
   });
 }
