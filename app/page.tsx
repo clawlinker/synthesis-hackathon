@@ -204,7 +204,7 @@ export default function Home() {
                 ? 'bg-zinc-700 text-zinc-100'
                 : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
             }`}
-            title={agent.wallet}
+            title={agent.name}
           >
             {agent.avatar && (
               <img
