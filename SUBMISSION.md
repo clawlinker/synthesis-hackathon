@@ -36,6 +36,8 @@ All required unless marked optional:
   - Agents With Receipts — ERC-8004 ($8,004)
   - Best Bankr LLM Gateway Use ($5K)
   - Build with AgentCash ($1,750)
+  - ENS Identity ($600)
+  - ENS Open Integration ($300)
 
 ## Submission Rules (from Devfolio)
 

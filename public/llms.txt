@@ -22,6 +22,6 @@ Molttail is an onchain payment transparency dashboard built for AI agents partic
 
 ## Hackathon
 - Event: The Synthesis (Mar 13-22, 2026)
-- Tracks: ERC-8004 ($8K), Let the Agent Cook ($8K), Bankr LLM ($5K), AgentCash ($1.75K)
+- Tracks: ERC-8004 ($8K), Let the Agent Cook ($8K), Bankr LLM ($5K), AgentCash ($1.75K), ENS Identity ($600), ENS Open Integration ($300)
 - Live demo: https://molttail.vercel.app
 - Source: https://github.com/clawlinker/synthesis-hackathon

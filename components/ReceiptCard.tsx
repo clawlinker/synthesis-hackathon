@@ -23,6 +23,7 @@ import {
   Zap,
 } from 'lucide-react'
 import Link from 'next/link'
+import { ENS_NAMES } from '@/data/config'
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -102,13 +103,25 @@ function counterparty(r: Receipt): string {
   return r.fromAgent?.name || r.fromLabel || shortenAddr(r.from)
 }
 
+function getEnsName(addr: string): string | null {
+  if (!addr) return null
+  const lower = addr.toLowerCase()
+  return ENS_NAMES[lower] || null
+}
+
+// Returns ENS name if available, otherwise returns the address (shortened or full)
 function counterpartyAddr(r: Receipt): string | null {
   const isSent = r.direction === 'sent'
+  const addr = isSent ? r.to : r.from
+  // Check for ENS name first
+  const ensName = getEnsName(addr)
+  if (ensName) return ensName
+  
   const hasName = isSent
     ? !!(r.toAgent?.name || r.toLabel)
     : !!(r.fromAgent?.name || r.fromLabel) && !isZero(r.from)
   if (!hasName) return null
-  return shortenAddr(isSent ? r.to : r.from)
+  return shortenAddr(addr)
 }
 
 function fmtTime(ts: number): [string, string] {
@@ -204,8 +217,8 @@ function Tooltip({ receipt: r, pos }: { receipt: Receipt; pos: TPos }) {
         {/* Rows */}
         <div className="px-4 py-3 space-y-1.5">
           {!isInf && <>
-            <TR l="FROM" v={r.fromLabel || r.fromAgent?.name || shortenAddr(r.from)} mono={!(r.fromLabel || r.fromAgent?.name)} />
-            <TR l="TO" v={r.toLabel || r.toAgent?.name || shortenAddr(r.to)} mono={!(r.toLabel || r.toAgent?.name)} />
+            <TR l="FROM" v={r.fromLabel || r.fromAgent?.name || r.from} mono={!(r.fromLabel || r.fromAgent?.name)} />
+            <TR l="TO" v={r.toLabel || r.toAgent?.name || r.to} mono={!(r.toLabel || r.toAgent?.name)} />
           </>}
           {r.service && <TR l="SERVICE" v={r.service} />}
           {r.hash && !r.hash.startsWith('inference-') && (
@@ -283,8 +296,8 @@ function ReceiptPaper({ receipt: r, onClose }: { receipt: Receipt; onClose: () =
         <div className="text-left space-y-2 text-sm">
           {!isInf ? (
             <>
-              <RRow label="From" value={r.fromLabel || r.fromAgent?.name || shortenAddr(r.from)} />
-              <RRow label="To" value={r.toLabel || r.toAgent?.name || shortenAddr(r.to)} />
+              <RRow label="From" value={<AddressDisplay addr={r.fromLabel || r.fromAgent?.name || r.from} r={r} />} />
+              <RRow label="To" value={<AddressDisplay addr={r.toLabel || r.toAgent?.name || r.to} r={r} />} />
               {r.service && <RRow label="Service" value={r.service} />}
             </>
           ) : (
@@ -408,13 +421,33 @@ function ReceiptPaper({ receipt: r, onClose }: { receipt: Receipt; onClose: () =
   )
 }
 
-function RRow({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) {
+function RRow({ label, value, highlight }: { label: string; value: React.ReactNode; highlight?: boolean }) {
   return (
     <div className="flex justify-between items-baseline gap-4">
       <span className="text-zinc-500 shrink-0 text-xs">{label}</span>
       <span className={`text-right break-all ${highlight ? 'text-emerald-400 font-medium' : 'text-zinc-200'}`}>{value}</span>
     </div>
   )
+}
+
+// Render address with ENS badge styling if applicable
+function AddressDisplay({ addr, r }: { addr: string | null; r: Receipt }) {
+  if (!addr) return <span className="text-zinc-500">—</span>
+  
+  // Check if this is an ENS name
+  const isEns = addr.endsWith('.eth')
+  
+  if (isEns) {
+    return (
+      <span className="inline-flex items-center gap-1 font-mono text-xs text-emerald-400 bg-emerald-950/30 px-1.5 py-0.5 rounded border border-emerald-500/20">
+        {addr}
+        <span className="text-[9px] text-emerald-500/70">.eth</span>
+      </span>
+    )
+  }
+  
+  // Regular address
+  return <span className="font-mono text-xs text-zinc-300">{addr}</span>
 }
 
 // ─── USDC Card ──────────────────────────────────────────────────────────────
@@ -481,7 +514,7 @@ function USDCCard({ receipt: r, index, nested, defaultExpanded }: { receipt: Rec
         <div className="flex-1 min-w-0">
           <p className="text-sm font-medium text-zinc-100 truncate">{name}</p>
           <p className="text-[11px] text-zinc-500 truncate mt-px font-mono">
-            {svc ? svc : addr ? addr : ''}
+            {svc ? svc : addr ? <AddressDisplay addr={addr} r={r} /> : ''}
             {tShort && <span className="text-zinc-600"> · {tShort}</span>}
           </p>
         </div>

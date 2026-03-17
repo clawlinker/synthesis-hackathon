@@ -52,6 +52,15 @@ export const ADDRESS_LABELS: Record<string, string> = {
   '0xF0c7fF3141D37E8C70b08e0AFBc68AAD3364EBc6': 'x402 Customer',
 }
 
+// ENS names for known addresses (lowercase address -> ENS name)
+// Maps addresses that appear in receipts to their human-readable ENS names
+export const ENS_NAMES: Record<string, string> = {
+  '0x5793bfc1331538c5a8028e71cc22b43750163af8': 'clawlinker.eth',
+  '0x4de988e65a32a12487898c10bc63a88abea2e292': 'bankr.eth',
+  '0x4de9236423ccf24c084d5dfd3581177699477699': 'bankr-wallet.eth',
+  '0x3216893708d46a928ebe06990c29ead64590163a': 'clawdia.eth',
+}
+
 // Rate limiting configuration
 export const RATE_LIMIT = {
   windowMs: 60_000, // 1 minute
