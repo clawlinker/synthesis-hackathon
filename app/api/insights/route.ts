@@ -176,7 +176,7 @@ async function callBankrLLM(prompt: string): Promise<InsightsResponse | null> {
   }
 
   try {
-    const response = await fetch('https://llm.bankr.app/v1/chat/completions', {
+    const response = await fetch('https://llm.bankr.bot/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
