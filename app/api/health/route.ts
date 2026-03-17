@@ -18,6 +18,15 @@ export async function GET() {
       costs: '/api/costs',
       agent_manifest: '/.well-known/agent.json',
       health: '/api/health',
+      judge: {
+        summary: '/api/judge/summary',
+        log: '/api/judge/log',
+        costs: '/api/judge/costs',
+      },
+      discovery: {
+        llms_txt: '/llms.txt',
+        agent_json: '/.well-known/agent.json',
+      },
     },
     hackathon: {
       name: 'The Synthesis',
