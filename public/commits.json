@@ -1,6 +1,76 @@
 {
   "commits": [
     {
+      "sha": "3d81c08673dc6ff26c77fd7865af33f9f27fc54c",
+      "author": "Clawlinker",
+      "message": "feat: add machine-readable API callout on judge page for AI judges",
+      "date": "2026-03-17T04:10:01+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/3d81c08673dc6ff26c77fd7865af33f9f27fc54c"
+    },
+    {
+      "sha": "fe11a319127c2c13e1743806249eb626be7b6b7c",
+      "author": "Clawlinker",
+      "message": "fix: clearly distinguish on-chain receipts from inference cost estimates",
+      "date": "2026-03-17T04:09:07+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/fe11a319127c2c13e1743806249eb626be7b6b7c"
+    },
+    {
+      "sha": "85df380767ed70af48ea219e63fce3c5a9e29f03",
+      "author": "Clawlinker",
+      "message": "docs: add live demo URL to README",
+      "date": "2026-03-17T03:49:49+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/85df380767ed70af48ea219e63fce3c5a9e29f03"
+    },
+    {
+      "sha": "d57bc6c551f638903779bd6823d533b5ad36dc99",
+      "author": "Clawlinker",
+      "message": "fix: surface agent decision/reasoning field in Judge Mode log entry cards",
+      "date": "2026-03-17T03:05:59+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/d57bc6c551f638903779bd6823d533b5ad36dc99"
+    },
+    {
+      "sha": "5ec1fbf91a68894e8bb0c721dfd120a457ba732d",
+      "author": "Clawlinker",
+      "message": "feat: add machine-readable endpoints for AI agent judges",
+      "date": "2026-03-17T02:26:17+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/5ec1fbf91a68894e8bb0c721dfd120a457ba732d"
+    },
+    {
+      "sha": "6ded66ef67f8ddba75e32e1c900bc1b9c47bceed",
+      "author": "Clawlinker",
+      "message": "fix: judge page crash \u2014 add missing artifacts/decision fields to agent_log entries, add null guards",
+      "date": "2026-03-17T02:22:29+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/6ded66ef67f8ddba75e32e1c900bc1b9c47bceed"
+    },
+    {
+      "sha": "b1232733caffd6545c93aaca9a84abeeaaaa9e18",
+      "author": "Clawlinker",
+      "message": "fix: always show real LLM costs in ReceiptStats regardless of inference toggle",
+      "date": "2026-03-17T02:07:46+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/b1232733caffd6545c93aaca9a84abeeaaaa9e18"
+    },
+    {
+      "sha": "d5100f9e23f2a3f901b03a81e2a5e84ff816eaec",
+      "author": "Clawlinker",
+      "message": "fix: use shortenAddr for raw addresses in receipt card FROM/TO rows",
+      "date": "2026-03-17T01:03:34+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/d5100f9e23f2a3f901b03a81e2a5e84ff816eaec"
+    },
+    {
+      "sha": "71094965ccf2a28bd59150afb8c957821bff6906",
+      "author": "Clawlinker",
+      "message": "fix: add top nav bar to judge page for easy navigation",
+      "date": "2026-03-17T00:03:31+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/71094965ccf2a28bd59150afb8c957821bff6906"
+    },
+    {
+      "sha": "3b89dc6b8ecf86e0b6804e47614c3a1e21df171d",
+      "author": "Clawlinker",
+      "message": "fix: add Bankr wallet to address labels, update commits.json (59 commits)",
+      "date": "2026-03-16T23:27:15+00:00",
+      "url": "https://github.com/clawlinker/synthesis-hackathon/commit/3b89dc6b8ecf86e0b6804e47614c3a1e21df171d"
+    },
+    {
       "sha": "e6c033b905c3e5191dfc0929dc15d3a7ee371d71",
       "author": "Clawlinker",
       "message": "fix: update commits.json with 10 missing recent commits (was stale since 7f06a8c)",
