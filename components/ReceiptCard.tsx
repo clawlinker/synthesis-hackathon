@@ -198,8 +198,8 @@ function Tooltip({ receipt: r, pos }: { receipt: Receipt; pos: TPos }) {
         {/* Rows */}
         <div className="px-4 py-3 space-y-1.5">
           {!isInf && <>
-            <TR l="FROM" v={r.fromLabel || r.fromAgent?.name || r.from} mono={!r.fromLabel} />
-            <TR l="TO" v={r.toLabel || r.toAgent?.name || r.to} mono={!r.toLabel} />
+            <TR l="FROM" v={r.fromLabel || r.fromAgent?.name || shortenAddr(r.from)} mono={!(r.fromLabel || r.fromAgent?.name)} />
+            <TR l="TO" v={r.toLabel || r.toAgent?.name || shortenAddr(r.to)} mono={!(r.toLabel || r.toAgent?.name)} />
           </>}
           {r.service && <TR l="SERVICE" v={r.service} />}
           {r.hash && !r.hash.startsWith('inference-') && (
