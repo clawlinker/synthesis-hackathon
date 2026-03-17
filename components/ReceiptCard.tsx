@@ -61,7 +61,13 @@ function isZero(a: string): boolean {
 }
 
 export function isInferenceReceipt(r: Receipt): boolean {
-  return r.hash?.startsWith('inference-') || r.tokenSymbol === 'USD'
+  return r.receiptType === 'inference' || r.hash?.startsWith('inference-') || r.tokenSymbol === 'USD'
+}
+
+function getReceiptType(r: Receipt): 'onchain' | 'inference' {
+  if (r.receiptType) return r.receiptType
+  if (r.hash?.startsWith('inference-') || r.tokenSymbol === 'USD') return 'inference'
+  return 'onchain'
 }
 
 function extractTask(svc: string | undefined): string {
@@ -250,6 +256,17 @@ function ReceiptPaper({ receipt: r, onClose }: { receipt: Receipt; onClose: () =
 
       <div className="bg-zinc-950/90 border-x border-zinc-800/40 px-8 py-6 font-mono text-center">
         {/* Header */}
+        <div className="flex items-center justify-center gap-2 mb-1">
+          {isInf ? (
+            <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider text-purple-400 border border-purple-500/20 bg-purple-950/20">
+              ⚡ LLM Cost
+            </span>
+          ) : (
+            <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider text-emerald-400 border border-emerald-500/20 bg-emerald-950/20">
+              ✓ On-chain
+            </span>
+          )}
+        </div>
         <p className="text-zinc-100 text-lg font-bold tracking-[0.2em] uppercase">
           {isInf ? 'LLM Inference' : 'Clawlinker'}
         </p>
@@ -353,7 +370,9 @@ function ReceiptPaper({ receipt: r, onClose }: { receipt: Receipt; onClose: () =
         <Divider />
 
         {/* Footer */}
-        <p className="text-zinc-600 text-[10px] leading-relaxed tracking-wide">
+        <p className={`text-[10px] leading-relaxed tracking-wide ${
+          isInf ? 'text-zinc-500' : 'text-emerald-600'
+        }`}>
           {r.hash && !r.hash.startsWith('inference-')
             ? 'Verified on-chain · clawlinker.eth'
             : 'Logged by agent · clawlinker.eth'}
@@ -436,8 +455,15 @@ function USDCCard({ receipt: r, index, nested, defaultExpanded }: { receipt: Rec
       onMouseMove={onMove}
       onMouseLeave={onLeave}
     >
+      {/* Badge at top */}
+      <div className="absolute -top-2 left-3 z-10">
+        <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider text-emerald-400 border border-emerald-500/30 bg-emerald-950/30 backdrop-blur-sm shadow-sm">
+          ✓ On-chain
+        </span>
+      </div>
+      
       <div
-        className="flex items-center gap-3 px-3 py-2.5 rounded-lg border border-zinc-800/40 group-hover:border-zinc-700/60 transition-colors duration-150"
+        className="flex items-center gap-3 px-3 py-2.5 rounded-lg border border-emerald-500/20 group-hover:border-emerald-500/40 transition-colors duration-150 shadow-sm"
         style={{ background: 'rgba(24,24,27,0.5)' }}
       >
         {/* Left: dashed receipt edge + icon */}
@@ -507,13 +533,20 @@ function InferenceCard({ receipt: r, index, nested, defaultExpanded }: { receipt
           ${nested ? 'py-1.5 px-2' : 'py-2 px-3'}`}
         style={!nested ? { animation: `rc-fade 0.25s ease-out ${delay}ms both` } : undefined}
       >
+        {/* Badge at top */}
+        <div className="absolute -top-2 left-3 z-10">
+          <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider text-purple-400 border border-purple-500/30 bg-purple-950/30 backdrop-blur-sm shadow-sm">
+            ⚡ LLM Cost
+          </span>
+        </div>
+        
         <div
-          className="flex items-center gap-3 px-3 py-2.5 rounded-lg border border-purple-500/10 group-hover:border-purple-500/25 transition-colors duration-150"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-lg border border-purple-500/30 group-hover:border-purple-500/50 transition-colors duration-150 shadow-sm"
           style={{ background: 'rgba(168,85,247,0.03)' }}
         >
           {/* Left: dashed edge + icon */}
           <div className="flex items-center gap-2.5 shrink-0">
-            <div className="w-px h-8 border-l border-dashed border-purple-500/30" />
+            <div className="w-px h-8 border-l border-dashed border-purple-500/40" />
             <div
               className="h-7 w-7 rounded flex items-center justify-center"
               style={{ background: COLOR.inference.bg }}

@@ -34,6 +34,7 @@ export interface Receipt {
   toAgent?: AgentInfo
   notes?: string       // additional context (for inference receipts, etc)
   modelInfo?: ModelInfo // for LLM inference receipts
+  receiptType?: 'onchain' | 'inference' // distinguishes on-chain USDC from inference costs
 }
 
 export interface AgentIdentity {

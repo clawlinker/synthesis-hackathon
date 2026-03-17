@@ -88,6 +88,9 @@ interface EnrichedReceipt {
   toAgent?: { id: number; name: string; ens?: string; avatar?: string }
 }
 
+// Add receiptType field to distinguish on-chain from inference receipts
+type ReceiptWithMetadata = Receipt & { receiptType?: 'onchain' | 'inference' }
+
 function enrichReceiptWithAgentData(tx: { from: string; to: string }): Partial<EnrichedReceipt> {
   const fromAgent = resolveAgent(tx.from)
   const toAgent = resolveAgent(tx.to)
@@ -140,6 +143,7 @@ function loadInferenceReceiptsFromLog(): Receipt[] {
           service: `Bankr LLM — ${entry.action || entry.phase || 'inference'} (${entry.model.split('/')[1] || 'unknown'})`,
           agentId: AGENT.id.toString(),
           notes: `phase:${entry.phase || 'unknown'}|${entry.description || 'LLM-powered autonomous operation'}`,
+          receiptType: 'inference' as const,
         }
       })
     
@@ -166,6 +170,7 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
     const walletParam = url.searchParams.get('wallet')
     const chainParam = url.searchParams.get('chain') as ChainKey | null
     const includeInference = url.searchParams.get('inference') !== 'false' // default to true
+    const receiptTypeFilter = url.searchParams.get('type') as 'onchain' | 'inference' | null
     
     // Determine which chain to use
     const chain: ChainKey = chainParam || 'base'
@@ -254,6 +259,7 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
             toLabel: labelAddress(to),
             fromAgent: agentData.fromAgent,
             toAgent: agentData.toAgent,
+            receiptType: 'onchain' as const,
           } as Receipt
         })
       } catch (fetchErr) {
@@ -304,7 +310,7 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
           const service = r.service || getServiceFromTx({ from: r.from, to: r.to }, wallet)
           const fromLabel = r.fromLabel || labelAddress(r.from.toLowerCase())
           const toLabel = r.toLabel || labelAddress(r.to.toLowerCase())
-          return { ...r, fromAgent: agentData.fromAgent, toAgent: agentData.toAgent, service, fromLabel, toLabel }
+          return { ...r, fromAgent: agentData.fromAgent, toAgent: agentData.toAgent, service, fromLabel, toLabel, receiptType: 'onchain' }
         })
       } else {
         dataSource = 'sample'
@@ -323,18 +329,37 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
       if (inferenceReceipts.length === 0) {
         inferenceReceipts = sampleInferenceReceipts
       }
+      
+      // Add receiptType to sample inference receipts if missing
+      inferenceReceipts.forEach(r => {
+        if (!r.receiptType) {
+          r.receiptType = 'inference'
+        }
+      })
     }
     
     // Combine and sort all receipts
     const combinedReceipts = [...allReceipts, ...inferenceReceipts]
     combinedReceipts.sort((a, b) => b.timestamp - a.timestamp)
     
-    if (combinedReceipts.length > 0) {
+    // Filter by receipt type if requested
+    if (receiptTypeFilter === 'onchain') {
+      allReceipts = allReceipts.filter(r => r.receiptType === 'onchain')
+      inferenceReceipts = []
+    } else if (receiptTypeFilter === 'inference') {
+      allReceipts = []
+      inferenceReceipts = inferenceReceipts.filter(r => r.receiptType === 'inference')
+    }
+    
+    // Re-combine after filtering
+    const filteredReceipts = [...allReceipts, ...inferenceReceipts]
+    
+    if (filteredReceipts.length > 0) {
       const sourceLabel = dataSource === 'live' ? 'live+inference'
         : dataSource === 'cached' ? 'cached+inference'
         : 'sample+inference'
       return NextResponse.json({ 
-        receipts: combinedReceipts, 
+        receipts: filteredReceipts, 
         source: sourceLabel,
         hasInferenceReceipts: includeInference && inferenceReceipts.length > 0,
       }, { 
@@ -353,6 +378,7 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
         ...r,
         fromAgent: fromAgent ? { id: fromAgent.id, name: fromAgent.name, ens: fromAgent.ens, avatar: fromAgent.avatar } : undefined,
         toAgent: toAgent ? { id: toAgent.id, name: toAgent.name, ens: toAgent.ens, avatar: toAgent.avatar } : undefined,
+        receiptType: 'onchain' as const,
       }
     })
     
@@ -377,6 +403,13 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
       inferenceReceipts = sampleInferenceReceipts
     }
     
+    // Add receiptType if missing
+    inferenceReceipts.forEach(r => {
+      if (!r.receiptType) {
+        r.receiptType = 'inference'
+      }
+    })
+    
     const enrichedReceipts = [...sampleReceipts, ...inferenceReceipts].map(r => {
       const fromAgent = resolveAgent(r.from)
       const toAgent = resolveAgent(r.to)
@@ -384,8 +417,10 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
         ...r,
         fromAgent: fromAgent ? { id: fromAgent.id, name: fromAgent.name, ens: fromAgent.ens, avatar: fromAgent.avatar } : undefined,
         toAgent: toAgent ? { id: toAgent.id, name: toAgent.name, ens: toAgent.ens, avatar: toAgent.avatar } : undefined,
+        receiptType: r.receiptType || (r.tokenSymbol === 'USDC' ? 'onchain' : 'inference'),
       }
     })
+    
     return NextResponse.json({ 
       receipts: enrichedReceipts, 
       source: inferenceReceipts.length > 0 ? 'sample+inference' : 'sample',
@@ -409,6 +444,7 @@ function timeoutFallback(): NextResponse {
       ...r,
       fromAgent: fromAgent ? { id: fromAgent.id, name: fromAgent.name, ens: fromAgent.ens, avatar: fromAgent.avatar } : undefined,
       toAgent: toAgent ? { id: toAgent.id, name: toAgent.name, ens: toAgent.ens, avatar: toAgent.avatar } : undefined,
+      receiptType: r.tokenSymbol === 'USDC' ? 'onchain' : 'inference',
     }
   })
   return NextResponse.json({
