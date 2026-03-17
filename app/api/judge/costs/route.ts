@@ -13,13 +13,17 @@ export async function GET() {
     }
 
     for (const entry of entries) {
+      const model = entry.model || ''
       const cost = entry.model_cost_usd || 0
+
+      // Only count Bankr model costs (not OpenClaw's internal Opus/Sonnet usage)
+      if (!model.startsWith('bankr/')) continue
+
       breakdown.total += cost
 
       const phase = entry.phase || 'unknown'
       breakdown.byPhase[phase] = (breakdown.byPhase[phase] || 0) + cost
 
-      const model = entry.model || 'unknown'
       breakdown.byModel[model] = (breakdown.byModel[model] || 0) + cost
 
       // Use cron field if present (for cron-specific log entries), otherwise use action
