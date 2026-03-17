@@ -55,6 +55,7 @@ export default function JudgeModePage() {
   const [costs, setCosts] = useState<CostBreakdown | null>(null)
   const [commits, setCommits] = useState<GitCommit[]>([])
   const [loading, setLoading] = useState(true)
+  const [fetchError, setFetchError] = useState<string | null>(null)
   const [selectedCron, setSelectedCron] = useState<string>('all')
   const [selectedPhase, setSelectedPhase] = useState<string>('all')
 
@@ -62,11 +63,15 @@ export default function JudgeModePage() {
     async function fetchData() {
       try {
         setLoading(true)
+        setFetchError(null)
         const [logRes, costRes, commitsRes] = await Promise.all([
           fetch('/api/judge/log'),
           fetch('/api/judge/costs'),
           fetch('/api/build-log/commits'),
         ])
+        if (!logRes.ok || !costRes.ok || !commitsRes.ok) {
+          throw new Error(`API error: log=${logRes.status} costs=${costRes.status} commits=${commitsRes.status}`)
+        }
         const [logData, costData, commitsData] = await Promise.all([logRes.json(), costRes.json(), commitsRes.json()])
         setLogEntries(logData.entries || [])
         setCosts(costData.breakdown || null)
@@ -80,6 +85,7 @@ export default function JudgeModePage() {
         })))
       } catch (err) {
         console.error(err)
+        setFetchError(err instanceof Error ? err.message : 'Failed to load judge data')
       } finally {
         setLoading(false)
       }
@@ -203,6 +209,19 @@ export default function JudgeModePage() {
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-8">
+      {/* Error banner */}
+      {fetchError && (
+        <div className="mb-6 flex items-start gap-3 rounded-xl border border-red-500/20 bg-red-500/5 px-4 py-3 text-sm text-red-400">
+          <svg className="mt-0.5 h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-2.194-.833-2.964 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z" />
+          </svg>
+          <div>
+            <p className="font-medium">Some data could not be loaded</p>
+            <p className="mt-0.5 text-xs text-red-400/70">{fetchError} — data below may be incomplete</p>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <section className="mb-12 text-center space-y-4">
         <Badge variant="outline" className="gap-2 border-usdc/30 text-usdc">
