@@ -406,6 +406,12 @@ export default function JudgeModePage() {
 
                   <p className="mb-3 text-sm text-muted-foreground leading-relaxed">{entry.description}</p>
 
+                  {entry.decision && (
+                    <p className="mb-3 text-xs text-zinc-600 italic line-clamp-2" title={entry.decision}>
+                      <span className="not-italic text-zinc-700 font-medium">Reasoning: </span>{entry.decision}
+                    </p>
+                  )}
+
                   <div className="flex flex-wrap gap-1.5">
                     {(entry.tools_used || []).map((tool) => (
                       <Badge key={tool} variant="secondary" className="text-[10px]">{tool}</Badge>
