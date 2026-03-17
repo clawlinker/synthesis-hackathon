@@ -199,13 +199,21 @@ export default function Home() {
               params.set('chain', selectedChain)
               window.history.pushState({}, '', `${window.location.pathname}?${params.toString()}`)
             }}
-            className={`rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors ${
+            className={`rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors flex items-center gap-1.5 ${
               selectedWallet === agent.wallet
                 ? 'bg-zinc-700 text-zinc-100'
                 : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
             }`}
+            title={agent.wallet}
           >
-            {agent.name}
+            {agent.avatar && (
+              <img
+                src={agent.avatar}
+                alt={`${agent.name} avatar`}
+                className="h-3.5 w-3.5 rounded-full object-cover"
+              />
+            )}
+            <span>{agent.name}</span>
           </button>
         ))}
       </div>
