@@ -62,10 +62,10 @@ export default function JudgeModePage() {
         setLogEntries(logData.entries || [])
         setCosts(costData.breakdown || null)
         const rawCommits = commitsData.commits || []
-        setCommits(rawCommits.slice(0, 20).map((c: { sha: string; author: string; date: string; message: string }) => ({
+        setCommits(rawCommits.slice(0, 20).map((c: { sha: string; author: string; date: string; message: string; avatar_url?: string }) => ({
           sha: c.sha,
           message: c.message,
-          author: { login: c.author, avatar_url: '' },
+          author: { login: c.author, avatar_url: c.avatar_url || '' },
           date: c.date,
           html_url: `https://github.com/clawlinker/synthesis-hackathon/commit/${c.sha}`,
         })))
