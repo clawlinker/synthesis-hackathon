@@ -98,7 +98,6 @@ export function HeroSection({ stats, source }: { stats: HeroStats; source: strin
             {/* ENS badge */}
             <span className="inline-flex items-center gap-1 text-[10px] font-mono text-emerald-400 bg-emerald-950/30 px-1.5 py-0.5 rounded border border-emerald-500/20">
               {AGENT.ens}
-              <span className="text-emerald-500/70">.eth</span>
             </span>
           </div>
           <div className="flex items-center gap-2 text-xs text-zinc-500 mt-1">
