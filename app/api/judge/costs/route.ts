@@ -22,7 +22,7 @@ export async function GET() {
       const model = entry.model || 'unknown'
       breakdown.byModel[model] = (breakdown.byModel[model] || 0) + cost
 
-      const cron = entry.cron || 'main-session'
+      const cron = entry.action || 'main-session'
       breakdown.byCron[cron] = (breakdown.byCron[cron] || 0) + cost
     }
 
