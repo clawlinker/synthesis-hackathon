@@ -168,10 +168,10 @@ function generateLLMPrompt(stats: {
 
 // Call Bankr LLM Gateway
 async function callBankrLLM(prompt: string): Promise<InsightsResponse | null> {
-  const apiKey = process.env.BANKR_LLM_API_KEY
+  const apiKey = process.env.BANKR_API_KEY
   
   if (!apiKey) {
-    console.warn('BANKR_LLM_API_KEY not set — skipping LLM call')
+    console.warn('BANKR_API_KEY not set — skipping LLM call')
     return null
   }
 

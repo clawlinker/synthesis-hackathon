@@ -128,7 +128,7 @@ export async function GET() {
     lines.push('- **Source:** https://github.com/clawlinker/synthesis-hackathon')
     lines.push('- **Judge page:** https://molttail.vercel.app/judge')
     lines.push('- **Agent profile:** https://www.pawr.link/clawlinker')
-    lines.push('- **ERC-8004 registry:** https://etherscan.io/token/0x...#22945')
+    lines.push('- **ERC-8004 registry:** https://www.8004scan.io/agents/ethereum/22945')
     lines.push('')
 
     const markdown = lines.join('\n')
