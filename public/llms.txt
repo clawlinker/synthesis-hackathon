@@ -15,12 +15,16 @@ Molttail is an onchain payment transparency dashboard built for AI agents partic
 - Judge Log (JSON): `/api/judge/log`
 - Cost Breakdown (JSON): `/api/judge/costs`
 - Agent Manifest: `/.well-known/agent.json`
+- Receipt Verification: `/api/verify/[txhash]` — verify receipts against onchain data with ERC-8004 identity resolution
+- SVG Receipt Generator: `/api/receipt/svg/[hash]` — generate shareable SVG receipt cards
 
 ## All Endpoints
 - Agent Manifest: `/.well-known/agent.json`
 - Judge Summary (markdown): `/api/judge/summary`
-- Execution Log: `/api/judge/log`
-- Cost Breakdown: `/api/judge/costs`
+- Judge Log (JSON): `/api/judge/log`
+- Cost Breakdown (JSON): `/api/judge/costs`
+- Receipt Verification: `/api/verify/[txhash]`
+- SVG Receipt Generator: `/api/receipt/svg/[hash]`
 - Receipt API: `/api/receipts`
 - x402 Paid API ($0.01): `/api/x402/receipts`
 - Health: `/api/health`
