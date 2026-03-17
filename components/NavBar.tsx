@@ -20,7 +20,7 @@ export default function NavBar() {
 
   return (
     <nav className="sticky top-0 z-50 border-b border-zinc-800/40 bg-zinc-950/80 backdrop-blur-xl">
-      <div className="mx-auto flex h-12 max-w-2xl items-center justify-between px-4">
+      <div className="mx-auto flex h-12 max-w-6xl items-center justify-between px-4">
         {/* Logo */}
         <Link href="/" className="group flex items-center gap-2">
           {/* Logo mark — receipt icon */}
