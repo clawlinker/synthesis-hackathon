@@ -12,6 +12,16 @@ import {
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 
+// Helper to calculate autonomous hours from log entries
+function calculateAutonomousHours(entries: AgentLogEntry[]): number {
+  if (entries.length === 0) return 0
+  const timestamps = entries.map(e => new Date(e.timestamp).getTime())
+  const minTime = Math.min(...timestamps)
+  const maxTime = Math.max(...timestamps)
+  const diffMs = maxTime - minTime
+  return diffMs / (1000 * 60 * 60) // Convert ms to hours
+}
+
 type AgentLogEntry = {
   timestamp: string
   phase: string
@@ -252,36 +262,21 @@ export default function JudgeModePage() {
             </svg>
           </div>
           <div className="space-y-2 text-sm">
-            <p className="font-semibold text-zinc-100">What you&apos;re looking at</p>
-            <p className="text-zinc-400 leading-relaxed">
-              This page was built by the same AI agent being evaluated — Clawlinker (ERC-8004 #22945).
-              Every commit, every LLM call, and every USDC payment below happened during the hackathon.
-              The data is live and self-referential: the agent built the tool that tracks itself building itself.
-            </p>
-            <div className="flex flex-wrap gap-x-6 gap-y-1 pt-1 text-xs text-zinc-500">
-              <span>
-                <span className="font-semibold text-zinc-300">↓ Cost Breakdown</span> — real Bankr LLM credits spent
-              </span>
-              <span>
-                <span className="font-semibold text-zinc-300">↓ Build Timeline</span> — git commits from autonomous crons
-              </span>
-              <span>
-                <span className="font-semibold text-zinc-300">↓ Execution Log</span> — per-action agent decisions
-              </span>
+            <p className="font-semibold text-zinc-100">For Judges</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-6 text-xs text-zinc-400">
+              <div><span className="font-semibold text-zinc-200">What:</span> Onchain receipt dashboard for AI agents</div>
+              <div><span className="font-semibold text-zinc-200">Who:</span> Clawlinker (ERC-8004 #22945, clawlinker.eth)</div>
+              <div><span className="font-semibold text-zinc-200">How:</span> 5 autonomous crons, 4 Bankr LLM models, x402 payments</div>
+              <div><span className="font-semibold text-zinc-200">Tracks:</span> ERC-8004 ($8K), Agent Cook ($8K), Bankr LLM ($5K), AgentCash ($1.75K)</div>
             </div>
-            {/* Machine-readable API for agentic judges */}
-            <div className="mt-3 flex items-center gap-2 rounded-lg border border-zinc-700/50 bg-zinc-900/60 px-3 py-2">
-              <svg className="h-3.5 w-3.5 shrink-0 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-              </svg>
-              <span className="text-xs text-zinc-500">
-                <span className="font-semibold text-zinc-300">AI judges:</span>{' '}
-                machine-readable summary at{' '}
-                <a href="/api/judge/summary" target="_blank" rel="noopener noreferrer" className="font-mono text-usdc hover:underline">
-                  /api/judge/summary
-                </a>
-                {' '}(Markdown — tracks, costs, agent log, commits)
-              </span>
+            <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-zinc-400">
+              <a href="/api/judge/summary" target="_blank" rel="noopener noreferrer" className="text-usdc hover:underline font-medium">
+                machine-readable summary
+              </a>
+              <span>•</span>
+              <a href="https://github.com/clawlinker/synthesis-hackathon" target="_blank" rel="noopener noreferrer" className="text-usdc hover:underline font-medium">
+                source on GitHub
+              </a>
             </div>
           </div>
         </div>
@@ -289,12 +284,12 @@ export default function JudgeModePage() {
 
       {/* Stats Overview */}
       {costs && (
-        <div className="mb-12 grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <div className="mb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
             { label: 'Total LLM Cost', value: `$${costs.total.toFixed(2)}`, accent: true },
-            { label: 'Total Actions', value: `${logEntries.length}` },
-            { label: 'Phases Active', value: `${Object.keys(costs.byPhase || {}).length}` },
-            { label: 'Models Used', value: `${Object.keys(costs.byModel || {}).length}` },
+            { label: 'Git Commits', value: `${commits.length}`, accent: false },
+            { label: 'Autonomous Hours', value: `${logEntries.length > 0 ? calculateAutonomousHours(logEntries).toFixed(1) : '0'}`, accent: false },
+            { label: 'Models Used', value: `${Object.keys(costs.byModel || {}).length}`, accent: false },
           ].map((stat) => (
             <Card key={stat.label}>
               <CardContent className="p-6">
@@ -307,6 +302,26 @@ export default function JudgeModePage() {
           ))}
         </div>
       )}
+
+      {/* Quick Verify Section */}
+      <div className="mb-10 flex flex-wrap items-center gap-2">
+        <span className="text-sm text-muted-foreground mr-1">Verify:</span>
+        <a href="/.well-known/agent.json" target="_blank" rel="noopener noreferrer" className="inline-flex items-center rounded-full border border-usdc/30 bg-usdc/5 px-3 py-1 text-xs font-medium text-usdc hover:bg-usdc/10 transition-colors">
+          agent.json
+        </a>
+        <a href="https://www.8004scan.io/agents/ethereum/22945" target="_blank" rel="noopener noreferrer" className="inline-flex items-center rounded-full border border-usdc/30 bg-usdc/5 px-3 py-1 text-xs font-medium text-usdc hover:bg-usdc/10 transition-colors">
+          ERC-8004 #22945
+        </a>
+        <a href="/api/x402/receipts" target="_blank" rel="noopener noreferrer" className="inline-flex items-center rounded-full border border-usdc/30 bg-usdc/5 px-3 py-1 text-xs font-medium text-usdc hover:bg-usdc/10 transition-colors">
+          x402 Endpoint
+        </a>
+        <a href="https://github.com/clawlinker/synthesis-hackathon" target="_blank" rel="noopener noreferrer" className="inline-flex items-center rounded-full border border-usdc/30 bg-usdc/5 px-3 py-1 text-xs font-medium text-usdc hover:bg-usdc/10 transition-colors">
+          GitHub
+        </a>
+        <a href="/llms.txt" target="_blank" rel="noopener noreferrer" className="inline-flex items-center rounded-full border border-usdc/30 bg-usdc/5 px-3 py-1 text-xs font-medium text-usdc hover:bg-usdc/10 transition-colors">
+          llms.txt
+        </a>
+      </div>
 
       {/* Filter Controls */}
       <div className="mb-8 flex flex-wrap items-center gap-3">
