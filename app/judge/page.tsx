@@ -407,7 +407,7 @@ export default function JudgeModePage() {
                   <p className="mb-3 text-sm text-muted-foreground leading-relaxed">{entry.description}</p>
 
                   <div className="flex flex-wrap gap-1.5">
-                    {entry.tools_used.map((tool) => (
+                    {(entry.tools_used || []).map((tool) => (
                       <Badge key={tool} variant="secondary" className="text-[10px]">{tool}</Badge>
                     ))}
                     <Badge variant="secondary" className="text-[10px]">
@@ -421,16 +421,16 @@ export default function JudgeModePage() {
                     )}
                   </div>
 
-                  {entry.artifacts.length > 0 && (
+                  {(entry.artifacts?.length ?? 0) > 0 && (
                     <>
                       <Separator className="my-3" />
                       <div className="flex flex-wrap items-center gap-2 text-xs">
                         <span className="text-muted-foreground">Artifacts:</span>
-                        {entry.artifacts.slice(0, 3).map((artifact, idx) => (
+                        {(entry.artifacts || []).slice(0, 3).map((artifact, idx) => (
                           <span key={idx} className="text-usdc cursor-pointer hover:underline">{artifact}</span>
                         ))}
-                        {entry.artifacts.length > 3 && (
-                          <span className="text-muted-foreground">+{entry.artifacts.length - 3} more</span>
+                        {(entry.artifacts?.length ?? 0) > 3 && (
+                          <span className="text-muted-foreground">+{(entry.artifacts?.length ?? 0) - 3} more</span>
                         )}
                       </div>
                     </>

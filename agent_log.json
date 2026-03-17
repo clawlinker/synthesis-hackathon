@@ -468,7 +468,8 @@
       "app/api/receipts/route.ts",
       "app/types.ts",
       "components/ReceiptCard.tsx"
-    ]
+    ],
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T01:35:07Z",
@@ -522,7 +523,8 @@
       "session_cost_usd": 0.001,
       "daily_budget_usd": 0.5,
       "remaining_usd": 189.92
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T03:00:51Z",
@@ -543,7 +545,8 @@
       "session_cost_usd": 0.001,
       "daily_budget_usd": 0.5,
       "remaining_usd": 189.91
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T03:30:38Z",
@@ -560,7 +563,8 @@
     "outcome": "success",
     "artifacts": [
       "agent.json"
-    ]
+    ],
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T04:01:28Z",
@@ -582,7 +586,8 @@
       "session_cost_usd": 0.01,
       "daily_budget_usd": 0.5,
       "remaining_usd": 188.89
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T04:30:46Z",
@@ -598,7 +603,8 @@
     "outcome": "success",
     "artifacts": [
       "app/page.tsx"
-    ]
+    ],
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T05:01:54Z",
@@ -636,7 +642,8 @@
     "artifacts": [
       "app/api/receipt/svg/[hash]/route.ts",
       "app/api/receipts/route.ts"
-    ]
+    ],
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T05:30:49Z",
@@ -654,7 +661,8 @@
     "artifacts": [
       "app/api/receipt/svg/[hash]/route.ts",
       "app/api/receipts/route.ts"
-    ]
+    ],
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T06:02:24Z",
@@ -673,7 +681,8 @@
     "artifacts": [
       "SUBMISSION.md",
       "AUTONOMOUS-LOOP.md"
-    ]
+    ],
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T06:32:37Z",
@@ -690,7 +699,8 @@
     "outcome": "success",
     "artifacts": [
       "SUBMISSION.md"
-    ]
+    ],
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T08:03:33Z",
@@ -714,7 +724,8 @@
       "session_cost_usd": 0.001,
       "daily_budget_usd": 0.5,
       "remaining_usd": 188.86
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T08:31:59Z",
@@ -734,7 +745,8 @@
       "data/inference-receipts.ts",
       "app/api/receipts/route.ts",
       "app/api/receipt/svg/[hash]/route.ts"
-    ]
+    ],
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T09:04:15Z",
@@ -753,7 +765,8 @@
       "tests/receipt-api.test.ts",
       "tests/data-models.test.ts",
       "tests/README.md"
-    ]
+    ],
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T09:31:50Z",
@@ -771,7 +784,8 @@
     "artifacts": [
       "components/ReceiptCard.tsx",
       "app/page.tsx"
-    ]
+    ],
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T10:00:00Z",
@@ -844,7 +858,8 @@
       "session_cost_usd": 0.001,
       "daily_budget_usd": 0.5,
       "remaining_usd": 188.84
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T12:31:35Z",
@@ -868,7 +883,8 @@
       "bankr_balance_before": 187.15,
       "bankr_balance_after": 187.13,
       "session_cost": 0.02
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T13:03:09Z",
@@ -894,7 +910,8 @@
       "bankr_balance_before": 187.05,
       "bankr_balance_after": 186.99,
       "session_cost": 0.06
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T13:16:30Z",
@@ -916,7 +933,8 @@
       "bankr_balance_before": 186.92,
       "bankr_balance_after": 186.9,
       "session_cost": 0.01
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T13:31:24Z",
@@ -940,7 +958,8 @@
       "bankr_balance_before": 186.76,
       "bankr_balance_after": 186.73,
       "session_cost": 0.03
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T13:45:00Z",
@@ -963,7 +982,8 @@
       "bankr_balance_before": 186.67,
       "bankr_balance_after": 186.64,
       "session_cost": 0.03
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T14:22:47Z",
@@ -985,7 +1005,8 @@
       "bankr_balance_before": 186.5,
       "bankr_balance_after": 186.32,
       "session_cost": 0.18000000000000682
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T14:31:11Z",
@@ -1008,7 +1029,8 @@
       "bankr_balance_before": 186.5,
       "bankr_balance_after": 186.14,
       "session_cost": 0.18000000000000682
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T15:18:48Z",
@@ -1035,7 +1057,8 @@
       "bankr_balance_before": 185.91,
       "bankr_balance_after": 185.82,
       "session_cost": 0.09
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T15:30:22Z",
@@ -1058,7 +1081,8 @@
       "bankr_balance_before": 185.68,
       "bankr_balance_after": 185.67,
       "session_cost": 0.01
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T15:45:00Z",
@@ -1081,7 +1105,8 @@
       "bankr_balance_before": 185.55,
       "bankr_balance_after": 185.49,
       "session_cost": 0.06
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T16:00:37Z",
@@ -1106,7 +1131,8 @@
       "bankr_balance_before": 185.45,
       "bankr_balance_after": 185.45,
       "session_cost": 0.01
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T16:17:46Z",
@@ -1136,7 +1162,8 @@
       "bankr_balance_before": 185.23,
       "bankr_balance_after": 185.18,
       "session_cost": 0.05
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T16:33:21Z",
@@ -1192,7 +1219,8 @@
       "bankr_balance_before": 184.91,
       "bankr_balance_after": 184.83,
       "session_cost": 0.08
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T17:30:00Z",
@@ -1214,7 +1242,8 @@
       "bankr_balance_before": 184.65,
       "bankr_balance_after": 184.63,
       "session_cost": 0.19
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T17:47:05Z",
@@ -1238,7 +1267,8 @@
       "bankr_balance_before": 184.58,
       "bankr_balance_after": 184.55,
       "session_cost": 0.03
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T18:01:19Z",
@@ -1269,7 +1299,8 @@
       "bankr_balance_before": 184.51,
       "bankr_balance_after": 184.49,
       "session_cost": 0.02
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T18:15:45Z",
@@ -1289,7 +1320,8 @@
       "DECISIONS.md",
       "AUTONOMOUS-LOOP.md",
       "REVIEW-LOG.md"
-    ]
+    ],
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T18:30:00Z",
@@ -1313,7 +1345,8 @@
       "bankr_balance_before": 184.31,
       "bankr_balance_after": 184.28,
       "session_cost": 0.03
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T18:48:48Z",
@@ -1334,7 +1367,8 @@
       "bankr_balance_before": 184.22,
       "bankr_balance_after": 184.13,
       "session_cost": 0.09
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T19:01:25Z",
@@ -1357,7 +1391,8 @@
       "bankr_balance_before": 183.92,
       "bankr_balance_after": 183.91,
       "session_cost": 0.01
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T19:20:38Z",
@@ -1383,7 +1418,8 @@
       "bankr_balance_before": 183.19,
       "bankr_balance_after": 182.96,
       "session_cost": 0.23
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T19:22:26Z",
@@ -1409,7 +1445,8 @@
       "bankr_balance_before": 183.19,
       "bankr_balance_after": 182.85,
       "session_cost": 0.34
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T19:31:52Z",
@@ -1433,7 +1470,8 @@
       "bankr_balance_before": 182.42,
       "bankr_balance_after": 182.38,
       "session_cost": 0.04
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T19:47:37Z",
@@ -1458,7 +1496,8 @@
       "bankr_balance_before": 182.32,
       "bankr_balance_after": 182.23,
       "session_cost": 0.09
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T20:08:19Z",
@@ -1484,7 +1523,8 @@
       "bankr_balance_before": 181.79,
       "bankr_balance_after": 181.73,
       "session_cost": 0.06
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T20:17:37Z",
@@ -1508,7 +1548,8 @@
       "bankr_balance_before": 181.59,
       "bankr_balance_after": 181.51,
       "session_cost": 0.08
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T20:34:17Z",
@@ -1531,7 +1572,8 @@
       "bankr_balance_before": 181.36,
       "bankr_balance_after": 181.26,
       "session_cost": 0.1
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T20:47:03Z",
@@ -1554,7 +1596,8 @@
       "bankr_balance_before": 181.22,
       "bankr_balance_after": 181.17,
       "session_cost": 0.05
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T20:48:02Z",
@@ -1578,7 +1621,8 @@
       "bankr_balance_before": 181.17,
       "bankr_balance_after": 181.12,
       "session_cost": 0.05
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T21:01:16Z",
@@ -1603,7 +1647,8 @@
       "bankr_balance_after": 180.99,
       "session_cost_usd": 0.02,
       "commit": "c352cdf"
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T21:17:36Z",
@@ -1654,7 +1699,8 @@
       "bankr_balance_before": 180.46,
       "bankr_balance_after": 180.44,
       "session_cost": 0.04
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T21:46:20Z",
@@ -1678,7 +1724,8 @@
       "bankr_balance_before": 180.44,
       "bankr_balance_after": 180.17,
       "session_cost": 0.02
-    }
+    },
+    "commit": ""
   },
   {
     "timestamp": "2026-03-15T21:56:25Z",
@@ -1698,7 +1745,8 @@
       "data/cached-receipts.json",
       "agent_log.json",
       ".gitignore"
-    ]
+    ],
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T00:35:28Z",
@@ -1713,7 +1761,10 @@
       "edit",
       "exec"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Receipt card visual polish \u2014 amount typography, verified dots, 4 competing design iterations",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T00:42:48Z",
@@ -1728,7 +1779,10 @@
       "edit",
       "exec"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Receipt cards iter 2-5: inference improvements, humanized tasks, phase badges, detail page, sharing, OG tags, smart sorting, sticky headers",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T01:03:11Z",
@@ -1742,7 +1796,10 @@
       "write",
       "edit"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Final receipt cards: best-of-breed composition from 4 competing designs using Refactoring UI principles",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T01:08:02Z",
@@ -1755,7 +1812,10 @@
       "read",
       "edit"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Spacing pass using Refactoring UI principles \u2014 more breathing room across all card types",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T01:54:00Z",
@@ -1768,7 +1828,10 @@
       "read",
       "edit"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Clean wallet filter labels: remove address slug, rename Bankr (Clawlinker) \u2192 Bankr",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T02:21:30Z",
@@ -1781,7 +1844,10 @@
       "read",
       "exec"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Remove dead code: ReceiptCard variants A/B/C/E/ORIGINAL, test file, unused types",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T02:40:57Z",
@@ -1795,7 +1861,10 @@
       "write",
       "edit"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Receipt paper view: thermal printer aesthetic, perforated edges, click-to-expand animation",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T02:59:42Z",
@@ -1808,7 +1877,10 @@
       "read",
       "edit"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Receipt paper: clickable tx hash + View Receipt link to detail page",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T03:05:54Z",
@@ -1822,7 +1894,10 @@
       "write",
       "edit"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Mini receipt stubs: each row is a tiny receipt card with dashed edge + icon",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T03:09:09Z",
@@ -1835,7 +1910,10 @@
       "read",
       "edit"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Fix inference provider detection: Anthropic API for claude models, Bankr for qwen/deepseek",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T03:13:29Z",
@@ -1848,7 +1926,10 @@
       "read",
       "edit"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Accurate verification badges: distinguish on-chain vs off-chain receipts",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T03:18:39Z",
@@ -1862,7 +1943,10 @@
       "write",
       "edit"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "New hero section: stats-driven with animated counters, judge-ready presentation",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T03:24:44Z",
@@ -1875,7 +1959,10 @@
       "read",
       "edit"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Animated counters re-trigger when data arrives after initial load",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T03:30:51Z",
@@ -1889,7 +1976,10 @@
       "write",
       "edit"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Level up navbar: glassmorphic effect, logo mark, Base badge, icon links",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T03:35:40Z",
@@ -1902,7 +1992,10 @@
       "read",
       "edit"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Refine navbar using Refero MCP research patterns",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T03:59:37Z",
@@ -1915,7 +2008,10 @@
       "read",
       "edit"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Navbar icon fix, remove double selected state, match content width",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T04:04:03Z",
@@ -1928,7 +2024,10 @@
       "read",
       "edit"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Add chain field to receipts, fix network label (Base not Base 8453) and explorer links",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T04:26:48Z",
@@ -1941,7 +2040,10 @@
       "read",
       "edit"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Add LLM inference section divider in receipt feed",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T04:41:46Z",
@@ -1955,7 +2057,10 @@
       "edit",
       "exec"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Lazy-init x402 to avoid build-time facilitator failures on Vercel serverless",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T04:44:22Z",
@@ -1969,7 +2074,10 @@
       "edit",
       "exec"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Replace fs.readFileSync with static imports for Vercel compat (costs, judge, build-log)",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T05:03:35Z",
@@ -1982,7 +2090,10 @@
       "read",
       "edit"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Use correct Blockscout v2 /transactions/{hash} endpoint for SVG receipts",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T10:01:32Z",
@@ -1995,7 +2106,10 @@
       "read",
       "edit"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Add missing verify and cron phases to Judge page filter dropdown",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T10:24:36Z",
@@ -2008,7 +2122,10 @@
       "read",
       "exec"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Remove dead code: unused AgentHeader component + unused imports",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T11:04:44Z",
@@ -2021,7 +2138,10 @@
       "read",
       "edit"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Add nav links to AppFooter (Receipts, Judge Mode, Build Log, Costs, GitHub)",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T11:45:01Z",
@@ -2034,7 +2154,10 @@
       "read",
       "edit"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "CopyLinkButton layout fix \u2014 remove col-span-2, match share button style",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T12:03:55Z",
@@ -2047,7 +2170,10 @@
       "read",
       "edit"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Correct GitHub commit URLs in Build Log page (base-designer \u2192 clawlinker)",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T12:25:14Z",
@@ -2060,7 +2186,10 @@
       "read",
       "exec"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Remove dead code: CHAIN_ID/ETH_CHAIN_ID/AgentKey from types, TableFooter/TableCaption from table.tsx",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T12:29:49Z",
@@ -2073,7 +2202,10 @@
       "read",
       "edit"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Animate accordion chevron with CSS rotation instead of icon swap",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T12:31:36Z",
@@ -2087,7 +2219,10 @@
       "edit",
       "exec"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "x402 endpoint: disable syncFacilitatorOnStart, add error handling for Vercel serverless",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T12:34:39Z",
@@ -2101,7 +2236,10 @@
       "edit",
       "exec"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "x402 endpoint: manual 402 gate, fix em-dash in header causing ByteString error",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T12:36:54Z",
@@ -2114,7 +2252,10 @@
       "read",
       "edit"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Filter inference to Bankr models only (remove Anthropic API receipts), hide LLM costs by default",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T12:41:02Z",
@@ -2127,7 +2268,10 @@
       "read",
       "edit"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Rename x402 Payout \u2192 x402 Payment for clarity",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T14:59:15Z",
@@ -2141,7 +2285,10 @@
       "edit",
       "exec"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Show actual time (HH:MM) on receipt cards instead of redundant date \u2014 receipts already grouped by day",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T15:55:56Z",
@@ -2155,7 +2302,10 @@
       "edit",
       "exec"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Enrich cached receipts with service labels + address labels, manual Vercel production deploy",
+    "commit": ""
   },
   {
     "timestamp": "2026-03-16T16:44:00Z",
@@ -2170,6 +2320,9 @@
       "edit",
       "exec"
     ],
-    "outcome": "success"
+    "outcome": "success",
+    "artifacts": [],
+    "decision": "Judge readiness audit, COLLAB.md to repo root with Mar 16 updates, README hackathon artifacts section, fix SUBMISSION.md live URL",
+    "commit": ""
   }
 ]
