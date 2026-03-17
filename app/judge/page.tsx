@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -86,6 +87,20 @@ export default function JudgeModePage() {
   if (loading && !logEntries.length) {
     return (
       <main className="mx-auto max-w-6xl px-4 py-8">
+        {/* Top nav */}
+        <div className="mb-8 flex items-center justify-between">
+          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Receipts
+          </Link>
+          <nav className="flex items-center gap-4 text-xs text-muted-foreground">
+            <Link href="/build-log" className="hover:text-foreground transition-colors">Build Log</Link>
+            <Link href="/costs" className="hover:text-foreground transition-colors">Costs</Link>
+            <a href="https://github.com/clawlinker/synthesis-hackathon" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">GitHub</a>
+          </nav>
+        </div>
         {/* Header skeleton */}
         <section className="mb-12 text-center space-y-4">
           <Skeleton className="h-6 w-56 mx-auto rounded-full" />
@@ -193,6 +208,21 @@ export default function JudgeModePage() {
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-8">
+      {/* Top nav */}
+      <div className="mb-8 flex items-center justify-between">
+        <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
+          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          Receipts
+        </Link>
+        <nav className="flex items-center gap-4 text-xs text-muted-foreground">
+          <Link href="/build-log" className="hover:text-foreground transition-colors">Build Log</Link>
+          <Link href="/costs" className="hover:text-foreground transition-colors">Costs</Link>
+          <a href="https://github.com/clawlinker/synthesis-hackathon" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors">GitHub</a>
+        </nav>
+      </div>
+
       {/* Header */}
       <section className="mb-12 text-center space-y-4">
         <Badge variant="outline" className="gap-2 border-usdc/30 text-usdc">
