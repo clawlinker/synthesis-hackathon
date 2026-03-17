@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import agentLogRaw from '@/agent_log.json'
 
 // In-memory cache for Bankr API costs (1 hour TTL)
 let bankrCostCache: { data: any; expiresAt: number } | null = null
@@ -32,8 +33,7 @@ export async function GET() {
 
     if (!bankrData) {
       // Fallback to agent_log estimates if Bankr API unavailable
-      const agentLogRaw = await import('@/agent_log.json')
-      const entries = agentLogRaw.default as any[]
+      const entries = agentLogRaw as any[]
       const breakdown = { total: 0, byModel: {} as Record<string, number>, byPhase: {} as Record<string, number>, byCron: {} as Record<string, number> }
       for (const entry of entries) {
         const model = entry.model || ''
