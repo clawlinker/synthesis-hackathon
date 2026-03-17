@@ -104,6 +104,7 @@ async function fetchForWallet({ wallet, agentId }) {
         status: 'confirmed',
         tokenSymbol: 'USDC',
         tokenDecimal: decimals,
+        chain: 'base', // All receipts fetched from Base chain via Blockscout
         agentId,
         service: getServiceFromTx(from, to, wallet),
         fromLabel: labelAddress(from),
