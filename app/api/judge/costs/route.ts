@@ -16,7 +16,7 @@ export async function GET() {
       const model = entry.model || ''
       const cost = entry.model_cost_usd || 0
 
-      // Only count Bankr model costs (not OpenClaw's internal Opus/Sonnet usage)
+      // Count ALL Bankr model costs (not just hackathon-specific)
       if (!model.startsWith('bankr/')) continue
 
       breakdown.total += cost
@@ -26,7 +26,7 @@ export async function GET() {
 
       breakdown.byModel[model] = (breakdown.byModel[model] || 0) + cost
 
-      // Use cron field if present (for cron-specific log entries), otherwise use action
+      // Use cron field if present, otherwise use action
       const cron = entry.cron || entry.action || 'main-session'
       breakdown.byCron[cron] = (breakdown.byCron[cron] || 0) + cost
     }
