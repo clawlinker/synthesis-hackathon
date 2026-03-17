@@ -130,11 +130,12 @@ export function HeroSection({ stats, source }: { stats: HeroStats; source: strin
         <a
           href="/judge"
           className="group flex items-center gap-1.5 rounded-full border border-usdc/25 bg-usdc/5 px-3 py-1 text-xs font-medium text-usdc hover:border-usdc/50 hover:bg-usdc/10 transition-all"
+          title="See how Molttail was built autonomously: LLM costs, build timeline, agent logs"
         >
           <svg className="h-3 w-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          Judge Mode
+          How I Built This →
         </a>
       </div>
     </section>
