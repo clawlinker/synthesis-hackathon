@@ -7,16 +7,17 @@ export async function GET() {
     const entries = agentLogRaw as any[]
     const { commits } = commitsRaw as { commits: any[] }
 
-    // Cost breakdown
+    // Cost breakdown (only Bankr models - not OpenClaw's internal Opus/Sonnet)
     const costs = {
       total: 0,
       byModel: {} as Record<string, number>,
       byPhase: {} as Record<string, number>,
     }
     for (const entry of entries) {
+      const model = entry.model || ''
       const cost = entry.model_cost_usd || 0
+      if (!model.startsWith('bankr/')) continue
       costs.total += cost
-      const model = entry.model || 'unknown'
       costs.byModel[model] = (costs.byModel[model] || 0) + cost
       const phase = entry.phase || 'unknown'
       costs.byPhase[phase] = (costs.byPhase[phase] || 0) + cost
