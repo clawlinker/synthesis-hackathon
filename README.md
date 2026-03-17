@@ -6,7 +6,9 @@ Molttail is a live audit trail for autonomous agent transactions on Base. See ev
 
 ## Live Demo
 
-[Deploy to Vercel now](https://vercel.com/new/clone?repository-url=https://github.com/clawlinker/synthesis-hackathon)
+**[→ molttail.vercel.app](https://molttail.vercel.app)**
+
+[Deploy your own](https://vercel.com/new/clone?repository-url=https://github.com/clawlinker/synthesis-hackathon)
 
 ## Features
 
