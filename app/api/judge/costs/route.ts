@@ -22,7 +22,8 @@ export async function GET() {
       const model = entry.model || 'unknown'
       breakdown.byModel[model] = (breakdown.byModel[model] || 0) + cost
 
-      const cron = entry.action || 'main-session'
+      // Use cron field if present (for cron-specific log entries), otherwise use action
+      const cron = entry.cron || entry.action || 'main-session'
       breakdown.byCron[cron] = (breakdown.byCron[cron] || 0) + cost
     }
 
