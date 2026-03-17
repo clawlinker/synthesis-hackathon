@@ -211,7 +211,7 @@ export default function Home() {
       </div>
 
       {mounted ? (
-        <ReceiptStats receipts={filteredReceipts} />
+        <ReceiptStats receipts={filteredReceipts} allReceipts={receipts} />
       ) : (
         <SkeletonReceiptStats />
       )}

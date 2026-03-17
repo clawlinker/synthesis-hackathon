@@ -3,7 +3,7 @@
 import { type Receipt, AGENT } from '@/app/types'
 import { useEffect, useState } from 'react'
 
-export function ReceiptStats({ receipts }: { receipts: Receipt[] }) {
+export function ReceiptStats({ receipts, allReceipts }: { receipts: Receipt[]; allReceipts?: Receipt[] }) {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -13,7 +13,10 @@ export function ReceiptStats({ receipts }: { receipts: Receipt[] }) {
   if (receipts.length === 0) return null
 
   const usdcReceipts = receipts.filter((r) => r.tokenSymbol === 'USDC')
-  const inferenceReceipts = receipts.filter((r) => r.tokenSymbol === 'USD')
+  // Use allReceipts for inference cost so LLM Costs always reflects reality,
+  // even when the inference toggle is off in the feed.
+  const inferencePool = allReceipts ?? receipts
+  const inferenceReceipts = inferencePool.filter((r) => r.tokenSymbol === 'USD')
 
   // x402 revenue: USDC received to the x402 wallet only (real earned income)
   const x402Revenue = usdcReceipts
