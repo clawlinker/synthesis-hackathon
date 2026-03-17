@@ -8,7 +8,7 @@ const navLinks = [
   { href: '/', label: 'Receipts' },
   { href: '/costs', label: 'LLM Costs' },
   { href: '/build-log', label: 'Build Log' },
-  { href: '/judge', label: 'Judge' },
+  { href: '/judge', label: 'Judge Mode' },
 ]
 
 export default function NavBar() {
