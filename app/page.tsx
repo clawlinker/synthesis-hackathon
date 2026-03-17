@@ -339,7 +339,7 @@ export default function Home() {
                       type="number"
                       placeholder="0"
                       min="0"
-                      step="0.01"
+                      step="0.001"
                       value={filters.minAmount}
                       onChange={(e) => setFilters((f) => ({ ...f, minAmount: e.target.value }))}
                       className="h-7 text-xs"
@@ -351,7 +351,7 @@ export default function Home() {
                       type="number"
                       placeholder="∞"
                       min="0"
-                      step="0.01"
+                      step="0.001"
                       value={filters.maxAmount}
                       onChange={(e) => setFilters((f) => ({ ...f, maxAmount: e.target.value }))}
                       className="h-7 text-xs"
