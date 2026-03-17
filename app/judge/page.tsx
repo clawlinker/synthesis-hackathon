@@ -314,11 +314,16 @@ export default function JudgeModePage() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Phases</SelectItem>
-            <SelectItem value="discover">discover</SelectItem>
-            <SelectItem value="plan">plan</SelectItem>
-            <SelectItem value="execute">execute</SelectItem>
-            <SelectItem value="verify">verify</SelectItem>
+            <SelectItem value="build">build</SelectItem>
+            <SelectItem value="cleanup">cleanup</SelectItem>
             <SelectItem value="cron">cron</SelectItem>
+            <SelectItem value="deploy">deploy</SelectItem>
+            <SelectItem value="discover">discover</SelectItem>
+            <SelectItem value="execute">execute</SelectItem>
+            <SelectItem value="plan">plan</SelectItem>
+            <SelectItem value="polish">polish</SelectItem>
+            <SelectItem value="submit">submit</SelectItem>
+            <SelectItem value="verify">verify</SelectItem>
           </SelectContent>
         </Select>
       </div>
