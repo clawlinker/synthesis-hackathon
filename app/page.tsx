@@ -7,6 +7,7 @@ import { HeroSection } from '@/components/HeroSection'
 import { ReceiptStats } from '@/components/ReceiptStats'
 import { SkeletonReceiptCard } from '@/components/SkeletonReceiptCard'
 import { SkeletonReceiptStats } from '@/components/SkeletonReceiptStats'
+import { InsightsCard } from '@/components/InsightsCard'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent } from '@/components/ui/card'
@@ -137,6 +138,13 @@ export default function Home() {
   return (
     <main className="mx-auto max-w-2xl px-4 py-6">
       <HeroSection stats={heroStats} source={source} />
+
+      {/* Insights Card - Only show if data loads successfully */}
+      {source !== 'loading' && !error && (
+        <div className="mt-6">
+          <InsightsCard />
+        </div>
+      )}
 
       {error && (
         <Card className="border-destructive/50 bg-destructive/10 my-4">
