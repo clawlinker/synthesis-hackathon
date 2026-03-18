@@ -451,8 +451,8 @@ export default function JudgeModePage() {
                   <p className="mb-3 text-sm text-muted-foreground leading-relaxed">{entry.description}</p>
 
                   {entry.decision && (
-                    <p className="mb-3 text-xs text-zinc-600 italic line-clamp-2" title={entry.decision}>
-                      <span className="not-italic text-zinc-700 font-medium">Reasoning: </span>{entry.decision}
+                    <p className="mb-3 text-xs text-zinc-500 italic" title={entry.decision}>
+                      <span className="not-italic text-zinc-400 font-medium">Reasoning: </span>{entry.decision}
                     </p>
                   )}
 
