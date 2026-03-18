@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
 import agentLogRaw from '@/agent_log.json'
 
-// In-memory cache for Bankr API costs (1 hour TTL)
+// In-memory cache for Bankr API costs (24 hour TTL)
 let bankrCostCache: { data: any; expiresAt: number } | null = null
-const CACHE_TTL = 60 * 60 * 1000
+const CACHE_TTL = 24 * 60 * 60 * 1000
 
 async function fetchBankrCosts() {
   // Return cache if fresh

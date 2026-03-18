@@ -52,8 +52,8 @@ export function ReceiptStats({ receipts, allReceipts }: { receipts: Receipt[]; a
       accent: 'text-zinc-100',
     },
     {
-      label: 'LLM Costs',
-      value: `$${inferenceCost.toFixed(3)}`,
+      label: 'LLM Payments',
+      value: `$${inferenceCost.toFixed(2)}`,
       trend: null,
       accent: 'text-zinc-100',
     },

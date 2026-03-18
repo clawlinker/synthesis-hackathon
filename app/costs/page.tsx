@@ -49,7 +49,7 @@ export default function CostsPage() {
 
   if (loading) {
     return (
-      <main className="mx-auto max-w-5xl px-4 py-8">
+      <main className="mx-auto max-w-2xl px-4 py-6">
         <div className="mb-8">
           <h1 className="text-3xl font-bold tracking-tight mb-2">LLM Cost Transparency</h1>
           <Skeleton className="h-5 w-96 mb-2" />
@@ -143,7 +143,7 @@ export default function CostsPage() {
 
   if (!data) {
     return (
-      <main className="mx-auto max-w-5xl px-4 py-8">
+      <main className="mx-auto max-w-2xl px-4 py-6">
         <h1 className="text-3xl font-bold tracking-tight mb-2">LLM Cost Transparency</h1>
         <Card className="border-destructive/50 bg-destructive/10">
           <CardContent className="p-8 text-center text-destructive">Failed to load cost data</CardContent>
@@ -153,7 +153,7 @@ export default function CostsPage() {
   }
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-8">
+    <main className="mx-auto max-w-2xl px-4 py-6">
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight mb-2">LLM Cost Transparency</h1>
         <p className="text-muted-foreground">

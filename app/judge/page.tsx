@@ -290,7 +290,7 @@ export default function JudgeModePage() {
       {costs && (
         <div className="mb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { label: 'Total LLM Cost', value: `$${costs.total.toFixed(2)}`, accent: true },
+            { label: 'Total LLM Cost', value: `$${Number(costs.total || 0).toFixed(2)}`, accent: true },
             { label: 'Git Commits', value: `${totalCommits || commits.length}`, accent: false },
             { label: 'Autonomous Hours', value: `${logEntries.length > 0 ? calculateAutonomousHours(logEntries).toFixed(1) : '0'}`, accent: false },
             { label: 'Models Used', value: `${Object.keys(costs.byModel || {}).length}`, accent: false },
@@ -458,7 +458,7 @@ export default function JudgeModePage() {
                       {entry.model.split('/')[1] || entry.model}
                     </Badge>
                     <Badge variant="outline" className="border-usdc/30 text-usdc text-[10px]">
-                      ${entry.model_cost_usd.toFixed(4)}
+                      ${Number(entry.model_cost_usd || 0).toFixed(4)}
                     </Badge>
                     {entry.commit && (
                       <Badge variant="secondary" className="font-mono text-[10px]">{entry.commit}</Badge>
@@ -518,7 +518,7 @@ export default function JudgeModePage() {
                     return (
                       <div key={key} className="flex items-center justify-between text-sm">
                         <span className="truncate text-muted-foreground" title={key}>{displayKey}</span>
-                        <span className="font-mono tabular-nums">${(cost as number).toFixed(4)}</span>
+                        <span className="font-mono tabular-nums">${Number(cost || 0).toFixed(4)}</span>
                       </div>
                     )
                   })}
