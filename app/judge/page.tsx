@@ -39,7 +39,7 @@ type AgentLogEntry = {
   decision: string
   outcome: string
   artifacts: string[]
-  commit: string
+  commit?: string
 }
 
 type CostBreakdown = {
