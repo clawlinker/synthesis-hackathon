@@ -461,8 +461,8 @@ export default function Home() {
 
           return nonEmptyGroups.map((group) => (
             <div key={group.date}>
-              {/* Day header — sticky below nav bar (top-11 = 44px nav height) */}
-              <div className="sticky top-11 z-10 mb-1.5 flex items-center gap-3 py-1 backdrop-blur-sm">
+              {/* Day header — sticky below nav bar (top-12 = 48px = h-12 nav height) */}
+              <div className="sticky top-12 z-10 mb-1.5 flex items-center gap-3 py-1 backdrop-blur-sm">
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 shrink-0">
                   {group.label}
                 </span>
