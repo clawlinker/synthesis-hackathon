@@ -347,16 +347,20 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
     combinedReceipts.sort((a, b) => b.timestamp - a.timestamp)
     
     // Filter by receipt type if requested
+    let filteredReceipts: Receipt[] = []
+    let onchainReceipts = allReceipts
+    let inferenceReceiptsFiltered = inferenceReceipts
+    
     if (receiptTypeFilter === 'onchain') {
-      allReceipts = allReceipts.filter(r => r.receiptType === 'onchain')
-      inferenceReceipts = []
+      onchainReceipts = allReceipts.filter(r => r.receiptType === 'onchain')
+      inferenceReceiptsFiltered = []
     } else if (receiptTypeFilter === 'inference') {
-      allReceipts = []
-      inferenceReceipts = inferenceReceipts.filter(r => r.receiptType === 'inference')
+      onchainReceipts = []
+      inferenceReceiptsFiltered = inferenceReceipts.filter(r => r.receiptType === 'inference')
     }
     
     // Re-combine after filtering
-    const filteredReceipts = [...allReceipts, ...inferenceReceipts]
+    filteredReceipts = [...onchainReceipts, ...inferenceReceiptsFiltered]
     
     if (filteredReceipts.length > 0) {
       const sourceLabel = dataSource === 'live' ? 'live+inference'
