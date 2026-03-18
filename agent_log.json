@@ -2324,5 +2324,190 @@
     "artifacts": [],
     "decision": "Judge readiness audit, COLLAB.md to repo root with Mar 16 updates, README hackathon artifacts section, fix SUBMISSION.md live URL",
     "commit": ""
+  },
+  {
+    "timestamp": "2026-03-17T00:15:00Z",
+    "phase": "polish",
+    "action": "bankr_insights_endpoint",
+    "description": "Built /api/insights endpoint calling Bankr qwen3.5-flash for natural language receipt summaries",
+    "tools_used": [
+      "read",
+      "write",
+      "edit",
+      "exec"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.08,
+    "decision": "Address Bankr track weakness \u2014 LLM now used in product, not just build",
+    "outcome": "success",
+    "artifacts": [
+      "app/api/insights/route.ts",
+      "components/InsightsCard.tsx"
+    ]
+  },
+  {
+    "timestamp": "2026-03-17T01:30:00Z",
+    "phase": "polish",
+    "action": "bankr_url_fix",
+    "description": "Fixed Bankr LLM endpoint URL from llm.bankr.app to llm.bankr.bot (SSL issue on .app)",
+    "tools_used": [
+      "exec",
+      "edit"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "decision": "Debug SSL error, found correct endpoint in openclaw.json",
+    "outcome": "success",
+    "artifacts": [
+      "app/api/insights/route.ts"
+    ]
+  },
+  {
+    "timestamp": "2026-03-17T02:00:00Z",
+    "phase": "polish",
+    "action": "ens_integration",
+    "description": "ENS integration \u2014 .eth names on receipt cards, clawlinker.eth badge, /api/ens endpoint, agent.json update",
+    "tools_used": [
+      "read",
+      "write",
+      "edit",
+      "exec"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.12,
+    "decision": "Max spotted ENS bounty track ($1,700) \u2014 natural fit for receipt dashboard",
+    "outcome": "success",
+    "artifacts": [
+      "data/config.ts",
+      "components/ReceiptCard.tsx",
+      "components/HeroSection.tsx",
+      "app/api/ens/[name]/route.ts"
+    ]
+  },
+  {
+    "timestamp": "2026-03-17T03:00:00Z",
+    "phase": "polish",
+    "action": "costs_real_bankr_api",
+    "description": "Rewrote /api/judge/costs to pull LIVE data from Bankr API instead of agent_log estimates (were 10x too low)",
+    "tools_used": [
+      "exec",
+      "edit"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.03,
+    "decision": "Max checked Bankr dashboard \u2014 $9.72 on Mar 15 alone vs our $2.86 total estimate",
+    "outcome": "success",
+    "artifacts": [
+      "app/api/judge/costs/route.ts"
+    ]
+  },
+  {
+    "timestamp": "2026-03-17T04:00:00Z",
+    "phase": "polish",
+    "action": "nav_width_fix",
+    "description": "Fixed nav width to match content width on desktop (max-w-6xl \u2192 max-w-2xl)",
+    "tools_used": [
+      "edit"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "decision": "Max flagged header too wide after ENS changes",
+    "outcome": "success",
+    "artifacts": [
+      "components/NavBar.tsx"
+    ]
+  },
+  {
+    "timestamp": "2026-03-17T17:00:00Z",
+    "phase": "submit",
+    "action": "api_key_security_audit",
+    "description": "Verified BANKR_API_KEY not leaked in any committed file, git history, or .env",
+    "tools_used": [
+      "exec"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "decision": "Security check before submission",
+    "outcome": "success",
+    "artifacts": []
+  },
+  {
+    "timestamp": "2026-03-17T18:00:00Z",
+    "phase": "submit",
+    "action": "devfolio_draft_submission",
+    "description": "Created draft project on Devfolio API \u2014 6 tracks, all metadata, deployed URL, cover image",
+    "tools_used": [
+      "exec"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.02,
+    "decision": "Draft now, publish closer to deadline",
+    "outcome": "success",
+    "artifacts": [
+      ".internal/publish-checklist.md"
+    ]
+  },
+  {
+    "timestamp": "2026-03-17T18:15:00Z",
+    "phase": "submit",
+    "action": "self_custody_transfer",
+    "description": "Completed ERC-8004 self-custody transfer \u2014 agent #28805 now owned by x402 wallet",
+    "tools_used": [
+      "exec"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "decision": "Required before publishing",
+    "outcome": "success",
+    "artifacts": [],
+    "commit": "basescan:0xb7e7a0c0"
+  },
+  {
+    "timestamp": "2026-03-17T18:30:00Z",
+    "phase": "submit",
+    "action": "agents_md",
+    "description": "Created AGENTS.md for agentic judges \u2014 endpoints, architecture, key files",
+    "tools_used": [
+      "write",
+      "exec"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.02,
+    "decision": "Builder guide says agentic judges look for AGENTS.md",
+    "outcome": "success",
+    "artifacts": [
+      "AGENTS.md"
+    ]
+  },
+  {
+    "timestamp": "2026-03-17T19:00:00Z",
+    "phase": "submit",
+    "action": "collab_md_rewrite",
+    "description": "Rewrote COLLAB.md as narrative collaboration story \u2014 real pivots, tensions, breakthroughs",
+    "tools_used": [
+      "write",
+      "exec"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.04,
+    "decision": "Judges evaluate conversationLog \u2014 needed real story, not table dump",
+    "outcome": "success",
+    "artifacts": [
+      "COLLAB.md"
+    ]
+  },
+  {
+    "timestamp": "2026-03-17T19:15:00Z",
+    "phase": "submit",
+    "action": "moltbook_post",
+    "description": "Posted Molttail announcement on Moltbook, linked to Devfolio submission",
+    "tools_used": [
+      "exec"
+    ],
+    "model": "bankr/qwen3-coder",
+    "model_cost_usd": 0.01,
+    "decision": "Submission field moltbookPostURL \u2014 optional but easy",
+    "outcome": "success",
+    "artifacts": []
   }
 ]
