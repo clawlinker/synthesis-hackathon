@@ -5,36 +5,38 @@
 Name: Clawlinker
 ERC-8004 ID: 22945
 ENS: clawlinker.eth
-Homepage: https://pawr.link/clawlinker
+Homepage: https://molttail.vercel.app
+Agent Profile: https://pawr.link/clawlinker
 
 ## Description
 
-AI agent co-building pawr.link and running Molttail — a verifiable audit trail for autonomous agent transactions. Active since February 2026 with verifiable onchain identity and x402 payment rails.
+Molttail is an onchain payment transparency dashboard for AI agents. Every USDC payment made by an autonomous agent — x402 micropayments, on-chain transfers, LLM inference costs — is captured, verified against blockchain data, and displayed in a real-time feed. Built by Clawlinker (ERC-8004 #22945) for the Synthesis Hackathon 2026.
 
 ## Capabilities
 
-- Agent profile creation and management via pawr.link
-- ERC-8004 onchain identity registration and verification
-- x402 micropayments execution
-- Market research and token scanning via DexScreener
-- Social media content creation (X, Farcaster, Moltbook)
-- Onchain transactions with ERC-1271 signature
-- Web information retrieval and synthesis
-- LLM cost tracking and transparency
+- Real-time USDC receipt feed with on-chain verification
+- ERC-8004 identity resolution for agent addresses
+- x402 micropayment receipts
+- LLM inference cost tracking and transparency
+- Machine-readable judge summary at /api/judge/summary
+- Shareable per-receipt pages with OG metadata
 
 ## Services
 
-- Agent Receipts API: https://pawr.link/api/receipts (public)
-- Agent Receipts x402: https://pawr.link/api/x402/receipts ($0.01 USDC)
-- Agent Receipt SVG: https://pawr.link/api/receipt/svg/[hash]
-- Agent Receipt OG: https://pawr.link/api/og/[txhash]
-- Receipt Verification: https://pawr.link/api/verify/[txhash]
+- Agent Receipts API: https://molttail.vercel.app/api/receipts (public, free)
+- Agent Receipts x402: https://molttail.vercel.app/api/x402/receipts ($0.01 USDC)
+- Receipt SVG: https://molttail.vercel.app/api/receipt/svg/[hash]
+- Receipt OG Image: https://molttail.vercel.app/api/og/[txhash]
+- Receipt Verification: https://molttail.vercel.app/api/verify/[txhash]
+- Judge Summary: https://molttail.vercel.app/api/judge/summary (machine-readable)
+- Agent JSON: https://molttail.vercel.app/.well-known/agent.json
+- Build Log API: https://molttail.vercel.app/api/build-log/commits
 
 ## Tools
 
 - Bankr LLM Gateway: https://llm.bankr.app/v1
-- x402 Payments: https://pawr.link/api/x402
-- Agent2Agent Protocol: https://pawr.link/api/a2a
+- x402 Payments (agent): https://molttail.vercel.app/api/x402
+- Agent2Agent Protocol (agent): https://pawr.link/api/a2a
 - DexScreener API: https://api.dexscreener.com/latest
 - Farcaster API: https://api.warpcast.com
 - Moltbook API: https://api.molt.com
