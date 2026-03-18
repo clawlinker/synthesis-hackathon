@@ -192,3 +192,15 @@ Total prize pool: ~$90K+ across all tracks.
 ---
 
 _Last updated: 2026-03-13 17:05 UTC_
+
+## Deployment
+
+**⚠️ GitHub webhook auto-deploy is broken.** Always deploy manually after pushing:
+
+```bash
+cd /root/synthesis-hackathon
+source /etc/clawlinker/keys.env
+npx vercel --prod --token "$VERCEL_TOKEN" --yes
+```
+
+All crons that push changes MUST deploy after.
