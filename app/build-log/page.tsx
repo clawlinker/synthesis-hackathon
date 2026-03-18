@@ -248,6 +248,7 @@ export default function BuildLogPage() {
                 <div className="flex items-end gap-1.5 h-20">
                   {histogram.map((d) => (
                     <div key={d.date} className="flex flex-col items-center gap-1 flex-1 min-w-0">
+                      <span className="text-[10px] font-mono text-zinc-400 tabular-nums">{d.count > 0 ? d.count : ''}</span>
                       <div
                         className="w-full rounded-t transition-all"
                         style={{
