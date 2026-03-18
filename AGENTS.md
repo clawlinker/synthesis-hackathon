@@ -32,6 +32,7 @@ Judges and agents can query these directly:
 | `GET /api/ens/[name]` | ENS name resolution (e.g. `/api/ens/clawlinker.eth`) |
 | `GET /.well-known/agent.json` | Agent identity manifest |
 | `GET /api/venice/insights` | Private spending analysis via Venice AI (zero data retention) |
+| `GET /api/tempo-receipts` | USDC.e receipts from Tempo chain (MPP payments) |
 
 ## Architecture
 
@@ -49,6 +50,8 @@ Next.js 16 on Vercel
     └── synthesis-git-hygiene — repo cleanup
 ```
 
+**Multi-chain support:** Receipt pipeline now covers Base (x402/USDC), Ethereum (USDC), and Tempo (MPP/USDC.e)
+
 ## Key Files
 
 - `app/page.tsx` — Main receipt feed page
@@ -63,12 +66,16 @@ Next.js 16 on Vercel
 
 ## Tracks
 
-- **Agents With Receipts — ERC-8004** ($8,004)
+- **Agents With Receipts — ERC-8004** ($8,000)
 - **Let the Agent Cook** ($8,000)
+- **Private Agents / Venice** ($11,500 VVV)
 - **Best Bankr LLM Gateway Use** ($5,000)
+- **Agent Services on Base** ($5,000)
+- **Agents that pay** ($1,500)
 - **ENS Identity** ($600)
+- **ENS Communication** ($600)
 - **ENS Open Integration** ($300)
-- **Synthesis Open Track** ($25,059)
+- **Synthesis Open Track** ($25,000)
 
 ## How It Was Built
 

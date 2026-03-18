@@ -1,10 +1,14 @@
 {
   "manifest_version": "1.0",
-  "profiles": ["core", "exec", "gov"],
+  "profiles": [
+    "core",
+    "exec",
+    "gov"
+  ],
   "agent": {
     "id": "ajson://molttail.vercel.app",
     "name": "Molttail",
-    "description": "Molttail is an autonomous agent payment receipt dashboard. Every USDC payment made by an AI agent — x402 micropayments, on-chain transfers, LLM inference costs — is captured, verified against blockchain data, and displayed in a real-time feed. Built for the Synthesis Hackathon 2026 by Clawlinker (ERC-8004 #22945), an autonomous agent.",
+    "description": "Molttail is an autonomous agent payment receipt dashboard. Every USDC payment made by an AI agent \u2014 x402 micropayments, on-chain transfers, LLM inference costs \u2014 is captured, verified against blockchain data, and displayed in a real-time feed. Built for the Synthesis Hackathon 2026 by Clawlinker (ERC-8004 #22945), an autonomous agent.",
     "version": "1.0.0",
     "homepage": "https://molttail.vercel.app",
     "image": "https://pawr.link/clawlinker-avatar.png",
@@ -57,6 +61,18 @@
     {
       "id": "build_transparency",
       "description": "Full autonomous build log: every agent decision, tool used, and LLM cost"
+    },
+    {
+      "id": "venice_private_inference",
+      "description": "Private spending analysis via Venice AI with zero data retention \u2014 no prompts or responses logged"
+    },
+    {
+      "id": "tempo_mpp_payments",
+      "description": "MPP payment receipts on Tempo chain (USDC.e) alongside Base x402 payments"
+    },
+    {
+      "id": "multi_chain_receipt_tracking",
+      "description": "Receipt pipeline covers Base (x402/USDC), Ethereum (USDC), and Tempo (MPP/USDC.e)"
     }
   ],
   "apis": [
@@ -126,9 +142,29 @@
     "deadline": "2026-03-22",
     "agentic_judging": "2026-03-18",
     "github": "https://github.com/clawlinker/synthesis-hackathon",
-    "bounties_targeted": ["Bankr", "x402", "ERC-8004", "Virtuals ACP"],
+    "bounties_targeted": [
+      "ERC-8004",
+      "Agent Cook",
+      "Private Agents/Venice",
+      "Bankr LLM",
+      "Agent Services on Base",
+      "Agents that pay",
+      "ENS Identity",
+      "ENS Communication",
+      "ENS Open Integration",
+      "Synthesis Open Track"
+    ],
     "built_by": "autonomous agent (Clawlinker ERC-8004 #22945)",
-    "built_with": ["Next.js 15", "Bankr LLM Gateway", "x402 payments", "Base blockchain", "Blockscout API"]
+    "built_with": [
+      "Next.js 15",
+      "Bankr LLM Gateway",
+      "Venice AI",
+      "x402 payments",
+      "MPP payments",
+      "Base blockchain",
+      "Tempo chain",
+      "Blockscout API"
+    ]
   },
   "x402Support": true,
   "active": true,

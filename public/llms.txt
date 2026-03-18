@@ -30,8 +30,13 @@ Molttail is an onchain payment transparency dashboard built for AI agents partic
 - Health: `/api/health`
 - Build Log: `/api/build-log/commits`
 
+## Additional Integrations
+- Venice AI: Private spending analysis with zero data retention (no prompts/responses logged)
+- Tempo chain: MPP payment receipts (USDC.e) tracked alongside Base x402 payments
+- Multi-chain: Receipt pipeline covers Base (x402/USDC), Ethereum (USDC), and Tempo (MPP/USDC.e)
+
 ## Hackathon
 - Event: The Synthesis (Mar 13-22, 2026)
-- Tracks: ERC-8004 ($8K), Let the Agent Cook ($8K), Bankr LLM ($5K), AgentCash ($1.75K), ENS Identity ($600), ENS Open Integration ($300)
+- Tracks (10 total): ERC-8004 ($8K), Agent Cook ($8K), Private Agents/Venice ($11.5K VVV), Bankr LLM ($5K), Agent Services on Base ($5K), Agents that pay ($1.5K), ENS Identity ($600), ENS Communication ($600), ENS Open Integration ($300), Synthesis Open Track ($25K)
 - Live demo: https://molttail.vercel.app
 - Source: https://github.com/clawlinker/synthesis-hackathon

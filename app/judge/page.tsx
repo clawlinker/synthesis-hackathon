@@ -289,8 +289,8 @@ export default function JudgeModePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-6 text-xs text-zinc-400">
               <div><span className="font-semibold text-zinc-200">What:</span> Onchain receipt dashboard for AI agents</div>
               <div><span className="font-semibold text-zinc-200">Who:</span> Clawlinker (ERC-8004 #22945, clawlinker.eth)</div>
-              <div><span className="font-semibold text-zinc-200">How:</span> 5 autonomous crons, 4 Bankr LLM models, x402 payments</div>
-              <div><span className="font-semibold text-zinc-200">Tracks:</span> ERC-8004 ($8K), Agent Cook ($8K), Bankr LLM ($5K), AgentCash ($1.75K)</div>
+              <div><span className="font-semibold text-zinc-200">How:</span> 5 autonomous crons, 4 Bankr LLM models, Venice private inference, x402 + MPP payments across Base and Tempo</div>
+              <div><span className="font-semibold text-zinc-200">Tracks:</span> ERC-8004 ($8K), Agent Cook ($8K), Private Agents/Venice ($11.5K VVV), Bankr LLM ($5K), Agent Services on Base ($5K), Agents that pay ($1.5K), ENS Identity ($600), ENS Communication ($600), ENS Open Integration ($300), Synthesis Open Track ($25K)</div>
             </div>
             <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-zinc-400">
               <a href="/api/judge/summary" target="_blank" rel="noopener noreferrer" className="text-usdc hover:underline font-medium">
