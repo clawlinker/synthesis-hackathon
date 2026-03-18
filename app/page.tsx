@@ -202,11 +202,12 @@ export default function Home() {
             params.delete('chain')
             window.history.pushState({}, '', `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`)
           }}
-          className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors ${
+          className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-usdc focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 ${
             selectedChain === 'all'
               ? 'bg-zinc-700 text-zinc-100'
               : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
           }`}
+          aria-label="Filter by chain: All"
         >
           All
         </button>
@@ -219,11 +220,12 @@ export default function Home() {
               params.set('chain', key)
               window.history.pushState({}, '', `${window.location.pathname}?${params.toString()}`)
             }}
-            className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors ${
+            className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-usdc focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 ${
               selectedChain === key
                 ? 'bg-zinc-700 text-zinc-100'
                 : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
             }`}
+            aria-label={`Filter by chain: ${chain.name}`}
           >
             <span className={`h-1.5 w-1.5 rounded-full ${key === 'base' ? 'bg-success' : key === 'tempo' ? 'bg-violet-400' : 'bg-blue-400'}`} />
             {chain.name}
@@ -238,11 +240,12 @@ export default function Home() {
             params.set('chain', selectedChain)
             window.history.pushState({}, '', `${window.location.pathname}?${params.toString()}`)
           }}
-          className={`rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors ${
+          className={`rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-usdc focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 ${
             selectedWallet === null
               ? 'bg-zinc-700 text-zinc-100'
               : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
           }`}
+          aria-label="Filter by wallet: All"
         >
           All
         </button>
@@ -256,12 +259,13 @@ export default function Home() {
               params.set('chain', selectedChain)
               window.history.pushState({}, '', `${window.location.pathname}?${params.toString()}`)
             }}
-            className={`rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors flex items-center gap-1.5 ${
+            className={`rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-usdc focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 ${
               selectedWallet === agent.wallet
                 ? 'bg-zinc-700 text-zinc-100'
                 : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
             }`}
             title={agent.name}
+            aria-label={`Filter by wallet: ${agent.name}`}
           >
             {agent.avatar && (
               <img
@@ -302,7 +306,9 @@ export default function Home() {
             <button
               type="button"
               onClick={() => setShowFilters((v) => !v)}
-              className="flex items-center gap-2 text-xs text-zinc-400 hover:text-zinc-100 transition-colors"
+              className="flex items-center gap-2 text-xs text-zinc-400 hover:text-zinc-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-usdc focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 rounded"
+              aria-expanded={showFilters}
+              aria-controls="filter-panel"
             >
               <svg
                 className={`h-3 w-3 transition-transform duration-200 ${showFilters ? 'rotate-90' : ''}`}
@@ -324,11 +330,13 @@ export default function Home() {
             <button
               type="button"
               onClick={() => setShowInference((v) => !v)}
-              className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium transition-colors ${
+              className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-usdc focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 ${
                 showInference
                   ? 'bg-purple-500/15 text-purple-400 hover:bg-purple-500/25'
                   : 'bg-muted text-zinc-400 hover:bg-muted/80'
               }`}
+              aria-pressed={showInference}
+              aria-label="Toggle LLM Costs visibility"
             >
               <span className={`h-1.5 w-1.5 rounded-full ${showInference ? 'bg-purple-400' : 'bg-muted-foreground/50'}`} />
               LLM Costs

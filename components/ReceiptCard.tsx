@@ -660,9 +660,11 @@ function GroupedCard({ receipts, isInf, index }: { receipts: Receipt[]; isInf: b
 
   return (
     <div className="py-2 px-3" style={{ animation: `rc-fade 0.25s ease-out ${delay}ms both` }}>
-      <div
-        className="cursor-pointer group"
+      <button
+        type="button"
         onClick={() => setOpen(v => !v)}
+        className="w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-usdc focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+        aria-expanded={open}
       >
         <div
           className="flex items-center gap-3 px-3 py-2.5 rounded-lg border border-zinc-800/40 group-hover:border-zinc-700/60 transition-colors duration-150"
@@ -695,7 +697,7 @@ function GroupedCard({ receipts, isInf, index }: { receipts: Receipt[]; isInf: b
             <p className="text-[10px] text-zinc-600 mt-px">total</p>
           </div>
         </div>
-      </div>
+      </button>
 
       {open && (
         <div className="ml-6 mt-1 space-y-0">

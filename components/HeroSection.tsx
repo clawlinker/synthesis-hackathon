@@ -109,6 +109,7 @@ export function HeroSection({ stats, source }: { stats: HeroStats; source: strin
               rel="noopener noreferrer"
               className="text-blue-400 hover:text-blue-300 transition-colors"
               onClick={(e) => e.stopPropagation()}
+              aria-label={`View ${AGENT.name} wallet on BaseScan`}
             >
               BaseScan ↗
             </a>
@@ -119,6 +120,7 @@ export function HeroSection({ stats, source }: { stats: HeroStats; source: strin
               rel="noopener noreferrer"
               className="text-blue-400 hover:text-blue-300 transition-colors"
               onClick={(e) => e.stopPropagation()}
+              aria-label={`View ${AGENT.name} wallet on Etherscan`}
             >
               Etherscan ↗
             </a>
