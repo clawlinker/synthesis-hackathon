@@ -133,9 +133,9 @@ export default function JudgeModePage() {
         <section className="mb-12 text-center space-y-4">
           <Skeleton className="h-6 w-56 mx-auto rounded-full" />
           <Skeleton className="h-12 w-80 mx-auto" />
-          <Skeleton className="h-6 w-6 mx-auto" />
-          <Skeleton className="h-12 w-64 mx-auto" />
-          <Skeleton className="h-5 w-96 mx-auto" />
+          <Skeleton className="h-10 w-48 mx-auto" />
+          <Skeleton className="h-6 w-96 mx-auto" />
+          <Skeleton className="h-5 w-72 mx-auto" />
         </section>
 
         {/* Stats cards skeleton */}
