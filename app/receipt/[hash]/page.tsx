@@ -6,7 +6,7 @@ import { CopyLinkButton } from '@/components/CopyLinkButton'
 import { Card, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import Link from 'next/link'
-import { ArrowLeft, ArrowUpRight, ExternalLink, Shield, Share2 } from 'lucide-react'
+import { ArrowLeft, ArrowUpRight, Clock, ExternalLink, Share2, Shield } from 'lucide-react'
 
 const BLOCKSCOUT_REST_API = 'https://base.blockscout.com/api/v2'
 const BASESCAN_API = 'https://api.basescan.org/api'
@@ -192,6 +192,11 @@ function shortAddr(addr: string): string {
   return `${addr.slice(0, 6)}…${addr.slice(-4)}`
 }
 
+function truncateHash(hash: string): string {
+  if (hash.length <= 30) return hash
+  return `${hash.slice(0, 20)}…${hash.slice(-8)}`
+}
+
 function displayName(addr: string, label?: string, agent?: { name: string } | null): string {
   return agent?.name ?? label ?? shortAddr(addr)
 }
@@ -321,55 +326,6 @@ function AgentBadge({
 }
 
 // ---------------------------------------------------------------------------
-// Share buttons (server component wrappers)
-// ---------------------------------------------------------------------------
-
-function ShareSection({ receiptUrl, tx }: { receiptUrl: string; tx: TxInfo | null }) {
-  const tweetText = tx
-    ? `Agent Receipt 🤖\n\n${tx.direction === 'sent' ? '−' : '+'}${tx.amount} USDC\n${formatTs(tx.timestamp)}\n\n${receiptUrl}`
-    : `Agent Receipt 🤖\n\nVerified USDC payment from @clawlinker\n\n${receiptUrl}`
-
-  return (
-    <Card>
-      <CardContent className="p-4 space-y-3">
-        <div className="flex items-center gap-2">
-          <Share2 className="h-3.5 w-3.5 text-zinc-400" />
-          <h2 className="text-sm font-semibold text-zinc-100 uppercase tracking-wider">
-            Share this Receipt
-          </h2>
-        </div>
-        <Separator />
-        <div className="grid grid-cols-3 gap-2">
-          <a
-            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-200 py-2 px-2 text-xs font-medium transition-colors"
-          >
-            <svg className="h-3.5 w-3.5 shrink-0" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-            </svg>
-            X / Twitter
-          </a>
-          <a
-            href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(tweetText)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-200 py-2 px-2 text-xs font-medium transition-colors"
-          >
-            <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
-            </svg>
-            Farcaster
-          </a>
-          <CopyLinkButton url={receiptUrl} />
-        </div>
-      </CardContent>
-    </Card>
-  )
-}
-
-// ---------------------------------------------------------------------------
 // Page
 // ---------------------------------------------------------------------------
 
@@ -390,6 +346,10 @@ export default async function ReceiptPage({
   const amountColor = isSent ? 'text-red-400' : 'text-green-400'
   const amountSign = isSent ? '−' : '+'
 
+  const tweetText = tx
+    ? `Agent Receipt 🤖\n\n${tx.direction === 'sent' ? '−' : '+'}${tx.amount} USDC\n${formatTs(tx.timestamp)}\n\n${receiptUrl}`
+    : `Agent Receipt 🤖\n\nVerified USDC payment from @clawlinker\n\n${receiptUrl}`
+
   return (
     <main className="mx-auto max-w-2xl px-4 py-6">
       {/* Back navigation */}
@@ -402,7 +362,7 @@ export default async function ReceiptPage({
       </Link>
 
       {/* Header */}
-      <div className="mb-6">
+      <div className="mb-5">
         <h1 className="text-2xl font-bold tracking-tight">Agent Receipt</h1>
         <p className="text-sm text-muted-foreground mt-0.5">
           {isInference
@@ -411,175 +371,223 @@ export default async function ReceiptPage({
         </p>
       </div>
 
-      {/* ── Amount hero ── */}
-      {tx && (
-        <Card className="mb-4 overflow-hidden border-zinc-800 bg-zinc-900/60">
-          <CardContent className="p-6 flex items-center justify-between">
+      <div className="flex flex-col gap-3">
+
+        {/* ── Amount hero ── */}
+        {tx && (
+          <Card className="overflow-hidden border-zinc-800 bg-gradient-to-br from-zinc-800/80 to-zinc-900">
+            <CardContent className="p-6 flex items-center justify-between">
+              <div>
+                <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-1">Amount</p>
+                <p className={`text-5xl font-extrabold tabular-nums tracking-tight ${amountColor}`}>
+                  {amountSign}{tx.amount}
+                </p>
+                <div className="flex items-center gap-2 mt-1.5">
+                  <p className="text-sm font-semibold text-zinc-400">USDC</p>
+                  {/* Chain badge */}
+                  <span className="inline-flex items-center rounded-full bg-blue-500/10 border border-blue-500/20 px-2 py-px text-[9px] font-semibold text-blue-400 uppercase tracking-wider">
+                    Base
+                  </span>
+                </div>
+              </div>
+              <div className="text-right">
+                <span className={`text-[10px] uppercase tracking-widest font-semibold px-2 py-1 rounded-full border ${
+                  isSent
+                    ? 'bg-red-500/10 border-red-500/30 text-red-400'
+                    : 'bg-green-500/10 border-green-500/30 text-green-400'
+                }`}>
+                  {isSent ? 'Sent' : 'Received'}
+                </span>
+                {tx.timestamp > 0 && (
+                  <p className="text-[10px] text-zinc-600 mt-2 font-mono">{formatTs(tx.timestamp)}</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* ── SVG Receipt (visual) ── */}
+        {!isInference && (
+          <Card className="overflow-hidden border-zinc-800">
+            <CardContent className="p-0">
+              <div className="w-full bg-zinc-950">
+                <object
+                  data={`/api/receipt/svg/${hash}`}
+                  type="image/svg+xml"
+                  className="w-full h-auto block"
+                  style={{ minHeight: 0 }}
+                >
+                  <div className="flex items-center justify-center py-4 text-zinc-500 text-sm px-4 text-center">
+                    SVG receipt unavailable — view transaction details below
+                  </div>
+                </object>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* ── Transaction Details + Share (merged) ── */}
+        <Card className="border-zinc-800 bg-zinc-900/60 backdrop-blur-sm">
+          <CardContent className="p-4 space-y-3">
+            <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-widest">
+              Transaction Details
+            </h2>
+            <Separator />
+
+            {/* Hash */}
             <div>
-              <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-1">Amount</p>
-              <p className={`text-5xl font-extrabold tabular-nums tracking-tight ${amountColor}`}>
-                {amountSign}{tx.amount}
-              </p>
-              <p className="text-sm font-semibold text-zinc-400 mt-1">USDC on Base</p>
+              <p className="text-[10px] tracking-wider text-zinc-400 mb-1">Hash</p>
+              <div className="flex items-center gap-2">
+                <p
+                  className="font-mono text-xs text-zinc-300 flex-1 min-w-0 truncate"
+                  title={hash}
+                >
+                  {truncateHash(hash)}
+                </p>
+                <CopyLinkButton url={hash} />
+              </div>
             </div>
-            <div className="text-right">
-              <span className={`text-[10px] uppercase tracking-widest font-semibold px-2 py-1 rounded-full border ${
-                isSent
-                  ? 'bg-red-500/10 border-red-500/30 text-red-400'
-                  : 'bg-green-500/10 border-green-500/30 text-green-400'
-              }`}>
-                {isSent ? 'Sent' : 'Received'}
-              </span>
-              {tx.timestamp > 0 && (
-                <p className="text-[10px] text-zinc-600 mt-2 font-mono">{formatTs(tx.timestamp)}</p>
-              )}
+
+            {/* Block + Timestamp */}
+            {tx && (
+              <div className="grid grid-cols-2 gap-3">
+                {tx.blockNumber && (
+                  <div>
+                    <p className="text-[10px] tracking-wider text-zinc-400 mb-1">Block</p>
+                    <p className="font-mono text-xs text-zinc-300">#{tx.blockNumber}</p>
+                  </div>
+                )}
+                {tx.timestamp > 0 && (
+                  <div>
+                    <p className="text-[10px] tracking-wider text-zinc-400 mb-1">Timestamp</p>
+                    <p className="text-xs text-zinc-300">{formatTs(tx.timestamp)}</p>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* From */}
+            {tx && (
+              <div>
+                <p className="text-[10px] tracking-wider text-zinc-400 mb-1.5">From</p>
+                <AgentBadge
+                  agent={tx.fromAgent}
+                  address={tx.from}
+                  label={tx.fromLabel}
+                />
+              </div>
+            )}
+
+            {/* To */}
+            {tx && (
+              <div>
+                <p className="text-[10px] tracking-wider text-zinc-400 mb-1.5">To</p>
+                <AgentBadge
+                  agent={tx.toAgent}
+                  address={tx.to}
+                  label={tx.toLabel}
+                />
+              </div>
+            )}
+
+            {/* Service */}
+            {tx?.service && (
+              <div>
+                <p className="text-[10px] tracking-wider text-zinc-400 mb-1">Service</p>
+                <p className="text-xs text-zinc-300">{tx.service}</p>
+              </div>
+            )}
+
+            {/* No data fallback — info box with clock */}
+            {!tx && !isInference && (
+              <div className="flex items-start gap-2.5 rounded-md bg-zinc-800/60 border border-zinc-700/50 px-3 py-2.5">
+                <Clock className="h-3.5 w-3.5 text-zinc-400 mt-0.5 shrink-0" />
+                <p className="text-xs text-zinc-400">
+                  Transaction details are still indexing or unavailable. Check the explorer links below.
+                </p>
+              </div>
+            )}
+
+            {/* Explorer + Download buttons */}
+            {!isInference && (
+              <div className="flex gap-2 pt-0.5">
+                <a
+                  href={`https://base.blockscout.com/tx/${hash}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 hover:shadow-[0_0_8px_rgba(161,161,170,0.15)] text-zinc-200 py-2 px-3 text-xs font-medium transition-all"
+                >
+                  <ExternalLink className="h-3.5 w-3.5 shrink-0" />
+                  Blockscout
+                </a>
+                <a
+                  href={`https://basescan.org/tx/${hash}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 hover:shadow-[0_0_8px_rgba(161,161,170,0.15)] text-zinc-200 py-2 px-3 text-xs font-medium transition-all"
+                >
+                  <ArrowUpRight className="h-3.5 w-3.5 shrink-0" />
+                  BaseScan
+                </a>
+                <a
+                  href={`/api/receipt/svg/${hash}`}
+                  download={`receipt-${hash.slice(0, 8)}.svg`}
+                  className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 hover:shadow-[0_0_8px_rgba(161,161,170,0.15)] text-zinc-200 py-2 px-3 text-xs font-medium transition-all"
+                >
+                  <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  Download SVG
+                </a>
+              </div>
+            )}
+
+            {/* ── Share — merged inline ── */}
+            <Separator />
+            <div className="flex items-center gap-2 pt-0.5">
+              <Share2 className="h-3.5 w-3.5 text-zinc-500 shrink-0" />
+              <span className="text-[10px] uppercase tracking-wider text-zinc-500 mr-auto">Share</span>
+              <div className="flex gap-2">
+                <a
+                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 hover:shadow-[0_0_8px_rgba(161,161,170,0.15)] text-zinc-200 py-1.5 px-2.5 text-xs font-medium transition-all"
+                >
+                  <svg className="h-3 w-3 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                  X
+                </a>
+                <a
+                  href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(tweetText)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 hover:shadow-[0_0_8px_rgba(161,161,170,0.15)] text-zinc-200 py-1.5 px-2.5 text-xs font-medium transition-all"
+                >
+                  <svg className="h-3 w-3 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
+                  </svg>
+                  Farcaster
+                </a>
+                <CopyLinkButton url={receiptUrl} />
+              </div>
             </div>
           </CardContent>
         </Card>
-      )}
 
-      {/* ── SVG Receipt (visual) ── */}
-      {!isInference && (
-        <Card className="mb-4 overflow-hidden border-zinc-800">
-          <CardContent className="p-0">
-            <div className="aspect-[16/9] w-full bg-zinc-950">
-              <object
-                data={`/api/receipt/svg/${hash}`}
-                type="image/svg+xml"
-                className="w-full h-full object-contain"
-              >
-                <div className="flex items-center justify-center h-full text-zinc-500 text-sm p-8 text-center">
-                  SVG receipt unavailable — view transaction details below
-                </div>
-              </object>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* ── Transaction Details ── */}
-      <Card className="mb-4">
-        <CardContent className="p-4 space-y-4">
-          <h2 className="text-xs font-semibold text-zinc-400 uppercase tracking-widest">
-            Transaction Details
-          </h2>
-          <Separator />
-
-          {/* Hash */}
-          <div>
-            <p className="text-[10px] uppercase tracking-wider text-zinc-500 mb-1">Hash</p>
-            <div className="flex items-start gap-2">
-              <p className="break-all font-mono text-xs text-zinc-300 flex-1">{hash}</p>
-              <CopyLinkButton url={hash} />
-            </div>
-          </div>
-
-          {/* Block + Timestamp */}
-          {tx && (
-            <div className="grid grid-cols-2 gap-4">
-              {tx.blockNumber && (
-                <div>
-                  <p className="text-[10px] uppercase tracking-wider text-zinc-500 mb-1">Block</p>
-                  <p className="font-mono text-xs text-zinc-300">#{tx.blockNumber}</p>
-                </div>
-              )}
-              {tx.timestamp > 0 && (
-                <div>
-                  <p className="text-[10px] uppercase tracking-wider text-zinc-500 mb-1">Timestamp</p>
-                  <p className="text-xs text-zinc-300">{formatTs(tx.timestamp)}</p>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* From */}
-          {tx && (
-            <div>
-              <p className="text-[10px] uppercase tracking-wider text-zinc-500 mb-1.5">From</p>
-              <AgentBadge
-                agent={tx.fromAgent}
-                address={tx.from}
-                label={tx.fromLabel}
-              />
-            </div>
-          )}
-
-          {/* To */}
-          {tx && (
-            <div>
-              <p className="text-[10px] uppercase tracking-wider text-zinc-500 mb-1.5">To</p>
-              <AgentBadge
-                agent={tx.toAgent}
-                address={tx.to}
-                label={tx.toLabel}
-              />
-            </div>
-          )}
-
-          {/* Service */}
-          {tx?.service && (
-            <div>
-              <p className="text-[10px] uppercase tracking-wider text-zinc-500 mb-1">Service</p>
-              <p className="text-xs text-zinc-300">{tx.service}</p>
-            </div>
-          )}
-
-          {/* No data fallback */}
-          {!tx && !isInference && (
-            <p className="text-xs text-zinc-500 italic py-2">
-              Transaction details are still indexing or unavailable. Check the explorer links below.
-            </p>
-          )}
-
-          {/* Explorer + Download buttons */}
-          {!isInference && (
-            <div className="flex gap-2 pt-1">
-              <a
-                href={`https://base.blockscout.com/tx/${hash}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-200 py-2 px-3 text-xs font-medium transition-colors"
-              >
-                <ExternalLink className="h-3.5 w-3.5 shrink-0" />
-                Blockscout
-              </a>
-              <a
-                href={`https://basescan.org/tx/${hash}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-200 py-2 px-3 text-xs font-medium transition-colors"
-              >
-                <ArrowUpRight className="h-3.5 w-3.5 shrink-0" />
-                BaseScan
-              </a>
-              <a
-                href={`/api/receipt/svg/${hash}`}
-                download={`receipt-${hash.slice(0, 8)}.svg`}
-                className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-200 py-2 px-3 text-xs font-medium transition-colors"
-              >
-                <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-                Download SVG
-              </a>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* ── Share ── */}
-      <div className="mb-6">
-        <ShareSection receiptUrl={receiptUrl} tx={tx} />
       </div>
 
       {/* Footer */}
-      <p className="text-center text-xs text-zinc-600">
-        Molttail · Built by{' '}
-        <a href="https://pawr.link/clawlinker" className="text-zinc-500 hover:text-zinc-300 transition-colors">
-          Clawlinker
-        </a>{' '}
-        for the Synthesis Hackathon
-      </p>
+      <footer className="mt-8 pt-6 border-t border-zinc-800/60">
+        <p className="text-center text-xs text-zinc-600">
+          Molttail · Built by{' '}
+          <a href="https://pawr.link/clawlinker" className="text-zinc-500 hover:text-zinc-300 transition-colors">
+            Clawlinker
+          </a>{' '}
+          · Synthesis Hackathon 2026
+        </p>
+      </footer>
     </main>
   )
 }
