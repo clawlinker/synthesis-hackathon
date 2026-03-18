@@ -3,7 +3,8 @@ import agentLogRaw from '@/agent_log.json'
 import commitsRaw from '@/public/commits.json'
 
 // Fixed timestamp for deterministic judge summaries
-const JUDGE_SUMMARY_TIMESTAMP = '2026-03-18T16:00:00.000Z'
+// Update this when making changes to the judge summary format/content
+const JUDGE_SUMMARY_TIMESTAMP = '2026-03-18T16:07:00.000Z'
 
 export async function GET() {
   try {
