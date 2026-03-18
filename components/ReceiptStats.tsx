@@ -2,21 +2,36 @@
 
 import { type Receipt, AGENT } from '@/app/types'
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
+
+type BankrBreakdown = {
+  total: number
+  totalRequests: number
+  totalTokens: number
+  byModel: Record<string, { cost: number; requests: number; provider: string }>
+}
 
 export function ReceiptStats({ receipts, allReceipts }: { receipts: Receipt[]; allReceipts?: Receipt[] }) {
   const [mounted, setMounted] = useState(false)
+  const [bankrData, setBankrData] = useState<BankrBreakdown | null>(null)
 
   useEffect(() => {
     setMounted(true)
   }, [receipts])
 
+  // Fetch Bankr API data for real LLM costs
+  useEffect(() => {
+    fetch('/api/judge/costs')
+      .then((r) => r.json())
+      .then((d) => {
+        if (d?.breakdown) setBankrData(d.breakdown)
+      })
+      .catch(() => {})
+  }, [])
+
   if (receipts.length === 0) return null
 
   const usdcReceipts = receipts.filter((r) => r.tokenSymbol === 'USDC')
-  // Use allReceipts for inference cost so LLM Costs always reflects reality,
-  // even when the inference toggle is off in the feed.
-  const inferencePool = allReceipts ?? receipts
-  const inferenceReceipts = inferencePool.filter((r) => r.receiptType === 'inference')
 
   // x402 revenue: USDC received to the x402 wallet only (real earned income)
   const x402Revenue = usdcReceipts
@@ -27,40 +42,46 @@ export function ReceiptStats({ receipts, allReceipts }: { receipts: Receipt[]; a
     )
     .reduce((acc, r) => acc + parseFloat(r.amount), 0)
 
+  // Total USDC sent on-chain
   const totalSent = usdcReceipts
     .filter((r) => r.direction === 'sent')
     .reduce((acc, r) => acc + parseFloat(r.amount), 0)
 
-  const inferenceCost = inferenceReceipts.reduce(
-    (acc, r) => acc + parseFloat(r.amount),
-    0
-  )
-
   const totalReceipts = receipts.length
 
-  const stats = [
+  // LLM cost: prefer live Bankr API, fallback to onchain inference receipts
+  const inferencePool = allReceipts ?? receipts
+  const onchainInferenceCost = inferencePool
+    .filter((r) => r.receiptType === 'inference')
+    .reduce((acc, r) => acc + parseFloat(r.amount), 0)
+
+  const llmCost = bankrData?.total ?? onchainInferenceCost
+  const llmLabel = bankrData ? 'Total LLM Cost' : 'LLM Payments'
+  const llmSub = bankrData
+    ? `${bankrData.totalRequests.toLocaleString()} requests · ${Object.keys(bankrData.byModel).length} models`
+    : undefined
+
+  const stats: { label: string; value: string; sub?: string; href?: string; accent: string }[] = [
+    {
+      label: llmLabel,
+      value: llmCost >= 1 ? `$${llmCost.toFixed(0)}` : `$${llmCost.toFixed(2)}`,
+      sub: llmSub,
+      href: '/costs',
+      accent: 'text-zinc-100',
+    },
+    {
+      label: 'On-chain Sent',
+      value: `$${totalSent.toFixed(2)}`,
+      accent: 'text-zinc-100',
+    },
     {
       label: 'x402 Revenue',
       value: `$${x402Revenue.toFixed(2)}`,
-      trend: x402Revenue > 0 ? 'up' : null,
       accent: x402Revenue > 0 ? 'text-emerald-400' : 'text-zinc-100',
-    },
-    {
-      label: 'Total Sent',
-      value: `$${totalSent.toFixed(2)}`,
-      trend: 'neutral' as const,
-      accent: 'text-zinc-100',
-    },
-    {
-      label: 'LLM Payments',
-      value: `$${inferenceCost.toFixed(2)}`,
-      trend: null,
-      accent: 'text-zinc-100',
     },
     {
       label: 'Receipts',
       value: `${totalReceipts}`,
-      trend: null,
       accent: 'text-zinc-100',
     },
   ]
@@ -73,57 +94,42 @@ export function ReceiptStats({ receipts, allReceipts }: { receipts: Receipt[]; a
     >
       {/* Desktop: single row | Mobile: 2x2 grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4">
-        {stats.map((stat, idx) => (
-          <div
-            key={idx}
-            className={[
-              'py-3 px-4',
-              // Mobile: right column gets a left border
-              idx % 2 === 1 ? 'border-l border-zinc-800' : '',
-              // Mobile: bottom row gets a top border
-              idx >= 2 ? 'border-t border-zinc-800' : '',
-              // Desktop: only left borders between columns, no top borders
-              'sm:border-t-0',
-              idx > 0 ? 'sm:border-l sm:border-zinc-800' : 'sm:border-l-0',
-            ].filter(Boolean).join(' ')}
-          >
-            <div className="text-[10px] uppercase tracking-wider text-zinc-500 mb-0.5">
-              {stat.label}
-            </div>
-            <div className={`flex items-center gap-1 text-base font-bold ${stat.accent}`}>
-              {stat.value}
-              {stat.trend === 'up' && (
-                <svg
-                  className="w-3 h-3 text-emerald-400 shrink-0"
-                  viewBox="0 0 12 12"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M6 2L10 7H2L6 2Z"
-                    fill="currentColor"
-                  />
-                </svg>
+        {stats.map((stat, idx) => {
+          const inner = (
+            <>
+              <div className="text-[10px] uppercase tracking-wider text-zinc-500 mb-0.5">
+                {stat.label}
+              </div>
+              <div className={`flex items-center gap-1 text-base font-bold ${stat.accent}`}>
+                {stat.value}
+              </div>
+              {stat.sub && (
+                <div className="text-[9px] text-zinc-600 mt-0.5">{stat.sub}</div>
               )}
-              {stat.trend === 'neutral' && (
-                <svg
-                  className="w-3 h-3 text-zinc-500 shrink-0"
-                  viewBox="0 0 12 12"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="M2 6H10M2 6L5 3M2 6L5 9"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+            </>
+          )
+
+          return (
+            <div
+              key={idx}
+              className={[
+                'py-3 px-4',
+                idx % 2 === 1 ? 'border-l border-zinc-800' : '',
+                idx >= 2 ? 'border-t border-zinc-800' : '',
+                'sm:border-t-0',
+                idx > 0 ? 'sm:border-l sm:border-zinc-800' : 'sm:border-l-0',
+              ].filter(Boolean).join(' ')}
+            >
+              {stat.href ? (
+                <Link href={stat.href} className="block hover:opacity-80 transition-opacity">
+                  {inner}
+                </Link>
+              ) : (
+                inner
               )}
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
     </div>
   )
