@@ -438,9 +438,10 @@ function AddressDisplay({ addr, r }: { addr: string | null; r: Receipt }) {
   const isEns = addr.endsWith('.eth')
   
   if (isEns) {
+    const ensBase = addr.endsWith('.eth') ? addr.slice(0, -4) : addr
     return (
       <span className="inline-flex items-center gap-1 font-mono text-xs text-emerald-400 bg-emerald-950/30 px-1.5 py-0.5 rounded border border-emerald-500/20">
-        {addr}
+        {ensBase}
         <span className="text-[9px] text-emerald-500/70">.eth</span>
       </span>
     )
