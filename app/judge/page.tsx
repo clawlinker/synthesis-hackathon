@@ -289,8 +289,29 @@ export default function JudgeModePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-y-2 gap-x-6 text-xs text-zinc-400">
               <div><span className="font-semibold text-zinc-200">What:</span> Onchain receipt dashboard for AI agents</div>
               <div><span className="font-semibold text-zinc-200">Who:</span> Clawlinker (ERC-8004 #22945, clawlinker.eth)</div>
-              <div><span className="font-semibold text-zinc-200">How:</span> 5 autonomous crons, 4 Bankr LLM models, Venice private inference, x402 + MPP payments across Base and Tempo</div>
-              <div><span className="font-semibold text-zinc-200">Tracks:</span> ERC-8004 ($8K), Agent Cook ($8K), Private Agents/Venice ($11.5K VVV), Bankr LLM ($5K), Agent Services on Base ($5K), Agents that pay ($1.5K), ENS Identity ($600), ENS Communication ($600), ENS Open Integration ($300), Synthesis Open Track ($25K)</div>
+              <div className="md:col-span-2"><span className="font-semibold text-zinc-200">How:</span> 5 autonomous crons, 4 Bankr LLM models, Venice private inference, x402 + MPP payments across Base and Tempo</div>
+            </div>
+            <div className="text-xs text-zinc-400">
+              <span className="font-semibold text-zinc-200">Tracks: </span>
+              <span className="inline-flex flex-wrap gap-1.5 mt-1.5">
+                {[
+                  { label: 'ERC-8004', prize: '$8K' },
+                  { label: 'Agent Cook', prize: '$8K' },
+                  { label: 'Venice Private Agents', prize: '$11.5K VVV' },
+                  { label: 'Bankr LLM', prize: '$5K' },
+                  { label: 'Agent Services on Base', prize: '$5K' },
+                  { label: 'Agents that Pay', prize: '$1.5K' },
+                  { label: 'ENS Identity', prize: '$600' },
+                  { label: 'ENS Communication', prize: '$600' },
+                  { label: 'ENS Open Integration', prize: '$300' },
+                  { label: 'Synthesis Open Track', prize: '$25K' },
+                ].map(({ label, prize }) => (
+                  <span key={label} className="inline-flex items-center gap-1 rounded-full border border-zinc-700/60 bg-zinc-800/60 px-2 py-0.5 text-[10px]">
+                    <span className="text-zinc-300">{label}</span>
+                    <span className="text-usdc font-medium">{prize}</span>
+                  </span>
+                ))}
+              </span>
             </div>
             <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-zinc-400">
               <a href="/api/judge/summary" target="_blank" rel="noopener noreferrer" className="text-usdc hover:underline font-medium">
