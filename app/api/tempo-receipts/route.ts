@@ -29,7 +29,24 @@ interface RpcLog {
   address: string
 }
 
+async function getRecentFromBlock(): Promise<string> {
+  try {
+    const res = await fetch(TEMPO_RPC, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: 0 }),
+    })
+    const data = await res.json() as { result?: string }
+    const latest = parseInt(data.result || '0x0', 16)
+    const from = Math.max(0, latest - 99000)
+    return '0x' + from.toString(16)
+  } catch {
+    return '0x97b44a' // fallback
+  }
+}
+
 async function queryLogs(fromTopic: string | null, toTopic: string | null): Promise<RpcLog[]> {
+  const fromBlock = await getRecentFromBlock()
   const controller = new AbortController()
   const timeoutId = setTimeout(() => controller.abort(), 8000)
   try {
@@ -40,7 +57,7 @@ async function queryLogs(fromTopic: string | null, toTopic: string | null): Prom
         jsonrpc: '2.0',
         method: 'eth_getLogs',
         params: [{
-          fromBlock: '0x97b44a', // ~100k blocks back from launch
+          fromBlock,
           toBlock: 'latest',
           address: TEMPO_USDC,
           topics: [TRANSFER_TOPIC, fromTopic, toTopic],
