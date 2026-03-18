@@ -8,6 +8,7 @@ import { ReceiptStats } from '@/components/ReceiptStats'
 import { SkeletonReceiptCard } from '@/components/SkeletonReceiptCard'
 import { SkeletonReceiptStats } from '@/components/SkeletonReceiptStats'
 import { InsightsCard } from '@/components/InsightsCard'
+import { VeniceInsightsCard } from '@/components/VeniceInsightsCard'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent } from '@/components/ui/card'
@@ -143,6 +144,7 @@ export default function Home() {
       {source !== 'loading' && !error && (
         <div className="mt-6">
           <InsightsCard />
+          <VeniceInsightsCard />
         </div>
       )}
 
