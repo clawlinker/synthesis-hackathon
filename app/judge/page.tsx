@@ -14,7 +14,14 @@ import { Separator } from '@/components/ui/separator'
 // Helper to calculate autonomous hours from log entries
 function calculateAutonomousHours(entries: AgentLogEntry[]): number {
   if (entries.length === 0) return 0
-  const timestamps = entries.map(e => new Date(e.timestamp).getTime())
+  // Parse timestamps safely — some may not have 'Z' suffix
+  const timestamps = entries.map(e => {
+    const ts = e.timestamp.replace(/Z$/, '+00:00')
+    const d = new Date(ts)
+    return isNaN(d.getTime()) ? 0 : d.getTime()
+  }).filter(t => t > 0)
+  
+  if (timestamps.length === 0) return 0
   const minTime = Math.min(...timestamps)
   const maxTime = Math.max(...timestamps)
   const diffMs = maxTime - minTime
@@ -76,13 +83,19 @@ export default function JudgeModePage() {
         setLogEntries(logData.entries || [])
         setCosts(costData.breakdown || null)
         const rawCommits = commitsData.commits || []
-        setCommits(rawCommits.slice(0, 20).map((c: { sha: string; author: string; date: string; message: string; avatar_url?: string }) => ({
-          sha: c.sha,
-          message: c.message,
-          author: { login: c.author, avatar_url: c.avatar_url || '' },
-          date: c.date,
-          html_url: `https://github.com/clawlinker/synthesis-hackathon/commit/${c.sha}`,
-        })))
+        setCommits(rawCommits.slice(0, 20).map((c: { sha: string; author: string; date: string; message: string; avatar_url?: string }) => {
+          // Use author.login if available, otherwise fall back to author string
+          const login = (c as any).author?.login || c.author || 'unknown'
+          // Safely construct URL — handle potential non-clawlinker owners
+          const owner = 'clawlinker'
+          return {
+            sha: c.sha,
+            message: c.message,
+            author: { login: String(login), avatar_url: (c as any).avatar_url || '' },
+            date: c.date,
+            html_url: `https://github.com/${owner}/synthesis-hackathon/commit/${c.sha}`,
+          }
+        }))
       } catch (err) {
         console.error(err)
         setFetchError(err instanceof Error ? err.message : 'Failed to load judge data')
