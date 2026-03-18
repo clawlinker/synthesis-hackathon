@@ -93,14 +93,15 @@ export default function JudgeModePage() {
           return bDate - aDate
         })
         setCommits(sortedCommits.slice(0, 20).map((c: { sha: string; author: string; date: string; message: string; avatar_url?: string }) => {
-          // Use author.login if available, otherwise fall back to author string
-          const login = (c as any).author?.login || c.author || 'unknown'
+          // Use author.login → author.name → author string → 'unknown'
+          const login = (c as any).author?.login || (c as any).author?.name || (typeof c.author === 'string' ? c.author : null) || 'unknown'
+          const avatar = (c as any).author?.avatar_url || (c as any).avatar_url || ''
           // Safely construct URL — handle potential non-clawlinker owners
           const owner = 'clawlinker'
           return {
             sha: c.sha,
             message: c.message,
-            author: { login: String(login), avatar_url: (c as any).avatar_url || '' },
+            author: { login: String(login), avatar_url: avatar },
             date: (c as any).author?.date || c.date,
             html_url: `https://github.com/${owner}/synthesis-hackathon/commit/${c.sha}`,
           }

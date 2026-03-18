@@ -213,69 +213,62 @@ function generateReceiptSVG(receipt: Receipt): string {
     border: '#222222',
   }
 
+  const badgeWidth = isSent ? 56 : 72
+  const serviceX = 20 + badgeWidth + 12
+
   return `
-<svg width="600" height="350" viewBox="0 0 600 350" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="600" height="350" fill="${colors.background}"/>
-  
-  <!-- Card -->
-  <rect x="0" y="0" width="600" height="350" rx="16" fill="${colors.cardBackground}" stroke="${colors.border}" stroke-width="1"/>
+<svg width="600" height="210" viewBox="0 0 600 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="600" height="210" rx="16" fill="${colors.cardBackground}" stroke="${colors.border}" stroke-width="1"/>
   
   <!-- Direction Badge -->
-  <rect x="20" y="16" width="${isSent ? 56 : 66}" height="24" rx="12" fill="${isSent ? colors.sentBg : colors.receivedBg}"/>
-  <text x="${isSent ? 28 : 33}" y="31" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="500" fill="${isSent ? colors.sentText : colors.receivedText}">
+  <rect x="20" y="18" width="${badgeWidth}" height="24" rx="12" fill="${isSent ? colors.sentBg : colors.receivedBg}"/>
+  <text x="${20 + badgeWidth / 2}" y="34" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="${isSent ? colors.sentText : colors.receivedText}" text-anchor="middle">
     ${isSent ? '↑ Sent' : '↓ Received'}
   </text>
   
   ${receipt.service ? `
-  <text x="86" y="31" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="${colors.textMuted}">
+  <text x="${serviceX}" y="34" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="${colors.textMuted}">
     ${receipt.service}
   </text>` : ''}
   
-  <!-- Amount -->
-  <text x="460" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="600" fill="${colors.textPrimary}">
-    ${isSent ? '-' : '+'}${receipt.amount}
-  </text>
-  <text x="${460 + (receipt.amount.length + 1) * 18}" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500" fill="${colors.usdc}">
+  <!-- Amount (right-aligned) -->
+  <text x="580" y="34" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500" fill="${colors.usdc}" text-anchor="end">
     USDC
+  </text>
+  <text x="540" y="34" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="700" fill="${colors.textPrimary}" text-anchor="end">
+    ${isSent ? '-' : '+'}${receipt.amount}
   </text>
   
   <!-- Separator -->
-  <line x1="20" y1="60" x2="580" y2="60" stroke="${colors.border}" stroke-width="1"/>
+  <line x1="20" y1="56" x2="580" y2="56" stroke="${colors.border}" stroke-width="1"/>
   
   <!-- From -->
-  <text x="20" y="82" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" fill="${colors.textMuted}" text-transform="uppercase" letter-spacing="0.5px">
-    FROM
-  </text>
-  <text x="60" y="82" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500" fill="${colors.textSecondary}">
+  <text x="20" y="80" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="500" fill="${colors.textMuted}">From</text>
+  <text x="60" y="80" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500" fill="${colors.textSecondary}">
     ${receipt.fromLabel || shortenAddress(receipt.from)}
   </text>
   
   <!-- To -->
-  <text x="20" y="108" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" fill="${colors.textMuted}" text-transform="uppercase" letter-spacing="0.5px">
-    TO
-  </text>
-  <text x="60" y="108" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500" fill="${colors.textSecondary}">
+  <text x="20" y="106" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="500" fill="${colors.textMuted}">To</text>
+  <text x="60" y="106" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500" fill="${colors.textSecondary}">
     ${receipt.toLabel || shortenAddress(receipt.to)}
   </text>
   
   <!-- Separator -->
-  <line x1="20" y1="128" x2="580" y2="128" stroke="${colors.border}" stroke-width="1"/>
+  <line x1="20" y1="124" x2="580" y2="124" stroke="${colors.border}" stroke-width="1"/>
   
-  <!-- Footer -->
-  <text x="20" y="152" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="${colors.textMuted}">
+  <!-- Footer row -->
+  <text x="20" y="148" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="${colors.textMuted}">
     ${formatTime(receipt.timestamp)} UTC
   </text>
-  
   ${receipt.agentId ? `
-  <text x="280" y="152" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="${colors.textMuted}">
-    🤖 ERC-8004 #${receipt.agentId}
+  <text x="580" y="148" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="${colors.textMuted}" text-anchor="end">
+    ERC-8004 #${receipt.agentId}
   </text>` : ''}
   
   <!-- Branding -->
   <text x="300" y="185" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="${colors.textMuted}" text-anchor="middle">
-    Molttail — 
-    <tspan fill="${colors.usdc}" xml:space="preserve">Clawlinker</tspan>
-    | Synthesis Hackathon
+    Molttail · <tspan fill="${colors.usdc}">Clawlinker</tspan> · Synthesis 2026
   </text>
 </svg>
 `
