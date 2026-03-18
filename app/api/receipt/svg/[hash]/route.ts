@@ -171,7 +171,6 @@ async function fetchReceiptByHash(hash: string): Promise<Receipt | null> {
       toLabel: labelAddress(tx.to),
     }
   } catch (error) {
-    console.error('Failed to fetch receipt:', error)
     return null
   }
 }
@@ -305,7 +304,6 @@ export async function GET(
       },
     })
   } catch (error) {
-    console.warn('SVG generation failed:', error)
     return NextResponse.json({ error: 'SVG generation failed' }, { status: 500 })
   }
 }

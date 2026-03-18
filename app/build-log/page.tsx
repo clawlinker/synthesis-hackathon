@@ -83,7 +83,6 @@ export default function BuildLogPage() {
         setCommits(commitData.commits)
         setLogs(logData.logs)
       } catch (err) {
-        console.error('Failed to load build log data', err)
       } finally {
         setLoading(false)
       }

@@ -66,7 +66,7 @@ export default function CostsPage() {
         if (judgeCosts?.breakdown) setBankrData(judgeCosts.breakdown)
         if (hackathonCosts?.breakdown) setHackathonData(hackathonCosts)
       })
-      .catch(console.error)
+      .catch(() => {})
       .finally(() => setLoading(false))
   }, [])
 

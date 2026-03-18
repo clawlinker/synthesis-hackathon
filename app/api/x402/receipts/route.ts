@@ -132,7 +132,7 @@ export async function GET(req: NextRequest) {
   // Mock x402 verification for hackathon demo (facilitator often unreachable)
   // In production, replace with actual facilitator verification
   if (process.env.NODE_ENV !== "production" || process.env.X402_MOCK_VERIFICATION === "true") {
-    console.log("Mock x402 verification passed");
+    // Skip facilitator verification in demo mode
   } else {
     try {
       const verifyRes = await fetch("https://facilitator.x402.org/verify", {
@@ -152,7 +152,6 @@ export async function GET(req: NextRequest) {
       }
     } catch {
       // If facilitator is down, accept payment header as-is for hackathon demo
-      console.warn("Facilitator unreachable, accepting payment for demo");
     }
   }
 

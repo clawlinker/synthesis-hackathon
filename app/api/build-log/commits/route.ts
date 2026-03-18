@@ -48,7 +48,6 @@ export async function GET() {
 
     return NextResponse.json({ commits, source: 'github' })
   } catch (err) {
-    console.error('build-log/commits error:', err)
     return NextResponse.json({ commits: [], error: String(err) }, { status: 200 })
   }
 }

@@ -29,7 +29,6 @@ export function InsightsCard() {
         const json = await res.json()
         setData(json)
       } catch (err) {
-        console.error('Failed to fetch insights:', err)
         setError('Unable to load insights')
       } finally {
         setLoading(false)

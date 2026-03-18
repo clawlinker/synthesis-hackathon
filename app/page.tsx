@@ -89,7 +89,6 @@ export default function Home() {
         saveCachedReceipts(data.receipts, data.source)
       } catch (err) {
         setError('Failed to load receipts')
-        console.error(err)
       }
     }
     fetchReceipts()

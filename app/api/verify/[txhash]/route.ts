@@ -91,7 +91,6 @@ export async function GET(
     })
 
     if (!res.ok) {
-      console.warn(`Blockscout API error for ${txhash}: ${res.status}`)
       return NextResponse.json(
         { error: 'Failed to fetch transaction from Blockscout', txhash },
         { status: 502 }
@@ -213,7 +212,6 @@ export async function GET(
       },
     })
   } catch (error) {
-    console.warn('Verification failed:', error)
     return NextResponse.json(
       { error: 'Internal verification error', details: String(error) },
       { status: 500 }

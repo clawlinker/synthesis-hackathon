@@ -107,7 +107,6 @@ export default function JudgeModePage() {
           }
         }))
       } catch (err) {
-        console.error(err)
         setFetchError(err instanceof Error ? err.message : 'Failed to load judge data')
       } finally {
         setLoading(false)

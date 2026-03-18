@@ -70,13 +70,11 @@ async function queryLogs(fromTopic: string | null, toTopic: string | null): Prom
     if (!res.ok) return []
     const json = await res.json() as { result?: RpcLog[]; error?: unknown }
     if (json.error) {
-      console.warn('Tempo RPC error:', json.error)
       return []
     }
     return json.result || []
   } catch (e) {
     clearTimeout(timeoutId)
-    console.warn('Tempo RPC fetch failed:', e)
     return []
   }
 }
@@ -181,7 +179,6 @@ export async function GET() {
       headers: { 'Cache-Control': 'public, max-age=300, s-maxage=300' },
     })
   } catch (e) {
-    console.error('tempo-receipts route error:', e)
     return NextResponse.json({ receipts: [], source: 'tempo-error' }, {
       headers: { 'Cache-Control': 'public, max-age=60, s-maxage=60' },
     })

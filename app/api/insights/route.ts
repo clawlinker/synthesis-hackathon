@@ -171,7 +171,6 @@ async function callBankrLLM(prompt: string): Promise<InsightsResponse | null> {
   const apiKey = process.env.BANKR_API_KEY
   
   if (!apiKey) {
-    console.warn('BANKR_API_KEY not set — skipping LLM call')
     return null
   }
 
@@ -200,7 +199,6 @@ async function callBankrLLM(prompt: string): Promise<InsightsResponse | null> {
     })
 
     if (!response.ok) {
-      console.warn(`Bankr LLM API error: ${response.status} ${response.statusText}`)
       return null
     }
 
@@ -212,7 +210,6 @@ async function callBankrLLM(prompt: string): Promise<InsightsResponse | null> {
     try {
       parsed = JSON.parse(content)
     } catch {
-      console.warn('Failed to parse LLM response as JSON:', content.substring(0, 200))
       return null
     }
 
@@ -231,7 +228,6 @@ async function callBankrLLM(prompt: string): Promise<InsightsResponse | null> {
       }
     }
   } catch (error) {
-    console.warn('Bankr LLM API call failed:', error)
     return null
   }
 }
@@ -314,7 +310,6 @@ export async function GET(): Promise<NextResponse> {
       }
     )
   } catch (error) {
-    console.error('Insights API error:', error)
     return NextResponse.json(
       { error: 'Failed to generate insights' },
       { status: 500 }

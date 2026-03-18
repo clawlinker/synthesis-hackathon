@@ -78,8 +78,6 @@ export async function GET(
     return NextResponse.json(result)
 
   } catch (error) {
-    console.error('ENS resolution failed:', error)
-
     // Return cached result if available (stale-while-revalidate)
     if (cached) {
       return NextResponse.json({ ...cached.data, cached: true })

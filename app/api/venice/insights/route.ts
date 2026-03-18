@@ -46,7 +46,6 @@ function fetchReceiptData(): string {
     
     return txSummary
   } catch (err) {
-    console.error('Failed to read cached receipt data for Venice:', err)
     return 'Error reading transaction data.'
   }
 }
@@ -150,7 +149,6 @@ export async function GET() {
       source: 'venice_private_inference',
     })
   } catch (err) {
-    console.error('Venice insights error:', err)
     return NextResponse.json(
       { error: 'Failed to generate private insights', details: err instanceof Error ? err.message : 'Unknown error' },
       { status: 500 }

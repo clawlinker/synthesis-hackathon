@@ -116,8 +116,6 @@ export async function GET(request: Request) {
     // Validate required environment variables
     validateEnv()
   } catch (error) {
-    console.warn('Environment validation failed:', error)
-    
     // Fall back to sample Ethereum receipt for demo (ERC-8004 registration)
     const sampleEthReceipts: Receipt[] = [
       {
@@ -187,14 +185,12 @@ export async function GET(request: Request) {
       })
 
       if (!res.ok) {
-        console.warn(`Blockscout API error for Ethereum ${wallet}: ${res.status}`)
         continue
       }
 
       const data = await res.json() as TokenTransferApiResponse
 
       if (data.status !== '1' || !Array.isArray(data.result)) {
-        console.warn(`No results for Ethereum ${wallet}`)
         continue
       }
 
@@ -263,7 +259,8 @@ export async function GET(request: Request) {
       chain: 'ethereum',
     }, { headers: { 'X-RateLimit-Remaining': remaining.toString() } })
   } catch (error) {
-    console.warn('Failed to fetch Ethereum receipts:', error)
+    // Return empty receipt list on error
+    return NextResponse.json({ receipts: [] })
     
     const sampleEthReceipts: Receipt[] = [
       {

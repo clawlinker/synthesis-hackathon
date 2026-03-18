@@ -54,7 +54,6 @@ async function fetchReceiptInfo(hash: string) {
       service: labelAddress(tx.from === AGENT.wallet ? tx.to : tx.from),
     }
   } catch (error) {
-    console.error('Failed to fetch receipt:', error)
     return null
   }
 }
@@ -167,7 +166,6 @@ export async function GET(
       },
     })
   } catch (error) {
-    console.error('OG image generation failed:', error)
     return NextResponse.json({ error: 'OG image generation failed' }, { status: 500 })
   }
 }

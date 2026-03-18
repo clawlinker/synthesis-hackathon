@@ -250,7 +250,6 @@ function loadInferenceReceiptsFromLog(): Receipt[] {
     
     return inferenceReceipts
   } catch (e) {
-    console.warn('Failed to parse inference receipts from agent_log.json:', e)
     return []
   }
 }
@@ -333,7 +332,6 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
         clearTimeout(timeoutId)
 
         if (!res.ok) {
-          console.warn(`Blockscout REST API error for ${wallet}: ${res.status}`)
           return []
         }
 
@@ -383,7 +381,6 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
         })
       } catch (fetchErr) {
         clearTimeout(timeoutId)
-        console.warn(`Blockscout fetch failed/timed out for ${wallet}:`, fetchErr)
         return []
       }
     }
@@ -420,7 +417,6 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
       }
 
       if (allReceipts.length > 0) {
-        console.warn('Live fetch failed — using cached receipts from build time')
         dataSource = 'cached'
         // Re-enrich with agent data + service labels (not stored in cache)
         allReceipts = allReceipts.map(r => {
@@ -527,7 +523,6 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
       } 
     })
   } catch (error) {
-    console.warn('Failed to fetch receipts:', error)
     // Load inference receipts from bundled log in error fallback
     let inferenceReceipts: Receipt[] = []
     try {
