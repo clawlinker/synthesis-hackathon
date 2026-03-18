@@ -64,7 +64,7 @@ export function ReceiptStats({ receipts, allReceipts }: { receipts: Receipt[]; a
   const stats: { label: string; value: string; sub?: string; href?: string; accent: string }[] = [
     {
       label: llmLabel,
-      value: llmCost >= 1 ? `$${llmCost.toFixed(0)}` : `$${llmCost.toFixed(2)}`,
+      value: `$${llmCost.toFixed(2)}`,
       sub: llmSub,
       href: '/costs',
       accent: 'text-zinc-100',
