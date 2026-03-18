@@ -4,9 +4,9 @@ import agentLogRaw from '@/agent_log.json'
 export async function GET() {
   try {
     // Next.js JSON import returns { default: [...] } or just [...]
-    // Handle both cases for robustness
+    // agent_log.json is an array directly, but Next.js wraps it
     const raw = agentLogRaw as any
-    const entries = Array.isArray(raw) ? raw : (raw as any).default ?? []
+    const entries = Array.isArray(raw) ? raw : (Array.isArray((raw as any).default) ? (raw as any).default : [])
     
     return NextResponse.json({
       entries,
