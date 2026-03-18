@@ -107,15 +107,15 @@ export function VeniceInsightsCard() {
           </div>
         )}
 
-        {/* Privacy footer */}
-        <div className="pt-3 border-t border-zinc-700/50 space-y-1">
+        {/* Footer */}
+        <div className="pt-3 border-t border-zinc-700/50 flex items-center justify-between">
           <div className="flex items-center gap-1.5 text-[10px] text-violet-400/70">
             <Shield className="h-3 w-3" />
-            Zero data retention — {data.model} via Venice AI
+            Zero data retention · Venice AI
           </div>
-          <div className="text-[10px] text-zinc-600">
-            {data.privacyNote}
-          </div>
+          <span className="text-[10px] text-zinc-600">
+            {new Date(data.generatedAt).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false })}
+          </span>
         </div>
       </CardContent>
     </Card>

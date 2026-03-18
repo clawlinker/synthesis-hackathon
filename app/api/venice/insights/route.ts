@@ -56,23 +56,25 @@ async function generateVeniceInsights(txData: string): Promise<VeniceInsights> {
     throw new Error('VENICE_API_KEY not configured')
   }
 
-  const systemPrompt = `You are a private financial analyst for autonomous AI agents. You analyze USDC transaction patterns on Base L2 with ZERO data retention — your analysis is confidential and never stored.
+  const systemPrompt = `You are a concise financial analyst for AI agents. Analyze USDC transactions and respond in JSON only.
 
-Analyze the transaction data and provide:
-1. A concise spending summary (2-3 sentences)
-2. Any anomalies or unusual patterns (list 1-3, or empty if none)
-3. Actionable recommendations (list 1-3)
-4. Overall risk assessment: "low", "medium", or "high"
+Rules:
+- Be direct. No filler. No "The agent has been involved in..."
+- Use service names when obvious (x402 facilitator, Bankr, CDP) not hex addresses
+- Focus on actionable patterns, not restating the data
+- Summary: 1-2 punchy sentences max
+- Anomalies: only flag genuinely unusual patterns, not routine micro-payments
+- Recommendations: specific and actionable, max 2
 
-Respond in valid JSON format:
+JSON format:
 {
   "summary": "...",
-  "anomalies": ["...", "..."],
-  "recommendations": ["...", "..."],
+  "anomalies": ["..."],
+  "recommendations": ["..."],
   "riskLevel": "low|medium|high"
 }
 
-Be concise and specific. Focus on patterns, not individual transactions. This agent is Clawlinker, an autonomous AI agent building software and paying for LLM inference.`
+Context: This is Clawlinker, an autonomous AI agent on Base. It pays for LLM inference via Bankr, earns x402 micropayments, and transacts USDC for services. Small $0.01 payments to 0xA6a8... are x402 facilitator fees (normal). Address 0x4de9... is the Bankr wallet.`
 
   const res = await fetch(`${VENICE_BASE_URL}/chat/completions`, {
     method: 'POST',
