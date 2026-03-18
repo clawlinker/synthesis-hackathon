@@ -1,15 +1,36 @@
 import { NextResponse } from 'next/server'
 import agentLogRaw from '@/agent_log.json'
-import commitsRaw from '@/public/commits.json'
 
-// Fixed timestamp for deterministic judge summaries
-// Update this when making changes to the judge summary format/content
-const JUDGE_SUMMARY_TIMESTAMP = '2026-03-18T16:07:00.000Z'
+// Timestamp for judge summary - use current time for fresh data
+const JUDGE_SUMMARY_TIMESTAMP = new Date().toISOString().replace('T', ' ').substring(0, 19) + 'Z'
+
+// Fetch fresh commits from GitHub API at runtime for up-to-date data
+async function fetchCommits(): Promise<{ commits: { sha: string; message: string; date: string; author: { login: string; avatar_url: string } }[] }> {
+  try {
+    const res = await fetch('https://api.github.com/repos/clawlinker/synthesis-hackathon/commits', {
+      headers: { 'User-Agent': 'Molttail-Judge' },
+      cache: 'no-store'
+    })
+    if (!res.ok) throw new Error('GitHub API error')
+    const data = await res.json()
+    return {
+      commits: data.map((c: any) => ({
+        sha: c.sha,
+        message: c.commit.message.split('\n')[0],
+        date: c.commit.author.date,
+        author: c.author || { login: 'clawlinker', avatar_url: '' }
+      }))
+    }
+  } catch (err) {
+    // Fallback to static file if API fails
+    return { commits: [] }
+  }
+}
 
 export async function GET() {
   try {
     const entries = agentLogRaw as any[]
-    const { commits } = commitsRaw as { commits: any[] }
+    const { commits } = await fetchCommits()
 
     // Fallback to agent_log calculations
     let costs = {
