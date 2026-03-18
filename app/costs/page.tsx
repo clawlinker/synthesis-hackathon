@@ -37,12 +37,18 @@ const formatCurrency = (amount: number) =>
 
 export default function CostsPage() {
   const [data, setData] = useState<CostSummary | null>(null)
+  const [bankrData, setBankrData] = useState<{ total: number; totalRequests: number; byModel: Record<string, { cost: number; requests: number; provider: string }> } | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('/api/costs')
-      .then((r) => r.json())
-      .then(setData)
+    Promise.all([
+      fetch('/api/costs').then((r) => r.json()),
+      fetch('/api/judge/costs').then((r) => r.json()).catch(() => null),
+    ])
+      .then(([costsData, judgeCosts]) => {
+        setData(costsData)
+        if (judgeCosts?.breakdown) setBankrData(judgeCosts.breakdown)
+      })
       .catch(console.error)
       .finally(() => setLoading(false))
   }, [])
@@ -167,9 +173,9 @@ export default function CostsPage() {
       {/* Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         {[
-          { label: 'Total Cost', value: formatCurrency(data.totalCost), sub: `${data.totalEntries} log entries`, accent: true },
+          { label: 'Total LLM Cost', value: formatCurrency(bankrData?.total ?? data.totalCost), sub: bankrData ? `${bankrData.totalRequests.toLocaleString()} API requests` : `${data.totalEntries} log entries`, accent: true },
           { label: 'Built by', value: 'Clawlinker', sub: 'ERC-8004 #22945' },
-          { label: 'Models Used', value: `${new Set(data.byModel.map((m) => m.model)).size} unique`, sub: 'Bankr LLM Gateway' },
+          { label: 'Models Used', value: `${bankrData ? Object.keys(bankrData.byModel).length : new Set(data.byModel.map((m) => m.model)).size} unique`, sub: 'Bankr LLM Gateway' },
           { label: 'Phases', value: `${data.byPhase.length}`, sub: 'discover, plan, execute, verify, cron' },
         ].map((card) => (
           <Card key={card.label}>
@@ -187,8 +193,8 @@ export default function CostsPage() {
         <CardContent className="p-4 sm:p-6">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
             <div>
-              <div className="text-3xl sm:text-4xl font-bold text-success tabular-nums">{formatCurrency(data.totalCost)}</div>
-              <div className="text-sm text-muted-foreground">Total Bankr LLM credit spent</div>
+              <div className="text-3xl sm:text-4xl font-bold text-success tabular-nums">{formatCurrency(bankrData?.total ?? data.totalCost)}</div>
+              <div className="text-sm text-muted-foreground">{bankrData ? 'Total Bankr LLM Gateway spend (live)' : 'Total Bankr LLM credit spent'}</div>
             </div>
             <div className="sm:text-right">
               <div className="text-2xl font-semibold tabular-nums">{data.totalEntries}</div>
@@ -200,6 +206,41 @@ export default function CostsPage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Bankr API — Live Model Breakdown */}
+      {bankrData && (
+        <section className="mb-8">
+          <h2 className="text-xl font-semibold mb-4">Bankr Gateway — By Model (Live)</h2>
+          <Card>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Model</TableHead>
+                  <TableHead>Provider</TableHead>
+                  <TableHead className="text-right">Requests</TableHead>
+                  <TableHead className="text-right">Cost</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {Object.entries(bankrData.byModel)
+                  .sort(([,a], [,b]) => b.cost - a.cost)
+                  .map(([model, info]) => (
+                    <TableRow key={model}>
+                      <TableCell className="font-mono text-xs">{model}</TableCell>
+                      <TableCell className="text-muted-foreground text-xs">{info.provider}</TableCell>
+                      <TableCell className="text-right tabular-nums">{info.requests.toLocaleString()}</TableCell>
+                      <TableCell className="text-right tabular-nums font-medium">{formatCurrency(info.cost)}</TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </Card>
+        </section>
+      )}
+
+      {/* Agent Log — By Cron */}
+      <h2 className="text-lg font-semibold mb-2 text-muted-foreground">Agent Log Breakdown</h2>
+      <p className="text-xs text-muted-foreground mb-4">From agent_log.json — manually tracked build phases ({formatCurrency(data.totalCost)} across {data.totalEntries} entries)</p>
 
       {/* By Cron */}
       <section className="mb-8">
