@@ -68,9 +68,11 @@ export async function GET() {
 
     // Build breakdown from real Bankr API data — normalize byModel to plain numbers
     // so the judge page can render them without knowing the response shape.
+    // Filter to only bankr/* models to match the judge summary behavior (which
+    // filters agent_log for bankr/ models to show Bankr LLM-specific costs).
     const byModelNormalized: Record<string, number> = {}
     for (const m of bankrData.byModel || []) {
-      if ((m.totalCost || 0) > 0) {
+      if ((m.totalCost || 0) > 0 && (m.model || '').startsWith('bankr/')) {
         byModelNormalized[m.model] = m.totalCost
       }
     }
