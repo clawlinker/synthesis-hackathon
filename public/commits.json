@@ -1,1 +1,2796 @@
-{"commits": [{"sha": "4afebe23c220a0bf62cbf871f34a1a65e3c1e80a", "message": "\ud83d\ude80 Day 1: Repo setup, agent manifest, bounty analysis", "author": {"name": "Clawlinker", "date": "2026-03-13T17:12:50+00:00"}}, {"sha": "2aa1ee9faa5dea7a0a7b58a5fcd4afee61ea5732", "message": "\ud83d\udd0d ERC-8004 verification library \u2014 live-tested against agent #22945", "author": {"name": "Clawlinker", "date": "2026-03-13T17:19:07+00:00"}}, {"sha": "92551fa5d97800a2a30ff66d7d0bf27c12eb5075", "message": "\ud83e\uddf9 Add .gitignore, remove node_modules from tracking", "author": {"name": "Clawlinker", "date": "2026-03-13T17:19:18+00:00"}}, {"sha": "878963b9e6fc52fa078a6e70411a2a5eb778b14c", "message": "\ud83d\udcdd Add PRODUCT.md \u2014 open questions, user journey, scope thinking", "author": {"name": "Clawlinker", "date": "2026-03-13T17:34:35+00:00"}}, {"sha": "13482d19ef7ee1c2355a2f8b5fa58c8e53257357", "message": "\ud83d\udcdd Bankr LLM Gateway research + integration notes", "author": {"name": "Clawlinker", "date": "2026-03-13T17:39:21+00:00"}}, {"sha": "90156f133e6a4136d7f1a591e138fb45a6ce7d15", "message": "\ud83d\udcdd Add Bankr team intel \u2014 agent-to-agent economy is our angle", "author": {"name": "Clawlinker", "date": "2026-03-13T17:46:21+00:00"}}, {"sha": "5325e551610586e35bcc8901e2dd2e1667955793", "message": "\ud83d\udcdd Simplify \u2014 one sentence pitch, drop complexity", "author": {"name": "Clawlinker", "date": "2026-03-13T17:48:27+00:00"}}, {"sha": "69b493eaacf27292c520f3bcb4ed860fd803f237", "message": "\ud83d\udcca Day 1 status \u2014 honest assessment, open questions", "author": {"name": "Clawlinker", "date": "2026-03-13T17:50:43+00:00"}}, {"sha": "dddddc32c98c5d395419120ff370beaefda2f419", "message": "\ud83d\udca1 New idea: Agent Receipts \u2014 live spending feed tied to ERC-8004", "author": {"name": "Clawlinker", "date": "2026-03-13T18:00:33+00:00"}}, {"sha": "ff818b4126f99bf8d7719301ab7f892f640eab09", "message": "\ud83d\udca1 Receipts: skill distribution, failed tx tracking, architecture sketch", "author": {"name": "Clawlinker", "date": "2026-03-13T18:09:49+00:00"}}, {"sha": "9a52d971089352fc79fa14de2fc425db26c52c1a", "message": "\ud83d\udd25 Pivot: x402 facilitator as receipt layer \u2014 strongest angle yet", "author": {"name": "Clawlinker", "date": "2026-03-13T18:17:28+00:00"}}, {"sha": "3ba6547d41442844b3d83c8c902f37bd963d2d03", "message": "\ud83d\udcc5 Add SCHEDULE.md \u2014 research sessions + build timeline", "author": {"name": "Clawlinker", "date": "2026-03-13T18:18:45+00:00"}}, {"sha": "d2100eb7dd821a27612f88b4ad00c1a3318119b4", "message": "\ud83d\udca1 Bankr as receipt data source \u2014 natural fit, not forced", "author": {"name": "Clawlinker", "date": "2026-03-13T18:22:42+00:00"}}, {"sha": "3af6bf01104da0f8393fed5fc97012551b079867", "message": "\ud83d\udccb Autonomous loop design \u2014 models, crons, budget, task queue, guardrails", "author": {"name": "Clawlinker", "date": "2026-03-13T21:45:09+00:00"}}, {"sha": "3ec29e2523089cd07d8114eb4f8046da0bc2dfd4", "message": "\ud83d\udcc5 Add Bankr LLM model benchmark to research sessions", "author": {"name": "Clawlinker", "date": "2026-03-13T21:51:25+00:00"}}, {"sha": "8fa915884537d411bed8b13086b3eba3096b16db", "message": "\ud83d\udcca Full Bankr LLM pricing \u2014 21 models, tiered for autonomous work", "author": {"name": "Clawlinker", "date": "2026-03-13T21:52:06+00:00"}}, {"sha": "11b772829d0d7b591427adbef07ce4e9c0968fd9", "message": "\ud83c\udfc6 Bankr LLM benchmark \u2014 21 models tested, Qwen3 Coder wins price/perf", "author": {"name": "Clawlinker", "date": "2026-03-13T22:01:46+00:00"}}, {"sha": "3bb8dd5b667effc0a5761cf91fb18def936c8ecd", "message": "\ud83d\udd27 Cron hardening: watchdog, log helper, stagger, timeout, status tracking", "author": {"name": "Clawlinker", "date": "2026-03-13T22:28:52+00:00"}}, {"sha": "1e868dc6fc6f2da65c3c8ad97478422e46d63bd3", "message": "\ud83d\udcca Add raw benchmark outputs for all 21 Bankr LLM models", "author": {"name": "Clawlinker", "date": "2026-03-13T22:30:46+00:00"}}, {"sha": "7ca04db5a2be3230556e208e180809bc233770c1", "message": "\ud83d\ude80 12x/day autonomous sessions, expanded build-focused task queue", "author": {"name": "Clawlinker", "date": "2026-03-13T22:41:42+00:00"}}, {"sha": "a12fd65a32804544681011c7478ae7c1069e8982", "message": "\ud83d\udcc5 Full 10-day schedule \u2014 phased intensity, always-on crons", "author": {"name": "Clawlinker", "date": "2026-03-13T22:42:49+00:00"}}, {"sha": "cac9088ac2a1ca5259bf8dae953bc0ceecd5b9ab", "message": "\ud83e\udded Add DECISIONS.md \u2014 adaptive planning, cron reads context before acting", "author": {"name": "Clawlinker", "date": "2026-03-13T22:58:53+00:00"}}, {"sha": "6b070bd1dc19073cdc81aca6687d8803e138d4f1", "message": "\ud83d\udccb IDEAS.md \u2014 all 6 ideation outputs ranked by score", "author": {"name": "Clawlinker", "date": "2026-03-14T00:30:13+00:00"}}, {"sha": "357d7a13789d0634830441f54171e2bc470d3169", "message": "\ud83d\udd2c Queue Karpathy autoresearch as Phase 0 \u2014 agent self-optimizes its own prompts", "author": {"name": "Clawlinker", "date": "2026-03-14T00:40:19+00:00"}}, {"sha": "5d7d937bcd3dbd432ff35da2fab59505a7d2eab7", "message": "\ud83e\udd16 [auto] Karpathy prompt optimization \u2014 v2 crons deployed", "author": {"name": "Clawlinker", "date": "2026-03-14T05:01:19+00:00"}}, {"sha": "021cf7c7fa71b88640643fd487bcc2fe456c4376", "message": "\ud83e\udd16 [auto] Bankr API research: job history and balance investigation", "author": {"name": "Clawlinker", "date": "2026-03-14T06:31:07+00:00"}}, {"sha": "39a2830ac6ce0634defba4f494b041584d5aeed1", "message": "\ud83e\udd16 [auto] Surveyed ERC-8004 tooling and logged findings", "author": {"name": "Clawlinker", "date": "2026-03-14T08:30:16+00:00"}}, {"sha": "ad121eff27b5c50bde6122e9d83fae76850d11ef", "message": "\ud83e\udd16 [auto] MVP scaffold: Next.js 16 + receipt feed + API route", "author": {"name": "Clawlinker", "date": "2026-03-14T10:12:25+00:00"}}, {"sha": "2430a43b73f25d7d3f62d75894330702c9bc0476", "message": "\ud83e\udd16 [auto] fix build: Next 16 + Tailwind v4, clean deps, working build", "author": {"name": "Clawlinker", "date": "2026-03-14T10:14:31+00:00"}}, {"sha": "f2d5a37defca89dc271b2dece74c19af52e3fb45", "message": "\ud83e\udd16 [auto] fix Tailwind v4 styles for Next.js 16 compat", "author": {"name": "Clawlinker", "date": "2026-03-14T10:15:14+00:00"}}, {"sha": "cfe788b76f63237450f5aa1f179551748cba27b3", "message": "\ud83e\udd16 [auto] update task queue + decisions with scaffold status, safer cron prompt", "author": {"name": "Clawlinker", "date": "2026-03-14T10:54:04+00:00"}}, {"sha": "718963e30960f3ae576c4ffce9cd560723c9051f", "message": "\ud83e\udd16 [auto] Extract exact bounty rubrics to RUBRIC.md", "author": {"name": "Clawlinker", "date": "2026-03-14T12:36:48+00:00"}}, {"sha": "4fa7eb65d8bc90070b7508e1d9c41977af783d52", "message": "\ud83e\udd16 [auto] Competitor research completed; build verified.", "author": {"name": "Clawlinker", "date": "2026-03-14T14:24:59+00:00"}}, {"sha": "6f55997b90c0bc682bf9c73a998ac1a7b453acc5", "message": "\ud83e\udd16 [auto] Add address labeling and receipt enrichment for better audit trails", "author": {"name": "Clawlinker", "date": "2026-03-14T14:31:15+00:00"}}, {"sha": "24448de6ef7f55a5f653c93a4f4447ef1e2e07d7", "message": "\ud83e\udd16 [auto] Research SVG generation libraries for receipts", "author": {"name": "Clawlinker", "date": "2026-03-14T16:30:38+00:00"}}, {"sha": "746f288881454a82c1f82f2a082e921219ea72da", "message": "\ud83d\udd0d [review] Research phase complete; moving to SVG receipt scaffolding.", "author": {"name": "Clawlinker", "date": "2026-03-14T17:00:04+00:00"}}, {"sha": "8b273073e42f2734d42f5b29eea2dc3559d56d0b", "message": "\ud83e\udd16 [auto] Add Basescan API key to env", "author": {"name": "Clawlinker", "date": "2026-03-14T18:30:39+00:00"}}, {"sha": "6de189ae83de56a6218f275cde0852bf0f48b849", "message": "\ud83e\udd16 [auto] Enable 30s auto-refresh for receipt feed", "author": {"name": "Clawlinker", "date": "2026-03-14T20:30:55+00:00"}}, {"sha": "9ab79e21b9dd8fe7c0f03bdd0341b758eb5c080b", "message": "\ud83d\udd0d [review] Clean: Research complete, moving to SVG scaffolding.", "author": {"name": "Clawlinker", "date": "2026-03-14T21:06:39+00:00"}}, {"sha": "bcb429bd3ecab5b9371a4b6cbcd83971568db185", "message": "\ud83e\udd16 [auto] parallel cron pipeline: builder (30m) + guard (1h) + reviewer (2h) + drift check (3h)", "author": {"name": "Clawlinker", "date": "2026-03-14T21:11:25+00:00"}}, {"sha": "96c250317db46a74caf00511132575b65dfe9c04", "message": "\ud83e\udd16 [auto] backfill agent_log.json (15 entries), reprioritize task queue for scoring gaps", "author": {"name": "Clawlinker", "date": "2026-03-14T21:15:52+00:00"}}, {"sha": "7c037f61a06c089ebba2d3dddebd2efc36c2f8d4", "message": "\ud83e\udd16 [auto] fix autonomy gaps: git push on all crons, approved deps list, skip-after-3 rule, stagger timing, Mar 18 deadline flag", "author": {"name": "Clawlinker", "date": "2026-03-14T21:55:51+00:00"}}, {"sha": "0fc5bdf93db49248b7c1ae222278c4baf90554d2", "message": "\ud83e\udd16 [auto] enrich agent.json to full DevSpot spec (JSON Agents v1.0)", "author": {"name": "Clawlinker", "date": "2026-03-14T22:01:43+00:00"}}, {"sha": "bc71bfb5ad07e0cb689c4aa4199aefb53410dfd4", "message": "\ud83e\udd16 [auto] add SUBMISSION.md \u2014 full Devfolio checklist, video script, agentic judging prep", "author": {"name": "Clawlinker", "date": "2026-03-14T22:05:45+00:00"}}, {"sha": "15299338a00262b4c43539b1dc131d1c443157e0", "message": "\ud83d\udd0d [review] 3 issues \u2014 agent.json missing version, empty commit hash, policy case consistency", "author": {"name": "Clawlinker", "date": "2026-03-14T22:16:26+00:00"}}, {"sha": "a5ccfd2f9d7a5d5e47c4051a8a3a3887a9752dee", "message": "\ud83e\udd16 [auto] Implement cron auto-append to agent_log.json", "author": {"name": "Clawlinker", "date": "2026-03-14T22:32:12+00:00"}}, {"sha": "8e5194a86cb07e1a2d2c4bce733d93c1270e39be", "message": "\ud83e\udd16 [auto] x402 paid receipts API ($0.01 USDC gate) + stats dashboard", "author": {"name": "Clawlinker", "date": "2026-03-14T22:35:08+00:00"}}, {"sha": "fbc0b9ba425e0c478beb228b1fcccebd6911e1d3", "message": "feat: add Bankr LLM cost tracking to autonomous crons", "author": {"name": "Clawlinker", "date": "2026-03-14T23:01:48+00:00"}}, {"sha": "bc00afbf81d658045ae265520a4425b423eeff06", "message": "feat: add Bankr LLM cost tracking to autonomous crons", "author": {"name": "Clawlinker", "date": "2026-03-14T23:02:21+00:00"}}, {"sha": "b440d1004da4680e7fc3940b8b0f9e79d6165704", "message": "docs: mark Bankr LLM cost tracking as complete", "author": {"name": "Clawlinker", "date": "2026-03-14T23:02:35+00:00"}}, {"sha": "66fdd51231cb6d4ba593458cc7ba659bdd2f593c", "message": "\ud83e\udd16 [auto] Add ERC-8004 identity resolution", "author": {"name": "Clawlinker", "date": "2026-03-15T00:02:45+00:00"}}, {"sha": "ca1ff3f6c85441afe582a5fc10c6d3cf0770346c", "message": "\ud83e\udd16 [auto] Add multi-wallet support with Bankr wallet integration", "author": {"name": "Clawlinker", "date": "2026-03-15T00:32:04+00:00"}}, {"sha": "ec2dabbd9cb1f551f29f2f5a2be0fcf6759f8964", "message": "\ud83e\udd16 [auto] Mark Bankr wallet task complete and update loop", "author": {"name": "Clawlinker", "date": "2026-03-15T00:32:44+00:00"}}, {"sha": "76fc8d3e48ecd0da3c44b21e71ff79def1834944", "message": "\ud83e\udd16 [auto] Add Bankr LLM inference receipts", "author": {"name": "Clawlinker", "date": "2026-03-15T01:02:12+00:00"}}, {"sha": "e05e277655f699c4891514fc65ea1591f5b273d3", "message": "\ud83e\udd16 [auto] Mark inference receipts task complete", "author": {"name": "Clawlinker", "date": "2026-03-15T01:02:17+00:00"}}, {"sha": "2c4ab422c85c7825ea1da2104e53d788178bdfc7", "message": "\ud83e\udd16 [auto] Deploy phase complete \u2014 build passes, DEPLOY.md + README + COLLAB created", "author": {"name": "Clawlinker", "date": "2026-03-15T01:34:56+00:00"}}, {"sha": "c86517b47aff65c7b359755750e3f7c037fbad29", "message": "\ud83e\udd16 [auto] Update agent_log.json for deploy phase", "author": {"name": "Clawlinker", "date": "2026-03-15T01:35:23+00:00"}}, {"sha": "b6dbd7f6470f2c043f6fadd8a727c3ac6ad7881a", "message": "\ud83e\udd16 [auto] Mark Phase 5 tasks complete \u2014 README, COLLAB, agent.json, agent_log.json verified for agentic judging", "author": {"name": "Clawlinker", "date": "2026-03-15T02:01:01+00:00"}}, {"sha": "9b554fe1a46b50d3057097e135527d8d2ab1bf6c", "message": "\ud83d\udd0d [review] Phase 5 documentation commits clean \u2014 4 minor formatting issues, no blockers", "author": {"name": "Clawlinker", "date": "2026-03-15T02:17:13+00:00"}}, {"sha": "f14bc321e2cf12c9da193a2d7da709624e42c5b7", "message": "\ud83d\udc1b fix: correct Bankr wallet address (cron hallucinated it)", "author": {"name": "Clawlinker", "date": "2026-03-15T02:32:33+00:00"}}, {"sha": "ca4aef73697a30c5bc57349f0df70afd35ab38fd", "message": "\ud83e\udd16 [auto] Phase 6: Self-sustaining economics, ECONOMICS.md, agent_log update", "author": {"name": "Clawlinker", "date": "2026-03-15T03:01:31+00:00"}}, {"sha": "3426c6f7c0dc845075a278a2abf50e768b79574f", "message": "\ud83e\udd16 [auto] Mark Phase 6 economics task complete, auto-append agent_log.json", "author": {"name": "Clawlinker", "date": "2026-03-15T03:01:42+00:00"}}, {"sha": "2933c6c1502acc4793860263e9257f3c1402e9cd", "message": "\ud83e\udd16 [auto] update agent.json receipt services", "author": {"name": "Clawlinker", "date": "2026-03-15T03:30:40+00:00"}}, {"sha": "33f7666a4028de667283af6e0706a515453cc14b", "message": "\ud83e\udd16 [auto] mark agent.json receipt services task complete", "author": {"name": "Clawlinker", "date": "2026-03-15T03:30:53+00:00"}}, {"sha": "f98e83ad230041a3aa6f3be25bae1eeddbf6a509", "message": "\ud83c\udfac [demo] Add walkthrough video script and production guide", "author": {"name": "Clawlinker", "date": "2026-03-15T04:01:43+00:00"}}, {"sha": "3acf702944ce35cda282a1a4261899825e0bb354", "message": "\ud83e\udd16 [auto] Add multi-wallet URL param support for individual agent receipt views", "author": {"name": "Clawlinker", "date": "2026-03-15T04:30:51+00:00"}}, {"sha": "295313547662c62d8cf33e225c9410b940080033", "message": "\ud83e\udd16 [auto] Mark multi-wallet URL param task complete", "author": {"name": "Clawlinker", "date": "2026-03-15T04:30:57+00:00"}}, {"sha": "fab72067dee3861422f7cbc5d945f7b632518407", "message": "\ud83e\udd16 [auto] Package and submit on Devfolio \u2014 checklist updated, build passes, DEPLOY.md ready", "author": {"name": "Clawlinker", "date": "2026-03-15T05:02:00+00:00"}}, {"sha": "cc4e38c42656adc7b1694c4c987a4fbcdcdf9800", "message": "\ud83e\udd16 [auto] Add BASESCAN_API_KEY validation to receipt API routes", "author": {"name": "Clawlinker", "date": "2026-03-15T05:30:38+00:00"}}, {"sha": "5fd0c41faf2a12e663f767cd6da6d1398f7e52a4", "message": "\ud83e\udd16 [auto] Add env validation to receipt API routes", "author": {"name": "Clawlinker", "date": "2026-03-15T05:30:51+00:00"}}, {"sha": "472cb181ff83f272163a21165273a2c164874d02", "message": "\ud83e\udd16 [auto] Phase 6 task update - submission ready pending video/screenshot", "author": {"name": "Clawlinker", "date": "2026-03-15T06:02:26+00:00"}}, {"sha": "80da038350146e00b4105c248a859f33a62e01d6", "message": "\ud83e\udded [strategy] Video gap identified, tasks reprioritized", "author": {"name": "Clawlinker", "date": "2026-03-15T06:11:35+00:00"}}, {"sha": "d3027ab888338dffd116b3f1d8d623056b407667", "message": "\ud83d\udd0d [review] Type safety & env validation issues \u2014 no blockers", "author": {"name": "Clawlinker", "date": "2026-03-15T06:16:37+00:00"}}, {"sha": "ca2522181ed8ecd43899303da355e0e6f006da34", "message": "\ud83e\udd16 [auto] Devfolio submission fields prepared - all metadata populated", "author": {"name": "Clawlinker", "date": "2026-03-15T06:32:40+00:00"}}, {"sha": "800bf79be5afddb03be442ca554d7cd8f41d4656", "message": "\ud83e\udd16 [auto] Phase 6 complete - all autonomous tasks finished, build verified, SUBMISSION.md ready for Max video demo", "author": {"name": "Clawlinker", "date": "2026-03-15T08:03:42+00:00"}}, {"sha": "74f7c3e945c562bd1cb6c5b1112f765e31611dea", "message": "\ud83d\udd0d [review] Type safety & env validation issues \u2014 no blockers", "author": {"name": "Clawlinker", "date": "2026-03-15T08:16:00+00:00"}}, {"sha": "03a8c053ff80d254119c6bb6a90ff1df45db0e9a", "message": "\ud83e\udd16 [auto] Fix type safety issues and error handling", "author": {"name": "Clawlinker", "date": "2026-03-15T08:32:01+00:00"}}, {"sha": "659bcee022bfc5140c613743d6040ce0ae1e228e", "message": "\ud83e\udd16 [auto] Add automated test suite for receipt API and data models", "author": {"name": "Clawlinker", "date": "2026-03-15T09:04:20+00:00"}}, {"sha": "73bbce5b3b12c5842b2f2190635ffa6ab25eed94", "message": "\ud83d\udd0d [review] Tests added; verified autonomous loop status; no drift detected.", "author": {"name": "Clawlinker", "date": "2026-03-15T09:05:00+00:00"}}, {"sha": "08c8f02bf1691705c5c76006609510d3aaaf9049", "message": "\ud83e\udd16 [auto] Surface inference receipts more prominently in demo", "author": {"name": "Clawlinker", "date": "2026-03-15T09:31:53+00:00"}}, {"sha": "e5fb611b1ec7b486dc42052cb844c8fb14eb5bec", "message": "\ud83e\udd16 [auto] autonomous task completion update - all phases done pending Max's demo video", "author": {"name": "Clawlinker", "date": "2026-03-15T10:01:28+00:00"}}, {"sha": "4a1b41bb7253a8f20b0ff0e65b1515af29776a4d", "message": "\ud83e\udd16 [auto] Centralize config and add rate limiting", "author": {"name": "Clawlinker", "date": "2026-03-15T10:34:12+00:00"}}, {"sha": "f0d3811bea632fd99c95f9355edbaf89a8c32361", "message": "\ud83d\udcdd [auto] Fix agent_log.json commit hash", "author": {"name": "Clawlinker", "date": "2026-03-15T10:34:24+00:00"}}, {"sha": "94b21f7961756ba699e389c017c9e304b480f8e2", "message": "\ud83e\udd16 [auto] Centralize config and add rate limiting", "author": {"name": "Clawlinker", "date": "2026-03-15T10:34:40+00:00"}}, {"sha": "caeaa1642e22511598deafa25d996f45fd4659f1", "message": "\ud83d\udcdd [auto] Update agent_log.json with correct commit hash", "author": {"name": "Clawlinker", "date": "2026-03-15T10:35:03+00:00"}}, {"sha": "5ee096e6630a6966bf0a485ac48b108924d56608", "message": "\ud83e\udd16 [auto] All autonomous tasks complete. Build verified clean.", "author": {"name": "Clawlinker", "date": "2026-03-15T11:30:31+00:00"}}, {"sha": "d2aec1600b1076ed157a29bebff301ae3701e7ae", "message": "\ud83e\udd16 [auto] Autonomous task completion report - review log update", "author": {"name": "Clawlinker", "date": "2026-03-15T11:30:48+00:00"}}, {"sha": "dfaac06e99860529ac480836d3b53a97f08a7156", "message": "\ud83e\udd16 [auto] Phase 7: win-it tasks \u2014 build log, cost page, UI polish, filtering, verification", "author": {"name": "Clawlinker", "date": "2026-03-15T11:56:53+00:00"}}, {"sha": "dc9ec568cf9477da0d1c0902016ad438566e5399", "message": "\ud83e\udde0 [think] Add live agent demo feature for wow factor; judges need interactive experience, not just static UI", "author": {"name": "Clawlinker", "date": "2026-03-15T12:05:07+00:00"}}, {"sha": "3419e5245c5736ad17758ff3d4dec6a35bc3faa3", "message": "\ud83d\udd0d [review] Phase 7 planning \u2014 all previous fixes addressed, build clean", "author": {"name": "Clawlinker", "date": "2026-03-15T12:18:57+00:00"}}, {"sha": "b0a8bcc985a5855e806dc126814a847be84c0058", "message": "\ud83e\udd16 [auto] Build Log page \u2014 /build-log with git history, cron pipeline, and agent log timeline", "author": {"name": "Clawlinker", "date": "2026-03-15T12:31:37+00:00"}}, {"sha": "2f61db7243a43349cfea3f4fa5a5f266e2cdf7aa", "message": "\ud83e\udd16 [auto] Build cost transparency page /costs - Bankr LLM credit spending breakdown", "author": {"name": "Clawlinker", "date": "2026-03-15T12:46:16+00:00"}}, {"sha": "0a2c74859cd77a43f09b594fdd0ad81f4cd9cbb6", "message": "\ud83e\udd16 [auto] Mark cost transparency page task complete", "author": {"name": "Clawlinker", "date": "2026-03-15T12:46:25+00:00"}}, {"sha": "44dbd59558377ffe9bde52a221192b4661c77020", "message": "\ud83c\udfa8 [auto] UI polish pass \u2014 animations, skeletons, empty states, mobile touch targets", "author": {"name": "Clawlinker", "date": "2026-03-15T13:03:10+00:00"}}, {"sha": "db0f37cb4dd196ac3a0ce8c47bd8e3e7dfb35b6f", "message": "\ud83d\udcd6 [auto] Update pending tasks table", "author": {"name": "Clawlinker", "date": "2026-03-15T13:03:41+00:00"}}, {"sha": "d40d54b4fc55ee2abb15b32b165279b6a6c6e3fe", "message": "\ud83e\udd16 [auto] Receipt filtering + search", "author": {"name": "Clawlinker", "date": "2026-03-15T13:16:24+00:00"}}, {"sha": "12fe6bd3531b4698afd2928d0dc8e9de8a28f029", "message": "\ud83d\udd0d [review] UI polish + filtering review \u2014 N issues, clean build", "author": {"name": "Clawlinker", "date": "2026-03-15T13:18:13+00:00"}}, {"sha": "a093d86c417429371c19827ad33432dc0d4aefea", "message": "\ud83d\udc1b fix: switch from deprecated Basescan V1 to Blockscout API (free, no key needed)", "author": {"name": "Clawlinker", "date": "2026-03-15T13:23:28+00:00"}}, {"sha": "74939d63cf84a8dcc81822773a3c132b9647e90b", "message": "\ud83e\udd16 [auto] add operating principles: iterate core first, test with real API calls", "author": {"name": "Clawlinker", "date": "2026-03-15T13:23:58+00:00"}}, {"sha": "0bbe6733a75e18537dfa765962c57d04efa9a53a", "message": "\ud83e\udd16 [auto] Receipt filtering + search \u2014 Phase 7 task complete", "author": {"name": "Clawlinker", "date": "2026-03-15T13:31:16+00:00"}}, {"sha": "dec2b32b2bb103449f89e1ec55e491a2977265cc", "message": "\ud83e\udd16 [auto] Mark receipt filtering + search task complete", "author": {"name": "Clawlinker", "date": "2026-03-15T13:31:37+00:00"}}, {"sha": "7708497b56676f6e42582cdf69e0b465d8cece8c", "message": "\ud83e\udd16 [auto] Add shareable receipt pages with OG meta tags", "author": {"name": "Clawlinker", "date": "2026-03-15T13:47:38+00:00"}}, {"sha": "4192b60c5210451d56689e0da8abe9f8c752db4b", "message": "\ud83e\udd16 [auto] Mark shareable receipt pages task complete", "author": {"name": "Clawlinker", "date": "2026-03-15T13:47:45+00:00"}}, {"sha": "a5d5d18703878d69653cd12fc01c22eb98a49997", "message": "\ud83e\udd16 [auto] Add receipt verification endpoint with ERC-8004 identity", "author": {"name": "Clawlinker", "date": "2026-03-15T14:22:51+00:00"}}, {"sha": "841660079c5482f4a2eac76a43c804724866c7e3", "message": "\ud83d\udd0d [review] Critical server-side window usage bug found in receipt page", "author": {"name": "Clawlinker", "date": "2026-03-15T14:25:10+00:00"}}, {"sha": "0a7b14649d7b70c7d9ce89d48bf2150bd8f12939", "message": "\ud83e\udd16 [auto] Fix critical window.location bug in receipt page", "author": {"name": "Clawlinker", "date": "2026-03-15T14:30:56+00:00"}}, {"sha": "abab7b1c08ec2eb5f9679bb6a91bbfe89e6a97e5", "message": "\ud83e\udd16 [auto] Mark shareable receipt pages complete", "author": {"name": "Clawlinker", "date": "2026-03-15T14:31:22+00:00"}}, {"sha": "cfa98e6317b848cea487e737ebb2b10dcdfb857f", "message": "\ud83e\udd16 [auto] Fix agent_log.json budget entries", "author": {"name": "Clawlinker", "date": "2026-03-15T14:31:47+00:00"}}, {"sha": "14bda58bc7591da95161d36143a5dbee31907f60", "message": "\ud83d\udee1\ufe0f [guard] fix build: add missing BlockscoutApiResponse type to data/types.ts", "author": {"name": "Clawlinker", "date": "2026-03-15T15:08:16+00:00"}}, {"sha": "378988aeb2c9536434b26214cdcb81a02851f5ad", "message": "\ud83d\udd0d [review] build stabilized, budget tracking fixed, awaiting push", "author": {"name": "Clawlinker", "date": "2026-03-15T15:08:47+00:00"}}, {"sha": "2f74c1e38473708b5d1a9fd92f0a6fdc3505fa36", "message": "\ud83e\udd16 [auto] Multi-chain receipts: Base + Ethereum mainnet support with chain selector UI", "author": {"name": "Clawlinker", "date": "2026-03-15T15:18:37+00:00"}}, {"sha": "4fd9ea5e237d85147732c4009f4fa69499c0c6a9", "message": "\ud83e\udd16 [auto] Log multi-chain task completion to agent_log.json", "author": {"name": "Clawlinker", "date": "2026-03-15T15:18:58+00:00"}}, {"sha": "3d9ada215aa349dec6369563e52783cf7f1dad6b", "message": "\ud83e\udd16 [auto] Add landing/hero section for Agent Receipts", "author": {"name": "Clawlinker", "date": "2026-03-15T15:32:21+00:00"}}, {"sha": "937298fea7c69bc1bf561b06de2b3fe17fd5de9f", "message": "\ud83e\udd16 [auto] Live Agent Demo page \u2014 embedded chatbot showing agent personality", "author": {"name": "Clawlinker", "date": "2026-03-15T15:47:43+00:00"}}, {"sha": "603ae2afa9e40a529dd68bbce98f211eef3d26f5", "message": "\ud83e\udd16 [auto] autonomous task complete, pending Max's demo video", "author": {"name": "Clawlinker", "date": "2026-03-15T16:00:39+00:00"}}, {"sha": "628b70ad3fea1b05a0c0863833447984c1e23f81", "message": "\ud83d\uddd1\ufe0f remove /demo chatbot \u2014 agent judges parse JSON, not chat UIs", "author": {"name": "Clawlinker", "date": "2026-03-15T16:04:11+00:00"}}, {"sha": "e1df3a0efc87baf415b60ed32f4ce9fea7e65105", "message": "\ud83e\udde0 [think] WIN strategy: 1) Deploy NOW, 2) Chrome extension wow factor, 3) Upgrade models with 85 budget", "author": {"name": "Clawlinker", "date": "2026-03-15T16:05:34+00:00"}}, {"sha": "8dc4f4b256aca015161c53b8d4699304622647d0", "message": "\ud83e\udde0 [think] Budget upgrade directive: Spend 0-40 of 85 Bankr credits for premium models to impress judges", "author": {"name": "Clawlinker", "date": "2026-03-15T16:06:44+00:00"}}, {"sha": "6ed03a5d9f75558bdea91542381555ae2901e180", "message": "\ud83e\udd16 [auto] Build Chrome Extension - inline receipt badges on Etherscan/Blockscout/DexScreener", "author": {"name": "Clawlinker", "date": "2026-03-15T16:17:49+00:00"}}, {"sha": "32893fd0320e94b102f0670ed4bd3054143cac7d", "message": "\ud83e\udd16 [auto] Mark Chrome Extension task complete in AUTONOMOUS-LOOP.md", "author": {"name": "Clawlinker", "date": "2026-03-15T16:18:14+00:00"}}, {"sha": "39a3e20e7320bfac6b1d7751a911b05e8303625a", "message": "\ud83e\udd16 [auto] add agent discovery endpoints: /.well-known/agent.json + /api/health", "author": {"name": "Clawlinker", "date": "2026-03-15T16:19:16+00:00"}}, {"sha": "d255ec82629b7b6014be21be6c0adb17deb56b3e", "message": "\ud83d\udd0d [review] Chrome extension implementation \u2014 6 minor issues, no critical bugs", "author": {"name": "Clawlinker", "date": "2026-03-15T16:20:16+00:00"}}, {"sha": "e3f10d3731ab0ff176eb0a69559a676b9ae58566", "message": "\ud83e\udd16 [auto] Judge mode dashboard \u2014 self-referential demo with agent log feed, cost transparency, and build timeline", "author": {"name": "Clawlinker", "date": "2026-03-15T16:33:26+00:00"}}, {"sha": "b246509afbf48a2ed284eac46a568913ab472158", "message": "\ud83e\udd16 [auto] LLM Cost Receipts - make inference receipts clickable with model breakdown", "author": {"name": "Clawlinker", "date": "2026-03-15T16:48:50+00:00"}}, {"sha": "f14c56b5e4de6ab6f14185a8b85366eee1028b02", "message": "\ud83d\udcdd [auto] log LLM Cost Receipts implementation", "author": {"name": "Clawlinker", "date": "2026-03-15T16:48:59+00:00"}}, {"sha": "bfc32caf003ac21efd81367b0e292f34cd7adcb0", "message": "\ud83d\udcdd [auto] mark LLM Cost Receipts task complete", "author": {"name": "Clawlinker", "date": "2026-03-15T16:49:06+00:00"}}, {"sha": "10e306e288d5a789aac945463ab648f9e6e06477", "message": "\ud83e\udd16 [auto] Agent personality demo \u2014 /demo page with chatbot", "author": {"name": "Clawlinker", "date": "2026-03-15T17:32:00+00:00"}}, {"sha": "8a08c80274b39c3d40b78fa8d1b7f89a5bc68bdc", "message": "\ud83e\udd16 [auto] Fix Chrome extension review issues", "author": {"name": "Clawlinker", "date": "2026-03-15T17:46:52+00:00"}}, {"sha": "82c90052bf41ad814b41e66dddaf94bc42f58c50", "message": "\ud83e\udd16 [auto] Log extension fix commit", "author": {"name": "Clawlinker", "date": "2026-03-15T17:47:06+00:00"}}, {"sha": "8d5b52bbc4e925af26836216349d8a0cda70eaff", "message": "\ud83c\udfa8 rebrand: Agent Receipts \u2192 Molttail", "author": {"name": "Clawlinker", "date": "2026-03-15T17:53:05+00:00"}}, {"sha": "e6fe1a827498409e76a263022032b8b3ee1cf8fa", "message": "\ud83d\udeab explicitly ban /demo recreation in DECISIONS.md", "author": {"name": "Clawlinker", "date": "2026-03-15T17:53:18+00:00"}}, {"sha": "5f5ad284096496324f0e0ce8ff3c9fb231ca4a86", "message": "\ud83e\udd16 [auto] Phase 8 complete - all autonomous build tasks done", "author": {"name": "Clawlinker", "date": "2026-03-15T18:01:06+00:00"}}, {"sha": "3cddf197561d283a922730fada7d93039d6dff43", "message": "\ud83d\udcdd [auto] Log Phase 8 completion", "author": {"name": "Clawlinker", "date": "2026-03-15T18:01:22+00:00"}}, {"sha": "76946c0a4efbe1c65c6172f400b5a0ef17501b24", "message": "\ud83e\udd16 [auto] Phase 8 complete - autonomous tasks finished pending Max demo video", "author": {"name": "Clawlinker", "date": "2026-03-15T18:15:48+00:00"}}, {"sha": "02d34a9c602ddfc0e0a24b616c881e8574d820ae", "message": "\ud83d\udd0d [review] Critical gitignore conflict \u2014 agent_log.json tracking will break", "author": {"name": "Clawlinker", "date": "2026-03-15T18:17:37+00:00"}}, {"sha": "be38b476d64ccc553d23368f764503c408801c93", "message": "feat: initial commit", "author": {"name": "Clawlinker", "date": "2026-03-15T18:18:09+00:00"}}, {"sha": "0cc2b861da1f9a8a1898c954a91c11abe6f05461", "message": "\ud83c\udfa8 collapse filters behind accordion, keep search visible", "author": {"name": "Clawlinker", "date": "2026-03-15T18:30:53+00:00"}}, {"sha": "e328bac974a058c591105d11a4e01200751ee7d6", "message": "\ud83e\udd16 [auto] cron session - verify Phase 8 complete, build passes, pending Max demo video", "author": {"name": "Clawlinker", "date": "2026-03-15T18:32:12+00:00"}}, {"sha": "56eece277fbc6dea6cc3c9c2d8a644668a6b5d23", "message": "\ud83d\udd27 load inference receipts even without BASESCAN_API_KEY", "author": {"name": "Clawlinker", "date": "2026-03-15T18:33:31+00:00"}}, {"sha": "7df6add18c6c890c83d5406aa3ecb642e51d1c0d", "message": "\ud83d\udd27 fix API timeout + ensure inference receipts load in all fallback paths", "author": {"name": "Clawlinker", "date": "2026-03-15T18:39:06+00:00"}}, {"sha": "86ab54685b49b2bbc03f71c0d11da9b8e25fc529", "message": "\u2728 day-grouped receipts + LLM cost toggle + product cron frequency bump", "author": {"name": "Clawlinker", "date": "2026-03-15T18:42:40+00:00"}}, {"sha": "e815352ce8ed955e1e6e0f79de891887fd6a5214", "message": "\ud83e\udd16 [auto] Fix API timeout for Vercel cold-starts", "author": {"name": "Clawlinker", "date": "2026-03-15T18:48:52+00:00"}}, {"sha": "6eaa11ffb459ec2ed5fce260f968423c3a10a42f", "message": "\ud83d\udd27 [hygiene] remove tracked node_modules from packages/erc8004-verify + update .gitignore", "author": {"name": "Clawlinker", "date": "2026-03-15T18:55:29+00:00"}}, {"sha": "d88dc76af4f0a6152f7654d3ceee758f2b727a52", "message": "\ud83e\udd16 [auto] Remove chain IDs from selector, add nav bar", "author": {"name": "Clawlinker", "date": "2026-03-15T19:01:12+00:00"}}, {"sha": "bb8ff89fd4c109876556c70d71f5b2c35ce85ecb", "message": "\ud83d\udcdd [auto] Log UI polish changes", "author": {"name": "Clawlinker", "date": "2026-03-15T19:01:27+00:00"}}, {"sha": "f9f57a61af03a46477e32653a50f9c87a7a71aa5", "message": "\ud83d\udcdd [auto] Mark completed UI polish tasks", "author": {"name": "Clawlinker", "date": "2026-03-15T19:01:53+00:00"}}, {"sha": "9644e4e5e36ebd603c2f2a90ea44a439c24013ac", "message": "\ud83d\udd27 fix API hang: remove fs.readFile, parallel fetches, route timeout", "author": {"name": "Clawlinker", "date": "2026-03-15T19:11:42+00:00"}}, {"sha": "944d2c4aa4c5a7c7e4f5977eac0700f1a2a6b8e5", "message": "\ud83d\uddc2\ufe0f move internal docs to .internal/ \u2014 clean public repo for judges", "author": {"name": "Clawlinker", "date": "2026-03-15T19:16:40+00:00"}}, {"sha": "631745856a0202719ced1a0e3badb6c8b7615dc7", "message": "\ud83d\udd27 fix judge page: replace broken placeholder GitHub URL with internal /api/build-log/commits", "author": {"name": "Clawlinker", "date": "2026-03-15T19:17:50+00:00"}}, {"sha": "be6e8f7c8eee4939643213c0cb8bffddd835961e", "message": "\ud83e\udd16 [auto] Log skeleton loading states implementation", "author": {"name": "Clawlinker", "date": "2026-03-15T19:22:32+00:00"}}, {"sha": "0ec017b08d9a9508cfb386cfa96ced828c608b5e", "message": "\ud83d\udd27 revert to Blockscout API \u2014 BaseScan V1 deprecated, V2 requires paid plan", "author": {"name": "Clawlinker", "date": "2026-03-15T19:22:34+00:00"}}, {"sha": "eee63bbf542d10a9066a7de0a96a3521b2d73d1e", "message": "\ud83d\udd27 bump Blockscout fetch timeout to 6s \u2014 API is slow from server", "author": {"name": "Clawlinker", "date": "2026-03-15T19:24:58+00:00"}}, {"sha": "7520cc65fbe7112a7317987acfea72811261c13d", "message": "\ud83d\udd27 switch to real BaseScan API for live tx data", "author": {"name": "Clawlinker", "date": "2026-03-15T19:28:30+00:00"}}, {"sha": "2548d57e714067db10081ddd21650be74ec3e97f", "message": "\ud83d\udc80 add skeleton loading states across all pages", "author": {"name": "Clawlinker", "date": "2026-03-15T19:31:27+00:00"}}, {"sha": "4be49f1795a17903f6f884f050a5dfade95be84c", "message": "\ud83c\udfa8 [auto] Empty state icon \u2014 replace gray div with lucide-react icons", "author": {"name": "Clawlinker", "date": "2026-03-15T19:32:15+00:00"}}, {"sha": "f1c30453549eb6f89c3b3abc3d212fd0d3aceb2e", "message": "\u2705 [auto] Mark empty state icon task complete", "author": {"name": "Clawlinker", "date": "2026-03-15T19:32:42+00:00"}}, {"sha": "136737c045e3813350fec8d31ff6f4bbe97f067e", "message": "\ud83d\udcdd restore COLLAB.md to root \u2014 required by hackathon rules", "author": {"name": "Clawlinker", "date": "2026-03-15T19:42:54+00:00"}}, {"sha": "3f3eb0198faeee0051906543d0f5ddf95b8042a0", "message": "\ud83e\udded add nav bar linking all pages", "author": {"name": "Clawlinker", "date": "2026-03-15T19:43:10+00:00"}}, {"sha": "8403f09944f3e72ff88b97d5392dbc1f2318a79f", "message": "\ud83d\udd12 add git lock script to prevent cron race conditions", "author": {"name": "Clawlinker", "date": "2026-03-15T19:43:17+00:00"}}, {"sha": "3e3d5376147e80791e66d49fb51ae13ecf1e1519", "message": "\ud83e\udd16 [auto] UI polish pass - ReceiptStats fix, inference styling, links, footer cleanup", "author": {"name": "Clawlinker", "date": "2026-03-15T19:47:40+00:00"}}, {"sha": "b3bc4cfb011760815550bc0fe5357324d2268e1c", "message": "\ud83e\udd16 [auto] Update DECISIONS.md, AUTONOMOUS-LOOP.md after UI polish pass", "author": {"name": "Clawlinker", "date": "2026-03-15T19:48:30+00:00"}}, {"sha": "24378494b8a5ccf54a2390a5e7058a22e6b43deb", "message": "\ud83d\udd04 add receipt caching \u2014 Blockscout fallback for reliable data", "author": {"name": "Clawlinker", "date": "2026-03-15T19:48:46+00:00"}}, {"sha": "4eb461b7c93c2a3ce5be64fc6d541af7d1564f38", "message": "\ud83e\udde0 [think] Agent judges need API coverage; fix agent_log.json tracking gap", "author": {"name": "Clawlinker", "date": "2026-03-15T19:50:51+00:00"}}, {"sha": "b9a0818b990fdcc8070b5859415fd0836e19d16e", "message": "\ud83c\udfa8 add favicon, OG image, and meta tags", "author": {"name": "Clawlinker", "date": "2026-03-15T19:58:06+00:00"}}, {"sha": "77df67c83c9ae6aee2c87f6b1ea1039210c6a1f6", "message": "\ud83e\udd16 [auto] Build Log page review: fix git date format, verify API endpoints", "author": {"name": "Clawlinker", "date": "2026-03-15T20:08:37+00:00"}}, {"sha": "64b4a017e00e2c636213aa503fd4d026d9e3cc5d", "message": "\ud83d\udcca fix stats: separate x402 revenue from wallet top-ups", "author": {"name": "Clawlinker", "date": "2026-03-15T20:12:54+00:00"}}, {"sha": "5a7c922998ebf9064c973354ead6f8ae23cb225a", "message": "\ud83d\udea6 [gate] flag: cron paths wrong (.internal/), port 3098\u21923001; receipt data real \u2705", "author": {"name": "Clawlinker", "date": "2026-03-15T20:13:27+00:00"}}, {"sha": "7cd665d44ca449c8d8bc04f9a94ae666321e3528", "message": "\ud83e\udd16 [auto] Phase 9: Costs/Judge/Receipt page review completed \u2705", "author": {"name": "Clawlinker", "date": "2026-03-15T20:17:46+00:00"}}, {"sha": "ba9dd1c0a8fcc234b24f72dd64dac452bef10664", "message": "\ud83d\udd0d [review] Last 3 commits: x402 revenue fix, cron paths, receipt improvements", "author": {"name": "Clawlinker", "date": "2026-03-15T20:20:06+00:00"}}, {"sha": "197a0bb668b499ef0648c40e6bd8680fb25ad494", "message": "\ud83e\udd16 [auto] Mobile responsiveness pass - receipt detail page width reduced to max-w-2xl, SVG 16:9 aspect ratio, AgentBadge max-width to 140px, all pages verified with responsive text sizes", "author": {"name": "Clawlinker", "date": "2026-03-15T20:34:24+00:00"}}, {"sha": "ba69a3f220933ee756fec0a64272c179c75c817b", "message": "\ud83e\udd16 [auto] fix cron paths and port: use .internal/ and port 3001", "author": {"name": "Clawlinker", "date": "2026-03-15T20:47:06+00:00"}}, {"sha": "2e172a1cb20c010e037ceaf26492f3ed467db70f", "message": "\ud83e\udd16 [auto] mark gate cron fix task complete", "author": {"name": "Clawlinker", "date": "2026-03-15T20:47:50+00:00"}}, {"sha": "774c3d09b2320bb104b77a84a346b27bdcc2e6c2", "message": "\ud83e\udd16 [auto] log gate cron fix execution", "author": {"name": "Clawlinker", "date": "2026-03-15T20:48:07+00:00"}}, {"sha": "4e659df724cd235a7464cf7ea0086664c68e4076", "message": "\ud83c\udff7\ufe0f label 6 unknown addresses: BaseSettler, x402 payout, Bankr top-ups", "author": {"name": "Clawlinker", "date": "2026-03-15T20:59:29+00:00"}}, {"sha": "c352cdfb5ee49f0e415da2e2588c03ffbd7f90e5", "message": "\ud83e\udd16 [auto] Phase 10 pending items updated - awaiting Mar 18 judging feedback", "author": {"name": "Clawlinker", "date": "2026-03-15T21:01:04+00:00"}}, {"sha": "7ebedeaa3d37f959bce49f6539fdd6564725e6c2", "message": "\ud83e\udd16 [auto] Log no-op session - Phase 10 pending Max input", "author": {"name": "Clawlinker", "date": "2026-03-15T21:01:21+00:00"}}, {"sha": "0cb8d661ae23b7c64b3e8ba1a5bf3f9d050e4966", "message": "\ud83c\udff7\ufe0f label remaining addresses: x402 facilitator fee + customer", "author": {"name": "Clawlinker", "date": "2026-03-15T21:05:57+00:00"}}, {"sha": "12e1f6a4a338a807ed34722569305da715e74d9f", "message": "\ud83c\udfa8 major design pass: compact hero, denser receipts, cleaner layout", "author": {"name": "Clawlinker", "date": "2026-03-15T21:13:42+00:00"}}, {"sha": "f7c7eb2614dd48547381891f9bacf8fcc4e6368c", "message": "\ud83e\udd16 [auto] Phase 10 status: all autonomous tasks complete, awaiting Max input", "author": {"name": "Clawlinker", "date": "2026-03-15T21:17:20+00:00"}}, {"sha": "102c3c222298d5811e2d565429b9acf9391e4ef5", "message": "\ud83e\udd16 [auto] Log autonomous task status session", "author": {"name": "Clawlinker", "date": "2026-03-15T21:17:40+00:00"}}, {"sha": "7efa41d887b8fbb00358d41a6b68f28f5674a1da", "message": "\ud83d\udd0d [review] Design pass \u2014 minor UX/accessibility improvements", "author": {"name": "Clawlinker", "date": "2026-03-15T21:19:23+00:00"}}, {"sha": "583a9bc8a58ab17521f0040e71d2b51baf9643dc", "message": "\ud83e\udd16 [auto] Screenshots for Devfolio - script created, UI polished, awaiting Max capture", "author": {"name": "Clawlinker", "date": "2026-03-15T21:33:43+00:00"}}, {"sha": "e1544fe23fee38997141bff95da723898e2a67b2", "message": "\u267b\ufe0f consolidate: remove unused tabs.tsx, extract shared phase-colors utility", "author": {"name": "Clawlinker", "date": "2026-03-15T21:38:07+00:00"}}, {"sha": "4d897e1725713147691a78b56b4fb16817ae2b32", "message": "\ud83d\uddc2\ufe0f move internal docs out of public repo", "author": {"name": "Clawlinker", "date": "2026-03-15T21:40:21+00:00"}}, {"sha": "c56530a941bda2861b2ac25557375f2d3979bd41", "message": "\ud83e\udd16 [auto] All Phase 0-9 complete; Phase 10 pending Max input (demo video, Devfolio submission)", "author": {"name": "Clawlinker", "date": "2026-03-15T21:46:08+00:00"}}, {"sha": "cbe15d7f7d7d30dce670aed5c30a88af6bbb2ee4", "message": "\ud83e\udde0 [think] Agent judges parse logs; human judges need visuals. Fix gitignore gap, run screenshots.", "author": {"name": "Clawlinker", "date": "2026-03-15T21:49:53+00:00"}}, {"sha": "c70e5aec6a67ae1ba4ea867b01061d2c5163e98f", "message": "\ud83e\uddf9 major cleanup: remove 600MB bloat, deduplicate data files, refresh logs", "author": {"name": "Clawlinker", "date": "2026-03-15T21:56:59+00:00"}}, {"sha": "fdaa1194e261d0179ca0680dcd44345797e50c6f", "message": "\ud83d\udc1b fix: AgentHeader source badge always showed 'Sample data' due to exact string match bug", "author": {"name": "Clawlinker", "date": "2026-03-15T22:03:07+00:00"}}, {"sha": "425bad4bc1f59c449998132ac87bc8d27fcae725", "message": "\ud83e\uddf9 remove dead code: duplicate InferenceLogEntry in data/types.ts, unused Receipt import, unused BasescanApiResponse import in receipts route", "author": {"name": "Clawlinker", "date": "2026-03-15T22:22:26+00:00"}}, {"sha": "f6ddbf53a5c7c33abd38454feef36e2ce6bbd8d4", "message": "\ud83d\uddbc\ufe0f fix: OG image now returns PNG (not SVG) so Twitter/Discord previews actually render", "author": {"name": "Clawlinker", "date": "2026-03-15T22:25:37+00:00"}}, {"sha": "81e1ab9cd05737d9e9728c3a0c98ebb3987153d9", "message": "\u23f1\ufe0f ux: smart contextual timestamps on receipt cards (was just HH:MM, now relative/dated)", "author": {"name": "Clawlinker", "date": "2026-03-15T22:43:56+00:00"}}, {"sha": "c394795ae0a185a09eafc79a9f9a6377c3d40e0e", "message": "\ud83d\udd27 fix judge page commits, redundant labels, zero amounts, action count", "author": {"name": "Clawlinker", "date": "2026-03-15T23:11:59+00:00"}}, {"sha": "81c3d384b91e624f75c47de908872ab7709ad221", "message": "\ud83d\udc8e receipt cards redesign: fintech-quality, grouped duplicates, animations", "author": {"name": "Clawlinker", "date": "2026-03-15T23:13:21+00:00"}}, {"sha": "6782f8dda089f4acd5ed260d5515b80f9ebd42b2", "message": "\ud83d\udd17 fix receipt share: wrong domain bug + add copy-link button", "author": {"name": "Clawlinker", "date": "2026-03-15T23:24:22+00:00"}}, {"sha": "814b430857f6789a98a04de79b4602290356f140", "message": "\ud83c\udfa8 receipt page: consistent styling with site design system", "author": {"name": "Clawlinker", "date": "2026-03-15T23:44:17+00:00"}}, {"sha": "1adc098fd9d38174cb95332b866d64aa1f08f1e7", "message": "\u2728 receipt cards iter 1: visual polish, amount typography, verified dots", "author": {"name": "Clawlinker", "date": "2026-03-16T00:35:28+00:00"}}, {"sha": "41908f221a928d976f37d7f8102eab853ce2870d", "message": "\u2728 receipt cards iter 4: compact stats bar, horizontal layout, trend indicators", "author": {"name": "Clawlinker", "date": "2026-03-16T00:35:56+00:00"}}, {"sha": "5f07feaaf207a977d9c1957250d3fbcab207665f", "message": "\u2728 receipt cards iter 3: smart sorting, feed summary, sticky headers", "author": {"name": "Clawlinker", "date": "2026-03-16T00:36:29+00:00"}}, {"sha": "4c0988c5d53bfe6b593c5aca82618d6a35cca624", "message": "\u2728 receipt cards iter 2: inference improvements, humanized tasks, phase badges", "author": {"name": "Clawlinker", "date": "2026-03-16T00:41:59+00:00"}}, {"sha": "b420bcd608105cc986cf2120d24c2d130c1660f1", "message": "\u2728 receipt cards iter 5: receipt detail page, sharing, OG tags", "author": {"name": "Clawlinker", "date": "2026-03-16T00:42:19+00:00"}}, {"sha": "12c3c704130cc8b3d0afcfcdf7311e238f4bac2d", "message": "\u2728 receipt cards iter 2: inference improvements, humanized tasks, phase badges + build fix", "author": {"name": "Clawlinker", "date": "2026-03-16T00:42:48+00:00"}}, {"sha": "3a754764e4a03d9bf1aa5b0fa5c6fdff4359e4f9", "message": "\ud83e\uddf9 commit orphaned changes", "author": {"name": "Clawlinker", "date": "2026-03-16T00:55:37+00:00"}}, {"sha": "c576de5c61a5f7a579039d89397fb3d0ba0fdf66", "message": "\ud83d\udce6 optimize: move shadcn CLI to devDeps, archive 4 dead ReceiptCard variants", "author": {"name": "Clawlinker", "date": "2026-03-16T00:56:23+00:00"}}, {"sha": "6771516948af83000f4d19c5747f81dd4c451d75", "message": "Revert \"\ud83d\udce6 optimize: move shadcn CLI to devDeps, archive 4 dead ReceiptCard variants\"", "author": {"name": "Clawlinker", "date": "2026-03-16T01:00:38+00:00"}}, {"sha": "a077760323c98312275b4432b6069c70af14a8eb", "message": "\ud83c\udfc6 final receipt cards: best-of-breed from 4 competing designs", "author": {"name": "Clawlinker", "date": "2026-03-16T01:01:22+00:00"}}, {"sha": "3f5e77f4db1c689722e1cf7c11d0f318e874a47e", "message": "\ud83c\udfc6 final receipt cards: best-of-breed composition from 4 competing designs", "author": {"name": "Clawlinker", "date": "2026-03-16T01:03:11+00:00"}}, {"sha": "78e2fa3e5915dcc0687f5309772d49dc45278635", "message": "\ud83c\udfa8 spacing pass: Refactoring UI principles \u2014 more breathing room", "author": {"name": "Clawlinker", "date": "2026-03-16T01:08:02+00:00"}}, {"sha": "ee0810248525b4912d3b4e17b8ac612b7e3b1e77", "message": "\u2728 clean wallet filter labels: remove address slug, rename Bankr (Clawlinker) \u2192 Bankr", "author": {"name": "Clawlinker", "date": "2026-03-16T01:54:00+00:00"}}, {"sha": "61d7163ff45402507f4fe055d336b51ebd32d03d", "message": "\ud83e\uddf9 remove dead code: ReceiptCard variants A/B/C/E/ORIGINAL, test-receiptcard-e.tsx, unused BasescanApiResponse type", "author": {"name": "Clawlinker", "date": "2026-03-16T02:21:30+00:00"}}, {"sha": "4b73ea27f36fafeb46d68a056c853f672c07ff8a", "message": "\ud83d\udd25 fix triple redundancy: narrative shows only counterparty/task, amount+model shown separately", "author": {"name": "Clawlinker", "date": "2026-03-16T02:25:48+00:00"}}, {"sha": "02af1bcaa008b7214f427333a9e80a017420f909", "message": "\ud83c\udfa8 proper design system pass (Refactoring UI)", "author": {"name": "Clawlinker", "date": "2026-03-16T02:40:57+00:00"}}, {"sha": "2f3443fa2a5c8185a3588d9b4ad333d26fc5a976", "message": "\ud83e\uddfe receipt paper view: thermal printer aesthetic, click to expand", "author": {"name": "Clawlinker", "date": "2026-03-16T02:48:00+00:00"}}, {"sha": "7f340bc5031a6550b5a69d301093f9b188507aa5", "message": "\ud83e\uddfe receipt paper polish: animation, perforated edges, better collapse button", "author": {"name": "Clawlinker", "date": "2026-03-16T02:53:22+00:00"}}, {"sha": "3f21e4fbd1f5059169a7b18a72ec658e811aa005", "message": "\ud83d\udd17 receipt paper: clickable tx hash + View Receipt link to detail page", "author": {"name": "Clawlinker", "date": "2026-03-16T02:59:42+00:00"}}, {"sha": "5ddc9465b87eaeb0113ab938f8d279fd0ea8c368", "message": "\ud83e\uddfe mini receipt stubs: each row is a tiny receipt card", "author": {"name": "Clawlinker", "date": "2026-03-16T03:05:54+00:00"}}, {"sha": "d992437c316c2b1990e7153fddf7c56181d3500f", "message": "\ud83d\udd0d fix inference provider: Anthropic API for claude models, Bankr for qwen/deepseek", "author": {"name": "Clawlinker", "date": "2026-03-16T03:09:09+00:00"}}, {"sha": "8921c57898c3b17836dbd8a9365344fbe4380004", "message": "\ud83d\udd17 accurate verification: on-chain vs off-chain receipts", "author": {"name": "Clawlinker", "date": "2026-03-16T03:13:29+00:00"}}, {"sha": "f1bda83223a1615a519481df3d69cf010779d82f", "message": "\ud83c\udfa8 new hero section: stats-driven, animated counters, judge-ready", "author": {"name": "Clawlinker", "date": "2026-03-16T03:18:39+00:00"}}, {"sha": "ccbb819583037bc214e50af3041b826514c4c16c", "message": "fix: animated counters re-trigger when data arrives", "author": {"name": "Clawlinker", "date": "2026-03-16T03:24:44+00:00"}}, {"sha": "7f311645a88173b19026123bb314ed4d099cb713", "message": "\ud83c\udfa8 level up navbar: glassmorphic, logo mark, Base badge, icon links", "author": {"name": "Clawlinker", "date": "2026-03-16T03:30:51+00:00"}}, {"sha": "b7464eba26dae660020496f8962c564ecd61b534", "message": "\ud83c\udfa8 refine navbar using Refero MCP research patterns", "author": {"name": "Clawlinker", "date": "2026-03-16T03:35:40+00:00"}}, {"sha": "01f8e8b11f35ba61c4ad664118f0f17965f1b23c", "message": "fix: navbar icon, remove double selected state, match content width", "author": {"name": "Clawlinker", "date": "2026-03-16T03:59:37+00:00"}}, {"sha": "40902839066f47fd5baa1c9dabd70cba58b391c0", "message": "fix: add chain field to receipts, fix network label (Base not Base 8453) and explorer links", "author": {"name": "Clawlinker", "date": "2026-03-16T04:04:03+00:00"}}, {"sha": "7c69d289ddc82eb2dc3c9b8d95cf279bab576955", "message": "feat: add LLM inference section divider in receipt feed", "author": {"name": "Clawlinker", "date": "2026-03-16T04:26:48+00:00"}}, {"sha": "0bc49d676eb0de3b2dfdbca75bdc028125be3462", "message": "fix: lazy-init x402 to avoid build-time facilitator failures on Vercel", "author": {"name": "Clawlinker", "date": "2026-03-16T04:41:46+00:00"}}, {"sha": "120d57c5276a0ed79d2628ea73ffe53a940d7352", "message": "fix: replace fs.readFileSync with static imports for Vercel compat (costs, judge, build-log)", "author": {"name": "Clawlinker", "date": "2026-03-16T04:44:22+00:00"}}, {"sha": "8164f3b8af212e9c4fa25de5f084236e9f7cc074", "message": "\ud83e\uddf9 commit orphaned changes", "author": {"name": "Clawlinker", "date": "2026-03-16T04:55:35+00:00"}}, {"sha": "8c912ddec303ec2992e52744e61a915a334b00b4", "message": "fix: use correct Blockscout v2 /transactions/{hash} endpoint for SVG receipts", "author": {"name": "Clawlinker", "date": "2026-03-16T05:03:35+00:00"}}, {"sha": "bd7e54050bc744003d3dfa9594e84d55cf19dcb3", "message": "\ud83e\uddf9 commit orphaned changes", "author": {"name": "Clawlinker", "date": "2026-03-16T05:55:37+00:00"}}, {"sha": "a4a438509fb5b0187c6f7710e36dbc873002fab7", "message": "fix: add missing verify and cron phases to Judge page filter dropdown", "author": {"name": "Clawlinker", "date": "2026-03-16T10:01:32+00:00"}}, {"sha": "917678aeb477b19a56a4861204980f9ac2077106", "message": "\ud83e\uddf9 remove dead code: unused AgentHeader component + unused imports (buttonVariants, CHAIN_ID)", "author": {"name": "Clawlinker", "date": "2026-03-16T10:24:36+00:00"}}, {"sha": "f2732c201558de13309002efb3179ac3d6bfd873", "message": "feat: add nav links to AppFooter (Receipts, Judge Mode, Build Log, Costs, GitHub) + use AppFooter on home page", "author": {"name": "Clawlinker", "date": "2026-03-16T11:04:44+00:00"}}, {"sha": "f7137d2fbb4cc58d0a352b98c8c3bca21499c103", "message": "fix: CopyLinkButton layout \u2014 remove col-span-2, match share button style", "author": {"name": "Clawlinker", "date": "2026-03-16T11:45:01+00:00"}}, {"sha": "ae194244b1c9c4a28b99ff4931c557269947e7af", "message": "fix: correct GitHub commit URLs in Build Log page (base-designer \u2192 clawlinker)", "author": {"name": "Clawlinker", "date": "2026-03-16T12:03:55+00:00"}}, {"sha": "879eef963bd811a62c7d6d7a9083cdff52769dc7", "message": "\ud83e\uddf9 remove dead code: CHAIN_ID/ETH_CHAIN_ID/AgentKey from types, TableFooter/TableCaption from table.tsx", "author": {"name": "Clawlinker", "date": "2026-03-16T12:25:14+00:00"}}, {"sha": "eeb94719b9e0597f7f0e5638f26de1dda5a6b00b", "message": "fix: animate accordion chevron with CSS rotation instead of icon swap", "author": {"name": "Clawlinker", "date": "2026-03-16T12:29:49+00:00"}}, {"sha": "3f80bbdb28b139522bd44de71916b0a097996dee", "message": "fix: x402 endpoint - disable syncFacilitatorOnStart, add error handling for serverless", "author": {"name": "Clawlinker", "date": "2026-03-16T12:31:36+00:00"}}, {"sha": "23b2f9b3771e11bc54a3643e86e743e8e02dc8ff", "message": "fix: x402 endpoint - manual 402 gate, fix em-dash in header causing ByteString error", "author": {"name": "Clawlinker", "date": "2026-03-16T12:34:39+00:00"}}, {"sha": "3b2f5270df0f764f7941c29afa88546aace308ee", "message": "fix: filter inference to Bankr models only (remove Anthropic API), hide LLM costs by default", "author": {"name": "Clawlinker", "date": "2026-03-16T12:36:54+00:00"}}, {"sha": "7f06a8c7762998bed9711cc145c3f2e789f457af", "message": "fix: rename x402 Payout \u2192 x402 Payment", "author": {"name": "Clawlinker", "date": "2026-03-16T12:41:02+00:00"}}, {"sha": "0c509ed295343fce0b14a420ae7f50abc6026a6d", "message": "fix: show actual time on receipt cards instead of redundant date", "author": {"name": "Clawlinker", "date": "2026-03-16T14:59:15+00:00"}}, {"sha": "d5343f0dff73d044815501902cf117f6c5b08394", "message": "\ud83e\uddf9 commit orphaned changes", "author": {"name": "Clawlinker", "date": "2026-03-16T15:55:56+00:00"}}, {"sha": "4049b57dab4beb109721b206105116d75733a442", "message": "docs: move COLLAB.md to root, update for Mar 16, fix live URL", "author": {"name": "Clawlinker", "date": "2026-03-16T16:52:02+00:00"}}, {"sha": "cfc37f6e06dbb25c017e83317068ff15ada70dac", "message": "docs: add hackathon artifacts section to README, link COLLAB + agent.json", "author": {"name": "Clawlinker", "date": "2026-03-16T16:52:29+00:00"}}, {"sha": "abceeefc675343489dcd965e1334bdc493c98a8a", "message": "\ud83d\udcca agent_log: add 35 entries for Mar 16 autonomous work (111 total, $4.01 spent)", "author": {"name": "Clawlinker", "date": "2026-03-16T16:53:32+00:00"}}, {"sha": "dbe0c39a7963596df23976a44d6f7e4de7e12dd5", "message": "\ud83d\udcf8 add screenshots for Devfolio submission (receipt feed, judge mode, build log, costs)", "author": {"name": "Clawlinker", "date": "2026-03-16T16:57:04+00:00"}}, {"sha": "42eb403fd4b874d2aeed16825c30ebc5842ae337", "message": "\u2728 build-log: show more commits/entries with expand toggle (was 15/20, now 20/30 + show-all button)", "author": {"name": "Clawlinker", "date": "2026-03-16T17:06:18+00:00"}}, {"sha": "3ea0c33477de725339bf4c4ce4867e638571958a", "message": "fix: rename Spent/Earned \u2192 Sent/Received for accuracy", "author": {"name": "Clawlinker", "date": "2026-03-16T18:37:42+00:00"}}, {"sha": "8384783d649e2648bb3753d7825193a0aec45e33", "message": "fix: use AppFooter on judge page for consistent nav + branding", "author": {"name": "Clawlinker", "date": "2026-03-16T19:06:15+00:00"}}, {"sha": "598d7a1bd546867feef6120873e83692fd8e1a61", "message": "fix: remove x402 ad badge from judge page footer", "author": {"name": "Clawlinker", "date": "2026-03-16T21:07:29+00:00"}}, {"sha": "e6c033b905c3e5191dfc0929dc15d3a7ee371d71", "message": "fix: update commits.json with 10 missing recent commits (was stale since 7f06a8c)", "author": {"name": "Clawlinker", "date": "2026-03-16T22:06:08+00:00"}}, {"sha": "3b89dc6b8ecf86e0b6804e47614c3a1e21df171d", "message": "fix: add Bankr wallet to address labels, update commits.json (59 commits)", "author": {"name": "Clawlinker", "date": "2026-03-16T23:27:15+00:00"}}, {"sha": "71094965ccf2a28bd59150afb8c957821bff6906", "message": "fix: add top nav bar to judge page for easy navigation", "author": {"name": "Clawlinker", "date": "2026-03-17T00:03:31+00:00"}}, {"sha": "d5100f9e23f2a3f901b03a81e2a5e84ff816eaec", "message": "fix: use shortenAddr for raw addresses in receipt card FROM/TO rows", "author": {"name": "Clawlinker", "date": "2026-03-17T01:03:34+00:00"}}, {"sha": "b1232733caffd6545c93aaca9a84abeeaaaa9e18", "message": "fix: always show real LLM costs in ReceiptStats regardless of inference toggle", "author": {"name": "Clawlinker", "date": "2026-03-17T02:07:46+00:00"}}, {"sha": "6ded66ef67f8ddba75e32e1c900bc1b9c47bceed", "message": "fix: judge page crash \u2014 add missing artifacts/decision fields to agent_log entries, add null guards", "author": {"name": "Clawlinker", "date": "2026-03-17T02:22:29+00:00"}}, {"sha": "5ec1fbf91a68894e8bb0c721dfd120a457ba732d", "message": "feat: add machine-readable endpoints for AI agent judges", "author": {"name": "Clawlinker", "date": "2026-03-17T02:26:17+00:00"}}, {"sha": "d57bc6c551f638903779bd6823d533b5ad36dc99", "message": "fix: surface agent decision/reasoning field in Judge Mode log entry cards", "author": {"name": "Clawlinker", "date": "2026-03-17T03:05:59+00:00"}}, {"sha": "85df380767ed70af48ea219e63fce3c5a9e29f03", "message": "docs: add live demo URL to README", "author": {"name": "Clawlinker", "date": "2026-03-17T03:49:49+00:00"}}, {"sha": "fe11a319127c2c13e1743806249eb626be7b6b7c", "message": "fix: clearly distinguish on-chain receipts from inference cost estimates", "author": {"name": "Clawlinker", "date": "2026-03-17T04:09:07+00:00"}}, {"sha": "3d81c08673dc6ff26c77fd7865af33f9f27fc54c", "message": "feat: add machine-readable API callout on judge page for AI judges", "author": {"name": "Clawlinker", "date": "2026-03-17T04:10:01+00:00"}}, {"sha": "3db83f1e5a1e7a7a27e5d06699222754f0621b1f", "message": "fix: update commits.json with 10 missing recent commits (build timeline was stale)", "author": {"name": "Clawlinker", "date": "2026-03-17T05:08:52+00:00"}}, {"sha": "b49d8faa63c9b320f4849649a669ffb03679a0c6", "message": "fix: map commit.author to object with login and avatar_url", "author": {"name": "Clawlinker", "date": "2026-03-17T05:10:23+00:00"}}, {"sha": "30daed8fb209b88b5c5bf9b326ebe403810745b9", "message": "fix: use entry.cron field for byCron cost breakdown (was using entry.action)", "author": {"name": "Clawlinker", "date": "2026-03-17T06:08:47+00:00"}}, {"sha": "3cebf985cc5948b5e2586d9f3add85be524f3ffe", "message": "\ud83d\udd0d judge-review: add chain field to cached receipts for multi-chain support", "author": {"name": "Clawlinker", "date": "2026-03-17T06:13:19+00:00"}}, {"sha": "a9689828a4f1a8006a65d45192dc58f0df5132c7", "message": "feat: enrich x402 receipts with service, agent, and label data", "author": {"name": "Clawlinker", "date": "2026-03-17T07:10:34+00:00"}}, {"sha": "7b28f46640cfe1079ec9c2cb5ac48f2a099a4326", "message": "fix: replace x402 facilitator verification with mock for hackathon demo", "author": {"name": "Clawlinker", "date": "2026-03-17T08:06:06+00:00"}}, {"sha": "ec7a7ad577d880de6263e50bc10352f8080cd2c7", "message": "fix: use receiptType === 'inference' instead of tokenSymbol === 'USD' for inference receipt filtering This is more robust and semantically correct - receiptType field explicitly indicates inference vs on-chain receipt type, unlike tokenSymbol which could change", "author": {"name": "Clawlinker", "date": "2026-03-17T09:06:07+00:00"}}, {"sha": "56135061d70564033826e0d04b8cd3bdb8860eb9", "message": "fix: add avatar icons to wallet selector buttons", "author": {"name": "Clawlinker", "date": "2026-03-17T10:02:54+00:00"}}, {"sha": "47a64a7ad7d1c2b6f45282d6189f5e1242aa1da0", "message": "fix: clarify chain field in Receipt type interface", "author": {"name": "Clawlinker", "date": "2026-03-17T10:05:17+00:00"}}, {"sha": "51883b67ead8c6cc110f42513e398eeaafb96695", "message": "fix: wallet selector - show agent names instead of raw addresses on hover", "author": {"name": "Clawlinker", "date": "2026-03-17T11:05:02+00:00"}}, {"sha": "bc5125159cd108b53a72cac4d719375b4cf8b29d", "message": "fix: move agent.json to public/.well-known/agent.json and remove unnecessary route handler", "author": {"name": "Clawlinker", "date": "2026-03-17T12:04:50+00:00"}}, {"sha": "7c8867b0a78b7bceb7685e94458b7c7ea76237c4", "message": "fix: update agent.json to describe Molttail project for agentic judging", "author": {"name": "Clawlinker", "date": "2026-03-17T13:04:38+00:00"}}, {"sha": "537096df0334541128abca8e6cab0521151a5c64", "message": "\ud83d\udd0d judge-review: fix cron grouping in cost breakdown to use action field", "author": {"name": "Clawlinker", "date": "2026-03-17T13:06:10+00:00"}}, {"sha": "b42563e568a28609f53f69e55ef88f257df44229", "message": "\u2728 judge mode: polish for Mar 18 agentic judging", "author": {"name": "Clawlinker", "date": "2026-03-17T13:51:55+00:00"}}, {"sha": "b83ef69356cac739fea7e6a7cb9a2e82d6ee233e", "message": "fix: add avatar_url to commits.json for judge page avatar display", "author": {"name": "Clawlinker", "date": "2026-03-17T14:05:11+00:00"}}, {"sha": "0f405913a6016be82240d91268664f515caf3a8b", "message": "fix: remove redundant inline nav from judge page (NavBar is in layout)", "author": {"name": "Clawlinker", "date": "2026-03-17T15:07:13+00:00"}}, {"sha": "66cfbf554e3a83a3403d1b716f710ba1bb32c91f", "message": "fix: widen NavBar inner container to max-w-6xl to match judge page width", "author": {"name": "Clawlinker", "date": "2026-03-17T16:06:00+00:00"}}, {"sha": "5eee51aa32e28059849a8c0f58543e8b4983d916", "message": "fix: use cron field for byCron breakdown instead of action", "author": {"name": "Clawlinker", "date": "2026-03-17T16:09:31+00:00"}}, {"sha": "a1e809da9709d85f479a8ee36244ee14826318a8", "message": "fix: hero stats show skeleton while loading instead of zeros, add judge endpoints to README", "author": {"name": "Clawlinker", "date": "2026-03-17T16:37:41+00:00"}}, {"sha": "c00a405a80a71f16aa465d810ffad6d80356af4d", "message": "feat: localStorage cache for receipts \u2014 hero stats show last data instantly, no zeros", "author": {"name": "Clawlinker", "date": "2026-03-17T17:03:35+00:00"}}, {"sha": "b5adf7d2b5db54568da635882cdb172ba18eb570", "message": "feat: LLM-powered receipt insights via Bankr Gateway (qwen3.5-flash)", "author": {"name": "Clawlinker", "date": "2026-03-17T17:09:02+00:00"}}, {"sha": "1f3bff2d593ea8c57a38bb79fbadb3843f92f11d", "message": "fix: use correct BANKR_API_KEY env var name", "author": {"name": "Clawlinker", "date": "2026-03-17T17:10:16+00:00"}}, {"sha": "ec0cd30c1bf1aec64da93e574f84e2975d2b6d56", "message": "\ud83d\udd0d judge-review: Update agent.json to reflect Molttail project identity (was Clawlinker)", "author": {"name": "Clawlinker", "date": "2026-03-17T17:10:54+00:00"}}, {"sha": "a29021de81b848cd1b707e898ec42bac294b8407", "message": "fix: correct Bankr LLM endpoint URL (llm.bankr.bot not .app)", "author": {"name": "Clawlinker", "date": "2026-03-17T17:13:26+00:00"}}, {"sha": "bba798275205661d5543ff73a4e713ccd06347a0", "message": "feat: ENS integration \u2014 resolve addresses to .eth names, ENS API endpoint, identity badges", "author": {"name": "Clawlinker", "date": "2026-03-17T17:48:32+00:00"}}, {"sha": "f72a710a71843db1f4f1a6699ce327fa66731ee5", "message": "fix: nav width matches content width on desktop (max-w-2xl)", "author": {"name": "Clawlinker", "date": "2026-03-17T17:50:41+00:00"}}, {"sha": "7c8e93baf1a9093ef3377236f2051fde9583b5f8", "message": "fix: amount filter step 0.01\u21920.001 to support sub-cent inference costs", "author": {"name": "Clawlinker", "date": "2026-03-17T18:07:18+00:00"}}, {"sha": "cd1285055106064d269cff6427c0cabc81c60b0d", "message": "\ud83d\udd0d judge-review: Add missing phase filter options (build, polish, deploy, cleanup, submit)", "author": {"name": "Clawlinker", "date": "2026-03-17T18:09:10+00:00"}}, {"sha": "e0956e85117f3cf97774d078513014827ee4cf9b", "message": "fix: costs endpoint now only counts Bankr model costs (not OpenClaw's internal Opus/Sonnet)", "author": {"name": "Clawlinker", "date": "2026-03-17T18:21:33+00:00"}}, {"sha": "e2cdc713be81ea99aaf01a42772caf668200300a", "message": "feat: costs endpoint now shows ALL Bankr LLM costs, not just hackathon-related", "author": {"name": "Clawlinker", "date": "2026-03-17T18:25:52+00:00"}}, {"sha": "5f919e03007a290513a7945d59a6324ecb5f54c0", "message": "fix: agent summary now shows only Bankr LLM costs, not OpenClaw Opus/Sonnet", "author": {"name": "Clawlinker", "date": "2026-03-17T18:27:34+00:00"}}, {"sha": "652b7989d397e5c5581b3b84ead5ae596f5bd6c9", "message": "feat: costs endpoint now pulls REAL data from Bankr API (not agent_log estimates)", "author": {"name": "Clawlinker", "date": "2026-03-17T18:41:19+00:00"}}, {"sha": "7631db7657744df550a3189f316a97bbb23050cc", "message": "docs: highlight judge summary endpoint as primary machine-readable format", "author": {"name": "Clawlinker", "date": "2026-03-17T19:10:23+00:00"}}, {"sha": "1ea8acabc2b7df8816d5433ec2adff2502f1bdf2", "message": "fix: remove duplicate .eth suffix from ENS badge in HeroSection", "author": {"name": "Clawlinker", "date": "2026-03-17T20:05:05+00:00"}}, {"sha": "bfb5bd9643ea8f3ffdbd1eb9378dd50d18befb89", "message": "fix: rename 'Judge Mode' CTA to 'How I Built This' for judge clarity", "author": {"name": "Clawlinker", "date": "2026-03-17T21:05:12+00:00"}}, {"sha": "2dc63ff6f4f4b596aa2c474242b5e8532eb5fd15", "message": "\ud83d\udd0d judge-review: Fix dynamic import to static import for agent_log.json in judge/costs/route.ts", "author": {"name": "Clawlinker", "date": "2026-03-17T21:08:04+00:00"}}, {"sha": "c005bba6608bcd36a8ad75ff83df2dc3f7d32890", "message": "fix: rename NavBar 'Judge' to 'Judge Mode' for consistency", "author": {"name": "Clawlinker", "date": "2026-03-17T22:06:32+00:00"}}, {"sha": "239ff8ba0c0ef0c13caab28779724a8491c50ed9", "message": "\ud83e\uddf9 commit orphaned changes", "author": {"name": "Clawlinker", "date": "2026-03-17T22:55:39+00:00"}}, {"sha": "34db7013173389e24a75b8ef7e6f39a962e19cfb", "message": "fix: add error banner to judge page when API fetch fails", "author": {"name": "Clawlinker", "date": "2026-03-17T23:06:32+00:00"}}, {"sha": "be7f1cd00a3c8d5ea0a26329c06efb4acb8a978a", "message": "\ud83d\udd0d judge-review: add missing judge endpoints to llms.txt (verify, svg)", "author": {"name": "Clawlinker", "date": "2026-03-17T23:09:41+00:00"}}, {"sha": "473b6b9f7472d91fb616bb367f600c56e1cb77e3", "message": "chore: update cached-receipts.json", "author": {"name": "Clawlinker", "date": "2026-03-18T00:11:36+00:00"}}, {"sha": "4868df67b4a56f4c2c94cc817806f4d7a31db79f", "message": "add AGENTS.md for agentic judges", "author": {"name": "Clawlinker", "date": "2026-03-18T00:35:08+00:00"}}, {"sha": "8c02ad138e27bf910c3130a399da93ba8688134e", "message": "fix: show address label in receipt page when no ERC-8004 agent identity", "author": {"name": "Clawlinker", "date": "2026-03-18T01:08:22+00:00"}}, {"sha": "b9213078211373c1ca1956a91f9fc05395bc3dda", "message": "\ud83d\udd0d judge-review: fix autonomous hours calculation and commit URL construction", "author": {"name": "Clawlinker", "date": "2026-03-18T01:09:57+00:00"}}, {"sha": "cf0bfd8ab2b712133a280380191bcc2ab8cd09ac", "message": "docs: rewrite COLLAB.md with real collaboration narrative", "author": {"name": "Clawlinker", "date": "2026-03-18T02:01:37+00:00"}}, {"sha": "07a54fbf97faaf1cdaa68c9493a1cb6e989a2e9f", "message": "\ud83d\udd0d judge-review: add chain field to inference receipts for consistency", "author": {"name": "Clawlinker", "date": "2026-03-18T02:11:51+00:00"}}, {"sha": "9c33aa0db752ebe22d3dd3476921b9b9566c37e4", "message": "chore: add Mar 17 entries to agent_log.json (111\u2192122)", "author": {"name": "Clawlinker", "date": "2026-03-18T02:15:30+00:00"}}, {"sha": "6f9d5a999d14297f8c608495a2c56b11d2e6ca75", "message": "fix: show real git commit count in judge stats (was capped at 20, now shows full total)", "author": {"name": "Clawlinker", "date": "2026-03-18T03:05:22+00:00"}}, {"sha": "0db8002cb98f63168ce455b9668c3d25c0d62547", "message": "\ud83d\udd0d judge-review: Fetch costs from judge/costs endpoint for accurate total LLM spend", "author": {"name": "Clawlinker", "date": "2026-03-18T03:08:29+00:00"}}, {"sha": "76f6fa9e012718c43cf61d857276a6cf5178de1c", "message": "fix: judge page toFixed crash, costs layout, 24h Bankr cache, 310 commits, label clarity", "author": {"name": "Clawlinker", "date": "2026-03-18T03:47:48+00:00"}}], "generated": "2026-03-18T03:48:28.234110+00:00Z"}
+{
+  "commits": [
+    {
+      "sha": "4afebe23c220a0bf62cbf871f34a1a65e3c1e80a",
+      "message": "\ud83d\ude80 Day 1: Repo setup, agent manifest, bounty analysis",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-13T17:12:50+00:00"
+      }
+    },
+    {
+      "sha": "2aa1ee9faa5dea7a0a7b58a5fcd4afee61ea5732",
+      "message": "\ud83d\udd0d ERC-8004 verification library \u2014 live-tested against agent #22945",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-13T17:19:07+00:00"
+      }
+    },
+    {
+      "sha": "92551fa5d97800a2a30ff66d7d0bf27c12eb5075",
+      "message": "\ud83e\uddf9 Add .gitignore, remove node_modules from tracking",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-13T17:19:18+00:00"
+      }
+    },
+    {
+      "sha": "878963b9e6fc52fa078a6e70411a2a5eb778b14c",
+      "message": "\ud83d\udcdd Add PRODUCT.md \u2014 open questions, user journey, scope thinking",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-13T17:34:35+00:00"
+      }
+    },
+    {
+      "sha": "13482d19ef7ee1c2355a2f8b5fa58c8e53257357",
+      "message": "\ud83d\udcdd Bankr LLM Gateway research + integration notes",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-13T17:39:21+00:00"
+      }
+    },
+    {
+      "sha": "90156f133e6a4136d7f1a591e138fb45a6ce7d15",
+      "message": "\ud83d\udcdd Add Bankr team intel \u2014 agent-to-agent economy is our angle",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-13T17:46:21+00:00"
+      }
+    },
+    {
+      "sha": "5325e551610586e35bcc8901e2dd2e1667955793",
+      "message": "\ud83d\udcdd Simplify \u2014 one sentence pitch, drop complexity",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-13T17:48:27+00:00"
+      }
+    },
+    {
+      "sha": "69b493eaacf27292c520f3bcb4ed860fd803f237",
+      "message": "\ud83d\udcca Day 1 status \u2014 honest assessment, open questions",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-13T17:50:43+00:00"
+      }
+    },
+    {
+      "sha": "dddddc32c98c5d395419120ff370beaefda2f419",
+      "message": "\ud83d\udca1 New idea: Agent Receipts \u2014 live spending feed tied to ERC-8004",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-13T18:00:33+00:00"
+      }
+    },
+    {
+      "sha": "ff818b4126f99bf8d7719301ab7f892f640eab09",
+      "message": "\ud83d\udca1 Receipts: skill distribution, failed tx tracking, architecture sketch",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-13T18:09:49+00:00"
+      }
+    },
+    {
+      "sha": "9a52d971089352fc79fa14de2fc425db26c52c1a",
+      "message": "\ud83d\udd25 Pivot: x402 facilitator as receipt layer \u2014 strongest angle yet",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-13T18:17:28+00:00"
+      }
+    },
+    {
+      "sha": "3ba6547d41442844b3d83c8c902f37bd963d2d03",
+      "message": "\ud83d\udcc5 Add SCHEDULE.md \u2014 research sessions + build timeline",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-13T18:18:45+00:00"
+      }
+    },
+    {
+      "sha": "d2100eb7dd821a27612f88b4ad00c1a3318119b4",
+      "message": "\ud83d\udca1 Bankr as receipt data source \u2014 natural fit, not forced",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-13T18:22:42+00:00"
+      }
+    },
+    {
+      "sha": "3af6bf01104da0f8393fed5fc97012551b079867",
+      "message": "\ud83d\udccb Autonomous loop design \u2014 models, crons, budget, task queue, guardrails",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-13T21:45:09+00:00"
+      }
+    },
+    {
+      "sha": "3ec29e2523089cd07d8114eb4f8046da0bc2dfd4",
+      "message": "\ud83d\udcc5 Add Bankr LLM model benchmark to research sessions",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-13T21:51:25+00:00"
+      }
+    },
+    {
+      "sha": "8fa915884537d411bed8b13086b3eba3096b16db",
+      "message": "\ud83d\udcca Full Bankr LLM pricing \u2014 21 models, tiered for autonomous work",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-13T21:52:06+00:00"
+      }
+    },
+    {
+      "sha": "11b772829d0d7b591427adbef07ce4e9c0968fd9",
+      "message": "\ud83c\udfc6 Bankr LLM benchmark \u2014 21 models tested, Qwen3 Coder wins price/perf",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-13T22:01:46+00:00"
+      }
+    },
+    {
+      "sha": "3bb8dd5b667effc0a5761cf91fb18def936c8ecd",
+      "message": "\ud83d\udd27 Cron hardening: watchdog, log helper, stagger, timeout, status tracking",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-13T22:28:52+00:00"
+      }
+    },
+    {
+      "sha": "1e868dc6fc6f2da65c3c8ad97478422e46d63bd3",
+      "message": "\ud83d\udcca Add raw benchmark outputs for all 21 Bankr LLM models",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-13T22:30:46+00:00"
+      }
+    },
+    {
+      "sha": "7ca04db5a2be3230556e208e180809bc233770c1",
+      "message": "\ud83d\ude80 12x/day autonomous sessions, expanded build-focused task queue",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-13T22:41:42+00:00"
+      }
+    },
+    {
+      "sha": "a12fd65a32804544681011c7478ae7c1069e8982",
+      "message": "\ud83d\udcc5 Full 10-day schedule \u2014 phased intensity, always-on crons",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-13T22:42:49+00:00"
+      }
+    },
+    {
+      "sha": "cac9088ac2a1ca5259bf8dae953bc0ceecd5b9ab",
+      "message": "\ud83e\udded Add DECISIONS.md \u2014 adaptive planning, cron reads context before acting",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-13T22:58:53+00:00"
+      }
+    },
+    {
+      "sha": "6b070bd1dc19073cdc81aca6687d8803e138d4f1",
+      "message": "\ud83d\udccb IDEAS.md \u2014 all 6 ideation outputs ranked by score",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T00:30:13+00:00"
+      }
+    },
+    {
+      "sha": "357d7a13789d0634830441f54171e2bc470d3169",
+      "message": "\ud83d\udd2c Queue Karpathy autoresearch as Phase 0 \u2014 agent self-optimizes its own prompts",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T00:40:19+00:00"
+      }
+    },
+    {
+      "sha": "5d7d937bcd3dbd432ff35da2fab59505a7d2eab7",
+      "message": "\ud83e\udd16 [auto] Karpathy prompt optimization \u2014 v2 crons deployed",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T05:01:19+00:00"
+      }
+    },
+    {
+      "sha": "021cf7c7fa71b88640643fd487bcc2fe456c4376",
+      "message": "\ud83e\udd16 [auto] Bankr API research: job history and balance investigation",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T06:31:07+00:00"
+      }
+    },
+    {
+      "sha": "39a2830ac6ce0634defba4f494b041584d5aeed1",
+      "message": "\ud83e\udd16 [auto] Surveyed ERC-8004 tooling and logged findings",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T08:30:16+00:00"
+      }
+    },
+    {
+      "sha": "ad121eff27b5c50bde6122e9d83fae76850d11ef",
+      "message": "\ud83e\udd16 [auto] MVP scaffold: Next.js 16 + receipt feed + API route",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T10:12:25+00:00"
+      }
+    },
+    {
+      "sha": "2430a43b73f25d7d3f62d75894330702c9bc0476",
+      "message": "\ud83e\udd16 [auto] fix build: Next 16 + Tailwind v4, clean deps, working build",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T10:14:31+00:00"
+      }
+    },
+    {
+      "sha": "f2d5a37defca89dc271b2dece74c19af52e3fb45",
+      "message": "\ud83e\udd16 [auto] fix Tailwind v4 styles for Next.js 16 compat",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T10:15:14+00:00"
+      }
+    },
+    {
+      "sha": "cfe788b76f63237450f5aa1f179551748cba27b3",
+      "message": "\ud83e\udd16 [auto] update task queue + decisions with scaffold status, safer cron prompt",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T10:54:04+00:00"
+      }
+    },
+    {
+      "sha": "718963e30960f3ae576c4ffce9cd560723c9051f",
+      "message": "\ud83e\udd16 [auto] Extract exact bounty rubrics to RUBRIC.md",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T12:36:48+00:00"
+      }
+    },
+    {
+      "sha": "4fa7eb65d8bc90070b7508e1d9c41977af783d52",
+      "message": "\ud83e\udd16 [auto] Competitor research completed; build verified.",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T14:24:59+00:00"
+      }
+    },
+    {
+      "sha": "6f55997b90c0bc682bf9c73a998ac1a7b453acc5",
+      "message": "\ud83e\udd16 [auto] Add address labeling and receipt enrichment for better audit trails",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T14:31:15+00:00"
+      }
+    },
+    {
+      "sha": "24448de6ef7f55a5f653c93a4f4447ef1e2e07d7",
+      "message": "\ud83e\udd16 [auto] Research SVG generation libraries for receipts",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T16:30:38+00:00"
+      }
+    },
+    {
+      "sha": "746f288881454a82c1f82f2a082e921219ea72da",
+      "message": "\ud83d\udd0d [review] Research phase complete; moving to SVG receipt scaffolding.",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T17:00:04+00:00"
+      }
+    },
+    {
+      "sha": "8b273073e42f2734d42f5b29eea2dc3559d56d0b",
+      "message": "\ud83e\udd16 [auto] Add Basescan API key to env",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T18:30:39+00:00"
+      }
+    },
+    {
+      "sha": "6de189ae83de56a6218f275cde0852bf0f48b849",
+      "message": "\ud83e\udd16 [auto] Enable 30s auto-refresh for receipt feed",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T20:30:55+00:00"
+      }
+    },
+    {
+      "sha": "9ab79e21b9dd8fe7c0f03bdd0341b758eb5c080b",
+      "message": "\ud83d\udd0d [review] Clean: Research complete, moving to SVG scaffolding.",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T21:06:39+00:00"
+      }
+    },
+    {
+      "sha": "bcb429bd3ecab5b9371a4b6cbcd83971568db185",
+      "message": "\ud83e\udd16 [auto] parallel cron pipeline: builder (30m) + guard (1h) + reviewer (2h) + drift check (3h)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T21:11:25+00:00"
+      }
+    },
+    {
+      "sha": "96c250317db46a74caf00511132575b65dfe9c04",
+      "message": "\ud83e\udd16 [auto] backfill agent_log.json (15 entries), reprioritize task queue for scoring gaps",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T21:15:52+00:00"
+      }
+    },
+    {
+      "sha": "7c037f61a06c089ebba2d3dddebd2efc36c2f8d4",
+      "message": "\ud83e\udd16 [auto] fix autonomy gaps: git push on all crons, approved deps list, skip-after-3 rule, stagger timing, Mar 18 deadline flag",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T21:55:51+00:00"
+      }
+    },
+    {
+      "sha": "0fc5bdf93db49248b7c1ae222278c4baf90554d2",
+      "message": "\ud83e\udd16 [auto] enrich agent.json to full DevSpot spec (JSON Agents v1.0)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T22:01:43+00:00"
+      }
+    },
+    {
+      "sha": "bc71bfb5ad07e0cb689c4aa4199aefb53410dfd4",
+      "message": "\ud83e\udd16 [auto] add SUBMISSION.md \u2014 full Devfolio checklist, video script, agentic judging prep",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T22:05:45+00:00"
+      }
+    },
+    {
+      "sha": "15299338a00262b4c43539b1dc131d1c443157e0",
+      "message": "\ud83d\udd0d [review] 3 issues \u2014 agent.json missing version, empty commit hash, policy case consistency",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T22:16:26+00:00"
+      }
+    },
+    {
+      "sha": "a5ccfd2f9d7a5d5e47c4051a8a3a3887a9752dee",
+      "message": "\ud83e\udd16 [auto] Implement cron auto-append to agent_log.json",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T22:32:12+00:00"
+      }
+    },
+    {
+      "sha": "8e5194a86cb07e1a2d2c4bce733d93c1270e39be",
+      "message": "\ud83e\udd16 [auto] x402 paid receipts API ($0.01 USDC gate) + stats dashboard",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T22:35:08+00:00"
+      }
+    },
+    {
+      "sha": "fbc0b9ba425e0c478beb228b1fcccebd6911e1d3",
+      "message": "feat: add Bankr LLM cost tracking to autonomous crons",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T23:01:48+00:00"
+      }
+    },
+    {
+      "sha": "bc00afbf81d658045ae265520a4425b423eeff06",
+      "message": "feat: add Bankr LLM cost tracking to autonomous crons",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T23:02:21+00:00"
+      }
+    },
+    {
+      "sha": "b440d1004da4680e7fc3940b8b0f9e79d6165704",
+      "message": "docs: mark Bankr LLM cost tracking as complete",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-14T23:02:35+00:00"
+      }
+    },
+    {
+      "sha": "66fdd51231cb6d4ba593458cc7ba659bdd2f593c",
+      "message": "\ud83e\udd16 [auto] Add ERC-8004 identity resolution",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T00:02:45+00:00"
+      }
+    },
+    {
+      "sha": "ca1ff3f6c85441afe582a5fc10c6d3cf0770346c",
+      "message": "\ud83e\udd16 [auto] Add multi-wallet support with Bankr wallet integration",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T00:32:04+00:00"
+      }
+    },
+    {
+      "sha": "ec2dabbd9cb1f551f29f2f5a2be0fcf6759f8964",
+      "message": "\ud83e\udd16 [auto] Mark Bankr wallet task complete and update loop",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T00:32:44+00:00"
+      }
+    },
+    {
+      "sha": "76fc8d3e48ecd0da3c44b21e71ff79def1834944",
+      "message": "\ud83e\udd16 [auto] Add Bankr LLM inference receipts",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T01:02:12+00:00"
+      }
+    },
+    {
+      "sha": "e05e277655f699c4891514fc65ea1591f5b273d3",
+      "message": "\ud83e\udd16 [auto] Mark inference receipts task complete",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T01:02:17+00:00"
+      }
+    },
+    {
+      "sha": "2c4ab422c85c7825ea1da2104e53d788178bdfc7",
+      "message": "\ud83e\udd16 [auto] Deploy phase complete \u2014 build passes, DEPLOY.md + README + COLLAB created",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T01:34:56+00:00"
+      }
+    },
+    {
+      "sha": "c86517b47aff65c7b359755750e3f7c037fbad29",
+      "message": "\ud83e\udd16 [auto] Update agent_log.json for deploy phase",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T01:35:23+00:00"
+      }
+    },
+    {
+      "sha": "b6dbd7f6470f2c043f6fadd8a727c3ac6ad7881a",
+      "message": "\ud83e\udd16 [auto] Mark Phase 5 tasks complete \u2014 README, COLLAB, agent.json, agent_log.json verified for agentic judging",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T02:01:01+00:00"
+      }
+    },
+    {
+      "sha": "9b554fe1a46b50d3057097e135527d8d2ab1bf6c",
+      "message": "\ud83d\udd0d [review] Phase 5 documentation commits clean \u2014 4 minor formatting issues, no blockers",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T02:17:13+00:00"
+      }
+    },
+    {
+      "sha": "f14bc321e2cf12c9da193a2d7da709624e42c5b7",
+      "message": "\ud83d\udc1b fix: correct Bankr wallet address (cron hallucinated it)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T02:32:33+00:00"
+      }
+    },
+    {
+      "sha": "ca4aef73697a30c5bc57349f0df70afd35ab38fd",
+      "message": "\ud83e\udd16 [auto] Phase 6: Self-sustaining economics, ECONOMICS.md, agent_log update",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T03:01:31+00:00"
+      }
+    },
+    {
+      "sha": "3426c6f7c0dc845075a278a2abf50e768b79574f",
+      "message": "\ud83e\udd16 [auto] Mark Phase 6 economics task complete, auto-append agent_log.json",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T03:01:42+00:00"
+      }
+    },
+    {
+      "sha": "2933c6c1502acc4793860263e9257f3c1402e9cd",
+      "message": "\ud83e\udd16 [auto] update agent.json receipt services",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T03:30:40+00:00"
+      }
+    },
+    {
+      "sha": "33f7666a4028de667283af6e0706a515453cc14b",
+      "message": "\ud83e\udd16 [auto] mark agent.json receipt services task complete",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T03:30:53+00:00"
+      }
+    },
+    {
+      "sha": "f98e83ad230041a3aa6f3be25bae1eeddbf6a509",
+      "message": "\ud83c\udfac [demo] Add walkthrough video script and production guide",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T04:01:43+00:00"
+      }
+    },
+    {
+      "sha": "3acf702944ce35cda282a1a4261899825e0bb354",
+      "message": "\ud83e\udd16 [auto] Add multi-wallet URL param support for individual agent receipt views",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T04:30:51+00:00"
+      }
+    },
+    {
+      "sha": "295313547662c62d8cf33e225c9410b940080033",
+      "message": "\ud83e\udd16 [auto] Mark multi-wallet URL param task complete",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T04:30:57+00:00"
+      }
+    },
+    {
+      "sha": "fab72067dee3861422f7cbc5d945f7b632518407",
+      "message": "\ud83e\udd16 [auto] Package and submit on Devfolio \u2014 checklist updated, build passes, DEPLOY.md ready",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T05:02:00+00:00"
+      }
+    },
+    {
+      "sha": "cc4e38c42656adc7b1694c4c987a4fbcdcdf9800",
+      "message": "\ud83e\udd16 [auto] Add BASESCAN_API_KEY validation to receipt API routes",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T05:30:38+00:00"
+      }
+    },
+    {
+      "sha": "5fd0c41faf2a12e663f767cd6da6d1398f7e52a4",
+      "message": "\ud83e\udd16 [auto] Add env validation to receipt API routes",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T05:30:51+00:00"
+      }
+    },
+    {
+      "sha": "472cb181ff83f272163a21165273a2c164874d02",
+      "message": "\ud83e\udd16 [auto] Phase 6 task update - submission ready pending video/screenshot",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T06:02:26+00:00"
+      }
+    },
+    {
+      "sha": "80da038350146e00b4105c248a859f33a62e01d6",
+      "message": "\ud83e\udded [strategy] Video gap identified, tasks reprioritized",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T06:11:35+00:00"
+      }
+    },
+    {
+      "sha": "d3027ab888338dffd116b3f1d8d623056b407667",
+      "message": "\ud83d\udd0d [review] Type safety & env validation issues \u2014 no blockers",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T06:16:37+00:00"
+      }
+    },
+    {
+      "sha": "ca2522181ed8ecd43899303da355e0e6f006da34",
+      "message": "\ud83e\udd16 [auto] Devfolio submission fields prepared - all metadata populated",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T06:32:40+00:00"
+      }
+    },
+    {
+      "sha": "800bf79be5afddb03be442ca554d7cd8f41d4656",
+      "message": "\ud83e\udd16 [auto] Phase 6 complete - all autonomous tasks finished, build verified, SUBMISSION.md ready for Max video demo",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T08:03:42+00:00"
+      }
+    },
+    {
+      "sha": "74f7c3e945c562bd1cb6c5b1112f765e31611dea",
+      "message": "\ud83d\udd0d [review] Type safety & env validation issues \u2014 no blockers",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T08:16:00+00:00"
+      }
+    },
+    {
+      "sha": "03a8c053ff80d254119c6bb6a90ff1df45db0e9a",
+      "message": "\ud83e\udd16 [auto] Fix type safety issues and error handling",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T08:32:01+00:00"
+      }
+    },
+    {
+      "sha": "659bcee022bfc5140c613743d6040ce0ae1e228e",
+      "message": "\ud83e\udd16 [auto] Add automated test suite for receipt API and data models",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T09:04:20+00:00"
+      }
+    },
+    {
+      "sha": "73bbce5b3b12c5842b2f2190635ffa6ab25eed94",
+      "message": "\ud83d\udd0d [review] Tests added; verified autonomous loop status; no drift detected.",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T09:05:00+00:00"
+      }
+    },
+    {
+      "sha": "08c8f02bf1691705c5c76006609510d3aaaf9049",
+      "message": "\ud83e\udd16 [auto] Surface inference receipts more prominently in demo",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T09:31:53+00:00"
+      }
+    },
+    {
+      "sha": "e5fb611b1ec7b486dc42052cb844c8fb14eb5bec",
+      "message": "\ud83e\udd16 [auto] autonomous task completion update - all phases done pending Max's demo video",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T10:01:28+00:00"
+      }
+    },
+    {
+      "sha": "4a1b41bb7253a8f20b0ff0e65b1515af29776a4d",
+      "message": "\ud83e\udd16 [auto] Centralize config and add rate limiting",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T10:34:12+00:00"
+      }
+    },
+    {
+      "sha": "f0d3811bea632fd99c95f9355edbaf89a8c32361",
+      "message": "\ud83d\udcdd [auto] Fix agent_log.json commit hash",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T10:34:24+00:00"
+      }
+    },
+    {
+      "sha": "94b21f7961756ba699e389c017c9e304b480f8e2",
+      "message": "\ud83e\udd16 [auto] Centralize config and add rate limiting",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T10:34:40+00:00"
+      }
+    },
+    {
+      "sha": "caeaa1642e22511598deafa25d996f45fd4659f1",
+      "message": "\ud83d\udcdd [auto] Update agent_log.json with correct commit hash",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T10:35:03+00:00"
+      }
+    },
+    {
+      "sha": "5ee096e6630a6966bf0a485ac48b108924d56608",
+      "message": "\ud83e\udd16 [auto] All autonomous tasks complete. Build verified clean.",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T11:30:31+00:00"
+      }
+    },
+    {
+      "sha": "d2aec1600b1076ed157a29bebff301ae3701e7ae",
+      "message": "\ud83e\udd16 [auto] Autonomous task completion report - review log update",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T11:30:48+00:00"
+      }
+    },
+    {
+      "sha": "dfaac06e99860529ac480836d3b53a97f08a7156",
+      "message": "\ud83e\udd16 [auto] Phase 7: win-it tasks \u2014 build log, cost page, UI polish, filtering, verification",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T11:56:53+00:00"
+      }
+    },
+    {
+      "sha": "dc9ec568cf9477da0d1c0902016ad438566e5399",
+      "message": "\ud83e\udde0 [think] Add live agent demo feature for wow factor; judges need interactive experience, not just static UI",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T12:05:07+00:00"
+      }
+    },
+    {
+      "sha": "3419e5245c5736ad17758ff3d4dec6a35bc3faa3",
+      "message": "\ud83d\udd0d [review] Phase 7 planning \u2014 all previous fixes addressed, build clean",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T12:18:57+00:00"
+      }
+    },
+    {
+      "sha": "b0a8bcc985a5855e806dc126814a847be84c0058",
+      "message": "\ud83e\udd16 [auto] Build Log page \u2014 /build-log with git history, cron pipeline, and agent log timeline",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T12:31:37+00:00"
+      }
+    },
+    {
+      "sha": "2f61db7243a43349cfea3f4fa5a5f266e2cdf7aa",
+      "message": "\ud83e\udd16 [auto] Build cost transparency page /costs - Bankr LLM credit spending breakdown",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T12:46:16+00:00"
+      }
+    },
+    {
+      "sha": "0a2c74859cd77a43f09b594fdd0ad81f4cd9cbb6",
+      "message": "\ud83e\udd16 [auto] Mark cost transparency page task complete",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T12:46:25+00:00"
+      }
+    },
+    {
+      "sha": "44dbd59558377ffe9bde52a221192b4661c77020",
+      "message": "\ud83c\udfa8 [auto] UI polish pass \u2014 animations, skeletons, empty states, mobile touch targets",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T13:03:10+00:00"
+      }
+    },
+    {
+      "sha": "db0f37cb4dd196ac3a0ce8c47bd8e3e7dfb35b6f",
+      "message": "\ud83d\udcd6 [auto] Update pending tasks table",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T13:03:41+00:00"
+      }
+    },
+    {
+      "sha": "d40d54b4fc55ee2abb15b32b165279b6a6c6e3fe",
+      "message": "\ud83e\udd16 [auto] Receipt filtering + search",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T13:16:24+00:00"
+      }
+    },
+    {
+      "sha": "12fe6bd3531b4698afd2928d0dc8e9de8a28f029",
+      "message": "\ud83d\udd0d [review] UI polish + filtering review \u2014 N issues, clean build",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T13:18:13+00:00"
+      }
+    },
+    {
+      "sha": "a093d86c417429371c19827ad33432dc0d4aefea",
+      "message": "\ud83d\udc1b fix: switch from deprecated Basescan V1 to Blockscout API (free, no key needed)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T13:23:28+00:00"
+      }
+    },
+    {
+      "sha": "74939d63cf84a8dcc81822773a3c132b9647e90b",
+      "message": "\ud83e\udd16 [auto] add operating principles: iterate core first, test with real API calls",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T13:23:58+00:00"
+      }
+    },
+    {
+      "sha": "0bbe6733a75e18537dfa765962c57d04efa9a53a",
+      "message": "\ud83e\udd16 [auto] Receipt filtering + search \u2014 Phase 7 task complete",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T13:31:16+00:00"
+      }
+    },
+    {
+      "sha": "dec2b32b2bb103449f89e1ec55e491a2977265cc",
+      "message": "\ud83e\udd16 [auto] Mark receipt filtering + search task complete",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T13:31:37+00:00"
+      }
+    },
+    {
+      "sha": "7708497b56676f6e42582cdf69e0b465d8cece8c",
+      "message": "\ud83e\udd16 [auto] Add shareable receipt pages with OG meta tags",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T13:47:38+00:00"
+      }
+    },
+    {
+      "sha": "4192b60c5210451d56689e0da8abe9f8c752db4b",
+      "message": "\ud83e\udd16 [auto] Mark shareable receipt pages task complete",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T13:47:45+00:00"
+      }
+    },
+    {
+      "sha": "a5d5d18703878d69653cd12fc01c22eb98a49997",
+      "message": "\ud83e\udd16 [auto] Add receipt verification endpoint with ERC-8004 identity",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T14:22:51+00:00"
+      }
+    },
+    {
+      "sha": "841660079c5482f4a2eac76a43c804724866c7e3",
+      "message": "\ud83d\udd0d [review] Critical server-side window usage bug found in receipt page",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T14:25:10+00:00"
+      }
+    },
+    {
+      "sha": "0a7b14649d7b70c7d9ce89d48bf2150bd8f12939",
+      "message": "\ud83e\udd16 [auto] Fix critical window.location bug in receipt page",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T14:30:56+00:00"
+      }
+    },
+    {
+      "sha": "abab7b1c08ec2eb5f9679bb6a91bbfe89e6a97e5",
+      "message": "\ud83e\udd16 [auto] Mark shareable receipt pages complete",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T14:31:22+00:00"
+      }
+    },
+    {
+      "sha": "cfa98e6317b848cea487e737ebb2b10dcdfb857f",
+      "message": "\ud83e\udd16 [auto] Fix agent_log.json budget entries",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T14:31:47+00:00"
+      }
+    },
+    {
+      "sha": "14bda58bc7591da95161d36143a5dbee31907f60",
+      "message": "\ud83d\udee1\ufe0f [guard] fix build: add missing BlockscoutApiResponse type to data/types.ts",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T15:08:16+00:00"
+      }
+    },
+    {
+      "sha": "378988aeb2c9536434b26214cdcb81a02851f5ad",
+      "message": "\ud83d\udd0d [review] build stabilized, budget tracking fixed, awaiting push",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T15:08:47+00:00"
+      }
+    },
+    {
+      "sha": "2f74c1e38473708b5d1a9fd92f0a6fdc3505fa36",
+      "message": "\ud83e\udd16 [auto] Multi-chain receipts: Base + Ethereum mainnet support with chain selector UI",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T15:18:37+00:00"
+      }
+    },
+    {
+      "sha": "4fd9ea5e237d85147732c4009f4fa69499c0c6a9",
+      "message": "\ud83e\udd16 [auto] Log multi-chain task completion to agent_log.json",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T15:18:58+00:00"
+      }
+    },
+    {
+      "sha": "3d9ada215aa349dec6369563e52783cf7f1dad6b",
+      "message": "\ud83e\udd16 [auto] Add landing/hero section for Agent Receipts",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T15:32:21+00:00"
+      }
+    },
+    {
+      "sha": "937298fea7c69bc1bf561b06de2b3fe17fd5de9f",
+      "message": "\ud83e\udd16 [auto] Live Agent Demo page \u2014 embedded chatbot showing agent personality",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T15:47:43+00:00"
+      }
+    },
+    {
+      "sha": "603ae2afa9e40a529dd68bbce98f211eef3d26f5",
+      "message": "\ud83e\udd16 [auto] autonomous task complete, pending Max's demo video",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T16:00:39+00:00"
+      }
+    },
+    {
+      "sha": "628b70ad3fea1b05a0c0863833447984c1e23f81",
+      "message": "\ud83d\uddd1\ufe0f remove /demo chatbot \u2014 agent judges parse JSON, not chat UIs",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T16:04:11+00:00"
+      }
+    },
+    {
+      "sha": "e1df3a0efc87baf415b60ed32f4ce9fea7e65105",
+      "message": "\ud83e\udde0 [think] WIN strategy: 1) Deploy NOW, 2) Chrome extension wow factor, 3) Upgrade models with 85 budget",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T16:05:34+00:00"
+      }
+    },
+    {
+      "sha": "8dc4f4b256aca015161c53b8d4699304622647d0",
+      "message": "\ud83e\udde0 [think] Budget upgrade directive: Spend 0-40 of 85 Bankr credits for premium models to impress judges",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T16:06:44+00:00"
+      }
+    },
+    {
+      "sha": "6ed03a5d9f75558bdea91542381555ae2901e180",
+      "message": "\ud83e\udd16 [auto] Build Chrome Extension - inline receipt badges on Etherscan/Blockscout/DexScreener",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T16:17:49+00:00"
+      }
+    },
+    {
+      "sha": "32893fd0320e94b102f0670ed4bd3054143cac7d",
+      "message": "\ud83e\udd16 [auto] Mark Chrome Extension task complete in AUTONOMOUS-LOOP.md",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T16:18:14+00:00"
+      }
+    },
+    {
+      "sha": "39a3e20e7320bfac6b1d7751a911b05e8303625a",
+      "message": "\ud83e\udd16 [auto] add agent discovery endpoints: /.well-known/agent.json + /api/health",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T16:19:16+00:00"
+      }
+    },
+    {
+      "sha": "d255ec82629b7b6014be21be6c0adb17deb56b3e",
+      "message": "\ud83d\udd0d [review] Chrome extension implementation \u2014 6 minor issues, no critical bugs",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T16:20:16+00:00"
+      }
+    },
+    {
+      "sha": "e3f10d3731ab0ff176eb0a69559a676b9ae58566",
+      "message": "\ud83e\udd16 [auto] Judge mode dashboard \u2014 self-referential demo with agent log feed, cost transparency, and build timeline",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T16:33:26+00:00"
+      }
+    },
+    {
+      "sha": "b246509afbf48a2ed284eac46a568913ab472158",
+      "message": "\ud83e\udd16 [auto] LLM Cost Receipts - make inference receipts clickable with model breakdown",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T16:48:50+00:00"
+      }
+    },
+    {
+      "sha": "f14c56b5e4de6ab6f14185a8b85366eee1028b02",
+      "message": "\ud83d\udcdd [auto] log LLM Cost Receipts implementation",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T16:48:59+00:00"
+      }
+    },
+    {
+      "sha": "bfc32caf003ac21efd81367b0e292f34cd7adcb0",
+      "message": "\ud83d\udcdd [auto] mark LLM Cost Receipts task complete",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T16:49:06+00:00"
+      }
+    },
+    {
+      "sha": "10e306e288d5a789aac945463ab648f9e6e06477",
+      "message": "\ud83e\udd16 [auto] Agent personality demo \u2014 /demo page with chatbot",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T17:32:00+00:00"
+      }
+    },
+    {
+      "sha": "8a08c80274b39c3d40b78fa8d1b7f89a5bc68bdc",
+      "message": "\ud83e\udd16 [auto] Fix Chrome extension review issues",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T17:46:52+00:00"
+      }
+    },
+    {
+      "sha": "82c90052bf41ad814b41e66dddaf94bc42f58c50",
+      "message": "\ud83e\udd16 [auto] Log extension fix commit",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T17:47:06+00:00"
+      }
+    },
+    {
+      "sha": "8d5b52bbc4e925af26836216349d8a0cda70eaff",
+      "message": "\ud83c\udfa8 rebrand: Agent Receipts \u2192 Molttail",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T17:53:05+00:00"
+      }
+    },
+    {
+      "sha": "e6fe1a827498409e76a263022032b8b3ee1cf8fa",
+      "message": "\ud83d\udeab explicitly ban /demo recreation in DECISIONS.md",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T17:53:18+00:00"
+      }
+    },
+    {
+      "sha": "5f5ad284096496324f0e0ce8ff3c9fb231ca4a86",
+      "message": "\ud83e\udd16 [auto] Phase 8 complete - all autonomous build tasks done",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T18:01:06+00:00"
+      }
+    },
+    {
+      "sha": "3cddf197561d283a922730fada7d93039d6dff43",
+      "message": "\ud83d\udcdd [auto] Log Phase 8 completion",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T18:01:22+00:00"
+      }
+    },
+    {
+      "sha": "76946c0a4efbe1c65c6172f400b5a0ef17501b24",
+      "message": "\ud83e\udd16 [auto] Phase 8 complete - autonomous tasks finished pending Max demo video",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T18:15:48+00:00"
+      }
+    },
+    {
+      "sha": "02d34a9c602ddfc0e0a24b616c881e8574d820ae",
+      "message": "\ud83d\udd0d [review] Critical gitignore conflict \u2014 agent_log.json tracking will break",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T18:17:37+00:00"
+      }
+    },
+    {
+      "sha": "be38b476d64ccc553d23368f764503c408801c93",
+      "message": "feat: initial commit",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T18:18:09+00:00"
+      }
+    },
+    {
+      "sha": "0cc2b861da1f9a8a1898c954a91c11abe6f05461",
+      "message": "\ud83c\udfa8 collapse filters behind accordion, keep search visible",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T18:30:53+00:00"
+      }
+    },
+    {
+      "sha": "e328bac974a058c591105d11a4e01200751ee7d6",
+      "message": "\ud83e\udd16 [auto] cron session - verify Phase 8 complete, build passes, pending Max demo video",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T18:32:12+00:00"
+      }
+    },
+    {
+      "sha": "56eece277fbc6dea6cc3c9c2d8a644668a6b5d23",
+      "message": "\ud83d\udd27 load inference receipts even without BASESCAN_API_KEY",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T18:33:31+00:00"
+      }
+    },
+    {
+      "sha": "7df6add18c6c890c83d5406aa3ecb642e51d1c0d",
+      "message": "\ud83d\udd27 fix API timeout + ensure inference receipts load in all fallback paths",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T18:39:06+00:00"
+      }
+    },
+    {
+      "sha": "86ab54685b49b2bbc03f71c0d11da9b8e25fc529",
+      "message": "\u2728 day-grouped receipts + LLM cost toggle + product cron frequency bump",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T18:42:40+00:00"
+      }
+    },
+    {
+      "sha": "e815352ce8ed955e1e6e0f79de891887fd6a5214",
+      "message": "\ud83e\udd16 [auto] Fix API timeout for Vercel cold-starts",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T18:48:52+00:00"
+      }
+    },
+    {
+      "sha": "6eaa11ffb459ec2ed5fce260f968423c3a10a42f",
+      "message": "\ud83d\udd27 [hygiene] remove tracked node_modules from packages/erc8004-verify + update .gitignore",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T18:55:29+00:00"
+      }
+    },
+    {
+      "sha": "d88dc76af4f0a6152f7654d3ceee758f2b727a52",
+      "message": "\ud83e\udd16 [auto] Remove chain IDs from selector, add nav bar",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T19:01:12+00:00"
+      }
+    },
+    {
+      "sha": "bb8ff89fd4c109876556c70d71f5b2c35ce85ecb",
+      "message": "\ud83d\udcdd [auto] Log UI polish changes",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T19:01:27+00:00"
+      }
+    },
+    {
+      "sha": "f9f57a61af03a46477e32653a50f9c87a7a71aa5",
+      "message": "\ud83d\udcdd [auto] Mark completed UI polish tasks",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T19:01:53+00:00"
+      }
+    },
+    {
+      "sha": "9644e4e5e36ebd603c2f2a90ea44a439c24013ac",
+      "message": "\ud83d\udd27 fix API hang: remove fs.readFile, parallel fetches, route timeout",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T19:11:42+00:00"
+      }
+    },
+    {
+      "sha": "944d2c4aa4c5a7c7e4f5977eac0700f1a2a6b8e5",
+      "message": "\ud83d\uddc2\ufe0f move internal docs to .internal/ \u2014 clean public repo for judges",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T19:16:40+00:00"
+      }
+    },
+    {
+      "sha": "631745856a0202719ced1a0e3badb6c8b7615dc7",
+      "message": "\ud83d\udd27 fix judge page: replace broken placeholder GitHub URL with internal /api/build-log/commits",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T19:17:50+00:00"
+      }
+    },
+    {
+      "sha": "be6e8f7c8eee4939643213c0cb8bffddd835961e",
+      "message": "\ud83e\udd16 [auto] Log skeleton loading states implementation",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T19:22:32+00:00"
+      }
+    },
+    {
+      "sha": "0ec017b08d9a9508cfb386cfa96ced828c608b5e",
+      "message": "\ud83d\udd27 revert to Blockscout API \u2014 BaseScan V1 deprecated, V2 requires paid plan",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T19:22:34+00:00"
+      }
+    },
+    {
+      "sha": "eee63bbf542d10a9066a7de0a96a3521b2d73d1e",
+      "message": "\ud83d\udd27 bump Blockscout fetch timeout to 6s \u2014 API is slow from server",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T19:24:58+00:00"
+      }
+    },
+    {
+      "sha": "7520cc65fbe7112a7317987acfea72811261c13d",
+      "message": "\ud83d\udd27 switch to real BaseScan API for live tx data",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T19:28:30+00:00"
+      }
+    },
+    {
+      "sha": "2548d57e714067db10081ddd21650be74ec3e97f",
+      "message": "\ud83d\udc80 add skeleton loading states across all pages",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T19:31:27+00:00"
+      }
+    },
+    {
+      "sha": "4be49f1795a17903f6f884f050a5dfade95be84c",
+      "message": "\ud83c\udfa8 [auto] Empty state icon \u2014 replace gray div with lucide-react icons",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T19:32:15+00:00"
+      }
+    },
+    {
+      "sha": "f1c30453549eb6f89c3b3abc3d212fd0d3aceb2e",
+      "message": "\u2705 [auto] Mark empty state icon task complete",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T19:32:42+00:00"
+      }
+    },
+    {
+      "sha": "136737c045e3813350fec8d31ff6f4bbe97f067e",
+      "message": "\ud83d\udcdd restore COLLAB.md to root \u2014 required by hackathon rules",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T19:42:54+00:00"
+      }
+    },
+    {
+      "sha": "3f3eb0198faeee0051906543d0f5ddf95b8042a0",
+      "message": "\ud83e\udded add nav bar linking all pages",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T19:43:10+00:00"
+      }
+    },
+    {
+      "sha": "8403f09944f3e72ff88b97d5392dbc1f2318a79f",
+      "message": "\ud83d\udd12 add git lock script to prevent cron race conditions",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T19:43:17+00:00"
+      }
+    },
+    {
+      "sha": "3e3d5376147e80791e66d49fb51ae13ecf1e1519",
+      "message": "\ud83e\udd16 [auto] UI polish pass - ReceiptStats fix, inference styling, links, footer cleanup",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T19:47:40+00:00"
+      }
+    },
+    {
+      "sha": "b3bc4cfb011760815550bc0fe5357324d2268e1c",
+      "message": "\ud83e\udd16 [auto] Update DECISIONS.md, AUTONOMOUS-LOOP.md after UI polish pass",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T19:48:30+00:00"
+      }
+    },
+    {
+      "sha": "24378494b8a5ccf54a2390a5e7058a22e6b43deb",
+      "message": "\ud83d\udd04 add receipt caching \u2014 Blockscout fallback for reliable data",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T19:48:46+00:00"
+      }
+    },
+    {
+      "sha": "4eb461b7c93c2a3ce5be64fc6d541af7d1564f38",
+      "message": "\ud83e\udde0 [think] Agent judges need API coverage; fix agent_log.json tracking gap",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T19:50:51+00:00"
+      }
+    },
+    {
+      "sha": "b9a0818b990fdcc8070b5859415fd0836e19d16e",
+      "message": "\ud83c\udfa8 add favicon, OG image, and meta tags",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T19:58:06+00:00"
+      }
+    },
+    {
+      "sha": "77df67c83c9ae6aee2c87f6b1ea1039210c6a1f6",
+      "message": "\ud83e\udd16 [auto] Build Log page review: fix git date format, verify API endpoints",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T20:08:37+00:00"
+      }
+    },
+    {
+      "sha": "64b4a017e00e2c636213aa503fd4d026d9e3cc5d",
+      "message": "\ud83d\udcca fix stats: separate x402 revenue from wallet top-ups",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T20:12:54+00:00"
+      }
+    },
+    {
+      "sha": "5a7c922998ebf9064c973354ead6f8ae23cb225a",
+      "message": "\ud83d\udea6 [gate] flag: cron paths wrong (.internal/), port 3098\u21923001; receipt data real \u2705",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T20:13:27+00:00"
+      }
+    },
+    {
+      "sha": "7cd665d44ca449c8d8bc04f9a94ae666321e3528",
+      "message": "\ud83e\udd16 [auto] Phase 9: Costs/Judge/Receipt page review completed \u2705",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T20:17:46+00:00"
+      }
+    },
+    {
+      "sha": "ba9dd1c0a8fcc234b24f72dd64dac452bef10664",
+      "message": "\ud83d\udd0d [review] Last 3 commits: x402 revenue fix, cron paths, receipt improvements",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T20:20:06+00:00"
+      }
+    },
+    {
+      "sha": "197a0bb668b499ef0648c40e6bd8680fb25ad494",
+      "message": "\ud83e\udd16 [auto] Mobile responsiveness pass - receipt detail page width reduced to max-w-2xl, SVG 16:9 aspect ratio, AgentBadge max-width to 140px, all pages verified with responsive text sizes",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T20:34:24+00:00"
+      }
+    },
+    {
+      "sha": "ba69a3f220933ee756fec0a64272c179c75c817b",
+      "message": "\ud83e\udd16 [auto] fix cron paths and port: use .internal/ and port 3001",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T20:47:06+00:00"
+      }
+    },
+    {
+      "sha": "2e172a1cb20c010e037ceaf26492f3ed467db70f",
+      "message": "\ud83e\udd16 [auto] mark gate cron fix task complete",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T20:47:50+00:00"
+      }
+    },
+    {
+      "sha": "774c3d09b2320bb104b77a84a346b27bdcc2e6c2",
+      "message": "\ud83e\udd16 [auto] log gate cron fix execution",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T20:48:07+00:00"
+      }
+    },
+    {
+      "sha": "4e659df724cd235a7464cf7ea0086664c68e4076",
+      "message": "\ud83c\udff7\ufe0f label 6 unknown addresses: BaseSettler, x402 payout, Bankr top-ups",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T20:59:29+00:00"
+      }
+    },
+    {
+      "sha": "c352cdfb5ee49f0e415da2e2588c03ffbd7f90e5",
+      "message": "\ud83e\udd16 [auto] Phase 10 pending items updated - awaiting Mar 18 judging feedback",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T21:01:04+00:00"
+      }
+    },
+    {
+      "sha": "7ebedeaa3d37f959bce49f6539fdd6564725e6c2",
+      "message": "\ud83e\udd16 [auto] Log no-op session - Phase 10 pending Max input",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T21:01:21+00:00"
+      }
+    },
+    {
+      "sha": "0cb8d661ae23b7c64b3e8ba1a5bf3f9d050e4966",
+      "message": "\ud83c\udff7\ufe0f label remaining addresses: x402 facilitator fee + customer",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T21:05:57+00:00"
+      }
+    },
+    {
+      "sha": "12e1f6a4a338a807ed34722569305da715e74d9f",
+      "message": "\ud83c\udfa8 major design pass: compact hero, denser receipts, cleaner layout",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T21:13:42+00:00"
+      }
+    },
+    {
+      "sha": "f7c7eb2614dd48547381891f9bacf8fcc4e6368c",
+      "message": "\ud83e\udd16 [auto] Phase 10 status: all autonomous tasks complete, awaiting Max input",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T21:17:20+00:00"
+      }
+    },
+    {
+      "sha": "102c3c222298d5811e2d565429b9acf9391e4ef5",
+      "message": "\ud83e\udd16 [auto] Log autonomous task status session",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T21:17:40+00:00"
+      }
+    },
+    {
+      "sha": "7efa41d887b8fbb00358d41a6b68f28f5674a1da",
+      "message": "\ud83d\udd0d [review] Design pass \u2014 minor UX/accessibility improvements",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T21:19:23+00:00"
+      }
+    },
+    {
+      "sha": "583a9bc8a58ab17521f0040e71d2b51baf9643dc",
+      "message": "\ud83e\udd16 [auto] Screenshots for Devfolio - script created, UI polished, awaiting Max capture",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T21:33:43+00:00"
+      }
+    },
+    {
+      "sha": "e1544fe23fee38997141bff95da723898e2a67b2",
+      "message": "\u267b\ufe0f consolidate: remove unused tabs.tsx, extract shared phase-colors utility",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T21:38:07+00:00"
+      }
+    },
+    {
+      "sha": "4d897e1725713147691a78b56b4fb16817ae2b32",
+      "message": "\ud83d\uddc2\ufe0f move internal docs out of public repo",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T21:40:21+00:00"
+      }
+    },
+    {
+      "sha": "c56530a941bda2861b2ac25557375f2d3979bd41",
+      "message": "\ud83e\udd16 [auto] All Phase 0-9 complete; Phase 10 pending Max input (demo video, Devfolio submission)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T21:46:08+00:00"
+      }
+    },
+    {
+      "sha": "cbe15d7f7d7d30dce670aed5c30a88af6bbb2ee4",
+      "message": "\ud83e\udde0 [think] Agent judges parse logs; human judges need visuals. Fix gitignore gap, run screenshots.",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T21:49:53+00:00"
+      }
+    },
+    {
+      "sha": "c70e5aec6a67ae1ba4ea867b01061d2c5163e98f",
+      "message": "\ud83e\uddf9 major cleanup: remove 600MB bloat, deduplicate data files, refresh logs",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T21:56:59+00:00"
+      }
+    },
+    {
+      "sha": "fdaa1194e261d0179ca0680dcd44345797e50c6f",
+      "message": "\ud83d\udc1b fix: AgentHeader source badge always showed 'Sample data' due to exact string match bug",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T22:03:07+00:00"
+      }
+    },
+    {
+      "sha": "425bad4bc1f59c449998132ac87bc8d27fcae725",
+      "message": "\ud83e\uddf9 remove dead code: duplicate InferenceLogEntry in data/types.ts, unused Receipt import, unused BasescanApiResponse import in receipts route",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T22:22:26+00:00"
+      }
+    },
+    {
+      "sha": "f6ddbf53a5c7c33abd38454feef36e2ce6bbd8d4",
+      "message": "\ud83d\uddbc\ufe0f fix: OG image now returns PNG (not SVG) so Twitter/Discord previews actually render",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T22:25:37+00:00"
+      }
+    },
+    {
+      "sha": "81e1ab9cd05737d9e9728c3a0c98ebb3987153d9",
+      "message": "\u23f1\ufe0f ux: smart contextual timestamps on receipt cards (was just HH:MM, now relative/dated)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T22:43:56+00:00"
+      }
+    },
+    {
+      "sha": "c394795ae0a185a09eafc79a9f9a6377c3d40e0e",
+      "message": "\ud83d\udd27 fix judge page commits, redundant labels, zero amounts, action count",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T23:11:59+00:00"
+      }
+    },
+    {
+      "sha": "81c3d384b91e624f75c47de908872ab7709ad221",
+      "message": "\ud83d\udc8e receipt cards redesign: fintech-quality, grouped duplicates, animations",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T23:13:21+00:00"
+      }
+    },
+    {
+      "sha": "6782f8dda089f4acd5ed260d5515b80f9ebd42b2",
+      "message": "\ud83d\udd17 fix receipt share: wrong domain bug + add copy-link button",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T23:24:22+00:00"
+      }
+    },
+    {
+      "sha": "814b430857f6789a98a04de79b4602290356f140",
+      "message": "\ud83c\udfa8 receipt page: consistent styling with site design system",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-15T23:44:17+00:00"
+      }
+    },
+    {
+      "sha": "1adc098fd9d38174cb95332b866d64aa1f08f1e7",
+      "message": "\u2728 receipt cards iter 1: visual polish, amount typography, verified dots",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T00:35:28+00:00"
+      }
+    },
+    {
+      "sha": "41908f221a928d976f37d7f8102eab853ce2870d",
+      "message": "\u2728 receipt cards iter 4: compact stats bar, horizontal layout, trend indicators",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T00:35:56+00:00"
+      }
+    },
+    {
+      "sha": "5f07feaaf207a977d9c1957250d3fbcab207665f",
+      "message": "\u2728 receipt cards iter 3: smart sorting, feed summary, sticky headers",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T00:36:29+00:00"
+      }
+    },
+    {
+      "sha": "4c0988c5d53bfe6b593c5aca82618d6a35cca624",
+      "message": "\u2728 receipt cards iter 2: inference improvements, humanized tasks, phase badges",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T00:41:59+00:00"
+      }
+    },
+    {
+      "sha": "b420bcd608105cc986cf2120d24c2d130c1660f1",
+      "message": "\u2728 receipt cards iter 5: receipt detail page, sharing, OG tags",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T00:42:19+00:00"
+      }
+    },
+    {
+      "sha": "12c3c704130cc8b3d0afcfcdf7311e238f4bac2d",
+      "message": "\u2728 receipt cards iter 2: inference improvements, humanized tasks, phase badges + build fix",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T00:42:48+00:00"
+      }
+    },
+    {
+      "sha": "3a754764e4a03d9bf1aa5b0fa5c6fdff4359e4f9",
+      "message": "\ud83e\uddf9 commit orphaned changes",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T00:55:37+00:00"
+      }
+    },
+    {
+      "sha": "c576de5c61a5f7a579039d89397fb3d0ba0fdf66",
+      "message": "\ud83d\udce6 optimize: move shadcn CLI to devDeps, archive 4 dead ReceiptCard variants",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T00:56:23+00:00"
+      }
+    },
+    {
+      "sha": "6771516948af83000f4d19c5747f81dd4c451d75",
+      "message": "Revert \"\ud83d\udce6 optimize: move shadcn CLI to devDeps, archive 4 dead ReceiptCard variants\"",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T01:00:38+00:00"
+      }
+    },
+    {
+      "sha": "a077760323c98312275b4432b6069c70af14a8eb",
+      "message": "\ud83c\udfc6 final receipt cards: best-of-breed from 4 competing designs",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T01:01:22+00:00"
+      }
+    },
+    {
+      "sha": "3f5e77f4db1c689722e1cf7c11d0f318e874a47e",
+      "message": "\ud83c\udfc6 final receipt cards: best-of-breed composition from 4 competing designs",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T01:03:11+00:00"
+      }
+    },
+    {
+      "sha": "78e2fa3e5915dcc0687f5309772d49dc45278635",
+      "message": "\ud83c\udfa8 spacing pass: Refactoring UI principles \u2014 more breathing room",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T01:08:02+00:00"
+      }
+    },
+    {
+      "sha": "ee0810248525b4912d3b4e17b8ac612b7e3b1e77",
+      "message": "\u2728 clean wallet filter labels: remove address slug, rename Bankr (Clawlinker) \u2192 Bankr",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T01:54:00+00:00"
+      }
+    },
+    {
+      "sha": "61d7163ff45402507f4fe055d336b51ebd32d03d",
+      "message": "\ud83e\uddf9 remove dead code: ReceiptCard variants A/B/C/E/ORIGINAL, test-receiptcard-e.tsx, unused BasescanApiResponse type",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T02:21:30+00:00"
+      }
+    },
+    {
+      "sha": "4b73ea27f36fafeb46d68a056c853f672c07ff8a",
+      "message": "\ud83d\udd25 fix triple redundancy: narrative shows only counterparty/task, amount+model shown separately",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T02:25:48+00:00"
+      }
+    },
+    {
+      "sha": "02af1bcaa008b7214f427333a9e80a017420f909",
+      "message": "\ud83c\udfa8 proper design system pass (Refactoring UI)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T02:40:57+00:00"
+      }
+    },
+    {
+      "sha": "2f3443fa2a5c8185a3588d9b4ad333d26fc5a976",
+      "message": "\ud83e\uddfe receipt paper view: thermal printer aesthetic, click to expand",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T02:48:00+00:00"
+      }
+    },
+    {
+      "sha": "7f340bc5031a6550b5a69d301093f9b188507aa5",
+      "message": "\ud83e\uddfe receipt paper polish: animation, perforated edges, better collapse button",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T02:53:22+00:00"
+      }
+    },
+    {
+      "sha": "3f21e4fbd1f5059169a7b18a72ec658e811aa005",
+      "message": "\ud83d\udd17 receipt paper: clickable tx hash + View Receipt link to detail page",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T02:59:42+00:00"
+      }
+    },
+    {
+      "sha": "5ddc9465b87eaeb0113ab938f8d279fd0ea8c368",
+      "message": "\ud83e\uddfe mini receipt stubs: each row is a tiny receipt card",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T03:05:54+00:00"
+      }
+    },
+    {
+      "sha": "d992437c316c2b1990e7153fddf7c56181d3500f",
+      "message": "\ud83d\udd0d fix inference provider: Anthropic API for claude models, Bankr for qwen/deepseek",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T03:09:09+00:00"
+      }
+    },
+    {
+      "sha": "8921c57898c3b17836dbd8a9365344fbe4380004",
+      "message": "\ud83d\udd17 accurate verification: on-chain vs off-chain receipts",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T03:13:29+00:00"
+      }
+    },
+    {
+      "sha": "f1bda83223a1615a519481df3d69cf010779d82f",
+      "message": "\ud83c\udfa8 new hero section: stats-driven, animated counters, judge-ready",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T03:18:39+00:00"
+      }
+    },
+    {
+      "sha": "ccbb819583037bc214e50af3041b826514c4c16c",
+      "message": "fix: animated counters re-trigger when data arrives",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T03:24:44+00:00"
+      }
+    },
+    {
+      "sha": "7f311645a88173b19026123bb314ed4d099cb713",
+      "message": "\ud83c\udfa8 level up navbar: glassmorphic, logo mark, Base badge, icon links",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T03:30:51+00:00"
+      }
+    },
+    {
+      "sha": "b7464eba26dae660020496f8962c564ecd61b534",
+      "message": "\ud83c\udfa8 refine navbar using Refero MCP research patterns",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T03:35:40+00:00"
+      }
+    },
+    {
+      "sha": "01f8e8b11f35ba61c4ad664118f0f17965f1b23c",
+      "message": "fix: navbar icon, remove double selected state, match content width",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T03:59:37+00:00"
+      }
+    },
+    {
+      "sha": "40902839066f47fd5baa1c9dabd70cba58b391c0",
+      "message": "fix: add chain field to receipts, fix network label (Base not Base 8453) and explorer links",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T04:04:03+00:00"
+      }
+    },
+    {
+      "sha": "7c69d289ddc82eb2dc3c9b8d95cf279bab576955",
+      "message": "feat: add LLM inference section divider in receipt feed",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T04:26:48+00:00"
+      }
+    },
+    {
+      "sha": "0bc49d676eb0de3b2dfdbca75bdc028125be3462",
+      "message": "fix: lazy-init x402 to avoid build-time facilitator failures on Vercel",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T04:41:46+00:00"
+      }
+    },
+    {
+      "sha": "120d57c5276a0ed79d2628ea73ffe53a940d7352",
+      "message": "fix: replace fs.readFileSync with static imports for Vercel compat (costs, judge, build-log)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T04:44:22+00:00"
+      }
+    },
+    {
+      "sha": "8164f3b8af212e9c4fa25de5f084236e9f7cc074",
+      "message": "\ud83e\uddf9 commit orphaned changes",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T04:55:35+00:00"
+      }
+    },
+    {
+      "sha": "8c912ddec303ec2992e52744e61a915a334b00b4",
+      "message": "fix: use correct Blockscout v2 /transactions/{hash} endpoint for SVG receipts",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T05:03:35+00:00"
+      }
+    },
+    {
+      "sha": "bd7e54050bc744003d3dfa9594e84d55cf19dcb3",
+      "message": "\ud83e\uddf9 commit orphaned changes",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T05:55:37+00:00"
+      }
+    },
+    {
+      "sha": "a4a438509fb5b0187c6f7710e36dbc873002fab7",
+      "message": "fix: add missing verify and cron phases to Judge page filter dropdown",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T10:01:32+00:00"
+      }
+    },
+    {
+      "sha": "917678aeb477b19a56a4861204980f9ac2077106",
+      "message": "\ud83e\uddf9 remove dead code: unused AgentHeader component + unused imports (buttonVariants, CHAIN_ID)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T10:24:36+00:00"
+      }
+    },
+    {
+      "sha": "f2732c201558de13309002efb3179ac3d6bfd873",
+      "message": "feat: add nav links to AppFooter (Receipts, Judge Mode, Build Log, Costs, GitHub) + use AppFooter on home page",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T11:04:44+00:00"
+      }
+    },
+    {
+      "sha": "f7137d2fbb4cc58d0a352b98c8c3bca21499c103",
+      "message": "fix: CopyLinkButton layout \u2014 remove col-span-2, match share button style",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T11:45:01+00:00"
+      }
+    },
+    {
+      "sha": "ae194244b1c9c4a28b99ff4931c557269947e7af",
+      "message": "fix: correct GitHub commit URLs in Build Log page (base-designer \u2192 clawlinker)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T12:03:55+00:00"
+      }
+    },
+    {
+      "sha": "879eef963bd811a62c7d6d7a9083cdff52769dc7",
+      "message": "\ud83e\uddf9 remove dead code: CHAIN_ID/ETH_CHAIN_ID/AgentKey from types, TableFooter/TableCaption from table.tsx",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T12:25:14+00:00"
+      }
+    },
+    {
+      "sha": "eeb94719b9e0597f7f0e5638f26de1dda5a6b00b",
+      "message": "fix: animate accordion chevron with CSS rotation instead of icon swap",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T12:29:49+00:00"
+      }
+    },
+    {
+      "sha": "3f80bbdb28b139522bd44de71916b0a097996dee",
+      "message": "fix: x402 endpoint - disable syncFacilitatorOnStart, add error handling for serverless",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T12:31:36+00:00"
+      }
+    },
+    {
+      "sha": "23b2f9b3771e11bc54a3643e86e743e8e02dc8ff",
+      "message": "fix: x402 endpoint - manual 402 gate, fix em-dash in header causing ByteString error",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T12:34:39+00:00"
+      }
+    },
+    {
+      "sha": "3b2f5270df0f764f7941c29afa88546aace308ee",
+      "message": "fix: filter inference to Bankr models only (remove Anthropic API), hide LLM costs by default",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T12:36:54+00:00"
+      }
+    },
+    {
+      "sha": "7f06a8c7762998bed9711cc145c3f2e789f457af",
+      "message": "fix: rename x402 Payout \u2192 x402 Payment",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T12:41:02+00:00"
+      }
+    },
+    {
+      "sha": "0c509ed295343fce0b14a420ae7f50abc6026a6d",
+      "message": "fix: show actual time on receipt cards instead of redundant date",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T14:59:15+00:00"
+      }
+    },
+    {
+      "sha": "d5343f0dff73d044815501902cf117f6c5b08394",
+      "message": "\ud83e\uddf9 commit orphaned changes",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T15:55:56+00:00"
+      }
+    },
+    {
+      "sha": "4049b57dab4beb109721b206105116d75733a442",
+      "message": "docs: move COLLAB.md to root, update for Mar 16, fix live URL",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T16:52:02+00:00"
+      }
+    },
+    {
+      "sha": "cfc37f6e06dbb25c017e83317068ff15ada70dac",
+      "message": "docs: add hackathon artifacts section to README, link COLLAB + agent.json",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T16:52:29+00:00"
+      }
+    },
+    {
+      "sha": "abceeefc675343489dcd965e1334bdc493c98a8a",
+      "message": "\ud83d\udcca agent_log: add 35 entries for Mar 16 autonomous work (111 total, $4.01 spent)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T16:53:32+00:00"
+      }
+    },
+    {
+      "sha": "dbe0c39a7963596df23976a44d6f7e4de7e12dd5",
+      "message": "\ud83d\udcf8 add screenshots for Devfolio submission (receipt feed, judge mode, build log, costs)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T16:57:04+00:00"
+      }
+    },
+    {
+      "sha": "42eb403fd4b874d2aeed16825c30ebc5842ae337",
+      "message": "\u2728 build-log: show more commits/entries with expand toggle (was 15/20, now 20/30 + show-all button)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T17:06:18+00:00"
+      }
+    },
+    {
+      "sha": "3ea0c33477de725339bf4c4ce4867e638571958a",
+      "message": "fix: rename Spent/Earned \u2192 Sent/Received for accuracy",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T18:37:42+00:00"
+      }
+    },
+    {
+      "sha": "8384783d649e2648bb3753d7825193a0aec45e33",
+      "message": "fix: use AppFooter on judge page for consistent nav + branding",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T19:06:15+00:00"
+      }
+    },
+    {
+      "sha": "598d7a1bd546867feef6120873e83692fd8e1a61",
+      "message": "fix: remove x402 ad badge from judge page footer",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T21:07:29+00:00"
+      }
+    },
+    {
+      "sha": "e6c033b905c3e5191dfc0929dc15d3a7ee371d71",
+      "message": "fix: update commits.json with 10 missing recent commits (was stale since 7f06a8c)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T22:06:08+00:00"
+      }
+    },
+    {
+      "sha": "3b89dc6b8ecf86e0b6804e47614c3a1e21df171d",
+      "message": "fix: add Bankr wallet to address labels, update commits.json (59 commits)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-16T23:27:15+00:00"
+      }
+    },
+    {
+      "sha": "71094965ccf2a28bd59150afb8c957821bff6906",
+      "message": "fix: add top nav bar to judge page for easy navigation",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T00:03:31+00:00"
+      }
+    },
+    {
+      "sha": "d5100f9e23f2a3f901b03a81e2a5e84ff816eaec",
+      "message": "fix: use shortenAddr for raw addresses in receipt card FROM/TO rows",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T01:03:34+00:00"
+      }
+    },
+    {
+      "sha": "b1232733caffd6545c93aaca9a84abeeaaaa9e18",
+      "message": "fix: always show real LLM costs in ReceiptStats regardless of inference toggle",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T02:07:46+00:00"
+      }
+    },
+    {
+      "sha": "6ded66ef67f8ddba75e32e1c900bc1b9c47bceed",
+      "message": "fix: judge page crash \u2014 add missing artifacts/decision fields to agent_log entries, add null guards",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T02:22:29+00:00"
+      }
+    },
+    {
+      "sha": "5ec1fbf91a68894e8bb0c721dfd120a457ba732d",
+      "message": "feat: add machine-readable endpoints for AI agent judges",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T02:26:17+00:00"
+      }
+    },
+    {
+      "sha": "d57bc6c551f638903779bd6823d533b5ad36dc99",
+      "message": "fix: surface agent decision/reasoning field in Judge Mode log entry cards",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T03:05:59+00:00"
+      }
+    },
+    {
+      "sha": "85df380767ed70af48ea219e63fce3c5a9e29f03",
+      "message": "docs: add live demo URL to README",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T03:49:49+00:00"
+      }
+    },
+    {
+      "sha": "fe11a319127c2c13e1743806249eb626be7b6b7c",
+      "message": "fix: clearly distinguish on-chain receipts from inference cost estimates",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T04:09:07+00:00"
+      }
+    },
+    {
+      "sha": "3d81c08673dc6ff26c77fd7865af33f9f27fc54c",
+      "message": "feat: add machine-readable API callout on judge page for AI judges",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T04:10:01+00:00"
+      }
+    },
+    {
+      "sha": "3db83f1e5a1e7a7a27e5d06699222754f0621b1f",
+      "message": "fix: update commits.json with 10 missing recent commits (build timeline was stale)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T05:08:52+00:00"
+      }
+    },
+    {
+      "sha": "b49d8faa63c9b320f4849649a669ffb03679a0c6",
+      "message": "fix: map commit.author to object with login and avatar_url",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T05:10:23+00:00"
+      }
+    },
+    {
+      "sha": "30daed8fb209b88b5c5bf9b326ebe403810745b9",
+      "message": "fix: use entry.cron field for byCron cost breakdown (was using entry.action)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T06:08:47+00:00"
+      }
+    },
+    {
+      "sha": "3cebf985cc5948b5e2586d9f3add85be524f3ffe",
+      "message": "\ud83d\udd0d judge-review: add chain field to cached receipts for multi-chain support",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T06:13:19+00:00"
+      }
+    },
+    {
+      "sha": "a9689828a4f1a8006a65d45192dc58f0df5132c7",
+      "message": "feat: enrich x402 receipts with service, agent, and label data",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T07:10:34+00:00"
+      }
+    },
+    {
+      "sha": "7b28f46640cfe1079ec9c2cb5ac48f2a099a4326",
+      "message": "fix: replace x402 facilitator verification with mock for hackathon demo",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T08:06:06+00:00"
+      }
+    },
+    {
+      "sha": "ec7a7ad577d880de6263e50bc10352f8080cd2c7",
+      "message": "fix: use receiptType === 'inference' instead of tokenSymbol === 'USD' for inference receipt filtering This is more robust and semantically correct - receiptType field explicitly indicates inference vs on-chain receipt type, unlike tokenSymbol which could change",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T09:06:07+00:00"
+      }
+    },
+    {
+      "sha": "56135061d70564033826e0d04b8cd3bdb8860eb9",
+      "message": "fix: add avatar icons to wallet selector buttons",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T10:02:54+00:00"
+      }
+    },
+    {
+      "sha": "47a64a7ad7d1c2b6f45282d6189f5e1242aa1da0",
+      "message": "fix: clarify chain field in Receipt type interface",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T10:05:17+00:00"
+      }
+    },
+    {
+      "sha": "51883b67ead8c6cc110f42513e398eeaafb96695",
+      "message": "fix: wallet selector - show agent names instead of raw addresses on hover",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T11:05:02+00:00"
+      }
+    },
+    {
+      "sha": "bc5125159cd108b53a72cac4d719375b4cf8b29d",
+      "message": "fix: move agent.json to public/.well-known/agent.json and remove unnecessary route handler",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T12:04:50+00:00"
+      }
+    },
+    {
+      "sha": "7c8867b0a78b7bceb7685e94458b7c7ea76237c4",
+      "message": "fix: update agent.json to describe Molttail project for agentic judging",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T13:04:38+00:00"
+      }
+    },
+    {
+      "sha": "537096df0334541128abca8e6cab0521151a5c64",
+      "message": "\ud83d\udd0d judge-review: fix cron grouping in cost breakdown to use action field",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T13:06:10+00:00"
+      }
+    },
+    {
+      "sha": "b42563e568a28609f53f69e55ef88f257df44229",
+      "message": "\u2728 judge mode: polish for Mar 18 agentic judging",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T13:51:55+00:00"
+      }
+    },
+    {
+      "sha": "b83ef69356cac739fea7e6a7cb9a2e82d6ee233e",
+      "message": "fix: add avatar_url to commits.json for judge page avatar display",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T14:05:11+00:00"
+      }
+    },
+    {
+      "sha": "0f405913a6016be82240d91268664f515caf3a8b",
+      "message": "fix: remove redundant inline nav from judge page (NavBar is in layout)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T15:07:13+00:00"
+      }
+    },
+    {
+      "sha": "66cfbf554e3a83a3403d1b716f710ba1bb32c91f",
+      "message": "fix: widen NavBar inner container to max-w-6xl to match judge page width",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T16:06:00+00:00"
+      }
+    },
+    {
+      "sha": "5eee51aa32e28059849a8c0f58543e8b4983d916",
+      "message": "fix: use cron field for byCron breakdown instead of action",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T16:09:31+00:00"
+      }
+    },
+    {
+      "sha": "a1e809da9709d85f479a8ee36244ee14826318a8",
+      "message": "fix: hero stats show skeleton while loading instead of zeros, add judge endpoints to README",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T16:37:41+00:00"
+      }
+    },
+    {
+      "sha": "c00a405a80a71f16aa465d810ffad6d80356af4d",
+      "message": "feat: localStorage cache for receipts \u2014 hero stats show last data instantly, no zeros",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T17:03:35+00:00"
+      }
+    },
+    {
+      "sha": "b5adf7d2b5db54568da635882cdb172ba18eb570",
+      "message": "feat: LLM-powered receipt insights via Bankr Gateway (qwen3.5-flash)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T17:09:02+00:00"
+      }
+    },
+    {
+      "sha": "1f3bff2d593ea8c57a38bb79fbadb3843f92f11d",
+      "message": "fix: use correct BANKR_API_KEY env var name",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T17:10:16+00:00"
+      }
+    },
+    {
+      "sha": "ec0cd30c1bf1aec64da93e574f84e2975d2b6d56",
+      "message": "\ud83d\udd0d judge-review: Update agent.json to reflect Molttail project identity (was Clawlinker)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T17:10:54+00:00"
+      }
+    },
+    {
+      "sha": "a29021de81b848cd1b707e898ec42bac294b8407",
+      "message": "fix: correct Bankr LLM endpoint URL (llm.bankr.bot not .app)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T17:13:26+00:00"
+      }
+    },
+    {
+      "sha": "bba798275205661d5543ff73a4e713ccd06347a0",
+      "message": "feat: ENS integration \u2014 resolve addresses to .eth names, ENS API endpoint, identity badges",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T17:48:32+00:00"
+      }
+    },
+    {
+      "sha": "f72a710a71843db1f4f1a6699ce327fa66731ee5",
+      "message": "fix: nav width matches content width on desktop (max-w-2xl)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T17:50:41+00:00"
+      }
+    },
+    {
+      "sha": "7c8e93baf1a9093ef3377236f2051fde9583b5f8",
+      "message": "fix: amount filter step 0.01\u21920.001 to support sub-cent inference costs",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T18:07:18+00:00"
+      }
+    },
+    {
+      "sha": "cd1285055106064d269cff6427c0cabc81c60b0d",
+      "message": "\ud83d\udd0d judge-review: Add missing phase filter options (build, polish, deploy, cleanup, submit)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T18:09:10+00:00"
+      }
+    },
+    {
+      "sha": "e0956e85117f3cf97774d078513014827ee4cf9b",
+      "message": "fix: costs endpoint now only counts Bankr model costs (not OpenClaw's internal Opus/Sonnet)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T18:21:33+00:00"
+      }
+    },
+    {
+      "sha": "e2cdc713be81ea99aaf01a42772caf668200300a",
+      "message": "feat: costs endpoint now shows ALL Bankr LLM costs, not just hackathon-related",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T18:25:52+00:00"
+      }
+    },
+    {
+      "sha": "5f919e03007a290513a7945d59a6324ecb5f54c0",
+      "message": "fix: agent summary now shows only Bankr LLM costs, not OpenClaw Opus/Sonnet",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T18:27:34+00:00"
+      }
+    },
+    {
+      "sha": "652b7989d397e5c5581b3b84ead5ae596f5bd6c9",
+      "message": "feat: costs endpoint now pulls REAL data from Bankr API (not agent_log estimates)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T18:41:19+00:00"
+      }
+    },
+    {
+      "sha": "7631db7657744df550a3189f316a97bbb23050cc",
+      "message": "docs: highlight judge summary endpoint as primary machine-readable format",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T19:10:23+00:00"
+      }
+    },
+    {
+      "sha": "1ea8acabc2b7df8816d5433ec2adff2502f1bdf2",
+      "message": "fix: remove duplicate .eth suffix from ENS badge in HeroSection",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T20:05:05+00:00"
+      }
+    },
+    {
+      "sha": "bfb5bd9643ea8f3ffdbd1eb9378dd50d18befb89",
+      "message": "fix: rename 'Judge Mode' CTA to 'How I Built This' for judge clarity",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T21:05:12+00:00"
+      }
+    },
+    {
+      "sha": "2dc63ff6f4f4b596aa2c474242b5e8532eb5fd15",
+      "message": "\ud83d\udd0d judge-review: Fix dynamic import to static import for agent_log.json in judge/costs/route.ts",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T21:08:04+00:00"
+      }
+    },
+    {
+      "sha": "c005bba6608bcd36a8ad75ff83df2dc3f7d32890",
+      "message": "fix: rename NavBar 'Judge' to 'Judge Mode' for consistency",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T22:06:32+00:00"
+      }
+    },
+    {
+      "sha": "239ff8ba0c0ef0c13caab28779724a8491c50ed9",
+      "message": "\ud83e\uddf9 commit orphaned changes",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T22:55:39+00:00"
+      }
+    },
+    {
+      "sha": "34db7013173389e24a75b8ef7e6f39a962e19cfb",
+      "message": "fix: add error banner to judge page when API fetch fails",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T23:06:32+00:00"
+      }
+    },
+    {
+      "sha": "be7f1cd00a3c8d5ea0a26329c06efb4acb8a978a",
+      "message": "\ud83d\udd0d judge-review: add missing judge endpoints to llms.txt (verify, svg)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-17T23:09:41+00:00"
+      }
+    },
+    {
+      "sha": "473b6b9f7472d91fb616bb367f600c56e1cb77e3",
+      "message": "chore: update cached-receipts.json",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T00:11:36+00:00"
+      }
+    },
+    {
+      "sha": "4868df67b4a56f4c2c94cc817806f4d7a31db79f",
+      "message": "add AGENTS.md for agentic judges",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T00:35:08+00:00"
+      }
+    },
+    {
+      "sha": "8c02ad138e27bf910c3130a399da93ba8688134e",
+      "message": "fix: show address label in receipt page when no ERC-8004 agent identity",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T01:08:22+00:00"
+      }
+    },
+    {
+      "sha": "b9213078211373c1ca1956a91f9fc05395bc3dda",
+      "message": "\ud83d\udd0d judge-review: fix autonomous hours calculation and commit URL construction",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T01:09:57+00:00"
+      }
+    },
+    {
+      "sha": "cf0bfd8ab2b712133a280380191bcc2ab8cd09ac",
+      "message": "docs: rewrite COLLAB.md with real collaboration narrative",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T02:01:37+00:00"
+      }
+    },
+    {
+      "sha": "07a54fbf97faaf1cdaa68c9493a1cb6e989a2e9f",
+      "message": "\ud83d\udd0d judge-review: add chain field to inference receipts for consistency",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T02:11:51+00:00"
+      }
+    },
+    {
+      "sha": "9c33aa0db752ebe22d3dd3476921b9b9566c37e4",
+      "message": "chore: add Mar 17 entries to agent_log.json (111\u2192122)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T02:15:30+00:00"
+      }
+    },
+    {
+      "sha": "6f9d5a999d14297f8c608495a2c56b11d2e6ca75",
+      "message": "fix: show real git commit count in judge stats (was capped at 20, now shows full total)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T03:05:22+00:00"
+      }
+    },
+    {
+      "sha": "0db8002cb98f63168ce455b9668c3d25c0d62547",
+      "message": "\ud83d\udd0d judge-review: Fetch costs from judge/costs endpoint for accurate total LLM spend",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T03:08:29+00:00"
+      }
+    },
+    {
+      "sha": "76f6fa9e012718c43cf61d857276a6cf5178de1c",
+      "message": "fix: judge page toFixed crash, costs layout, 24h Bankr cache, 310 commits, label clarity",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T03:47:48+00:00"
+      }
+    },
+    {
+      "sha": "f98fe5f7a00c7c66dccd5bc35e40448b908be846",
+      "message": "fix: commit dates (Invalid Date bug), correct author.date shape, 311 commits",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T03:49:06+00:00"
+      }
+    },
+    {
+      "sha": "a9cb88bc0da5e587a8593b67cdde2a5b8d14febc",
+      "message": "\ud83e\uddf9 commit orphaned changes",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T03:55:39+00:00"
+      }
+    },
+    {
+      "sha": "48df65e3e1a9ccdb4644277766d73ce275119851",
+      "message": "fix: judge page commit dates (author.date shape from static commits.json)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T04:08:27+00:00"
+      }
+    },
+    {
+      "sha": "74ca7391117199a0434473e7934cef5c15adf37d",
+      "message": "\ud83d\udd0d judge-review: Fix import paths for agent_log.json and commits.json in /api/judge/summary",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T04:10:58+00:00"
+      }
+    },
+    {
+      "sha": "5323baf2bbf9072ad8a2fdc4516b1fa10bf1995b",
+      "message": "feat: costs page now shows live Bankr API totals (14+) with model breakdown table",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T04:16:14+00:00"
+      }
+    },
+    {
+      "sha": "72690dc649d04a688bc2aa4959e21e18fe2f46c3",
+      "message": "feat: homepage stats show real Bankr LLM total ($614+), reordered for impact",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T04:19:07+00:00"
+      }
+    },
+    {
+      "sha": "1171ba3952d74af8316106b3041b978a37d62b92",
+      "message": "feat: hackathon build cost section on costs page",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T04:23:44+00:00"
+      }
+    },
+    {
+      "sha": "d75eb1a055c99719404507b03197b3401a1fbfec",
+      "message": "feat: show token count (191M) in hackathon cost card",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T04:28:18+00:00"
+      }
+    },
+    {
+      "sha": "97f4897c442f0d36a2f789983f2d8691c8f57a27",
+      "message": "copy: remove 'cheap', tighten all text across costs page",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T04:30:45+00:00"
+      }
+    },
+    {
+      "sha": "fe9f10345328636b01f2586258822f88f1424a23",
+      "message": "feat: level up build log page \u2014 hero stats, commit histogram, tighter copy",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T04:41:47+00:00"
+      }
+    },
+    {
+      "sha": "9230e5354a5bcd7e974121f8ec4ef4de0e9df643",
+      "message": "fix: show commit count above each histogram bar",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T05:00:47+00:00"
+      }
+    },
+    {
+      "sha": "e9b334bddaeb00aba91c489d183cfef58218a910",
+      "message": "fix: judge stats grid always renders even when costs API fails",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T05:05:49+00:00"
+      }
+    },
+    {
+      "sha": "add2328c46884b8f0c1a465c0827e35eb4168551",
+      "message": "\ud83d\udd0d judge-review: add llms.txt for Let the Agent Cook track compliance",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T05:07:10+00:00"
+      }
+    },
+    {
+      "sha": "d2ce06b705afc0a93319d137a62ceef07adbd86f",
+      "message": "chore: add agent_log.json for Vercel judge endpoints",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T05:07:57+00:00"
+      }
+    },
+    {
+      "sha": "bdb70e464e37dc0462fb3f6c5fa5f814e0de2546",
+      "message": "\ud83d\udd0d judge-review: fix judge/summary endpoint to work without self-fetch and Bankr API",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T05:08:19+00:00"
+      }
+    },
+    {
+      "sha": "2ebe08421b4da327e1270325fafbea5f3dffa137",
+      "message": "fix: normalize costs API response so judge page renders byModel/byPhase/byCron correctly in all cases",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T06:04:15+00:00"
+      }
+    },
+    {
+      "sha": "6ebbc4a9400d748b38d0984aba1a06a035ff76d5",
+      "message": "fix: make AgentLogEntry.commit optional to match actual data",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T06:06:51+00:00"
+      }
+    },
+    {
+      "sha": "2ee9ed4cc7b4890a90d47a39249e7831ac140f0f",
+      "message": "fix: correct llms.txt API URLs to molttail.vercel.app (was pointing to pawr.link)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T07:07:52+00:00"
+      }
+    },
+    {
+      "sha": "a51954ac64593500321545a3eec25f78149621a5",
+      "message": "\ud83e\uddf9 commit orphaned changes",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T07:55:46+00:00"
+      }
+    },
+    {
+      "sha": "5151bbe42d65f802040e651841457926d6e5c1b4",
+      "message": "fix: normalize contract addresses to lowercase in config.ts",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T08:12:38+00:00"
+      }
+    },
+    {
+      "sha": "91ea211c6322778de5f34460ae74b1678e847186",
+      "message": "fix: highlight Judge Mode nav link for agentic judging day",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T09:07:12+00:00"
+      }
+    },
+    {
+      "sha": "a41e1e3e2108e7e3a5066f56feba9fbef6463f2a",
+      "message": "fix: show most recent 20 commits on judge page (was showing oldest first)",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T10:06:23+00:00"
+      }
+    },
+    {
+      "sha": "6d09ea5d70f9db6ae6c71561ad367c9c49263420",
+      "message": "\ud83d\udd0d judge-review: Filter Recent Execution Log to Bankr models only for consistency",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T10:09:41+00:00"
+      }
+    },
+    {
+      "sha": "c90c8fad2a8b7874bb600f7985688a7317f67f3c",
+      "message": "\ud83e\uddf9 commit orphaned changes",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T11:55:40+00:00"
+      }
+    },
+    {
+      "sha": "995ff1b01dabb0e7d83ec24625a79bfe91f8a7c1",
+      "message": "\ud83d\udd0d judge-review: fix judge/log endpoint to correctly parse JSON import",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T12:11:34+00:00"
+      }
+    },
+    {
+      "sha": "a31c8ba6059f4308c53e004bbbdbd09d7448b463",
+      "message": "\ud83c\udfa8 judge-review: add loading.tsx for receipt/[hash] to prevent hydration errors",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T13:10:12+00:00"
+      }
+    },
+    {
+      "sha": "75e824d49ea083cb1b359afee8c32eaad1bebcc0",
+      "message": "\ud83d\udd0d judge-review: Fix judge log endpoint to properly parse agent_log.json",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T14:03:58+00:00"
+      }
+    },
+    {
+      "sha": "d337a32700ec7281a6b62479bbcea884c7676adf",
+      "message": "feat: Venice private insights endpoint \u2014 zero-retention financial analysis via Venice AI",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T14:10:19+00:00"
+      }
+    },
+    {
+      "sha": "741f2917d4462fe03a2942890758a62e9b74493e",
+      "message": "fix: show Base \u00b7 Ethereum multi-chain in hero agent strip + both block explorer links",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T14:13:32+00:00"
+      }
+    },
+    {
+      "sha": "94a57644c364ecce3d27ecc4883c0b42b8bcabec",
+      "message": "fix: venice insights uses cached receipts data, v2 basescan",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T14:16:22+00:00"
+      }
+    },
+    {
+      "sha": "c230ba4714f9792dff9028af912428dbe217a0ae",
+      "message": "fix: costs page crash \u2014 handle byModel as number or object",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T14:22:40+00:00"
+      }
+    },
+    {
+      "sha": "dd8177674a0c121a6c072ef073d236b0368ef199",
+      "message": "feat: Venice private insights card on homepage + track added to Devfolio",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T14:41:51+00:00"
+      }
+    },
+    {
+      "sha": "164ac74eb9e51dd724faa847f1c62b0edc917d44",
+      "message": "refactor: single insights card (Venice), product-focused not provider-focused",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T14:45:00+00:00"
+      }
+    },
+    {
+      "sha": "e3b36da94a78c021a7eb9decda85c75a91ecaadb",
+      "message": "polish: sharper Venice prompt, tighter card layout, add timestamp",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T14:48:23+00:00"
+      }
+    },
+    {
+      "sha": "7c52de48f42084958e66ba994ab7913a40645138",
+      "message": "fix: day header sticky offset top-11\u2192top-12 to clear 48px navbar",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T15:06:16+00:00"
+      }
+    },
+    {
+      "sha": "64f94b2d972af71bb1a952f4c82383e3bfcc6de1",
+      "message": "\ud83d\udd0d judge-review: fix receipt type filter to not mutate allReceipts variable",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T15:07:25+00:00"
+      }
+    },
+    {
+      "sha": "4075af4db8b17f6b49e8fdde8ce7c53ddf82e8b5",
+      "message": "polish: level up receipt feed \u2014 filter UX, spacing, feed footer",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T15:55:08+00:00"
+      }
+    },
+    {
+      "sha": "12a60e5a6d38c407ad1dfed2383e1cadd4ff8705",
+      "message": "polish: receipt detail \u2014 fix SVG aspect ratio, add hash copy, equal button widths",
+      "author": {
+        "name": "Clawlinker",
+        "date": "2026-03-18T15:55:31+00:00"
+      }
+    }
+  ]
+}
