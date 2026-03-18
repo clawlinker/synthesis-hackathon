@@ -443,6 +443,11 @@ function RRow({ label, value, highlight }: { label: string; value: React.ReactNo
 function AddressDisplay({ addr, r }: { addr: string | null; r: Receipt }) {
   if (!addr) return <span className="text-zinc-500">—</span>
   
+  // Handle zero address (Bankr's payment source for inference receipts)
+  if (addr.toLowerCase() === ZERO_ADDRESS.toLowerCase()) {
+    return <span className="font-mono text-xs text-purple-400">Bankr</span>
+  }
+  
   // Check if this is an ENS name
   const isEns = addr.endsWith('.eth')
   
