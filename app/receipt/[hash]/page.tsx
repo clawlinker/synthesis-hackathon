@@ -278,6 +278,14 @@ function AgentBadge({
   label?: string
 }) {
   if (!agent) {
+    if (label) {
+      return (
+        <div className="min-w-0">
+          <span className="text-xs font-semibold text-zinc-100">{label}</span>
+          <div className="text-[9px] font-mono text-zinc-600 truncate">{shortAddr(address)}</div>
+        </div>
+      )
+    }
     return (
       <span className="font-mono text-xs text-zinc-300 break-all">{address}</span>
     )
