@@ -1,9 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { AppFooter } from '@/components/AppFooter'
 import {
@@ -123,6 +124,11 @@ export default function JudgeModePage() {
   if (loading && !logEntries.length) {
     return (
       <main className="mx-auto max-w-6xl px-4 py-8">
+        <div className="mb-6">
+          <Link href="/" className={buttonVariants({ variant: "link", className: "h-auto p-0 text-muted-foreground hover:text-zinc-100" })}>
+            ← Receipt Feed
+          </Link>
+        </div>
         {/* Header skeleton */}
         <section className="mb-12 text-center space-y-4">
           <Skeleton className="h-6 w-56 mx-auto rounded-full" />
@@ -230,6 +236,13 @@ export default function JudgeModePage() {
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-8">
+      {/* Back nav */}
+      <div className="mb-6">
+        <Link href="/" className={buttonVariants({ variant: "link", className: "h-auto p-0 text-muted-foreground hover:text-zinc-100" })}>
+          ← Receipt Feed
+        </Link>
+      </div>
+
       {/* Error banner */}
       {fetchError && (
         <div className="mb-6 flex items-start gap-3 rounded-xl border border-red-500/20 bg-red-500/5 px-4 py-3 text-sm text-red-400">
