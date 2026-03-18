@@ -274,6 +274,10 @@ function ReceiptPaper({ receipt: r, onClose }: { receipt: Receipt; onClose: () =
             <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider text-purple-400 border border-purple-500/20 bg-purple-950/20">
               ⚡ LLM Cost
             </span>
+          ) : r.chain === 'tempo' ? (
+            <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider text-violet-400 border border-violet-500/20 bg-violet-950/20">
+              ✓ Tempo
+            </span>
           ) : (
             <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider text-emerald-400 border border-emerald-500/20 bg-emerald-950/20">
               ✓ On-chain
@@ -330,11 +334,16 @@ function ReceiptPaper({ receipt: r, onClose }: { receipt: Receipt; onClose: () =
         <div className="text-left space-y-2 text-sm">
           {r.hash && !r.hash.startsWith('inference-') && (() => {
             const isEth = r.chain === 'ethereum'
+            const isTempo = r.chain === 'tempo'
             const txUrl = isEth
               ? `https://etherscan.io/tx/${r.hash}`
+              : isTempo
+              ? `https://explore.tempo.xyz/tx/${r.hash}`
               : `https://basescan.org/tx/${r.hash}`
             const blockUrl = isEth
               ? `https://etherscan.io/block/${r.blockNumber}`
+              : isTempo
+              ? `https://explore.tempo.xyz/block/${r.blockNumber}`
               : `https://basescan.org/block/${r.blockNumber}`
             return (
               <>
@@ -370,7 +379,7 @@ function ReceiptPaper({ receipt: r, onClose }: { receipt: Receipt; onClose: () =
           {r.hash && !r.hash.startsWith('inference-') ? (
             <>
               <RRow label="Status" value="✓ ON-CHAIN" highlight />
-              <RRow label="Network" value={r.chain === 'ethereum' ? 'Ethereum' : 'Base'} />
+              <RRow label="Network" value={r.chain === 'ethereum' ? 'Ethereum' : r.chain === 'tempo' ? 'Tempo' : 'Base'} />
             </>
           ) : (
             <>
@@ -491,13 +500,19 @@ function USDCCard({ receipt: r, index, nested, defaultExpanded }: { receipt: Rec
     >
       {/* Badge at top */}
       <div className="absolute -top-2 left-3 z-10">
-        <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider text-emerald-400 border border-emerald-500/30 bg-emerald-950/30 backdrop-blur-sm shadow-sm">
-          ✓ On-chain
-        </span>
+        {r.chain === 'tempo' ? (
+          <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider text-violet-400 border border-violet-500/30 bg-violet-950/30 backdrop-blur-sm shadow-sm">
+            ✓ Tempo
+          </span>
+        ) : (
+          <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider text-emerald-400 border border-emerald-500/30 bg-emerald-950/30 backdrop-blur-sm shadow-sm">
+            ✓ On-chain
+          </span>
+        )}
       </div>
       
       <div
-        className="flex items-center gap-3 px-3 py-2.5 rounded-lg border border-emerald-500/20 group-hover:border-emerald-500/40 transition-colors duration-150 shadow-sm"
+        className={`flex items-center gap-3 px-3 py-2.5 rounded-lg border transition-colors duration-150 shadow-sm ${r.chain === 'tempo' ? 'border-violet-500/20 group-hover:border-violet-500/40' : 'border-emerald-500/20 group-hover:border-emerald-500/40'}`}
         style={{ background: 'rgba(24,24,27,0.5)' }}
       >
         {/* Left: dashed receipt edge + icon */}
@@ -525,7 +540,7 @@ function USDCCard({ receipt: r, index, nested, defaultExpanded }: { receipt: Rec
           <p className="text-sm font-bold tabular-nums" style={{ color: COLOR[type].text }}>
             {sign}${amt}
           </p>
-          <p className="text-[10px] text-zinc-600 mt-px">USDC</p>
+          <p className="text-[10px] text-zinc-600 mt-px">{r.chain === 'tempo' ? 'USDC.e' : 'USDC'}</p>
         </div>
       </div>
 

@@ -5,6 +5,92 @@ import { sampleReceipts } from '@/data/sample-receipts'
 import { ADDRESS_LABELS, CONTRACTS, RATE_LIMIT, SERVICE_LABELS } from '@/data/config'
 import { AGENT_REGISTRY, resolveAgent } from '@/data/erc8004-resolver'
 import { sampleInferenceReceipts } from '@/data/inference-receipts'
+
+// Tempo chain constants
+const TEMPO_RPC = 'https://rpc.tempo.xyz'
+const TEMPO_USDC = '0x20c000000000000000000000b9537d11c60e8b50'
+const TEMPO_WALLET = '0xf7567C97c882c759E809EaC4772932154F35ab05'
+const TRANSFER_TOPIC = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
+
+function tempoToTopic(addr: string): string {
+  return '0x000000000000000000000000' + addr.replace(/^0x/, '').toLowerCase()
+}
+
+async function fetchTempoLogs(fromTopic: string | null, toTopic: string | null, timeoutMs: number): Promise<Array<{ transactionHash: string; blockNumber: string; topics: string[]; data: string }>> {
+  const controller = new AbortController()
+  const tid = setTimeout(() => controller.abort(), timeoutMs)
+  try {
+    const res = await fetch(TEMPO_RPC, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jsonrpc: '2.0', method: 'eth_getLogs',
+        params: [{ fromBlock: '0x0', toBlock: 'latest', address: TEMPO_USDC, topics: [TRANSFER_TOPIC, fromTopic, toTopic] }],
+        id: 1,
+      }),
+      signal: controller.signal,
+    })
+    clearTimeout(tid)
+    if (!res.ok) return []
+    const json = await res.json() as { result?: Array<{ transactionHash: string; blockNumber: string; topics: string[]; data: string }> }
+    return json.result || []
+  } catch { clearTimeout(tid); return [] }
+}
+
+async function fetchTempoBlockTs(blockNumber: string): Promise<number> {
+  try {
+    const res = await fetch(TEMPO_RPC, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', method: 'eth_getBlockByNumber', params: [blockNumber, false], id: 1 }),
+    })
+    const json = await res.json() as { result?: { timestamp?: string } }
+    if (json.result?.timestamp) return parseInt(json.result.timestamp, 16)
+  } catch { /* ignore */ }
+  return Math.floor(Date.now() / 1000)
+}
+
+async function fetchTempoReceipts(timeoutMs: number): Promise<Receipt[]> {
+  const walletTopic = tempoToTopic(TEMPO_WALLET)
+  const [receivedLogs, sentLogs] = await Promise.all([
+    fetchTempoLogs(null, walletTopic, timeoutMs),
+    fetchTempoLogs(walletTopic, null, timeoutMs),
+  ])
+  const seen = new Set<string>()
+  const unique: { log: typeof receivedLogs[0]; direction: 'sent' | 'received' }[] = []
+  for (const log of receivedLogs) {
+    const key = log.transactionHash + ':received'
+    if (!seen.has(key)) { seen.add(key); unique.push({ log, direction: 'received' }) }
+  }
+  for (const log of sentLogs) {
+    const key = log.transactionHash + ':sent'
+    if (!seen.has(key)) { seen.add(key); unique.push({ log, direction: 'sent' }) }
+  }
+  if (unique.length === 0) return []
+  const blockNumbers = [...new Set(unique.map(({ log }) => log.blockNumber))]
+  const tsMap = new Map<string, number>()
+  await Promise.all(blockNumbers.map(async (bn) => { tsMap.set(bn, await fetchTempoBlockTs(bn)) }))
+  return unique.map(({ log, direction }) => {
+    const from = '0x' + log.topics[1].slice(-40)
+    const to = '0x' + log.topics[2].slice(-40)
+    const rawValue = BigInt(log.data).toString()
+    const amount = (Number(BigInt(log.data)) / 1e6).toFixed(2)
+    const ts = tsMap.get(log.blockNumber) ?? Math.floor(Date.now() / 1000)
+    const counterpart = direction === 'sent' ? to : from
+    const service = labelAddress(counterpart)
+    return {
+      hash: log.transactionHash,
+      from, to, value: rawValue, amount, timestamp: ts,
+      blockNumber: parseInt(log.blockNumber, 16).toString(),
+      direction, status: 'confirmed' as const,
+      tokenSymbol: 'USDC.e', tokenDecimal: '6',
+      chain: 'tempo' as const, service,
+      fromLabel: labelAddress(from), toLabel: labelAddress(to),
+      receiptType: 'onchain' as const,
+      agentId: AGENT.id.toString(),
+    } as Receipt
+  })
+}
 // Import agent_log.json as a module — bundled at build time, no fs.readFileSync on serverless
 import agentLogRaw from '@/agent_log.json'
 // Build-time cached receipts (populated by scripts/fetch-receipts.js during prebuild)
@@ -176,7 +262,24 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
     // Determine which chain to use
     const chain: ChainKey = chainParam || 'base'
     const useBase = chain === 'base'
-    
+    const useTempo = chain === 'tempo'
+
+    // Handle Tempo chain separately — it uses RPC eth_getLogs, not Blockscout
+    if (useTempo) {
+      const tempoReceipts = await fetchTempoReceipts(API_TIMEOUT_MS)
+      tempoReceipts.sort((a, b) => b.timestamp - a.timestamp)
+      return NextResponse.json({
+        receipts: tempoReceipts,
+        source: tempoReceipts.length > 0 ? 'tempo-live' : 'tempo-empty',
+        hasInferenceReceipts: false,
+      }, {
+        headers: {
+          'Cache-Control': 'public, max-age=300, s-maxage=300',
+          'X-RateLimit-Remaining': remaining.toString(),
+        },
+      })
+    }
+
     // Determine which wallet(s) to fetch
     let walletsToFetch: { wallet: string; name: string; agentId: string }[] = []
     

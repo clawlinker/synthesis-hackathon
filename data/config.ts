@@ -10,6 +10,9 @@ export const CONTRACTS = {
   X402_EXACT_PERMIT2_PROXY: '0x4104000000000000000000000000000000004104',
   // Ethereum contracts
   ETH_USDC_CONTRACT: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'.toLowerCase(),
+  // Tempo contracts
+  TEMPO_USDC_CONTRACT: '0x20c000000000000000000000b9537d11c60e8b50'.toLowerCase(),
+  TEMPO_AGENT_WALLET: '0xf7567C97c882c759E809EaC4772932154F35ab05'.toLowerCase(),
 }
 
 // Service labels based on contract addresses
@@ -52,6 +55,9 @@ export const ADDRESS_LABELS: Record<string, string> = {
   '0xf17b5dd382b048ff4c05c1c9e4e24cfc5c6adad9': 'External Wallet',
   '0xa6a8736f18f383f1cc2d938576933e5ea7df01a1': 'x402 Facilitator Fee',
   '0xf0c7ff3141d37e8c70b08e0afbc68aad3364ebc6': 'x402 Customer',
+  // Tempo chain addresses
+  '0xf7567c97c882c759e809eac4772932154f35ab05': 'Clawlinker (Tempo)',
+  '0x20c000000000000000000000b9537d11c60e8b50': 'USDC.e (Tempo)',
 }
 
 // ENS names for known addresses (lowercase address -> ENS name)

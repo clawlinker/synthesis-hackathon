@@ -24,8 +24,8 @@ export interface Receipt {
   status: 'confirmed'
   tokenSymbol: string
   tokenDecimal: string
-  // chain field - which chain this receipt is from ('base', 'ethereum', or 'inference')
-  chain?: 'base' | 'ethereum' | 'inference'
+  // chain field - which chain this receipt is from ('base', 'ethereum', 'tempo', or 'inference')
+  chain?: 'base' | 'ethereum' | 'tempo' | 'inference'
   // enrichment (added later)
   service?: string     // what the payment was for
   agentId?: string     // ERC-8004 ID
@@ -71,6 +71,7 @@ export const AGENTS = [AGENT, BANKR_AGENT] as const
 export const CHAINS = {
   base: { id: 8453, name: 'Base', rpc: 'https://base.blockscout.com' },
   ethereum: { id: 1, name: 'Ethereum', rpc: 'https://eth.blockscout.com' },
+  tempo: { id: 4217, name: 'Tempo', rpc: 'https://rpc.tempo.xyz', explorer: 'https://explore.tempo.xyz' },
 } as const
 
 export type ChainKey = keyof typeof CHAINS

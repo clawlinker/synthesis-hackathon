@@ -210,7 +210,7 @@ export default function Home() {
                 : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
             }`}
           >
-            <span className={`h-1.5 w-1.5 rounded-full ${key === 'base' ? 'bg-success' : 'bg-blue-400'}`} />
+            <span className={`h-1.5 w-1.5 rounded-full ${key === 'base' ? 'bg-success' : key === 'tempo' ? 'bg-violet-400' : 'bg-blue-400'}`} />
             {chain.name}
           </button>
         ))}
