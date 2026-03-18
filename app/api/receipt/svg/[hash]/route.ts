@@ -200,76 +200,68 @@ function generateReceiptSVG(receipt: Receipt): string {
   const isSent = receipt.direction === 'sent'
   
   const colors = {
-    background: '#0a0a0a',
-    cardBackground: '#111111',
-    textPrimary: '#ffffff',
-    textSecondary: '#a0a0a0',
-    textMuted: '#606060',
+    background: '#1a1d23',
+    border: '#2a2d35',
+    muted: '#6b7280',
+    primary: '#e5e7eb',
+    green: '#4ade80',
+    red: '#ef4444',
+    blue: '#60a5fa',
     usdc: '#26a17b',
-    sentBg: 'rgba(220, 38, 38, 0.1)',
-    sentText: '#ef4444',
-    receivedBg: 'rgba(34, 197, 94, 0.1)',
-    receivedText: '#22c55e',
-    border: '#222222',
   }
 
-  const badgeWidth = isSent ? 56 : 72
-  const serviceX = 20 + badgeWidth + 12
+  const receiptDate = formatTime(receipt.timestamp)
+  const receiptTime = new Date(receipt.timestamp * 1000).toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'UTC',
+  })
+
+  // Calculate height based on content (roughly 280-300px)
+  const height = 290
+  const padding = 24
+  const width = 440
 
   return `
-<svg width="600" height="210" viewBox="0 0 600 210" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="600" height="210" rx="16" fill="${colors.cardBackground}" stroke="${colors.border}" stroke-width="1"/>
+<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="${width}" height="${height}" rx="12" fill="${colors.background}" stroke="${colors.border}" stroke-width="1"/>
   
-  <!-- Direction Badge -->
-  <rect x="20" y="18" width="${badgeWidth}" height="24" rx="12" fill="${isSent ? colors.sentBg : colors.receivedBg}"/>
-  <text x="${20 + badgeWidth / 2}" y="34" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="${isSent ? colors.sentText : colors.receivedText}" text-anchor="middle">
-    ${isSent ? '↑ Sent' : '↓ Received'}
-  </text>
+  <!-- Header -->
+  <text x="${padding}" y="32" font-family="'JetBrains Mono', 'Fira Code', 'SF Mono', monospace" font-size="16" font-weight="700" fill="${colors.primary}">MOLTTAIL</text>
   
-  ${receipt.service ? `
-  <text x="${serviceX}" y="34" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="${colors.textMuted}">
-    ${receipt.service}
-  </text>` : ''}
+  <text x="${width - padding}" y="22" font-family="'JetBrains Mono', 'Fira Code', 'SF Mono', monospace" font-size="11" fill="${colors.green}" text-anchor="end">Block: ${receipt.blockNumber}</text>
+  <text x="${width - padding}" y="38" font-family="'JetBrains Mono', 'Fira Code', 'SF Mono', monospace" font-size="11" fill="${colors.primary}" text-anchor="end">${receiptDate}</text>
+  <text x="${width - padding}" y="52" font-family="'JetBrains Mono', 'Fira Code', 'SF Mono', monospace" font-size="11" fill="${colors.primary}" text-anchor="end">${receiptTime} UTC</text>
   
-  <!-- Amount (right-aligned) -->
-  <text x="580" y="34" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500" fill="${colors.usdc}" text-anchor="end">
-    USDC
-  </text>
-  <text x="540" y="34" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="700" fill="${colors.textPrimary}" text-anchor="end">
-    ${isSent ? '-' : '+'}${receipt.amount}
-  </text>
+  <!-- Divider -->
+  <line x1="${padding}" y1="68" x2="${width - padding}" y2="68" stroke="${colors.border}" stroke-width="1"/>
   
-  <!-- Separator -->
-  <line x1="20" y1="56" x2="580" y2="56" stroke="${colors.border}" stroke-width="1"/>
+  <!-- Transaction Direction -->
+  <rect x="${padding}" y="78" width="${isSent ? 48 : 70}" height="22" rx="11" fill="${isSent ? 'rgba(239, 68, 68, 0.15)' : 'rgba(74, 222, 128, 0.15)'}"/>
+  <text x="${padding + (isSent ? 48 : 70) / 2}" y="93" font-family="'JetBrains Mono', 'Fira Code', 'SF Mono', monospace" font-size="11" font-weight="600" fill="${isSent ? colors.red : colors.green}" text-anchor="middle">${isSent ? '↑ Sent' : '↓ Received'}</text>
   
-  <!-- From -->
-  <text x="20" y="80" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="500" fill="${colors.textMuted}">From</text>
-  <text x="60" y="80" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500" fill="${colors.textSecondary}">
-    ${receipt.fromLabel || shortenAddress(receipt.from)}
-  </text>
+  <text x="${padding + 84}" y="89" font-family="'JetBrains Mono', 'Fira Code', 'SF Mono', monospace" font-size="18" font-weight="700" fill="${colors.primary}">${isSent ? '-' : '+'}${receipt.amount}</text>
+  <text x="${padding + 84}" y="106" font-family="'JetBrains Mono', 'Fira Code', 'SF Mono', monospace" font-size="13" fill="${colors.usdc}">${receipt.tokenSymbol}</text>
   
-  <!-- To -->
-  <text x="20" y="106" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="500" fill="${colors.textMuted}">To</text>
-  <text x="60" y="106" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500" fill="${colors.textSecondary}">
-    ${receipt.toLabel || shortenAddress(receipt.to)}
-  </text>
+  <!-- Dollar value right-aligned -->
+  <text x="${width - padding}" y="92" font-family="'JetBrains Mono', 'Fira Code', 'SF Mono', monospace" font-size="11" fill="${colors.muted}" text-anchor="end">≈ $${(parseFloat(receipt.amount) * 1).toFixed(2)}</text>
   
-  <!-- Separator -->
-  <line x1="20" y1="124" x2="580" y2="124" stroke="${colors.border}" stroke-width="1"/>
+  <!-- From / To rows -->
+  <text x="${padding}" y="132" font-family="'JetBrains Mono', 'Fira Code', 'SF Mono', monospace" font-size="11" fill="${colors.muted}">From</text>
+  <text x="${padding + 44}" y="132" font-family="'JetBrains Mono', 'Fira Code', 'SF Mono', monospace" font-size="13" fill="${colors.blue}">${receipt.fromLabel || shortenAddress(receipt.from)}</text>
   
-  <!-- Footer row -->
-  <text x="20" y="148" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="${colors.textMuted}">
-    ${formatTime(receipt.timestamp)} UTC
-  </text>
-  ${receipt.agentId ? `
-  <text x="580" y="148" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="${colors.textMuted}" text-anchor="end">
-    ERC-8004 #${receipt.agentId}
-  </text>` : ''}
+  <text x="${padding}" y="152" font-family="'JetBrains Mono', 'Fira Code', 'SF Mono', monospace" font-size="11" fill="${colors.muted}">To</text>
+  <text x="${padding + 44}" y="152" font-family="'JetBrains Mono', 'Fira Code', 'SF Mono', monospace" font-size="13" fill="${colors.blue}">${receipt.toLabel || shortenAddress(receipt.to)}</text>
   
-  <!-- Branding -->
-  <text x="300" y="185" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="${colors.textMuted}" text-anchor="middle">
-    Molttail · <tspan fill="${colors.usdc}">Clawlinker</tspan> · Synthesis 2026
-  </text>
+  <!-- Divider -->
+  <line x1="${padding}" y1="172" x2="${width - padding}" y2="172" stroke="${colors.border}" stroke-width="1"/>
+  
+  <!-- Footer -->
+  <text x="${padding}" y="192" font-family="'JetBrains Mono', 'Fira Code', 'SF Mono', monospace" font-size="11" fill="${colors.muted}">ERC-8004 #${receipt.agentId}</text>
+  <text x="${width - padding}" y="192" font-family="'JetBrains Mono', 'Fira Code', 'SF Mono', monospace" font-size="11" fill="${colors.muted}" text-anchor="end">Molttail · Clawlinker</text>
+  
+  <!-- CTA -->
+  <text x="${width / 2}" y="220" font-family="'JetBrains Mono', 'Fira Code', 'SF Mono', monospace" font-size="11" fill="${colors.blue}" text-anchor="middle">View on Base Explorer →</text>
 </svg>
 `
 }
