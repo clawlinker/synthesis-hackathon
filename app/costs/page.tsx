@@ -309,15 +309,20 @@ export default function CostsPage() {
               </TableHeader>
               <TableBody>
                 {Object.entries(bankrData.byModel)
-                  .sort(([,a], [,b]) => b.cost - a.cost)
-                  .map(([model, info]) => (
-                    <TableRow key={model}>
-                      <TableCell className="font-mono text-xs">{model}</TableCell>
-                      <TableCell className="text-muted-foreground text-xs">{info.provider}</TableCell>
-                      <TableCell className="text-right tabular-nums">{info.requests.toLocaleString()}</TableCell>
-                      <TableCell className="text-right tabular-nums font-medium">{formatCurrency(info.cost)}</TableCell>
-                    </TableRow>
-                  ))}
+                  .sort(([,a], [,b]) => (typeof b === 'number' ? b : b.cost) - (typeof a === 'number' ? a : a.cost))
+                  .map(([model, info]) => {
+                    const cost = typeof info === 'number' ? info : info.cost
+                    const requests = typeof info === 'number' ? null : info.requests
+                    const provider = typeof info === 'number' ? null : info.provider
+                    return (
+                      <TableRow key={model}>
+                        <TableCell className="font-mono text-xs">{model}</TableCell>
+                        <TableCell className="text-muted-foreground text-xs">{provider ?? '—'}</TableCell>
+                        <TableCell className="text-right tabular-nums">{requests?.toLocaleString() ?? '—'}</TableCell>
+                        <TableCell className="text-right tabular-nums font-medium">{formatCurrency(cost)}</TableCell>
+                      </TableRow>
+                    )
+                  })}
               </TableBody>
             </Table>
           </Card>
