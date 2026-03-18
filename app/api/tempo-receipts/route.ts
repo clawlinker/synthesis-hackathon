@@ -40,7 +40,7 @@ async function queryLogs(fromTopic: string | null, toTopic: string | null): Prom
         jsonrpc: '2.0',
         method: 'eth_getLogs',
         params: [{
-          fromBlock: '0x0',
+          fromBlock: '0x97b44a', // ~100k blocks back from launch
           toBlock: 'latest',
           address: TEMPO_USDC,
           topics: [TRANSFER_TOPIC, fromTopic, toTopic],
