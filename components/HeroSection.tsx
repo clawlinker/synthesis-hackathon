@@ -101,7 +101,7 @@ export function HeroSection({ stats, source }: { stats: HeroStats; source: strin
             </span>
           </div>
           <div className="flex items-center gap-2 text-xs text-zinc-500 mt-1">
-            <span>Base Chain</span>
+            <span>Base · Ethereum</span>
             <span>·</span>
             <a
               href={`https://basescan.org/address/${AGENT.wallet}`}
@@ -110,7 +110,17 @@ export function HeroSection({ stats, source }: { stats: HeroStats; source: strin
               className="text-blue-400 hover:text-blue-300 transition-colors"
               onClick={(e) => e.stopPropagation()}
             >
-              View on BaseScan ↗
+              BaseScan ↗
+            </a>
+            <span>·</span>
+            <a
+              href={`https://etherscan.io/address/${AGENT.wallet}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-400 hover:text-blue-300 transition-colors"
+              onClick={(e) => e.stopPropagation()}
+            >
+              Etherscan ↗
             </a>
           </div>
         </div>
