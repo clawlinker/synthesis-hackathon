@@ -180,7 +180,7 @@ export default function CostsPage() {
       <div className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight mb-2">LLM Cost Transparency</h1>
         <p className="text-muted-foreground">
-          Real-time breakdown of Bankr LLM credit spending building Molttail. Every cent logged, every action tracked.
+          Full breakdown of LLM spend across the Molttail build.
         </p>
         <Link href="/" className={buttonVariants({ variant: "link", className: "h-auto p-0 mt-2" })}>
           ← Back to feed
@@ -242,7 +242,7 @@ export default function CostsPage() {
               )}
 
               <p className="text-xs text-zinc-500 italic border-t border-zinc-800 pt-4">
-                Molttail was built using cheap Bankr models — qwen3-coder for features, deepseek for review, Opus for architecture.
+                qwen3-coder for features, deepseek for review, Opus for architecture.
               </p>
             </CardContent>
           </Card>
@@ -252,7 +252,7 @@ export default function CostsPage() {
       {/* All-time note */}
       <div className="mb-4">
         <p className="text-xs text-zinc-500">
-          All-time Bankr Gateway usage below (includes all Clawlinker activity, not just Molttail)
+          All-time Bankr Gateway usage (all Clawlinker activity)
         </p>
       </div>
 
@@ -280,7 +280,7 @@ export default function CostsPage() {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
             <div>
               <div className="text-3xl sm:text-4xl font-bold text-success tabular-nums">{formatCurrency(bankrData?.total ?? data.totalCost)}</div>
-              <div className="text-sm text-muted-foreground">{bankrData ? 'Total Bankr LLM Gateway spend (live)' : 'Total Bankr LLM credit spent'}</div>
+              <div className="text-sm text-muted-foreground">{bankrData ? 'All-time LLM spend (live)' : 'Total LLM spend'}</div>
             </div>
             <div className="sm:text-right">
               <div className="text-2xl font-semibold tabular-nums">{data.totalEntries}</div>
@@ -326,7 +326,7 @@ export default function CostsPage() {
 
       {/* Agent Log — By Cron */}
       <h2 className="text-lg font-semibold mb-2 text-muted-foreground">Agent Log Breakdown</h2>
-      <p className="text-xs text-muted-foreground mb-4">From agent_log.json — manually tracked build phases ({formatCurrency(data.totalCost)} across {data.totalEntries} entries)</p>
+      <p className="text-xs text-muted-foreground mb-4">Build log entries ({formatCurrency(data.totalCost)} across {data.totalEntries} entries)</p>
 
       {/* By Cron */}
       <section className="mb-8">
