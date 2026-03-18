@@ -61,6 +61,7 @@ export default function JudgeModePage() {
   const [logEntries, setLogEntries] = useState<AgentLogEntry[]>([])
   const [costs, setCosts] = useState<CostBreakdown | null>(null)
   const [commits, setCommits] = useState<GitCommit[]>([])
+  const [totalCommits, setTotalCommits] = useState(0)
   const [loading, setLoading] = useState(true)
   const [fetchError, setFetchError] = useState<string | null>(null)
   const [selectedCron, setSelectedCron] = useState<string>('all')
@@ -83,6 +84,7 @@ export default function JudgeModePage() {
         setLogEntries(logData.entries || [])
         setCosts(costData.breakdown || null)
         const rawCommits = commitsData.commits || []
+        setTotalCommits(rawCommits.length)
         setCommits(rawCommits.slice(0, 20).map((c: { sha: string; author: string; date: string; message: string; avatar_url?: string }) => {
           // Use author.login if available, otherwise fall back to author string
           const login = (c as any).author?.login || c.author || 'unknown'
@@ -289,7 +291,7 @@ export default function JudgeModePage() {
         <div className="mb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
             { label: 'Total LLM Cost', value: `$${costs.total.toFixed(2)}`, accent: true },
-            { label: 'Git Commits', value: `${commits.length}`, accent: false },
+            { label: 'Git Commits', value: `${totalCommits || commits.length}`, accent: false },
             { label: 'Autonomous Hours', value: `${logEntries.length > 0 ? calculateAutonomousHours(logEntries).toFixed(1) : '0'}`, accent: false },
             { label: 'Models Used', value: `${Object.keys(costs.byModel || {}).length}`, accent: false },
           ].map((stat) => (
