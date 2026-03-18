@@ -7,20 +7,29 @@ export async function GET() {
     const entries = agentLogRaw as any[]
     const { commits } = commitsRaw as { commits: any[] }
 
-    // Cost breakdown (only Bankr models - not OpenClaw's internal Opus/Sonnet)
-    const costs = {
+    // Fetch real costs from the judge/costs endpoint (uses Bankr API if available, falls back to agent_log)
+    let costs = {
       total: 0,
       byModel: {} as Record<string, number>,
       byPhase: {} as Record<string, number>,
     }
-    for (const entry of entries) {
-      const model = entry.model || ''
-      const cost = entry.model_cost_usd || 0
-      if (!model.startsWith('bankr/')) continue
-      costs.total += cost
-      costs.byModel[model] = (costs.byModel[model] || 0) + cost
-      const phase = entry.phase || 'unknown'
-      costs.byPhase[phase] = (costs.byPhase[phase] || 0) + cost
+    try {
+      const costRes = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://molttail.vercel.app'}/api/judge/costs`)
+      if (costRes.ok) {
+        const costData = await costRes.json()
+        costs = costData.breakdown || costs
+      }
+    } catch {
+      // Fallback to agent_log calculations if fetch fails
+      for (const entry of entries) {
+        const model = entry.model || ''
+        const cost = entry.model_cost_usd || 0
+        if (!model.startsWith('bankr/')) continue
+        costs.total += cost
+        costs.byModel[model] = (costs.byModel[model] || 0) + cost
+        const phase = entry.phase || 'unknown'
+        costs.byPhase[phase] = (costs.byPhase[phase] || 0) + cost
+      }
     }
 
     // Recent 20 log entries
