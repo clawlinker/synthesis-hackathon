@@ -74,7 +74,7 @@ export async function GET() {
     let bankrTotalCost = 0
     const byModelNormalized: Record<string, number> = {}
     for (const m of bankrData.byModel || []) {
-      if ((m.totalCost || 0) > 0 && (m.model || '').startsWith('bankr/')) {
+      if ((m.totalCost || 0) > 0) {
         byModelNormalized[m.model] = m.totalCost
         bankrTotalCost += m.totalCost
       }
@@ -87,7 +87,7 @@ export async function GET() {
     const { byPhase, byCron } = buildLogBreakdowns(entries)
 
     const breakdown = {
-      total: bankrTotalCost,
+      total: bankrData.totals?.totalCost || 0,
       totalRequests: bankrData.totals?.totalRequests || 0,
       totalTokens: bankrData.totals?.totalTokens || 0,
       byModel: byModelNormalized,
