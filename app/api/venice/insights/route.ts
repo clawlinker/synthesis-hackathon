@@ -18,45 +18,36 @@ interface VeniceInsights {
   privacyNote: string
 }
 
-async function fetchReceiptData(): Promise<string> {
-  // Get receipts from our own API (internal call at build time)
+// Use build-time cached receipts (same source as the main receipts endpoint)
+import cachedReceiptsData from '@/data/cached-receipts.json'
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function fetchReceiptData(): string {
   try {
-    const agentWallet = '0x5793BFc1331538C5A8028e71Cc22B43750163af8'
-    const bankrWallet = '0x4de988e65a32a12487898c10bc63a88abea2e292'
+    const data = cachedReceiptsData as unknown as { receipts: Record<string, unknown>[] }
+    const receipts = data.receipts || []
     
-    // Use BaseScan API directly to avoid self-fetch issues on Vercel
-    const apiKey = process.env.BASESCAN_API_KEY || process.env.NEXT_PUBLIC_BASESCAN_API_KEY
-    const usdcContract = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
-    
-    const url = `https://api.basescan.org/api?module=account&action=tokentx&contractaddress=${usdcContract}&address=${agentWallet}&page=1&offset=50&sort=desc${apiKey ? `&apikey=${apiKey}` : ''}`
-    
-    const res = await fetch(url)
-    const data = await res.json()
-    
-    if (data.status !== '1' || !data.result?.length) {
+    if (!receipts.length) {
       return 'No recent transaction data available.'
     }
     
-    // Format transactions for Venice analysis (strip sensitive details, keep patterns)
-    const txSummary = data.result.slice(0, 30).map((tx: {
-      timeStamp: string
-      from: string
-      to: string
-      value: string
-      tokenDecimal: string
-    }) => {
-      const amount = parseFloat(tx.value) / Math.pow(10, parseInt(tx.tokenDecimal || '6'))
-      const direction = tx.from.toLowerCase() === agentWallet.toLowerCase() ? 'sent' : 'received'
-      const date = new Date(parseInt(tx.timeStamp) * 1000).toISOString().slice(0, 10)
-      // Anonymize addresses for privacy
-      const counterparty = direction === 'sent' ? tx.to.slice(0, 6) + '...' : tx.from.slice(0, 6) + '...'
-      return `${date} | ${direction} | $${amount.toFixed(4)} USDC | ${counterparty}`
+    // Format transactions for Venice analysis (anonymize addresses, keep patterns)
+    const txSummary = receipts.slice(0, 40).map((r) => {
+      const from = String(r.from || '')
+      const to = String(r.to || '')
+      const direction = String(r.direction || 'unknown')
+      const amount = parseFloat(String(r.amount || r.value || '0'))
+      const symbol = String(r.tokenSymbol || 'USDC')
+      const timestamp = r.timestamp ? new Date(Number(r.timestamp) * 1000).toISOString().slice(0, 10) : 'unknown'
+      const counterparty = direction === 'sent' ? to.slice(0, 6) + '...' : from.slice(0, 6) + '...'
+      const service = r.service ? ` [${r.service}]` : r.toLabel ? ` [${r.toLabel}]` : ''
+      return `${timestamp} | ${direction} | $${amount.toFixed(4)} ${symbol} | ${counterparty}${service}`
     }).join('\n')
     
     return txSummary
   } catch (err) {
-    console.error('Failed to fetch receipt data for Venice:', err)
-    return 'Error fetching transaction data.'
+    console.error('Failed to read cached receipt data for Venice:', err)
+    return 'Error reading transaction data.'
   }
 }
 
