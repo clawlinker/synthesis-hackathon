@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server'
 import agentLogRaw from '@/agent_log.json'
 import commitsRaw from '@/public/commits.json'
 
+// Fixed timestamp for deterministic judge summaries
+const JUDGE_SUMMARY_TIMESTAMP = '2026-03-18T16:00:00.000Z'
+
 export async function GET() {
   try {
     const entries = agentLogRaw as any[]
@@ -36,7 +39,7 @@ export async function GET() {
     lines.push('')
     lines.push('> Every payment your agent makes, verified and visible.')
     lines.push('')
-    lines.push(`_Generated: ${new Date().toISOString()}_`)
+    lines.push(`_Generated: ${JUDGE_SUMMARY_TIMESTAMP}_`)
     lines.push('')
 
     lines.push('## Project')
