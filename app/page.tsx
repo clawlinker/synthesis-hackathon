@@ -7,7 +7,7 @@ import { HeroSection } from '@/components/HeroSection'
 import { ReceiptStats } from '@/components/ReceiptStats'
 import { SkeletonReceiptCard } from '@/components/SkeletonReceiptCard'
 import { SkeletonReceiptStats } from '@/components/SkeletonReceiptStats'
-import { InsightsCard } from '@/components/InsightsCard'
+
 import { VeniceInsightsCard } from '@/components/VeniceInsightsCard'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -143,7 +143,7 @@ export default function Home() {
       {/* Insights Card - Only show if data loads successfully */}
       {source !== 'loading' && !error && (
         <div className="mt-6">
-          <InsightsCard />
+          
           <VeniceInsightsCard />
         </div>
       )}

@@ -63,11 +63,11 @@ export function VeniceInsightsCard() {
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg text-zinc-100 flex items-center gap-2">
             <Shield className="h-4 w-4 text-violet-400" />
-            Private Financial Analysis
+            Spending Analysis
           </CardTitle>
           <span className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-violet-400">
-            <span className="h-1.5 w-1.5 rounded-full bg-violet-400 animate-pulse" />
-            Venice AI
+            <Shield className="h-3 w-3" />
+            Private inference
           </span>
         </div>
       </CardHeader>
