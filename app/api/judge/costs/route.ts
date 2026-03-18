@@ -27,42 +27,64 @@ async function fetchBankrCosts() {
   }
 }
 
+// Build byPhase and byCron from agent_log entries
+function buildLogBreakdowns(entries: any[]) {
+  const byPhase: Record<string, number> = {}
+  const byCron: Record<string, number> = {}
+  for (const entry of entries) {
+    const cost = entry.model_cost_usd || 0
+    if (cost <= 0) continue
+    const phase = entry.phase || 'unknown'
+    byPhase[phase] = (byPhase[phase] || 0) + cost
+    const action = entry.action || ''
+    // Use action prefix as cron bucket (e.g. "synthesis-agent-smith" → "agent-smith")
+    const cronKey = action.replace(/^synthesis-/, '') || 'main'
+    byCron[cronKey] = (byCron[cronKey] || 0) + cost
+  }
+  return { byPhase, byCron }
+}
+
 export async function GET() {
   try {
     const bankrData = await fetchBankrCosts()
+    const entries = agentLogRaw as any[]
 
     if (!bankrData) {
       // Fallback to agent_log estimates if Bankr API unavailable
-      const entries = agentLogRaw as any[]
       const breakdown = { total: 0, byModel: {} as Record<string, number>, byPhase: {} as Record<string, number>, byCron: {} as Record<string, number> }
       for (const entry of entries) {
         const model = entry.model || ''
-        if (!model.startsWith('bankr/')) continue
         const cost = entry.model_cost_usd || 0
+        if (cost <= 0) continue
         breakdown.total += cost
         breakdown.byModel[model] = (breakdown.byModel[model] || 0) + cost
         const phase = entry.phase || 'unknown'
         breakdown.byPhase[phase] = (breakdown.byPhase[phase] || 0) + cost
+        const cronKey = (entry.action || '').replace(/^synthesis-/, '') || 'main'
+        breakdown.byCron[cronKey] = (breakdown.byCron[cronKey] || 0) + cost
       }
       return NextResponse.json({ breakdown, source: 'agent_log_estimates', loadedAt: new Date().toISOString() })
     }
 
-    // Build breakdown from real Bankr API data
+    // Build breakdown from real Bankr API data — normalize byModel to plain numbers
+    // so the judge page can render them without knowing the response shape.
+    const byModelNormalized: Record<string, number> = {}
+    for (const m of bankrData.byModel || []) {
+      if ((m.totalCost || 0) > 0) {
+        byModelNormalized[m.model] = m.totalCost
+      }
+    }
+
+    // Supplement byPhase and byCron from agent_log (Bankr API doesn't provide these)
+    const { byPhase, byCron } = buildLogBreakdowns(entries)
+
     const breakdown = {
       total: bankrData.totals?.totalCost || 0,
       totalRequests: bankrData.totals?.totalRequests || 0,
       totalTokens: bankrData.totals?.totalTokens || 0,
-      byModel: {} as Record<string, { cost: number; requests: number; provider: string }>,
-    }
-
-    for (const m of bankrData.byModel || []) {
-      if (m.totalCost > 0) {
-        breakdown.byModel[m.model] = {
-          cost: m.totalCost,
-          requests: m.requests,
-          provider: m.provider,
-        }
-      }
+      byModel: byModelNormalized,
+      byPhase,
+      byCron,
     }
 
     return NextResponse.json({
