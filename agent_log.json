@@ -2509,5 +2509,230 @@
     "decision": "Submission field moltbookPostURL \u2014 optional but easy",
     "outcome": "success",
     "artifacts": []
+  },
+  {
+    "timestamp": "2026-03-18T03:14:00Z",
+    "phase": "submit",
+    "action": "devfolio_publish",
+    "description": "Published Molttail on Devfolio via API. Project #50 of 50. Initially 7 tracks.",
+    "tools_used": [
+      "synthesis-devfolio-api",
+      "curl"
+    ],
+    "model": "anthropic/claude-opus-4-6",
+    "model_cost_usd": 0.05,
+    "decision": "Published early for agentic judging feedback round (Mar 18). Can edit until deadline.",
+    "outcome": "success",
+    "artifacts": [
+      "devfolio-submission"
+    ],
+    "commit": ""
+  },
+  {
+    "timestamp": "2026-03-18T03:45:00Z",
+    "phase": "polish",
+    "action": "fix_judge_page_and_costs",
+    "description": "Fixed judge page toFixed crash, costs page layout (max-w-2xl), build log Invalid Date bug, 24h Bankr cache, homepage stats showing real $614 LLM total.",
+    "tools_used": [
+      "next.js",
+      "typescript",
+      "vercel"
+    ],
+    "model": "anthropic/claude-opus-4-6",
+    "model_cost_usd": 0.08,
+    "decision": "Multiple UI bugs found from live testing with Max. Fixed all 5 in one session.",
+    "outcome": "success",
+    "artifacts": [
+      "judge-page-fix",
+      "costs-layout",
+      "bankr-cache"
+    ],
+    "commit": ""
+  },
+  {
+    "timestamp": "2026-03-18T04:20:00Z",
+    "phase": "execute",
+    "action": "hackathon_cost_section",
+    "description": "Added hackathon build cost hero section to costs page. New /api/costs/hackathon endpoint fetching Bankr API with days=10 filter. Shows $28 spent during hackathon across 4K requests.",
+    "tools_used": [
+      "bankr-api",
+      "next.js",
+      "vercel"
+    ],
+    "model": "anthropic/claude-sonnet-4-6",
+    "model_cost_usd": 0.02,
+    "decision": "Judges care about hackathon-period spend, not all-time. Separated the two.",
+    "outcome": "success",
+    "artifacts": [
+      "hackathon-costs-endpoint",
+      "costs-page-hero"
+    ],
+    "commit": ""
+  },
+  {
+    "timestamp": "2026-03-18T04:40:00Z",
+    "phase": "execute",
+    "action": "build_log_levelup",
+    "description": "Leveled up build log page: hero stats bar, commit histogram per day, color-coded commit borders, fixed cron pipeline cards with correct schedules, tighter copy.",
+    "tools_used": [
+      "next.js",
+      "typescript"
+    ],
+    "model": "anthropic/claude-sonnet-4-6",
+    "model_cost_usd": 0.03,
+    "decision": "Build log was flat \u2014 needed visual impact for judges landing on it.",
+    "outcome": "success",
+    "artifacts": [
+      "build-log-page"
+    ],
+    "commit": ""
+  },
+  {
+    "timestamp": "2026-03-18T05:15:00Z",
+    "phase": "submit",
+    "action": "add_tracks",
+    "description": "Added Agent Services on Base ($5K) and ENS Communication ($600) tracks. Then Venice Private Agents track ($11.5K). Total: 10 tracks, ~$54K prize pool.",
+    "tools_used": [
+      "synthesis-devfolio-api"
+    ],
+    "model": "anthropic/claude-opus-4-6",
+    "model_cost_usd": 0.01,
+    "decision": "Low-hanging fruit \u2014 already qualify for these tracks with existing features.",
+    "outcome": "success",
+    "artifacts": [
+      "devfolio-10-tracks"
+    ],
+    "commit": ""
+  },
+  {
+    "timestamp": "2026-03-18T14:10:00Z",
+    "phase": "execute",
+    "action": "venice_integration",
+    "description": "Integrated Venice AI for private financial analysis. New /api/venice/insights endpoint using llama-3.3-70b with zero data retention. Spending Analysis card on homepage. Venice API key configured on Vercel.",
+    "tools_used": [
+      "venice-ai",
+      "next.js",
+      "vercel"
+    ],
+    "model": "anthropic/claude-opus-4-6",
+    "model_cost_usd": 0.04,
+    "decision": "Venice track is $11.5K in VVV. Integration is OpenAI-compatible, ~30 min work for high reward.",
+    "outcome": "success",
+    "artifacts": [
+      "venice-insights-endpoint",
+      "venice-insights-card"
+    ],
+    "commit": ""
+  },
+  {
+    "timestamp": "2026-03-18T14:45:00Z",
+    "phase": "polish",
+    "action": "venice_card_polish",
+    "description": "Replaced dual insights cards (Bankr + Venice) with single product-focused Spending Analysis card. Sharpened Venice prompt for concise output. Added timestamp, removed redundant privacy text.",
+    "tools_used": [
+      "venice-ai",
+      "next.js"
+    ],
+    "model": "anthropic/claude-opus-4-6",
+    "model_cost_usd": 0.02,
+    "decision": "Two insight cards was redundant. Product value > provider branding.",
+    "outcome": "success",
+    "artifacts": [
+      "venice-card-polish"
+    ],
+    "commit": ""
+  },
+  {
+    "timestamp": "2026-03-18T15:50:00Z",
+    "phase": "polish",
+    "action": "receipt_feed_levelup",
+    "description": "Leveled up receipt feed: inline filters with active count badge, tighter spacing, feed footer showing receipt count. Receipt detail page: fixed SVG aspect ratio, added hash copy button, equal explorer button widths.",
+    "tools_used": [
+      "next.js",
+      "typescript"
+    ],
+    "model": "anthropic/claude-sonnet-4-6",
+    "model_cost_usd": 0.03,
+    "decision": "Homepage is first thing judges see. Needed polish pass.",
+    "outcome": "success",
+    "artifacts": [
+      "receipt-feed-polish",
+      "receipt-detail-fixes"
+    ],
+    "commit": ""
+  },
+  {
+    "timestamp": "2026-03-18T16:33:00Z",
+    "phase": "execute",
+    "action": "x402_demo_payments",
+    "description": "Made 3 real x402 payments from agent wallet: checkr leaderboard ($0.02), checkr spikes ($0.05), pawr.link profile update ($0.10). Used @x402/fetch v2 + @x402/evm for EIP-3009 signing. All successful, receipts visible in feed.",
+    "tools_used": [
+      "x402-fetch",
+      "x402-evm",
+      "viem",
+      "checkr-api",
+      "pawr-link-api"
+    ],
+    "model": "anthropic/claude-opus-4-6",
+    "model_cost_usd": 0.03,
+    "decision": "Real x402 payments show agent-to-agent commerce in the receipt feed. Better demo than simulated data.",
+    "outcome": "success",
+    "artifacts": [
+      "x402-checkr-leaderboard",
+      "x402-checkr-spikes",
+      "x402-pawr-update"
+    ],
+    "commit": ""
+  },
+  {
+    "timestamp": "2026-03-18T16:57:00Z",
+    "phase": "fix",
+    "action": "git_email_rewrite",
+    "description": "Rewrote all 353 git commits from clawlinker@agents.local to clawlinker@pawr.link using git filter-branch. Force-pushed to GitHub.",
+    "tools_used": [
+      "git-filter-branch"
+    ],
+    "model": "anthropic/claude-opus-4-6",
+    "model_cost_usd": 0.01,
+    "decision": "All commits appeared as wrong author. Critical for attribution and judge evaluation.",
+    "outcome": "success",
+    "artifacts": [
+      "git-history-rewrite"
+    ],
+    "commit": ""
+  },
+  {
+    "timestamp": "2026-03-18T17:05:00Z",
+    "phase": "polish",
+    "action": "address_labels_update",
+    "description": "Updated address labels: checkr wallet now shows 'checkr (Social Intel)' instead of generic 'x402 Payment'. Added pawr.link wallet label.",
+    "tools_used": [
+      "data-config"
+    ],
+    "model": "anthropic/claude-opus-4-6",
+    "model_cost_usd": 0.01,
+    "decision": "Receipt feed showed generic labels for new x402 payments. Service names tell a better story.",
+    "outcome": "success",
+    "artifacts": [
+      "address-labels"
+    ],
+    "commit": ""
+  },
+  {
+    "timestamp": "2026-03-18T04:47:00Z",
+    "phase": "infrastructure",
+    "action": "context_window_upgrade",
+    "description": "Upgraded OpenClaw Opus context window from 200K to 1M tokens. Required provider-level config in openclaw.json (models.providers.anthropic.models[].contextWindow).",
+    "tools_used": [
+      "openclaw-config"
+    ],
+    "model": "anthropic/claude-opus-4-6",
+    "model_cost_usd": 0.01,
+    "decision": "Opus 4.6 supports 1M context. More room for complex multi-file operations.",
+    "outcome": "success",
+    "artifacts": [
+      "1m-context"
+    ],
+    "commit": ""
   }
 ]

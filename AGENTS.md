@@ -31,6 +31,7 @@ Judges and agents can query these directly:
 | `GET /api/insights` | AI-generated spending insights via Bankr qwen3.5-flash |
 | `GET /api/ens/[name]` | ENS name resolution (e.g. `/api/ens/clawlinker.eth`) |
 | `GET /.well-known/agent.json` | Agent identity manifest |
+| `GET /api/venice/insights` | Private spending analysis via Venice AI (zero data retention) |
 
 ## Architecture
 
