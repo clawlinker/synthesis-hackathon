@@ -140,6 +140,7 @@ function loadInferenceReceiptsFromLog(): Receipt[] {
           status: 'confirmed' as const,
           tokenSymbol: 'USD',
           tokenDecimal: '6',
+          chain: 'inference' as const,
           service: `Bankr LLM — ${entry.action || entry.phase || 'inference'} (${entry.model.split('/')[1] || 'unknown'})`,
           agentId: AGENT.id.toString(),
           notes: `phase:${entry.phase || 'unknown'}|${entry.description || 'LLM-powered autonomous operation'}`,
@@ -330,10 +331,13 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
         inferenceReceipts = sampleInferenceReceipts
       }
       
-      // Add receiptType to sample inference receipts if missing
+      // Add receiptType and chain to sample inference receipts if missing
       inferenceReceipts.forEach(r => {
         if (!r.receiptType) {
           r.receiptType = 'inference'
+        }
+        if (!r.chain) {
+          r.chain = 'inference'
         }
       })
     }
@@ -403,10 +407,13 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
       inferenceReceipts = sampleInferenceReceipts
     }
     
-    // Add receiptType if missing
+    // Add receiptType and chain if missing
     inferenceReceipts.forEach(r => {
       if (!r.receiptType) {
         r.receiptType = 'inference'
+      }
+      if (!r.chain) {
+        r.chain = 'inference'
       }
     })
     
@@ -436,16 +443,26 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
 
 // Fallback response used when overall timeout fires
 function timeoutFallback(): NextResponse {
-  const inferenceReceipts = sampleInferenceReceipts
+  const inferenceReceipts = sampleInferenceReceipts.map(r => {
+    const enriched = { ...r, chain: r.chain || 'inference' as const }
+    if (!enriched.receiptType) {
+      enriched.receiptType = 'inference' as const
+    }
+    return enriched
+  })
   const enrichedReceipts = [...sampleReceipts, ...inferenceReceipts].map(r => {
     const fromAgent = resolveAgent(r.from)
     const toAgent = resolveAgent(r.to)
-    return {
+    const enriched = {
       ...r,
       fromAgent: fromAgent ? { id: fromAgent.id, name: fromAgent.name, ens: fromAgent.ens, avatar: fromAgent.avatar } : undefined,
       toAgent: toAgent ? { id: toAgent.id, name: toAgent.name, ens: toAgent.ens, avatar: toAgent.avatar } : undefined,
       receiptType: r.tokenSymbol === 'USDC' ? 'onchain' : 'inference',
     }
+    if (!enriched.chain) {
+      enriched.chain = 'inference'
+    }
+    return enriched
   })
   return NextResponse.json({
     receipts: enrichedReceipts,
