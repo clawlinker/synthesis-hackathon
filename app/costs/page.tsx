@@ -205,7 +205,7 @@ export default function CostsPage() {
                     {formatCurrency(hackathonData.breakdown.total)}
                   </div>
                   <div className="text-sm text-zinc-400">
-                    {hackathonData.breakdown.totalRequests.toLocaleString()} requests &middot; {Object.keys(hackathonData.breakdown.byModel).length} models used
+                    {hackathonData.breakdown.totalRequests.toLocaleString()} requests &middot; {(hackathonData.breakdown.totalTokens / 1_000_000).toFixed(0)}M tokens &middot; {Object.keys(hackathonData.breakdown.byModel).length} models used
                   </div>
                 </div>
               </div>
