@@ -30,6 +30,20 @@ interface CostSummary {
   topActions: { action: string; cost: number; count: number }[]
 }
 
+interface HackathonBreakdown {
+  total: number
+  totalRequests: number
+  totalTokens: number
+  byModel: Record<string, { cost: number; requests: number; provider: string }>
+}
+
+interface HackathonCostData {
+  breakdown: HackathonBreakdown
+  period: string
+  source: string
+  loadedAt: string
+}
+
 import { phaseColors } from '@/lib/phase-colors'
 
 const formatCurrency = (amount: number) =>
@@ -38,16 +52,19 @@ const formatCurrency = (amount: number) =>
 export default function CostsPage() {
   const [data, setData] = useState<CostSummary | null>(null)
   const [bankrData, setBankrData] = useState<{ total: number; totalRequests: number; byModel: Record<string, { cost: number; requests: number; provider: string }> } | null>(null)
+  const [hackathonData, setHackathonData] = useState<HackathonCostData | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     Promise.all([
       fetch('/api/costs').then((r) => r.json()),
       fetch('/api/judge/costs').then((r) => r.json()).catch(() => null),
+      fetch('/api/costs/hackathon').then((r) => r.json()).catch(() => null),
     ])
-      .then(([costsData, judgeCosts]) => {
+      .then(([costsData, judgeCosts, hackathonCosts]) => {
         setData(costsData)
         if (judgeCosts?.breakdown) setBankrData(judgeCosts.breakdown)
+        if (hackathonCosts?.breakdown) setHackathonData(hackathonCosts)
       })
       .catch(console.error)
       .finally(() => setLoading(false))
@@ -168,6 +185,75 @@ export default function CostsPage() {
         <Link href="/" className={buttonVariants({ variant: "link", className: "h-auto p-0 mt-2" })}>
           ← Back to feed
         </Link>
+      </div>
+
+      {/* Hackathon Build Cost — Hero Section */}
+      {hackathonData && (
+        <section className="mb-8">
+          <Card className="border-zinc-700 bg-zinc-900 overflow-hidden">
+            <CardContent className="p-6">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between mb-5">
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="inline-flex items-center rounded-full bg-amber-500/15 px-2.5 py-0.5 text-xs font-semibold text-amber-400 border border-amber-500/30">
+                      🏆 Hackathon Build
+                    </span>
+                    <span className="text-xs text-zinc-500">Mar 13–22</span>
+                  </div>
+                  <h2 className="text-lg font-semibold text-zinc-100 mb-1">Hackathon Build Cost</h2>
+                  <div className="text-5xl font-bold tabular-nums text-amber-400 mb-1">
+                    {formatCurrency(hackathonData.breakdown.total)}
+                  </div>
+                  <div className="text-sm text-zinc-400">
+                    {hackathonData.breakdown.totalRequests.toLocaleString()} requests &middot; {Object.keys(hackathonData.breakdown.byModel).length} models used
+                  </div>
+                </div>
+              </div>
+
+              {/* Top 5 models bar chart */}
+              {Object.keys(hackathonData.breakdown.byModel).length > 0 && (
+                <div className="mb-5">
+                  <div className="text-xs font-medium text-zinc-400 mb-2 uppercase tracking-wider">Top models by cost</div>
+                  <div className="space-y-2">
+                    {Object.entries(hackathonData.breakdown.byModel)
+                      .sort(([, a], [, b]) => b.cost - a.cost)
+                      .slice(0, 5)
+                      .map(([model, info]) => {
+                        const pct = hackathonData.breakdown.total > 0
+                          ? (info.cost / hackathonData.breakdown.total) * 100
+                          : 0
+                        return (
+                          <div key={model}>
+                            <div className="flex items-center justify-between mb-0.5">
+                              <span className="font-mono text-xs text-zinc-300 truncate max-w-[200px]">{model}</span>
+                              <span className="text-xs tabular-nums text-zinc-400 ml-2 shrink-0">{formatCurrency(info.cost)}</span>
+                            </div>
+                            <div className="h-1.5 overflow-hidden rounded-full bg-zinc-800">
+                              <div
+                                className="h-full rounded-full bg-gradient-to-r from-amber-500 to-amber-400"
+                                style={{ width: `${pct}%` }}
+                              />
+                            </div>
+                          </div>
+                        )
+                      })}
+                  </div>
+                </div>
+              )}
+
+              <p className="text-xs text-zinc-500 italic border-t border-zinc-800 pt-4">
+                Molttail was built using cheap Bankr models — qwen3-coder for features, deepseek for review, Opus for architecture.
+              </p>
+            </CardContent>
+          </Card>
+        </section>
+      )}
+
+      {/* All-time note */}
+      <div className="mb-4">
+        <p className="text-xs text-zinc-500">
+          All-time Bankr Gateway usage below (includes all Clawlinker activity, not just Molttail)
+        </p>
       </div>
 
       {/* Summary Cards */}
