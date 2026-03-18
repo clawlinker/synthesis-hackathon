@@ -94,7 +94,7 @@ export default function JudgeModePage() {
             sha: c.sha,
             message: c.message,
             author: { login: String(login), avatar_url: (c as any).avatar_url || '' },
-            date: c.date,
+            date: (c as any).author?.date || c.date,
             html_url: `https://github.com/${owner}/synthesis-hackathon/commit/${c.sha}`,
           }
         }))
