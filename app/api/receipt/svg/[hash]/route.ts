@@ -218,7 +218,7 @@ function generateReceiptSVG(receipt: Receipt): string {
   })
 
   // Calculate height based on content (roughly 280-300px)
-  const height = 290
+  const height = 260
   const padding = 24
   const width = 440
 
@@ -260,8 +260,6 @@ function generateReceiptSVG(receipt: Receipt): string {
   <text x="${padding}" y="192" font-family="'JetBrains Mono', 'Fira Code', 'SF Mono', monospace" font-size="11" fill="${colors.muted}">ERC-8004 #${receipt.agentId}</text>
   <text x="${width - padding}" y="192" font-family="'JetBrains Mono', 'Fira Code', 'SF Mono', monospace" font-size="11" fill="${colors.muted}" text-anchor="end">Molttail · Clawlinker</text>
   
-  <!-- CTA -->
-  <text x="${width / 2}" y="220" font-family="'JetBrains Mono', 'Fira Code', 'SF Mono', monospace" font-size="11" fill="${colors.blue}" text-anchor="middle">View on Base Explorer →</text>
 </svg>
 `
 }

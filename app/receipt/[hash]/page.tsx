@@ -407,20 +407,17 @@ export default async function ReceiptPage({
         )}
 
         {/* ── SVG Receipt (visual) ── */}
-        {!isInference && (
+        {!isInference && tx && (
           <Card className="overflow-hidden border-zinc-800">
             <CardContent className="p-0">
               <div className="w-full bg-zinc-950">
-                <object
-                  data={`/api/receipt/svg/${hash}`}
-                  type="image/svg+xml"
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`/api/receipt/svg/${hash}`}
+                  alt={`Receipt for ${tx.amount} USDC`}
                   className="w-full h-auto block"
-                  style={{ minHeight: 0 }}
-                >
-                  <div className="flex items-center justify-center py-4 text-zinc-500 text-sm px-4 text-center">
-                    SVG receipt unavailable — view transaction details below
-                  </div>
-                </object>
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+                />
               </div>
             </CardContent>
           </Card>
