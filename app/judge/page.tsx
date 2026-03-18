@@ -286,14 +286,14 @@ export default function JudgeModePage() {
         </div>
       </div>
 
-      {/* Stats Overview */}
-      {costs && (
+      {/* Stats Overview — always render; costs fields fall back gracefully */}
+      {(costs || totalCommits > 0 || commits.length > 0 || logEntries.length > 0) && (
         <div className="mb-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { label: 'Total LLM Cost', value: `$${Number(costs.total || 0).toFixed(2)}`, accent: true },
-            { label: 'Git Commits', value: `${totalCommits || commits.length}`, accent: false },
-            { label: 'Autonomous Hours', value: `${logEntries.length > 0 ? calculateAutonomousHours(logEntries).toFixed(1) : '0'}`, accent: false },
-            { label: 'Models Used', value: `${Object.keys(costs.byModel || {}).length}`, accent: false },
+            { label: 'Total LLM Cost', value: costs ? `$${Number(costs.total || 0).toFixed(2)}` : '—', accent: true },
+            { label: 'Git Commits', value: `${totalCommits || commits.length || '—'}`, accent: false },
+            { label: 'Autonomous Hours', value: logEntries.length > 0 ? calculateAutonomousHours(logEntries).toFixed(1) : '—', accent: false },
+            { label: 'Models Used', value: costs ? `${Object.keys(costs.byModel || {}).length}` : '—', accent: false },
           ].map((stat) => (
             <Card key={stat.label}>
               <CardContent className="p-6">
