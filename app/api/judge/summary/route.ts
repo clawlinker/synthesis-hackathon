@@ -26,6 +26,9 @@ export async function GET() {
     // Recent 20 log entries
     const recent = entries.slice(-20).reverse()
 
+    // Filter recent entries to only Bankr models (consistent with cost breakdown)
+    const bankrRecent = recent.filter(entry => (entry.model || '').startsWith('bankr/'))
+
     // Build markdown
     const lines: string[] = []
 
@@ -86,11 +89,11 @@ export async function GET() {
     }
     lines.push('')
 
-    lines.push('## Recent Execution Log (last 20)')
+    lines.push('## Recent Execution Log (last 20 Bankr LLM entries)')
     lines.push('')
     lines.push('| Timestamp | Phase | Action | Model | Cost |')
     lines.push('|-----------|-------|--------|-------|------|')
-    for (const entry of recent) {
+    for (const entry of bankrRecent) {
       const ts = entry.timestamp ? new Date(entry.timestamp).toISOString().replace('T', ' ').substring(0, 19) : '-'
       const phase = entry.phase || '-'
       const action = entry.action || '-'
