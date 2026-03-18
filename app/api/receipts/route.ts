@@ -274,12 +274,13 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
     const receiptTypeFilter = url.searchParams.get('type') as 'onchain' | 'inference' | null
     
     // Determine which chain to use
-    const chain: ChainKey = chainParam || 'base'
-    const useBase = chain === 'base'
-    const useTempo = chain === 'tempo'
+    const chain = chainParam || 'all'
+    const useAll = chain === 'all'
+    const useBase = chain === 'base' || useAll
+    const useTempo = chain === 'tempo' || useAll
 
-    // Handle Tempo chain separately — it uses RPC eth_getLogs, not Blockscout
-    if (useTempo) {
+    // Handle Tempo-only chain
+    if (useTempo && !useAll) {
       const tempoReceipts = await fetchTempoReceipts(API_TIMEOUT_MS)
       tempoReceipts.sort((a, b) => b.timestamp - a.timestamp)
       return NextResponse.json({
@@ -433,6 +434,14 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
       } else {
         dataSource = 'sample'
       }
+    }
+
+    // Merge Tempo receipts when showing all chains
+    if (useTempo) {
+      try {
+        const tempoReceipts = await fetchTempoReceipts(API_TIMEOUT_MS)
+        allReceipts = [...allReceipts, ...tempoReceipts]
+      } catch { /* Tempo fetch failed, continue with Base only */ }
     }
 
     // Sort USDC receipts by timestamp (newest first)

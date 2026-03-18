@@ -52,7 +52,7 @@ export default function Home() {
   const [source, setSource] = useState<string>(cached ? cached.source : 'loading')
   const [error, setError] = useState<string | null>(null)
   const [selectedWallet, setSelectedWallet] = useState<string | null>(null)
-  const [selectedChain, setSelectedChain] = useState<keyof typeof CHAINS>('base')
+  const [selectedChain, setSelectedChain] = useState<keyof typeof CHAINS | 'all'>('all')
   const [mounted, setMounted] = useState(false)
   const [showFilters, setShowFilters] = useState(false)
   const [showInference, setShowInference] = useState(false)
@@ -70,7 +70,8 @@ export default function Home() {
     const walletParam = urlParams.get('wallet')
     const chainParam = urlParams.get('chain') as keyof typeof CHAINS | null
     if (walletParam) setSelectedWallet(walletParam)
-    if (chainParam && CHAINS[chainParam]) setSelectedChain(chainParam)
+    if ((chainParam as string) === 'all' || !chainParam) setSelectedChain('all')
+      else if (chainParam && CHAINS[chainParam as keyof typeof CHAINS]) setSelectedChain(chainParam as keyof typeof CHAINS)
     setMounted(true)
   }, [])
 
@@ -80,7 +81,7 @@ export default function Home() {
       try {
         const params = new URLSearchParams()
         if (selectedWallet) params.append('wallet', selectedWallet)
-        params.append('chain', selectedChain)
+        if (selectedChain !== 'all') params.append('chain', selectedChain)
         const res = await fetch(`/api/receipts?${params.toString()}`)
         const data = await res.json()
         setReceipts(data.receipts)
@@ -195,6 +196,21 @@ export default function Home() {
       {/* Compact chain + wallet selector pills */}
       <div id="feed" className="flex flex-wrap items-center gap-1.5 mb-2 mt-4">
         <span className="text-[10px] uppercase tracking-wider text-zinc-500">Chain</span>
+        <button
+          onClick={() => {
+            setSelectedChain('all')
+            const params = new URLSearchParams(window.location.search)
+            params.delete('chain')
+            window.history.pushState({}, '', `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`)
+          }}
+          className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors ${
+            selectedChain === 'all'
+              ? 'bg-zinc-700 text-zinc-100'
+              : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
+          }`}
+        >
+          All
+        </button>
         {Object.entries(CHAINS).map(([key, chain]) => (
           <button
             key={key}
