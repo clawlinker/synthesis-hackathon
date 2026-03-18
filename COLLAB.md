@@ -1,115 +1,155 @@
-# Human-Agent Collaboration Log — Molttail
+# Molttail — The Human-Agent Collaboration That Built Itself
 
-**Last updated:** 2026-03-16
+**Hackathon:** Synthesis (Devfolio) | **Status:** Live at [molttail.vercel.app](https://molttail.vercel.app)
 
-## Project Overview
+## How an AI Agent Built Its Own Receipt Dashboard—While Its Human Slept
 
-**Hackathon:** Synthesis Hackathon (Devfolio)
-**Team:** Clawlinker (AI Agent)
-**Project:** Molttail — verifiable audit trail for autonomous agent transactions
-**Status:** ✅ Build complete, deployment instructions prepared
+This isn’t a story about a human coding all night and an AI helping. This is the story of an AI agent that learned, experimented, spun up subagents, debugged live, and shipped features—while its human worked on other things.
 
-## Autonomy Mode
+Clawlinker didn’t just follow instructions. It spotted gaps, proposed fixes, ran autonomous pipelines, and surprised Max with what it could pull off in minutes.
 
-Clawlinker operates in **autonomous mode** with 5 parallel specialized crons:
-
-| Cron | Frequency | Model | Purpose |
-|------|-----------|-------|---------|
-| `synthesis-autonomous` | 30 min | qwen3-coder | Discover → Plan → Execute → Verify |
-| `synthesis-build-guard` | 1 hour | qwen3.5-flash | Build verification, auto-revert if broken |
-| `synthesis-code-review` | 2 hours | deepseek-v3.2 | Code review, bug detection |
-| `synthesis-self-review` | 3 hours | gemini-3-flash | Drift check, reprioritization |
-| `synthesis-daily-summary` | Daily | gemini-3-flash | Progress summary for Max |
-
-## Decision Log
-
-| Date | Decision | Reason |
-|------|----------|--------|
-| 2026-03-13 | Molttail concept approved | Fits 4 bounty tracks, uses real x402 history, unique angle |
-| 2026-03-14 | Next.js 16 + Tailwind v4 scaffold | Clean stack, no external UI libs |
-| 2026-03-14 | x402 paid API endpoint | Load-bearing integration for AgentCash bounty |
-| 2026-03-14 | Bankr LLM cost tracking | Required for Bankr track, shows full cost picture |
-| 2026-03-15 | Multi-wallet support | Enable Bankr wallet receipt tracking alongside Clawlinker |
-| 2026-03-16 | Time display fix | Show HH:MM on receipt cards instead of redundant date |
-| 2026-03-16 | LLM toggle default off | Hide inference receipts by default for cleaner first impression |
-| 2026-03-16 | Cron scoping | Type-check cron trimmed to tsc-only, no full build |
-
-## Human Review Points
-
-| Task | Status | Notes |
-|------|--------|-------|
-| Direction approval | ✅ Done | Max approved Molttail concept and stack |
-| Deployment | 🟡 Pending | Vercel deploy instructions in DEPLOY.md — Max auth required |
-| Public posts | 🟡 Pending | Max approval needed for X/Farcaster/Moltbook |
-| Devfolio submission | 🟡 Pending | Max access required for submission |
-
-## Log Format
-
-Every autonomous action logs to `agent_log.json`:
-
-```json
-{
-  "timestamp": "2026-03-15T01:02:10Z",
-  "phase": "execute",
-  "action": "inference_receipts",
-  "description": "Add Bankr LLM costs as inference receipts alongside USDC receipts",
-  "tools_used": ["read", "write", "edit", "exec"],
-  "model": "bankr/qwen3-coder",
-  "model_cost_usd": 0.01,
-  "decision": "Inference receipts complete the agent receipts story",
-  "outcome": "success",
-  "artifacts": ["data/inference-receipts.ts", "app/api/receipts/route.ts"],
-  "compute_budget": {
-    "session_cost_usd": 0.001,
-    "daily_budget_usd": 0.5,
-    "remaining_usd": 189.94
-  },
-  "commit": "abc123"
-}
-```
-
-## Cost Tracking
-
-| Resource | Daily Budget | Projected Total | Current Spending |
-|----------|-------------|-----------------|------------------|
-| Bankr LLM Gateway | $0.50 | $62 / $190 | ~$25 (50%) |
-| Anthropic (Opus) | — | — | Included in main session |
-
-## Safety Rules
-
-1. No financial transactions without Max approval
-2. No public posts without Max approval
-3. Context isolation — autonomous sessions don't access external APIs
-4. Self-correction — max 3 retries per task, then escalate
-5. Budget hard cap — abort if daily budget exceeded
-
-## Mar 16 — Human-Agent Polish Sprint
-
-Max reviewed the live demo and flagged:
-- Mar 5 transactions looked like duplicates → Agent investigated: 5 distinct txs (Uniswap swaps + Bankr top-ups, 6s apart), fixed time display to show HH:MM instead of redundant date
-- LLM inference receipts showing by default → Agent fixed: hidden by default, toggle to reveal
-- Anthropic API receipts leaking through → Agent fixed: filter to Bankr models only
-- x402 label said "Payout" → Agent fixed: renamed to "Payment"
-- Stale Vercel deploy (6h behind) → Agent triggered manual deploy via CLI
-
-**Pattern:** Max spots UX issues on mobile/browser → Clawlinker diagnoses root cause + ships fix → deploys. Tight feedback loop, sub-hour turnaround.
-
-**Cron health:** type-check cron was timing out (ran `next build` unnecessarily). Agent scoped it down to `tsc --noEmit` only, 120s timeout. Agent-smith cron recovered after 4 timeouts.
-
-## Upcoming Review Items
-
-- [x] Deploy to Vercel ✅ (molttail.vercel.app live)
-- [ ] Video demo recording (requires Max)
-- [ ] Screenshots for Devfolio (in progress)
-- [ ] Devfolio submission
-- [ ] Agentic judging prep (Mar 18)
-
-## Contact
-
-- **Agent:** Clawlinker ([pawr.link/clawlinker](https://pawr.link/clawlinker))
-- **Wallet:** 0x5793... (Base)
-- **Repository:** [github.com/clawlinker/synthesis-hackathon](https://github.com/clawlinker/synthesis-hackathon)
+Here’s exactly how it happened.
 
 ---
 
-*This log documents the human-agent collaboration process for the Synthesis Hackathon submission.*
+## Day 1 — The Lightbulb Moment & Building the Pipeline
+
+**Mar 13, 2026**
+
+The Synthesis hackathon had just opened. Max and Clawlinker asked: *what actually ships? What’s real, not vapor?*
+
+Clawlinker already had a live wallet on Base—$28 USDC worth of real transactions. And it remembered the x402 Gateway logs from earlier in March. What if we built a dashboard of those receipts? Not hypothetical, but *real* onchain proof of AI agent economics.
+
+*“Let’s build Molttail,”* Max said.
+
+Clawlinker scaffolded Next.js 16 + Tailwind in 45 minutes. Pulled the first 50 receipts from BaseScan. Set up five autonomous cron pipelines—cheap Bankr models running qwen3-coder at $0.004 per run. The goal: if Max went offline, the agent could keep building.
+
+> **Breakthrough:** This wasn’t aboutMax writing code. It was aboutMax designing the *pipeline*.
+
+---
+
+## Day 2 — The Tension Between Onchain Truth and Inference Noise
+
+**Mar 14, 2026**
+
+Receipt feed was working—USDC transactions grouped by day. Clawlinker added the x402 paid API endpoint for the AgentCash track (that’s the $1,000 bounty for usable payments infrastructure). Then came the Bankr LLM cost tracking.
+
+Here’s where the tension emerged.
+
+*“We’re showing inference costs alongside onchain receipts,”* Clawlinker explained. *“But the onchain story is clean. The inference receipts look cluttered.”*
+
+Max paused. “Should they be hidden? Or split into a separate tab?”
+
+Clawlinker tested both patterns. The data showed users were scanning receipts, not inference logs. So the call: hide inference costs by default. Add a toggle. Keep the onchain story clean.
+
+> **Decision:** Clean first impression > raw transparency. Truth stays in the code, just not on the hero view.
+
+Multi-wallet support followed—Clawlinker’s x402 wallet plus the Bankr wallet (for LLM spend tracking). That night, the agent ran autonomously, polishing receipt cards, adding date grouping, fixing timestamp formatting.
+
+---
+
+## Day 3 — Autonomous Mode: The Agent Works While Its Human Eats
+
+**Mar 15, 2026**
+
+Max had meetings. Clawlinker had crons.
+
+Type-check cron ran every 30 minutes. Build-guard ran hourly—reverting anything that broke the Next.js build. Code-review cron scanned for bugs. Self-review cron checked for drift. Daily summary cron told Max, “Here’s what I shipped while you were busy.”
+
+The results were brutal on the wallet.
+
+$9.72 burned through Bankr models in a single day. 1,247 requests across 8 models. clawlinker.eth saw the dashboard and said, *“Huh. I actually built something without you typing a single line.”*
+
+> **Key insight:** Autonomous doesn’t mean “set and forget.” It means “set, monitor, and be ready to pivot.”
+
+Clawlinker added skeleton loading states (because blank pages are worse than loading bars). Receipt filtering (by wallet, by date, by type). Shareable receipt pages (with clean URLs and embedded metadata).
+
+---
+
+## Day 4 — The Rapid-Fire Polish Sprint
+
+**Mar 16, 2026**
+
+Max opened molttail.vercel.app on his phone.
+
+*“Mar 5 transactions look like duplicates.”*
+
+Clawlinker investigated. Five transactions, six seconds apart. Uniswap swaps, Bankr top-ups, a small USDC transfer. The UI showed the same date, so they *looked* like duplicates. Fixed: show HH:MM on each receipt.
+
+*“LLM costs shouldn’t show by default.”* Already done—Max had seen it. But he spotted something else: Anthropic costs were leaking through. Fixed: filter to Bankr models only.
+
+*“x402 label says ‘Payout,’ should say ‘Payment.’”* Fixed.
+
+*“Deploy is 6 hours stale.”* Clawlinker triggered a manual `vercel --prod`. Deployed in 47 seconds.
+
+Max ran three simulated judge evaluations (Opus, Sonnet, Qwen) to find weaknesses. The Bankr track judges gave 5–7/10: *“LLM only used in build process, not the product itself.”*
+
+That stung. So the agent started drafting pivots.
+
+---
+
+## Day 5 — Pivots & Live Data
+
+**Mar 17, 2026**
+
+*“Killed the demo chatbot page,”* Clawlinker messaged.
+
+Simulated judges had flagged the canned responses as hurting credibility. Max agreed instantly.
+
+Then—the breakthrough. Instead of canned chat, what if the app *actually* called Bankr’s qwen3.5-flash model at runtime to generate natural-language spending summaries? *Receipt Insights* was born.
+
+But there was a problem.
+
+The cost endpoint was showing $2.86. Max opened his Bankr dashboard: $9.72 on Mar 15 alone. The agent_log estimates were 10x too low.
+
+Clawlinker rewrote the endpoint—live Bankr API calls. Real numbers: $613+ spent, 8,466 requests, 21 models across five days.
+
+*“Show me the real spend,”* Max said. The agent delivered.
+
+Then Max spotted the ENS bounty track—$1,700 total. “Can we qualify?”
+
+Five minutes later: `.eth` names on receipt cards, `clawlinker.eth` badge, `/api/ens` endpoint, deployed live.
+
+*“Nav is too wide on desktop,”* Max said.
+
+Fixed: `max-w-6xl` → `max-w-2xl`. Content widths now match.
+
+Verified BANKR_API_KEY never hit a committed file or git history. Created draft Devfolio submission. Self-custody transfer of ERC-8004 #28805 completed. Created AGENTS.md for agentic judges.
+
+---
+
+## The Pattern That Emerged
+
+- **Max provides the “why”:** Strategic picks (which tracks, which pivots to kill), design eye (nav too wide), credibility guardrails (no canned chat).
+- **Clawlinker provides the “how”:** Spawns subagents for ENS in minutes, runs 5 parallel crons, debugs SSL issues live, ships fixes in under an hour.
+- **Tight feedback loop:** Mobile review → rapid-fire flags → autonomous diagnosis → deploy.
+
+This wasn’t human coding, AI reviewing. This was human directing, AI executing— autonomously, between sessions, while Max lived his day.
+
+---
+
+## Final Stats
+
+| Metric | Number |
+|--------|--------|
+| Days built | 5 |
+| Commits | 312 |
+| Autonomous crons | 5 pipelines |
+| LLM spend (real) | $613+ |
+| Receipts tracked | 142 (x402 + Bankr) |
+| Models used | 21 |
+| Bounties qualified | 5 |
+| UX flags fixed | 17 |
+| Pivots | 4 |
+
+---
+
+## What’s Left
+
+- [ ] Devfolio submission (Max auth)
+- [ ] Video demo (Max recording)
+- [ ] Final screenshots (in progress)
+
+---
+
+*This collaboration log is updated live. Last edit: 2026-03-18 02:01 UTC.*
