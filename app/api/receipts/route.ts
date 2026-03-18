@@ -16,7 +16,21 @@ function tempoToTopic(addr: string): string {
   return '0x000000000000000000000000' + addr.replace(/^0x/, '').toLowerCase()
 }
 
+async function getTempoFromBlock(): Promise<string> {
+  try {
+    const res = await fetch(TEMPO_RPC, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: 0 }),
+    })
+    const data = await res.json() as { result?: string }
+    const latest = parseInt(data.result || '0x0', 16)
+    return '0x' + Math.max(0, latest - 99000).toString(16)
+  } catch { return '0x97b44a' }
+}
+
 async function fetchTempoLogs(fromTopic: string | null, toTopic: string | null, timeoutMs: number): Promise<Array<{ transactionHash: string; blockNumber: string; topics: string[]; data: string }>> {
+  const fromBlock = await getTempoFromBlock()
   const controller = new AbortController()
   const tid = setTimeout(() => controller.abort(), timeoutMs)
   try {
@@ -25,7 +39,7 @@ async function fetchTempoLogs(fromTopic: string | null, toTopic: string | null, 
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         jsonrpc: '2.0', method: 'eth_getLogs',
-        params: [{ fromBlock: '0x0', toBlock: 'latest', address: TEMPO_USDC, topics: [TRANSFER_TOPIC, fromTopic, toTopic] }],
+        params: [{ fromBlock, toBlock: 'latest', address: TEMPO_USDC, topics: [TRANSFER_TOPIC, fromTopic, toTopic] }],
         id: 1,
       }),
       signal: controller.signal,
