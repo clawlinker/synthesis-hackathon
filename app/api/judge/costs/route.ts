@@ -70,18 +70,24 @@ export async function GET() {
     // so the judge page can render them without knowing the response shape.
     // Filter to only bankr/* models to match the judge summary behavior (which
     // filters agent_log for bankr/ models to show Bankr LLM-specific costs).
+    // Also track total cost for bankr/ models only.
+    let bankrTotalCost = 0
     const byModelNormalized: Record<string, number> = {}
     for (const m of bankrData.byModel || []) {
       if ((m.totalCost || 0) > 0 && (m.model || '').startsWith('bankr/')) {
         byModelNormalized[m.model] = m.totalCost
+        bankrTotalCost += m.totalCost
       }
     }
+    
+    // Use bankrTotalCost instead of bankrData.totals?.totalCost to match judge summary behavior
+    // and show only Bankr LLM inference costs, not all Bankr API usage
 
     // Supplement byPhase and byCron from agent_log (Bankr API doesn't provide these)
     const { byPhase, byCron } = buildLogBreakdowns(entries)
 
     const breakdown = {
-      total: bankrData.totals?.totalCost || 0,
+      total: bankrTotalCost,
       totalRequests: bankrData.totals?.totalRequests || 0,
       totalTokens: bankrData.totals?.totalTokens || 0,
       byModel: byModelNormalized,
