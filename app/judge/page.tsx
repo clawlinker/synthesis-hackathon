@@ -85,7 +85,13 @@ export default function JudgeModePage() {
         setCosts(costData.breakdown || null)
         const rawCommits = commitsData.commits || []
         setTotalCommits(rawCommits.length)
-        setCommits(rawCommits.slice(0, 20).map((c: { sha: string; author: string; date: string; message: string; avatar_url?: string }) => {
+        // Sort newest-first before slicing (commits.json is oldest-first)
+        const sortedCommits = [...rawCommits].sort((a: any, b: any) => {
+          const aDate = new Date(a.author?.date || a.date || 0).getTime()
+          const bDate = new Date(b.author?.date || b.date || 0).getTime()
+          return bDate - aDate
+        })
+        setCommits(sortedCommits.slice(0, 20).map((c: { sha: string; author: string; date: string; message: string; avatar_url?: string }) => {
           // Use author.login if available, otherwise fall back to author string
           const login = (c as any).author?.login || c.author || 'unknown'
           // Safely construct URL — handle potential non-clawlinker owners
