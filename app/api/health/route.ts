@@ -23,6 +23,9 @@ export async function GET() {
         log: '/api/judge/log',
         costs: '/api/judge/costs',
       },
+      venice: {
+        insights: "/api/venice/insights",
+      },
       discovery: {
         llms_txt: '/llms.txt',
         agent_json: '/.well-known/agent.json',
