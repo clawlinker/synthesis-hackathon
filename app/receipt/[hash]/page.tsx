@@ -442,11 +442,11 @@ export default async function ReceiptPage({
       {!isInference && (
         <Card className="mb-4 overflow-hidden border-zinc-800">
           <CardContent className="p-0">
-            <div className="aspect-[600/350] w-full bg-zinc-950">
+            <div className="aspect-[16/9] w-full bg-zinc-950">
               <object
                 data={`/api/receipt/svg/${hash}`}
                 type="image/svg+xml"
-                className="w-full h-full"
+                className="w-full h-full object-contain"
               >
                 <div className="flex items-center justify-center h-full text-zinc-500 text-sm p-8 text-center">
                   SVG receipt unavailable — view transaction details below
@@ -468,7 +468,10 @@ export default async function ReceiptPage({
           {/* Hash */}
           <div>
             <p className="text-[10px] uppercase tracking-wider text-zinc-500 mb-1">Hash</p>
-            <p className="break-all font-mono text-xs text-zinc-300">{hash}</p>
+            <div className="flex items-start gap-2">
+              <p className="break-all font-mono text-xs text-zinc-300 flex-1">{hash}</p>
+              <CopyLinkButton url={hash} />
+            </div>
           </div>
 
           {/* Block + Timestamp */}
@@ -552,12 +555,12 @@ export default async function ReceiptPage({
               <a
                 href={`/api/receipt/svg/${hash}`}
                 download={`receipt-${hash.slice(0, 8)}.svg`}
-                className="inline-flex items-center justify-center gap-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-200 py-2 px-3 text-xs font-medium transition-colors"
+                className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-md bg-zinc-800 hover:bg-zinc-700 text-zinc-200 py-2 px-3 text-xs font-medium transition-colors"
               >
                 <svg className="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
-                SVG
+                Download SVG
               </a>
             </div>
           )}

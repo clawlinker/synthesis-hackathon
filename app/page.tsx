@@ -128,6 +128,15 @@ export default function Home() {
 
   const hasActiveFilters = filters.direction !== 'all' || filters.minAmount || filters.maxAmount || filters.dateFrom || filters.dateTo || filters.search
 
+  // Count non-search active filters (search is always visible, so exclude it from badge)
+  const activeFilterCount = [
+    filters.direction !== 'all',
+    filters.minAmount !== '',
+    filters.maxAmount !== '',
+    filters.dateFrom !== '',
+    filters.dateTo !== '',
+  ].filter(Boolean).length
+
   // Compute hero stats from raw receipts
   const heroStats = {
     totalReceipts: receipts.length,
@@ -184,7 +193,7 @@ export default function Home() {
       )}
 
       {/* Compact chain + wallet selector pills */}
-      <div id="feed" className="flex flex-wrap items-center gap-1.5 mb-4 mt-4">
+      <div id="feed" className="flex flex-wrap items-center gap-1.5 mb-2 mt-4">
         <span className="text-[10px] uppercase tracking-wider text-zinc-500">Chain</span>
         {Object.entries(CHAINS).map(([key, chain]) => (
           <button
@@ -257,9 +266,8 @@ export default function Home() {
         <SkeletonReceiptStats />
       )}
 
-      {/* Filters */}
-      <Card className="mb-4 mt-4">
-        <CardContent className="space-y-3 p-3">
+      {/* Filters — inline/flush, no card wrapper */}
+      <div className="mb-3 mt-2 space-y-2.5">
           {/* Search — always visible */}
           <div className="relative">
             <Input
@@ -290,8 +298,10 @@ export default function Home() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
               Filters
-              {hasActiveFilters && (
-                <span className="h-1.5 w-1.5 rounded-full bg-usdc" />
+              {activeFilterCount > 0 && (
+                <span className="flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-usdc px-1 text-[9px] font-bold text-black">
+                  {activeFilterCount}
+                </span>
               )}
             </button>
 
@@ -397,8 +407,7 @@ export default function Home() {
               )}
             </div>
           )}
-        </CardContent>
-      </Card>
+      </div>
 
       {/* Feed summary bar */}
       {filteredReceipts.length > 0 && (() => {
@@ -462,18 +471,29 @@ export default function Home() {
           return nonEmptyGroups.map((group) => (
             <div key={group.date}>
               {/* Day header — sticky below nav bar (top-12 = 48px = h-12 nav height) */}
-              <div className="sticky top-12 z-10 mb-1.5 flex items-center gap-3 py-1 backdrop-blur-sm">
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 shrink-0">
+              <div className="sticky top-12 z-10 mb-2 flex items-center gap-3 py-1.5 backdrop-blur-sm">
+                <span className="text-xs font-semibold uppercase tracking-wider text-zinc-300 shrink-0">
                   {group.label}
                 </span>
-                <div className="h-px flex-1 bg-zinc-700" />
-                <span className="text-[11px] text-zinc-500 shrink-0">{group.receipts.length}</span>
+                <div className="h-px flex-1 bg-zinc-700/80" />
+                <span className="text-[11px] text-zinc-500 shrink-0 tabular-nums">{group.receipts.length} receipt{group.receipts.length !== 1 ? 's' : ''}</span>
               </div>
               <ReceiptList receipts={group.receipts} />
             </div>
           ))
         })()}
       </div>
+
+      {/* Feed end indicator */}
+      {filteredReceipts.length > 0 && (
+        <div className="mt-8 flex items-center gap-3">
+          <div className="h-px flex-1 bg-zinc-800" />
+          <span className="text-[11px] text-zinc-600 tabular-nums whitespace-nowrap">
+            Showing {filteredReceipts.length} of {receipts.length} receipts · Powered by Molttail
+          </span>
+          <div className="h-px flex-1 bg-zinc-800" />
+        </div>
+      )}
 
       {/* Footer */}
       {filteredReceipts.length > 0 && <AppFooter />}
