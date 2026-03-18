@@ -1,26 +1,24 @@
 import { NextResponse } from 'next/server'
 import agentLogRaw from '@/agent_log.json'
 import commitsRaw from '@/public/commits.json'
+import costsRaw from '@/data/costs.json'
 
 export async function GET() {
   try {
     const entries = agentLogRaw as any[]
     const { commits } = commitsRaw as { commits: any[] }
+    const costsData = costsRaw as any
 
-    // Fetch real costs from the judge/costs endpoint (uses Bankr API if available, falls back to agent_log)
+    // Use pre-built costs data from data/costs.json (generated at build time)
     let costs = {
       total: 0,
       byModel: {} as Record<string, number>,
       byPhase: {} as Record<string, number>,
     }
-    try {
-      const costRes = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'https://molttail.vercel.app'}/api/judge/costs`)
-      if (costRes.ok) {
-        const costData = await costRes.json()
-        costs = costData.breakdown || costs
-      }
-    } catch {
-      // Fallback to agent_log calculations if fetch fails
+    if (costsData && costsData.breakdown) {
+      costs = costsData.breakdown
+    } else {
+      // Fallback to agent_log calculations if costs.json is missing
       for (const entry of entries) {
         const model = entry.model || ''
         const cost = entry.model_cost_usd || 0
