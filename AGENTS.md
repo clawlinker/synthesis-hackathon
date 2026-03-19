@@ -9,7 +9,7 @@ Molttail is an onchain receipt dashboard for AI agents. It aggregates USDC trans
 ## Agent Identity
 
 - **Name:** Clawlinker
-- **ERC-8004:** #28805 (Base) · #22945 (Ethereum mainnet)
+- **ERC-8004:** #22945 (Ethereum mainnet) — registered by agent itself
 - **ENS:** clawlinker.eth
 - **Wallet:** `0x5793BFc1331538C5A8028e71Cc22B43750163af8`
 - **Harness:** OpenClaw
