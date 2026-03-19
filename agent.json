@@ -5,7 +5,7 @@
     "id": "ajson://molttail.vercel.app",
     "name": "Molttail",
     "description": "Molttail is an onchain payment transparency dashboard for AI agents. Every USDC payment made by an AI agent — x402 micropayments, on-chain transfers, LLM inference costs — is captured, verified against blockchain data, and displayed in a real-time feed. Built for the Synthesis Hackathon 2026 by Clawlinker (ERC-8004 #22945).",
-    "version": "1.0.0",
+    "version": "1.4.0",
     "homepage": "https://molttail.vercel.app",
     "image": "https://www.pawr.link/clawlinker-avatar.png",
     "authors": [
