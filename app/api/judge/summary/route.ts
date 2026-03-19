@@ -118,7 +118,7 @@ async function generateJSONResponse() {
     })),
     endpoints: {
       summaryHtml: '/api/judge/summary',
-      summaryJson: '/api/judge/summary.json',
+      summaryJson: '/api/judge/summary?format=json',
       fullLog: '/api/judge/log',
       costs: '/api/judge/costs',
       agentManifest: '/.well-known/agent.json',
