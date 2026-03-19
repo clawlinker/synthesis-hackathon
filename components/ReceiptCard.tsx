@@ -583,7 +583,7 @@ function InferenceCard({ receipt: r, index, nested, defaultExpanded }: { receipt
       <div
         onClick={() => !nested ? setExpanded(true) : hasBreakdown && setModal(true)}
         className={`relative group
-          ${!nested || hasBreakdown ? 'cursor-pointer' : 'cursor-default'}
+          ${!nested ? 'cursor-pointer' : 'cursor-default'}
           ${nested ? 'py-1.5 px-2' : 'py-2 px-3'}`}
         style={!nested ? { animation: `rc-fade 0.25s ease-out ${delay}ms both` } : undefined}
       >
