@@ -27,26 +27,131 @@ async function fetchCommits(): Promise<{ commits: { sha: string; message: string
   }
 }
 
-export async function GET() {
+// Helper function to compute cost breakdown from agent_log.json
+function computeCostBreakdown(entries: any[]) {
+  const costs = {
+    total: 0,
+    byModel: {} as Record<string, number>,
+    byPhase: {} as Record<string, number>,
+  }
+  for (const entry of entries) {
+    const model = entry.model || ''
+    const cost = entry.model_cost_usd || 0
+    if (!model.startsWith('bankr/')) continue
+    costs.total += cost
+    costs.byModel[model] = (costs.byModel[model] || 0) + cost
+    const phase = entry.phase || 'unknown'
+    costs.byPhase[phase] = (costs.byPhase[phase] || 0) + cost
+  }
+  return costs
+}
+
+// Generate machine-readable JSON response
+async function generateJSONResponse() {
+  const entries = agentLogRaw as any[]
+  const { commits } = await fetchCommits()
+  const costs = computeCostBreakdown(entries)
+  const recent = entries.slice(-20).reverse()
+  const bankrRecent = recent.filter(entry => (entry.model || '').startsWith('bankr/'))
+
+  return {
+    generatedAt: JUDGE_SUMMARY_TIMESTAMP,
+    project: {
+      name: 'Molttail',
+      description: 'Onchain payment transparency dashboard for AI agents',
+      liveDemo: 'https://molttail.vercel.app',
+      source: 'https://github.com/clawlinker/synthesis-hackathon'
+    },
+    agentIdentity: {
+      name: 'Clawlinker',
+      erc8004Id: 22945,
+      chain: 'ethereum',
+      ens: 'clawlinker.eth',
+      wallet: '0x5793BFc1331538C5A8028e71Cc22B43750163af8',
+      profile: 'https://www.pawr.link/clawlinker'
+    },
+    hackathonTracks: [
+      {
+        name: 'ERC-8004',
+        prize: '$8,000',
+        relevance: 'Agent is registered ERC-8004 #22945; dashboard shows identity',
+        status: 'completed'
+      },
+      {
+        name: 'Let the Agent Cook',
+        prize: '$8,000',
+        relevance: 'Agent autonomously built this app (commits, code, design)',
+        status: 'completed'
+      },
+      {
+        name: 'Bankr LLM',
+        prize: '$5,000',
+        relevance: 'LLM inference costs tracked and exposed via Bankr payments',
+        status: 'completed'
+      },
+      {
+        name: 'AgentCash x402',
+        prize: '$1,750',
+        relevance: '/api/x402/receipts endpoint requires $0.01 USDC via x402',
+        status: 'completed'
+      }
+    ],
+    llmCosts: {
+      total: costs.total,
+      byModel: costs.byModel,
+      byPhase: costs.byPhase
+    },
+    recentExecution: bankrRecent.map(entry => ({
+      timestamp: entry.timestamp ? new Date(entry.timestamp).toISOString() : null,
+      phase: entry.phase || null,
+      action: entry.action || null,
+      model: entry.model || null,
+      cost: entry.model_cost_usd ?? null
+    })),
+    recentCommits: commits.slice(0, 15).map(commit => ({
+      sha: commit.sha,
+      message: commit.message,
+      date: commit.date,
+      author: commit.author.login
+    })),
+    endpoints: {
+      summaryHtml: '/api/judge/summary',
+      summaryJson: '/api/judge/summary.json',
+      fullLog: '/api/judge/log',
+      costs: '/api/judge/costs',
+      agentManifest: '/.well-known/agent.json',
+      llmsTxt: '/llms.txt',
+      health: '/api/health',
+      receipts: '/api/receipts',
+      x402Receipts: '/api/x402/receipts',
+      buildLog: '/api/build-log/commits'
+    }
+  }
+}
+
+export async function GET(request: Request) {
+  const url = new URL(request.url)
+  const format = url.searchParams.get('format')
+
+  // Return HTML-compatible Markdown by default (for humans)
+  if (format === 'json') {
+    try {
+      const json = await generateJSONResponse()
+      return NextResponse.json(json, {
+        headers: {
+          'Cache-Control': 'no-cache',
+        }
+      })
+    } catch (err) {
+      return NextResponse.json({ error: 'Failed to generate judge summary' }, { status: 500 })
+    }
+  }
+
+  // Default: return Markdown for human readability
   try {
     const entries = agentLogRaw as any[]
     const { commits } = await fetchCommits()
-
-    // Fallback to agent_log calculations
-    let costs = {
-      total: 0,
-      byModel: {} as Record<string, number>,
-      byPhase: {} as Record<string, number>,
-    }
-    for (const entry of entries) {
-      const model = entry.model || ''
-      const cost = entry.model_cost_usd || 0
-      if (!model.startsWith('bankr/')) continue
-      costs.total += cost
-      costs.byModel[model] = (costs.byModel[model] || 0) + cost
-      const phase = entry.phase || 'unknown'
-      costs.byPhase[phase] = (costs.byPhase[phase] || 0) + cost
-    }
+    const costs = computeCostBreakdown(entries)
 
     // Recent 20 log entries
     const recent = entries.slice(-20).reverse()
@@ -141,6 +246,7 @@ export async function GET() {
     lines.push('| Endpoint | Method | Description |')
     lines.push('|----------|--------|-------------|')
     lines.push('| /api/judge/summary | GET | This document (text/markdown) |')
+    lines.push('| /api/judge/summary.json?format=json | GET | Machine-readable JSON |')
     lines.push('| /api/judge/log | GET | Full execution log (JSON) |')
     lines.push('| /api/judge/costs | GET | LLM cost breakdown (JSON) |')
     lines.push('| /.well-known/agent.json | GET | ERC-8004 agent manifest (JSON) |')
