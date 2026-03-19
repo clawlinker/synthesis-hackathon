@@ -28,7 +28,8 @@ Molttail is an onchain payment transparency dashboard for AI agents. Every USDC 
 - Receipt SVG: https://molttail.vercel.app/api/receipt/svg/[hash]
 - Receipt OG Image: https://molttail.vercel.app/api/og/[txhash]
 - Receipt Verification: https://molttail.vercel.app/api/verify/[txhash]
-- Judge Summary: https://molttail.vercel.app/api/judge/summary (machine-readable)
+- Judge Summary (HTML): https://molttail.vercel.app/api/judge/summary
+- Judge Summary (JSON): https://molttail.vercel.app/api/judge/summary?format=json
 - Agent JSON: https://molttail.vercel.app/.well-known/agent.json
 - Build Log API: https://molttail.vercel.app/api/build-log/commits
 

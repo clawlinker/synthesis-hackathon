@@ -246,7 +246,7 @@ export async function GET(request: Request) {
     lines.push('| Endpoint | Method | Description |')
     lines.push('|----------|--------|-------------|')
     lines.push('| /api/judge/summary | GET | This document (text/markdown) |')
-    lines.push('| /api/judge/summary.json?format=json | GET | Machine-readable JSON |')
+    lines.push('| /api/judge/summary?format=json | GET | Machine-readable JSON |')
     lines.push('| /api/judge/log | GET | Full execution log (JSON) |')
     lines.push('| /api/judge/costs | GET | LLM cost breakdown (JSON) |')
     lines.push('| /.well-known/agent.json | GET | ERC-8004 agent manifest (JSON) |')
