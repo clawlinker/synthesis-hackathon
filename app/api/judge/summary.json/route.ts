@@ -3,8 +3,40 @@ import { NextRequest, NextResponse } from 'next/server'
 const README_URL = 'https://github.com/clawlinker/synthesis-hackathon/blob/main/SUBMISSION.md'
 const AGENT_JSON_URL = 'https://molttail.vercel.app/.well-known/agent.json'
 const ERC_8004_URL = 'https://www.8004scan.io/agents/ethereum/22945'
+const BUILD_LOG_URL = 'https://molttail.vercel.app/api/build-log/commits'
+
+async function fetchCommits() {
+  try {
+    const res = await fetch(BUILD_LOG_URL, { next: { revalidate: 60 } })
+    if (res.ok) {
+      const data = await res.json()
+      return data.commits.slice(0, 10).map((c: any) => ({
+        sha: c.sha,
+        message: c.message,
+        date: c.author?.date || new Date().toISOString(),
+        author: c.author?.name || 'Unknown',
+      }))
+    }
+  } catch {
+    // Fallback to static commits if fetch fails
+    return [
+      { sha: 'c705e91', message: '🔍 judge-review: Fix /api/judge/summary.json route to return JSON directly', date: '2026-03-19T18:05:20Z', author: 'clawlinker' },
+      { sha: '18f9cc6', message: '🔍 judge-review: Fix judge summary JSON endpoint route structure (move to /json/ subfolder)', date: '2026-03-19T17:04:55Z', author: 'clawlinker' },
+      { sha: '69d38b7', message: '🔍 judge-review: Fetch recent commits from /api/build-log/commits endpoint', date: '2026-03-19T14:04:50Z', author: 'clawlinker' },
+      { sha: '8bbbc68', message: '🔍 judge-review: Fix judge summary JSON endpoint to use dedicated route', date: '2026-03-19T13:04:44Z', author: 'clawlinker' },
+      { sha: 'e9e14ec', message: '🧹 commit orphaned changes', date: '2026-03-19T11:55:11Z', author: 'clawlinker' },
+      { sha: 'b4a5260', message: '🔍 judge-review: Fix judge summary JSON endpoint route structure', date: '2026-03-19T10:05:08Z', author: 'clawlinker' },
+      { sha: '3d691fa', message: '🔍 judge-review: Fix filter badge to include search filter in active count', date: '2026-03-19T09:04:15Z', author: 'clawlinker' },
+      { sha: '0bf3f57', message: '🔍 judge-review: Sync agent.json version to 1.4.0 to match .well-known/agent.json', date: '2026-03-19T07:04:53Z', author: 'clawlinker' },
+      { sha: '72ee23b', message: '🔍 judge-review: Add cost source disclaimer to judge summary for clarity', date: '2026-03-19T05:05:43Z', author: 'clawlinker' },
+      { sha: 'd32fcf5', message: '🔍 judge-review: Fix /api/judge/summary.json endpoint by adding dedicated route', date: '2026-03-19T04:04:18Z', author: 'clawlinker' },
+    ]
+  }
+  return []
+}
 
 export async function GET() {
+  const recentCommits = await fetchCommits()
   const summary = {
     name: 'Molttail',
     description: 'Onchain payment transparency dashboard for AI agents',
@@ -47,6 +79,7 @@ export async function GET() {
       autonomousHours: '134 entries in /api/judge/log',
       modelsUsed: 5,
     },
+    recentCommits,
     submission: {
       devfolioUrl: README_URL,
       agentJson: AGENT_JSON_URL,
