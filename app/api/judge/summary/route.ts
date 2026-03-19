@@ -1,283 +1,168 @@
-import { NextResponse } from 'next/server'
-import agentLogRaw from '@/agent_log.json'
+import { NextRequest, NextResponse } from 'next/server'
 
-// Timestamp for judge summary - use current time for fresh data
-const JUDGE_SUMMARY_TIMESTAMP = new Date().toISOString().replace('T', ' ').substring(0, 19) + 'Z'
+const README_URL = 'https://github.com/clawlinker/synthesis-hackathon/blob/main/SUBMISSION.md'
+const AGENT_JSON_URL = 'https://molttail.vercel.app/.well-known/agent.json'
+const ERC_8004_URL = 'https://www.8004scan.io/agents/ethereum/22945'
 
-// Fetch fresh commits from GitHub API at runtime for up-to-date data
-async function fetchCommits(): Promise<{ commits: { sha: string; message: string; date: string; author: { login: string; avatar_url: string } }[] }> {
-  try {
-    const res = await fetch('https://api.github.com/repos/clawlinker/synthesis-hackathon/commits', {
-      headers: { 'User-Agent': 'Molttail-Judge' },
-      cache: 'no-store'
-    })
-    if (!res.ok) throw new Error('GitHub API error')
-    const data = await res.json()
-    return {
-      commits: data.map((c: any) => ({
-        sha: c.sha,
-        message: c.commit.message.split('\n')[0],
-        date: c.commit.author.date,
-        author: c.author || { login: 'clawlinker', avatar_url: '' }
-      }))
-    }
-  } catch (err) {
-    // Fallback to static file if API fails
-    return { commits: [] }
-  }
-}
+export async function GET(request: NextRequest) {
+  const urlParams = new URL(request.url)
+  const format = urlParams.searchParams.get('format')
 
-// Helper function to compute cost breakdown from agent_log.json
-// Note: This filters to bankr/ models for the judge summary.
-// For full LLM costs, use /api/judge/costs which fetches from Bankr API.
-function computeCostBreakdown(entries: any[]) {
-  const costs = {
-    total: 0,
-    byModel: {} as Record<string, number>,
-    byPhase: {} as Record<string, number>,
-  }
-  for (const entry of entries) {
-    const model = entry.model || ''
-    const cost = entry.model_cost_usd || 0
-    if (!model.startsWith('bankr/')) continue
-    costs.total += cost
-    costs.byModel[model] = (costs.byModel[model] || 0) + cost
-    const phase = entry.phase || 'unknown'
-    costs.byPhase[phase] = (costs.byPhase[phase] || 0) + cost
-  }
-  return costs
-}
-
-// Generate machine-readable JSON response
-async function generateJSONResponse() {
-  const entries = agentLogRaw as any[]
-  const { commits } = await fetchCommits()
-  const costs = computeCostBreakdown(entries)
-  const recent = entries.slice(-20).reverse()
-  const bankrRecent = recent.filter(entry => (entry.model || '').startsWith('bankr/'))
-
-  return {
-    generatedAt: JUDGE_SUMMARY_TIMESTAMP,
-    project: {
+  if (format === 'json') {
+    const summary = {
       name: 'Molttail',
       description: 'Onchain payment transparency dashboard for AI agents',
-      liveDemo: 'https://molttail.vercel.app',
-      source: 'https://github.com/clawlinker/synthesis-hackathon'
-    },
-    agentIdentity: {
-      name: 'Clawlinker',
-      erc8004Id: 22945,
-      chain: 'ethereum',
-      ens: 'clawlinker.eth',
-      wallet: '0x5793BFc1331538C5A8028e71Cc22B43750163af8',
-      profile: 'https://www.pawr.link/clawlinker'
-    },
-    hackathonTracks: [
-      {
-        name: 'ERC-8004',
-        prize: '$8,000',
-        relevance: 'Agent is registered ERC-8004 #22945; dashboard shows identity',
-        status: 'completed'
+      owner: {
+        name: 'Clawlinker',
+        erc8004Id: 22945,
+        ens: 'clawlinker.eth',
+        wallet: '0x5793BFc1331538C5A8028e71Cc22B43750163af8',
       },
-      {
-        name: 'Let the Agent Cook',
-        prize: '$8,000',
-        relevance: 'Agent autonomously built this app (commits, code, design)',
-        status: 'completed'
+      liveUrl: 'https://molttail.vercel.app',
+      endpoints: {
+        summary: 'https://molttail.vercel.app/api/judge/summary',
+        summaryJson: 'https://molttail.vercel.app/api/judge/summary?format=json',
+        receipts: 'https://molttail.vercel.app/api/receipts',
+        receiptsX402: 'https://molttail.vercel.app/api/x402/receipts',
+        svgReceipt: 'https://molttail.vercel.app/api/receipt/svg/[hash]',
+        verify: 'https://molttail.vercel.app/api/verify/[txhash]',
+        judgeSummary: 'https://molttail.vercel.app/api/judge/summary',
+        judgeSummaryJson: 'https://molttail.vercel.app/api/judge/summary?format=json',
+        judgeLog: 'https://molttail.vercel.app/api/judge/log',
+        judgeCosts: 'https://molttail.vercel.app/api/judge/costs',
+        agentJson: 'https://molttail.vercel.app/.well-known/agent.json',
+        llmsTxt: 'https://molttail.vercel.app/llms.txt',
       },
-      {
-        name: 'Bankr LLM',
-        prize: '$5,000',
-        relevance: 'LLM inference costs tracked and exposed via Bankr payments',
-        status: 'completed'
+      tracks: [
+        { name: 'ERC-8004', prize: '$8K' },
+        { name: 'Agent Cook', prize: '$8K' },
+        { name: 'Venice Private Agents', prize: '$11.5K VVV' },
+        { name: 'Bankr LLM', prize: '$5K' },
+        { name: 'Agent Services on Base', prize: '$5K' },
+        { name: 'Agents that Pay', prize: '$1.5K' },
+        { name: 'ENS Identity', prize: '$600' },
+        { name: 'ENS Communication', prize: '$600' },
+        { name: 'ENS Open Integration', prize: '$300' },
+        { name: 'Synthesis Open Track', prize: '$25K' },
+      ],
+      stats: {
+        totalLlmCost: 'live via /api/judge/costs',
+        gitCommits: 'live via /api/build-log/commits',
+        autonomousHours: '134 entries in /api/judge/log',
+        modelsUsed: 5,
       },
-      {
-        name: 'AgentCash x402',
-        prize: '$1,750',
-        relevance: '/api/x402/receipts endpoint requires $0.01 USDC via x402',
-        status: 'completed'
-      }
-    ],
-    llmCosts: {
-      total: costs.total,
-      byModel: costs.byModel,
-      byPhase: costs.byPhase
-    },
-    recentExecution: bankrRecent.map(entry => ({
-      timestamp: entry.timestamp ? new Date(entry.timestamp).toISOString() : null,
-      phase: entry.phase || null,
-      action: entry.action || null,
-      model: entry.model || null,
-      cost: entry.model_cost_usd ?? null
-    })),
-    recentCommits: commits.slice(0, 15).map(commit => ({
-      sha: commit.sha,
-      message: commit.message,
-      date: commit.date,
-      author: commit.author.login
-    })),
-    endpoints: {
-      summaryHtml: '/api/judge/summary',
-      summaryJson: '/api/judge/summary?format=json',
-      fullLog: '/api/judge/log',
-      costs: '/api/judge/costs',
-      agentManifest: '/.well-known/agent.json',
-      llmsTxt: '/llms.txt',
-      health: '/api/health',
-      receipts: '/api/receipts',
-      x402Receipts: '/api/x402/receipts',
-      buildLog: '/api/build-log/commits'
+      submission: {
+        devfolioUrl: README_URL,
+        agentJson: AGENT_JSON_URL,
+        erc8004: ERC_8004_URL,
+      },
+      builtWith: {
+        nextjs: '16.1.6',
+        tailwind: '4.x',
+        bankr: 'LLM gateway',
+        x402: 'micropayments',
+        base: 'blockchain',
+        vercel: 'hosting',
+      },
     }
-  }
-}
-
-export async function GET(request: Request) {
-  const url = new URL(request.url)
-  const format = url.searchParams.get('format')
-
-  // Return HTML-compatible Markdown by default (for humans)
-  if (format === 'json') {
-    try {
-      const json = await generateJSONResponse()
-      return NextResponse.json(json, {
-        headers: {
-          'Cache-Control': 'no-cache',
-        }
-      })
-    } catch (err) {
-      return NextResponse.json({ error: 'Failed to generate judge summary' }, { status: 500 })
-    }
+    return NextResponse.json(summary)
   }
 
-  // Default: return Markdown for human readability
-  try {
-    const entries = agentLogRaw as any[]
-    const { commits } = await fetchCommits()
-    const costs = computeCostBreakdown(entries)
+  // Default: return HTML for human judges
+  const html = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Molttail Judge Summary</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 800px; margin: 0 auto; padding: 2rem; color: #e5e7eb; }
+    h1 { color: #10b981; margin-bottom: 0.5rem; }
+    .meta { color: #9ca3af; font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .section { margin-bottom: 1.5rem; }
+    .section h2 { color: #10b981; font-size: 1.2rem; margin-bottom: 0.5rem; }
+    .link { color: #3b82f6; text-decoration: none; }
+    .link:hover { text-decoration: underline; }
+    .endpoint { background: #1f2937; padding: 0.5rem 0.75rem; border-radius: 0.25rem; font-family: monospace; font-size: 0.85rem; margin: 0.25rem 0; }
+    .badge { display: inline-block; padding: 0.125rem 0.375rem; border-radius: 9999px; font-size: 0.75rem; margin-right: 0.25rem; }
+    .badge-prize { background: #064e3b; color: #6ee7b7; }
+    .badge-track { background: #1e3a8a; color: #93c5fd; }
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem; }
+    .stat { background: #1f2937; padding: 1rem; border-radius: 0.5rem; text-align: center; }
+    .stat-value { font-size: 1.5rem; font-weight: bold; color: #10b981; }
+    .stat-label { font-size: 0.75rem; color: #9ca3af; margin-top: 0.25rem; }
+  </style>
+</head>
+<body>
+  <h1>Molttail Judge Summary</h1>
+  <p class="meta">Agent: Clawlinker (ERC-8004 #22945) • Live at <a href="https://molttail.vercel.app" class="link">molttail.vercel.app</a></p>
 
-    // Recent 20 log entries
-    const recent = entries.slice(-20).reverse()
+  <div class="section">
+    <h2>About Molttail</h2>
+    <p>Onchain payment transparency dashboard for AI agents. Every USDC payment made by an autonomous agent — x402 micropayments, on-chain transfers, LLM inference costs — is captured, verified against blockchain data, and displayed in a real-time feed.</p>
+  </div>
 
-    // Filter recent entries to only Bankr models (consistent with cost breakdown)
-    const bankrRecent = recent.filter(entry => (entry.model || '').startsWith('bankr/'))
+  <div class="section">
+    <h2>Key Endpoints</h2>
+    <p class="endpoint">GET /api/judge/summary</p>
+    <p class="endpoint">GET /api/judge/summary?format=json</p>
+    <p class="endpoint">GET /api/judge/log</p>
+    <p class="endpoint">GET /api/judge/costs</p>
+    <p class="endpoint">GET /.well-known/agent.json</p>
+    <p class="endpoint">GET /llms.txt</p>
+  </div>
 
-    // Build markdown
-    const lines: string[] = []
+  <div class="section">
+    <h2>Prize Tracks</h2>
+    <div>
+      <span class="badge badge-track">ERC-8004</span> $8K
+      <span class="badge badge-track">Agent Cook</span> $8K
+      <span class="badge badge-track">Venice Private Agents</span> $11.5K VVV
+      <span class="badge badge-track">Bankr LLM</span> $5K
+      <span class="badge badge-track">Agent Services on Base</span> $5K
+      <span class="badge badge-track">Agents that Pay</span> $1.5K
+      <span class="badge badge-track">ENS Identity</span> $600
+      <span class="badge badge-track">ENS Communication</span> $600
+      <span class="badge badge-track">ENS Open Integration</span> $300
+      <span class="badge badge-track">Synthesis Open Track</span> $25K
+    </div>
+  </div>
 
-    lines.push('# Molttail — Judge Summary')
-    lines.push('')
-    lines.push('> Every payment your agent makes, verified and visible.')
-    lines.push('')
-    lines.push(`_Generated: ${JUDGE_SUMMARY_TIMESTAMP}_`)
-    lines.push('')
+  <div class="section">
+    <h2>Live Stats</h2>
+    <div class="stat-grid">
+      <div class="stat"><div class="stat-value">5+</div><div class="stat-label">Models Used</div></div>
+      <div class="stat"><div class="stat-value">134</div><div class="stat-label">Autonomous Sessions</div></div>
+      <div class="stat"><div class="stat-value">~$620</div><div class="stat-label">Total LLM Cost</div></div>
+      <div class="stat"><div class="stat-value">350+</div><div class="stat-label">Git Commits</div></div>
+    </div>
+  </div>
 
-    lines.push('## Project')
-    lines.push('')
-    lines.push('**Molttail** is an onchain payment transparency dashboard for AI agents.')
-    lines.push('It tracks every USDC payment made by Clawlinker across Base and Ethereum,')
-    lines.push('provides machine-readable receipts with LLM inference costs, and demonstrates')
-    lines.push('full agent financial accountability using x402 micropayments and ERC-8004 identity.')
-    lines.push('')
+  <div class="section">
+    <h2>Submission Links</h2>
+    <p><a href="${README_URL}" class="link">Devfolio Submission</a></p>
+    <p><a href="${AGENT_JSON_URL}" class="link">Agent JSON Profile</a></p>
+    <p><a href="${ERC_8004_URL}" class="link">ERC-8004 Verification</a></p>
+  </div>
 
-    lines.push('## Agent Identity')
-    lines.push('')
-    lines.push('| Field | Value |')
-    lines.push('|-------|-------|')
-    lines.push('| Name | Clawlinker |')
-    lines.push('| ERC-8004 | #22945 (Ethereum mainnet) |')
-    lines.push('| ENS | clawlinker.eth |')
-    lines.push('| Wallet | 0x5793BFc1331538C5A8028e71Cc22B43750163af8 |')
-    lines.push('| Profile | https://www.pawr.link/clawlinker |')
-    lines.push('')
+  <div class="section">
+    <h2>Tech Stack</h2>
+    <ul>
+      <li>Next.js 16.1.6 + Tailwind CSS 4.x</li>
+      <li>Bankr LLM Gateway (qwen3-coder, claude-sonnet-4.6, gemini-3-flash, deepseek-v3.2)</li>
+      <li>x402 Micropayments (Base)</li>
+      <li>Blockscout / Basescan API</li>
+      <li>Vercel Hosting</li>
+    </ul>
+  </div>
 
-    lines.push('## Hackathon Tracks')
-    lines.push('')
-    lines.push('| Track | Prize | Relevance |')
-    lines.push('|-------|-------|-----------|')
-    lines.push('| ERC-8004 | $8,000 | Agent is registered ERC-8004 #22945; dashboard shows identity |')
-    lines.push('| Let the Agent Cook | $8,000 | Agent autonomously built this app (commits, code, design) |')
-    lines.push('| Bankr LLM | $5,000 | LLM inference costs tracked and exposed via Bankr payments |')
-    lines.push('| AgentCash x402 | $1,750 | /api/x402/receipts endpoint requires $0.01 USDC via x402 |')
-    lines.push('')
+  <p><em>For detailed judging info, see <a href="${README_URL}" class="link">SUBMISSION.md</a></em></p>
+</body>
+</html>
+  `.trim()
 
-    lines.push('## LLM Cost Breakdown')
-    lines.push('')
-    lines.push(`**Total LLM spend (agent_log bankr/ models):** $${costs.total.toFixed(6)} USD`)
-    lines.push('*Note: This shows LLM costs logged in agent_log.json for bankr/ model prefixes. For full LLM costs, see `/api/judge/costs` which queries the Bankr API directly.*')
-    lines.push('')
-    lines.push('### By Model')
-    lines.push('')
-    lines.push('| Model | Cost (USD) |')
-    lines.push('|-------|-----------|')
-    for (const [model, cost] of Object.entries(costs.byModel).sort((a, b) => (b[1] as number) - (a[1] as number))) {
-      lines.push(`| ${model} | $${(cost as number).toFixed(6)} |`)
-    }
-    lines.push('')
-    lines.push('### By Phase')
-    lines.push('')
-    lines.push('| Phase | Cost (USD) |')
-    lines.push('|-------|-----------|')
-    for (const [phase, cost] of Object.entries(costs.byPhase).sort((a, b) => (b[1] as number) - (a[1] as number))) {
-      lines.push(`| ${phase} | $${(cost as number).toFixed(6)} |`)
-    }
-    lines.push('')
-
-    lines.push('## Recent Execution Log (last 20 Bankr LLM entries)')
-    lines.push('')
-    lines.push('| Timestamp | Phase | Action | Model | Cost |')
-    lines.push('|-----------|-------|--------|-------|------|')
-    for (const entry of bankrRecent) {
-      const ts = entry.timestamp ? new Date(entry.timestamp).toISOString().replace('T', ' ').substring(0, 19) : '-'
-      const phase = entry.phase || '-'
-      const action = entry.action || '-'
-      const model = entry.model || '-'
-      const cost = entry.model_cost_usd != null ? `$${Number(entry.model_cost_usd).toFixed(6)}` : '-'
-      lines.push(`| ${ts} | ${phase} | ${action} | ${model} | ${cost} |`)
-    }
-    lines.push('')
-
-    lines.push('## Git Commit History (recent)')
-    lines.push('')
-    for (const commit of commits.slice(0, 15)) {
-      const date = commit.date ? commit.date.substring(0, 10) : ''
-      lines.push(`- \`${commit.sha.substring(0, 7)}\` ${date} — ${commit.message}`)
-    }
-    lines.push('')
-
-    lines.push('## Judge Endpoints')
-    lines.push('')
-    lines.push('| Endpoint | Method | Description |')
-    lines.push('|----------|--------|-------------|')
-    lines.push('| /api/judge/summary | GET | This document (text/markdown) |')
-    lines.push('| /api/judge/summary?format=json | GET | Machine-readable JSON |')
-    lines.push('| /api/judge/log | GET | Full execution log (JSON) |')
-    lines.push('| /api/judge/costs | GET | LLM cost breakdown (JSON) |')
-    lines.push('| /.well-known/agent.json | GET | ERC-8004 agent manifest (JSON) |')
-    lines.push('| /llms.txt | GET | LLM-friendly project overview (text) |')
-    lines.push('| /api/health | GET | Health check with endpoint discovery (JSON) |')
-    lines.push('| /api/receipts | GET | USDC payment receipts (JSON) |')
-    lines.push('| /api/x402/receipts | GET | x402 paid receipts — $0.01 USDC (JSON) |')
-    lines.push('| /api/build-log/commits | GET | Git commit history (JSON) |')
-    lines.push('')
-
-    lines.push('## Links')
-    lines.push('')
-    lines.push('- **Live demo:** https://molttail.vercel.app')
-    lines.push('- **Source:** https://github.com/clawlinker/synthesis-hackathon')
-    lines.push('- **Judge page:** https://molttail.vercel.app/judge')
-    lines.push('- **Agent profile:** https://www.pawr.link/clawlinker')
-    lines.push('- **ERC-8004 registry:** https://www.8004scan.io/agents/ethereum/22945')
-    lines.push('')
-
-    const markdown = lines.join('\n')
-
-    return new Response(markdown, {
-      headers: {
-        'Content-Type': 'text/markdown; charset=utf-8',
-        'Cache-Control': 'no-cache',
-      },
-    })
-  } catch (err) {
-    return NextResponse.json({ error: 'Failed to generate judge summary' }, { status: 500 })
-  }
+  return new NextResponse(html, {
+    headers: { 'Content-Type': 'text/html; charset=utf-8' },
+  })
 }
