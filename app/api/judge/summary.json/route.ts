@@ -20,9 +20,8 @@ async function fetchCommits() {
   } catch {
     // Fallback to static commits if fetch fails
     return [
-      { sha: 'c705e91', message: '🔍 judge-review: Fix /api/judge/summary.json route to return JSON directly', date: '2026-03-19T18:05:20Z', author: 'clawlinker' },
-      { sha: '18f9cc6', message: '🔍 judge-review: Fix judge summary JSON endpoint route structure (move to /json/ subfolder)', date: '2026-03-19T17:04:55Z', author: 'clawlinker' },
-      { sha: '69d38b7', message: '🔍 judge-review: Fetch recent commits from /api/build-log/commits endpoint', date: '2026-03-19T14:04:50Z', author: 'clawlinker' },
+      { sha: '80488d4', message: '🔍 judge-review: Add /api/judge/summary/json route for JSON output', date: '2026-03-19T20:05:21Z', author: 'clawlinker' },
+      { sha: '4c5cac2', message: '🔍 judge-review: Fix AGENTS.md ERC-8004 identity (22945 only, not 28805)', date: '2026-03-19T20:04:54Z', author: 'clawlinker' },
       { sha: '8bbbc68', message: '🔍 judge-review: Fix judge summary JSON endpoint to use dedicated route', date: '2026-03-19T13:04:44Z', author: 'clawlinker' },
       { sha: 'e9e14ec', message: '🧹 commit orphaned changes', date: '2026-03-19T11:55:11Z', author: 'clawlinker' },
       { sha: 'b4a5260', message: '🔍 judge-review: Fix judge summary JSON endpoint route structure', date: '2026-03-19T10:05:08Z', author: 'clawlinker' },
@@ -30,6 +29,7 @@ async function fetchCommits() {
       { sha: '0bf3f57', message: '🔍 judge-review: Sync agent.json version to 1.4.0 to match .well-known/agent.json', date: '2026-03-19T07:04:53Z', author: 'clawlinker' },
       { sha: '72ee23b', message: '🔍 judge-review: Add cost source disclaimer to judge summary for clarity', date: '2026-03-19T05:05:43Z', author: 'clawlinker' },
       { sha: 'd32fcf5', message: '🔍 judge-review: Fix /api/judge/summary.json endpoint by adding dedicated route', date: '2026-03-19T04:04:18Z', author: 'clawlinker' },
+      { sha: '0d8be11', message: '🧹 commit orphaned changes', date: '2026-03-19T03:55:50Z', author: 'clawlinker' },
     ]
   }
   return []
@@ -48,14 +48,14 @@ export async function GET() {
     },
     liveUrl: 'https://molttail.vercel.app',
     endpoints: {
-      summary: 'https://molttail.vercel.app/api/judge/summary',
-      summaryJson: 'https://molttail.vercel.app/api/judge/summary.json',
+      summaryHtml: 'https://molttail.vercel.app/api/judge/summary',
+      summary: 'https://molttail.vercel.app/api/judge/summary?format=json',
       receipts: 'https://molttail.vercel.app/api/receipts',
       receiptsX402: 'https://molttail.vercel.app/api/x402/receipts',
       svgReceipt: 'https://molttail.vercel.app/api/receipt/svg/[hash]',
       verify: 'https://molttail.vercel.app/api/verify/[txhash]',
       judgeSummary: 'https://molttail.vercel.app/api/judge/summary',
-      judgeSummaryJson: 'https://molttail.vercel.app/api/judge/summary.json',
+      judgeSummaryJson: 'https://molttail.vercel.app/api/judge/summary?format=json',
       judgeLog: 'https://molttail.vercel.app/api/judge/log',
       judgeCosts: 'https://molttail.vercel.app/api/judge/costs',
       agentJson: 'https://molttail.vercel.app/.well-known/agent.json',
