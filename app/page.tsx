@@ -126,15 +126,16 @@ export default function Home() {
     setFilteredReceipts(filtered)
   }, [receipts, filters, showInference])
 
-  const hasActiveFilters = filters.direction !== 'all' || filters.minAmount || filters.maxAmount || filters.dateFrom || filters.dateTo || filters.search
+  const hasActiveFilters = filters.direction !== 'all' || filters.minAmount !== '' || filters.maxAmount !== '' || filters.dateFrom !== '' || filters.dateTo !== '' || filters.search !== ''
 
-  // Count non-search active filters (search is always visible, so exclude it from badge)
+  // Count all active filters (including search)
   const activeFilterCount = [
     filters.direction !== 'all',
     filters.minAmount !== '',
     filters.maxAmount !== '',
     filters.dateFrom !== '',
     filters.dateTo !== '',
+    filters.search !== '',
   ].filter(Boolean).length
 
   // Compute hero stats from raw receipts
