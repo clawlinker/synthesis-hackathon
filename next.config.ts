@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/api/judge/summary.json',
-        destination: '/api/judge/summary?format=json',
+        destination: '/api/judge/summary/json',
       },
     ]
   },
