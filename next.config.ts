@@ -1,14 +1,7 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  async rewrites() {
-    return [
-      {
-        source: '/api/judge/summary.json',
-        destination: '/api/judge/summary/json',
-      },
-    ]
-  },
+  // Removed redirect for /api/judge/summary.json (now served via /api/judge/summary?format=json)
 }
 
 export default nextConfig
