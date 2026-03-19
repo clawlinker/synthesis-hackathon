@@ -28,6 +28,8 @@ async function fetchCommits(): Promise<{ commits: { sha: string; message: string
 }
 
 // Helper function to compute cost breakdown from agent_log.json
+// Note: This filters to bankr/ models for the judge summary.
+// For full LLM costs, use /api/judge/costs which fetches from Bankr API.
 function computeCostBreakdown(entries: any[]) {
   const costs = {
     total: 0,
@@ -200,7 +202,8 @@ export async function GET(request: Request) {
 
     lines.push('## LLM Cost Breakdown')
     lines.push('')
-    lines.push(`**Total LLM spend:** $${costs.total.toFixed(6)} USD`)
+    lines.push(`**Total LLM spend (agent_log bankr/ models):** $${costs.total.toFixed(6)} USD`)
+    lines.push('*Note: This shows LLM costs logged in agent_log.json for bankr/ model prefixes. For full LLM costs, see `/api/judge/costs` which queries the Bankr API directly.*')
     lines.push('')
     lines.push('### By Model')
     lines.push('')
