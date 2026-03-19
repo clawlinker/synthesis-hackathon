@@ -29,6 +29,7 @@ export function AppFooter({ showX402Badge = false, className = '' }: AppFooterPr
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs transition-colors hover:text-foreground"
+                aria-label={`${label} (opens in new tab)`}
               >
                 {label}
               </a>
