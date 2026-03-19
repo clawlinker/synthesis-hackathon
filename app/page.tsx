@@ -194,7 +194,7 @@ export default function Home() {
 
       {/* Compact chain + wallet selector pills */}
       <div id="feed" className="flex flex-wrap items-center gap-1.5 mb-2 mt-4">
-        <span className="text-[10px] uppercase tracking-wider text-zinc-500">Chain</span>
+        <span className="text-xs sm:text-[10px] uppercase tracking-wider text-zinc-500">Chain</span>
         <button
           onClick={() => {
             setSelectedChain('all')
@@ -202,7 +202,7 @@ export default function Home() {
             params.delete('chain')
             window.history.pushState({}, '', `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`)
           }}
-          className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-usdc focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 ${
+          className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm sm:px-2.5 sm:py-1 sm:text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-usdc focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 ${
             selectedChain === 'all'
               ? 'bg-zinc-700 text-zinc-100'
               : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
@@ -220,7 +220,7 @@ export default function Home() {
               params.set('chain', key)
               window.history.pushState({}, '', `${window.location.pathname}?${params.toString()}`)
             }}
-            className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-usdc focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 ${
+            className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm sm:px-2.5 sm:py-1 sm:text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-usdc focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 ${
               selectedChain === key
                 ? 'bg-zinc-700 text-zinc-100'
                 : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
@@ -232,7 +232,7 @@ export default function Home() {
           </button>
         ))}
 
-        <span className="text-[10px] uppercase tracking-wider text-zinc-500 ml-2">Wallet</span>
+        <span className="text-xs sm:text-[10px] uppercase tracking-wider text-zinc-500 ml-2">Wallet</span>
         <button
           onClick={() => {
             setSelectedWallet(null)
@@ -240,7 +240,7 @@ export default function Home() {
             params.set('chain', selectedChain)
             window.history.pushState({}, '', `${window.location.pathname}?${params.toString()}`)
           }}
-          className={`rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-usdc focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 ${
+          className={`rounded-full px-3 py-1.5 text-sm sm:px-2.5 sm:py-1 sm:text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-usdc focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 ${
             selectedWallet === null
               ? 'bg-zinc-700 text-zinc-100'
               : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
@@ -259,7 +259,7 @@ export default function Home() {
               params.set('chain', selectedChain)
               window.history.pushState({}, '', `${window.location.pathname}?${params.toString()}`)
             }}
-            className={`rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-usdc focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 ${
+            className={`rounded-full px-3 py-1.5 text-sm sm:px-2.5 sm:py-1 sm:text-xs font-medium transition-colors flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-usdc focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 ${
               selectedWallet === agent.wallet
                 ? 'bg-zinc-700 text-zinc-100'
                 : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
