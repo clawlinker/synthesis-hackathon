@@ -2,65 +2,60 @@
   "manifest_version": "1.0",
   "profiles": ["core", "exec", "gov"],
   "agent": {
-    "id": "ajson://clawlinker.eth",
-    "name": "Clawlinker",
-    "description": "Agent relations lead at pawr.link. Creates link-in-bio profiles for agents. Autonomous AI agent with verified onchain identity (ERC-8004 #22945), x402 payment rails, and A2A commerce.",
+    "id": "ajson://molttail.vercel.app",
+    "name": "Molttail",
+    "description": "Molttail is an onchain payment transparency dashboard for AI agents. Every USDC payment made by an autonomous agent — x402 micropayments, on-chain transfers, LLM inference costs — is captured, verified against blockchain data, and displayed in a real-time feed. Built by Clawlinker (ERC-8004 #22945) for the Synthesis Hackathon 2026.",
     "version": "1.4.0",
-    "homepage": "https://pawr.link/clawlinker",
+    "homepage": "https://molttail.vercel.app",
     "image": "https://pawr.link/clawlinker-avatar.png",
-    "authors": [
+      "authors": [
       {
-        "name": "Max",
+        "name": "Clawlinker",
         "organization": "pawr.link",
-        "email": "max@pawr.link"
+        "url": "https://pawr.link/clawlinker",
+        "erc8004": "22945",
+        "chain": "ethereum"
       }
     ],
     "tags": [
-      "agent_profile",
-      "identity_verification",
-      "x402_commerce",
-      "market_research",
-      "content_creation",
-      "social_engagement",
-      "onchain_transactions"
+      "agent_transparency",
+      "receipt_audit",
+      "x402_payments",
+      "usdc_receipts",
+      "erc8004_identity",
+      "bankr_llm",
+      "hackathon",
+      "synthesis_2026"
     ]
   },
   "capabilities": [
     {
-      "id": "agent_profile_creation",
-      "description": "Create and manage agent link-in-bio profiles via pawr.link"
+      "id": "receipt_feed",
+      "description": "Real-time feed of verified USDC receipts for autonomous agent transactions"
     },
     {
-      "id": "identity_verification",
-      "description": "ERC-8004 onchain identity registration and verification"
+      "id": "on_chain_verification",
+      "description": "All receipts verified against Base and Ethereum blockchains via Blockscout"
     },
     {
-      "id": "x402_commerce",
-      "description": "Execute x402 micropayments for services"
+      "id": "llm_cost_transparency",
+      "description": "Bankr LLM inference costs logged and displayed per model, per cron job"
     },
     {
-      "id": "market_research",
-      "description": "Scan crypto markets, track trends, analyze tokens"
+      "id": "erc8004_identity_resolution",
+      "description": "Agent identity resolved via ERC-8004 registry for sender/receiver display"
     },
     {
-      "id": "content_creation",
-      "description": "Create social media content, threads, announcements"
+      "id": "x402_receipt_api",
+      "description": "x402-gated API for purchasing receipt data ($0.01 USDC per request)"
     },
     {
-      "id": "social_engagement",
-      "description": "Interact with X/Twitter, Farcaster, Moltbook"
+      "id": "svg_receipt_generation",
+      "description": "Shareable SVG receipt cards for any transaction hash"
     },
     {
-      "id": "onchain_transactions",
-      "description": "Execute onchain calls with ERC-1271 signature"
-    },
-    {
-      "id": "retrieval",
-      "description": "Fetch and synthesize information from web APIs"
-    },
-    {
-      "id": "summarization",
-      "description": "Summarize long-form content and decision logs"
+      "id": "build_transparency",
+      "description": "Full autonomous build log: every agent decision, tool used, and LLM cost"
     }
   ],
   "tools": [
@@ -246,38 +241,11 @@
   "services": [
     {
       "name": "web",
-      "endpoint": "https://pawr.link/clawlinker"
-    },
-    {
-      "name": "A2A",
-      "endpoint": "https://pawr.link/api/a2a/clawlinker",
-      "version": "1.0.0",
-      "protocol": "JSON-RPC"
-    },
-    {
-      "name": "x402-create-profile",
-      "endpoint": "https://pawr.link/api/x402/create-profile",
-      "method": "x402",
-      "price": "$9 USDC",
-      "network": "eip155:8453"
-    },
-    {
-      "name": "x402-curated-profile",
-      "endpoint": "https://pawr.link/api/x402/create-profile-curated",
-      "method": "x402",
-      "price": "$10 USDC",
-      "network": "eip155:8453"
-    },
-    {
-      "name": "x402-update-profile",
-      "endpoint": "https://pawr.link/api/x402/update-profile",
-      "method": "x402",
-      "price": "$0.10 USDC",
-      "network": "eip155:8453"
+      "endpoint": "https://molttail.vercel.app"
     },
     {
       "name": "agent_receipts_api",
-      "endpoint": "https://pawr.link/api/receipts",
+      "endpoint": "https://molttail.vercel.app/api/receipts",
       "version": "1.0.0",
       "description": "Agent receipt feed - verifiable audit trail for agent transactions",
       "methods": ["GET"],
@@ -297,7 +265,7 @@
     },
     {
       "name": "agent_receipts_x402",
-      "endpoint": "https://pawr.link/api/x402/receipts",
+      "endpoint": "https://molttail.vercel.app/api/x402/receipts",
       "version": "1.0.0",
       "description": "x402-gated agent receipt feed - $0.01 USDC per request",
       "methods": ["GET"],
@@ -318,7 +286,7 @@
     },
     {
       "name": "agent_receipt_svg",
-      "endpoint": "https://pawr.link/api/receipt/svg/[hash]",
+      "endpoint": "https://molttail.vercel.app/api/receipt/svg/[hash]",
       "version": "1.0.0",
       "description": "Generate SVG receipt card for a transaction hash",
       "methods": ["GET"],
@@ -333,7 +301,7 @@
     },
     {
       "name": "agent_receipt_og",
-      "endpoint": "https://pawr.link/api/og/[txhash]",
+      "endpoint": "https://molttail.vercel.app/api/og/[txhash]",
       "version": "1.0.0",
       "description": "Generate Open Graph image for a receipt for social sharing",
       "methods": ["GET"],
@@ -345,13 +313,25 @@
         }
       },
       "format": "image/png"
+    },
+    {
+      "name": "judge_summary",
+      "endpoint": "https://molttail.vercel.app/api/judge/summary",
+      "version": "1.0.0",
+      "description": "Markdown summary of the project for agentic judges"
+    },
+    {
+      "name": "agent_manifest",
+      "endpoint": "https://molttail.vercel.app/.well-known/agent.json",
+      "version": "1.0.0",
+      "description": "ERC-8004 agent manifest (JSON)"
     }
   ],
   "supportedTrust": ["reputation", "crypto-economic"],
   "x402Support": true,
   "active": true,
   "continuous_since": "2026-02-01",
-  "erc8004_identity": {
+  "erc8004_builder": {
     "agent_id": 22945,
     "agent_registry": "eip155:1:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432",
     "chain": "ethereum",
