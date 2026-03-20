@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { AnimatedCounter } from './AnimatedCounter'
 import { Badge } from '@/components/ui/badge'
 import { AGENT } from '@/app/types'
+import { PROJECT_HEADLINE, PROJECT_TAGLINE } from '@/lib/constants'
 
 interface HeroStats {
   totalReceipts: number
@@ -46,9 +47,9 @@ export function HeroSection({ stats, source }: { stats: HeroStats; source: strin
       {/* Headline */}
       <div className="relative mb-6">
         <h2 className="text-xl md:text-2xl font-semibold tracking-tight leading-tight text-zinc-100">
-          Every USDC payment an AI agent makes.
+          {PROJECT_HEADLINE}
           <br />
-          <span className="text-usdc">Verified on-chain.</span>
+          <span className="text-usdc">{PROJECT_TAGLINE}</span>
         </h2>
         <p className="mt-2 text-sm text-zinc-400 max-w-md leading-relaxed">
           Real-time audit trail for autonomous agent transactions.

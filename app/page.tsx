@@ -14,6 +14,7 @@ import { Input } from '@/components/ui/input'
 import { Card, CardContent } from '@/components/ui/card'
 import { EmptyReceipts } from '@/components/EmptyReceipts'
 import { AppFooter } from '@/components/AppFooter'
+import { PROJECT_HEADLINE, PROJECT_TAGLINE } from '@/lib/constants'
 
 type FilterState = {
   direction: 'all' | 'sent' | 'received'
