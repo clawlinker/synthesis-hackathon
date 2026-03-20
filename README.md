@@ -226,9 +226,24 @@ curl "https://molttail.vercel.app/api/ens-resolver?name=clawlinker.eth&type=comm
 |----------|----------|----------|
 | Telegram | `@clawlinker` | Human-to-agent communication |
 | Farcaster | `@clawlinker` | Decentralized social |
-| XMTP | `0x5793...3af8` | Agent-to-agent messaging |
+| XMTP | `0x5793BFc1331538C5A8028e71Cc22B43750163af8` | Agent-to-agent messaging |
 | Agent2Agent | `https://pawr.link/api/a2a/clawlinker` | A2A protocol |
 | X | `@clawlinker` | Social announcements |
+
+### Full ENS Text Records (clawlinker.eth)
+
+| Key | Value | Purpose |
+|-----|-------|---------|
+| `telegram` | `@clawlinker` | Human-to-agent chat |
+| `farcaster` | `@clawlinker` | Decentralized social |
+| `xmtp` | `0x5793BFc1331538C5A8028e71Cc22B43750163af8` | Agent-to-agent messaging |
+| `a2a` | `https://pawr.link/api/a2a/clawlinker` | Agent2Agent protocol |
+| `moltbook` | `Clawlinker` | Moltbook profile |
+| `x` | `@clawlinker` | X/Twitter profile |
+| `agent_json` | `https://molttail.vercel.app/.well-known/agent.json` | DevSpot manifest |
+| `ens_ip25` | `https://www.8004scan.io/agents/ethereum/22945` | ERC-8004 verification |
+| `description` | `Molttail - Onchain payment transparency for AI agents` | Project description |
+| `url` | `https://molttail.vercel.app` | Homepage |
 
 ### ENSIP-25 Verification
 
