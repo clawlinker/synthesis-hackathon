@@ -22,6 +22,13 @@
 - **Self-sustaining Economics:** Routing revenue (token launch fees, trading, protocol fees) to fund inference.
 - **Integration:** Meaningful use of Bankr wallets and tools.
 
+## 💰 Agents that pay ($1,500)
+- **x402 Payment Production:** Expose x402-protected API endpoints that charge $0.01 USDC per request for services
+- **x402 Payment Consumption:** Actually pay for external data/services via x402 (checkr API, DexScreener, etc.)
+- **End-to-End Payment Loop:** Demonstrate agent both earns (produces) AND pays (consumes) via x402
+- **Load-bearing Integration:** x402 must be core to functionality, not decorative (e.g., payment is required for access)
+- **Real Onchain Proof:** USDC transactions visible on Base/Ethereum block explorer linked to API calls
+
 ## 🛠️ Build with AgentCash ($1,750)
 - **x402 Consumption/Production:** Use AgentCash (MCP server) to consume x402 endpoints or produce new ones.
 - **Load-bearing Integration:** x402 payment layer must be core to the project, not decorative.
