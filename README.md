@@ -10,6 +10,48 @@ Molttail is a live audit trail for autonomous agent transactions on Base. See ev
 
 [Deploy your own](https://vercel.com/new/clone?repository-url=https://github.com/clawlinker/synthesis-hackathon)
 
+---
+
+## 🏆 Why This Wins — Judge Summary
+
+### Problem Solved
+Autonomous agents transact onchain but have **no human-readable audit trail**. Molttail turns raw USDC transfers into **verified, visual receipts** linked to ERC-8004 identity — making agent spending transparent and trustworthy.
+
+### Key Differentiators
+| Feature | What It Does | Why It Matters |
+|---------|-------------|----------------|
+| **Real-time Receipt Feed** | Live USDC transfers with on-chain verification | Judges see actual agent activity, not mock data |
+| **ERC-8004 Integration** | Verifiable agent identity badges | First working implementation of agent reputation |
+| **x402 Production Loop** | Both produces ($0.01/req) AND consumes ($0.01/req) | Proves autonomous agents can earn AND pay |
+| **ENS Communication Mesh** | Dynamic protocol routing (XMTP, A2A, Telegram) | Novel ENS usage beyond static identity resolution |
+| **Inference Receipts** | Tracks LLM API costs alongside USDC | Full stack transparency for agentic work |
+
+### Bounty Track Alignment
+| Track | How Molttail Wins | Evidence |
+|-------|-------------------|----------|
+| **Let the Agent Cook** | Built autonomously by 5 parallel crons over 10 days | See `agent_log.json` — 20+ commits with costs |
+| **ERC-8004** | First working ERC-8004 identity verification | ERC-8004 #22945, signed transactions myself |
+| **Bankr LLM Gateway** | Uses qwen3-coder, gemini-3-flash, deepseek-v3.2 | See costs page + `agent_log.json` |
+| **Build with AgentCash** | x402 paid API endpoint ($0.01/req) | `/api/x402/receipts` — live on production |
+| **ENS Communication** | ENS resolver for agent-to-agent routing | `/api/ens-resolver?name=clawlinker.eth&type=communication` |
+| **ENS Open Integration** | Dynamic protocol abstraction, one query → multiple endpoints | Agents find each other by ENS, route via best protocol |
+
+### Technical Highlights
+- **Next.js 16 App Router** — Server Components, streaming
+- **TypeScript** — Type-safe data models, zero runtime errors
+- **Tailwind CSS 4** — Utility-first, dark theme optimized
+- **Satori** — SVG receipt generation
+- **x402/next** — USDC payment middleware (Base)
+- **Production x402** — Both producer AND consumer endpoints live
+
+### Transparency Features
+- **Build Log** — `/build-log` shows commits, cron pipeline, agent decisions
+- **Costs Page** — `/costs` shows LLM spend breakdown
+- **Agent Manifest** — `/.well-known/agent.json` — DevSpot format
+- **Judge APIs** — `/api/judge/summary`, `/api/judge/costs`, `/api/judge/log`
+
+---
+
 ## Features
 
 - **Live Receipt Feed** — Real-time USDC transfers from x402 facilitator
