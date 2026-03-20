@@ -50,6 +50,10 @@
       "description": "x402-gated API for purchasing receipt data ($0.01 USDC per request)"
     },
     {
+      "id": "x402_consumption_api",
+      "description": "x402-consuming endpoint that PAYs for external data (checkr API, $0.01 USDC per request)"
+    },
+    {
       "id": "x402_consume_api",
       "description": "x402-consuming endpoint that PAYs for external data (checkr API, $0.01 USDC per request)"
     },
