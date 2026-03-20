@@ -189,10 +189,18 @@ export default function Home() {
                   <div className="h-1.5 w-1.5 rounded-full bg-blue-400" />
                   <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-300">Transparency</span>
                 </div>
-                <div className="text-xs text-zinc-400">
-                  <a href="/build-log" className="text-blue-400 hover:underline">Build log</a> ·
-                  {' '}
-                  <a href="/costs" className="text-blue-400 hover:underline">Cost breakdown</a>
+                <div className="space-y-1.5">
+                  <div className="text-xs text-zinc-400">See the full story:</div>
+                  <div className="flex flex-wrap gap-1.5">
+                    <a href="/build-log" className="inline-flex items-center gap-1 rounded-md bg-zinc-800 px-2.5 py-1 text-[10px] font-semibold text-blue-400 hover:bg-zinc-700 transition-colors">
+                      <svg className="h-2.5 w-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                      Build Log
+                    </a>
+                    <a href="/costs" className="inline-flex items-center gap-1 rounded-md bg-zinc-800 px-2.5 py-1 text-[10px] font-semibold text-purple-400 hover:bg-zinc-700 transition-colors">
+                      <svg className="h-2.5 w-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                      Cost Breakdown
+                    </a>
+                  </div>
                 </div>
               </div>
               <div className="rounded-xl border border-amber-500/10 bg-zinc-950/30 p-3">
@@ -201,7 +209,7 @@ export default function Home() {
                   <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-300">Identity</span>
                 </div>
                 <div className="text-xs text-zinc-400">
-                  <a href="https://www.8004scan.io/agents/ethereum/22945" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">ERC-8004 verified</a>
+                  <a href="https://www.8004scan.io/agents/ethereum/22945" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline hover:text-purple-300 transition-colors">ERC-8004 verified ↗</a>
                 </div>
               </div>
             </div>
