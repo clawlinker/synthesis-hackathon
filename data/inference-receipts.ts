@@ -26,7 +26,6 @@ export function loadInferenceReceipts(filePath: string): Receipt[] {
     const fullPath = path.resolve(filePath)
     
     if (!fs.existsSync(fullPath)) {
-      console.warn(`agent_log.json not found at ${fullPath}, using sample data`)
       return []
     }
 
@@ -68,7 +67,6 @@ export function loadInferenceReceipts(filePath: string): Receipt[] {
       }
     })
   } catch (err) {
-    console.warn(`Failed to parse agent_log.json: ${err}`)
     return []
   }
 }
