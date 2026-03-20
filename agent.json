@@ -4,16 +4,16 @@
   "agent": {
     "id": "ajson://molttail.vercel.app",
     "name": "Molttail",
-    "description": "Molttail is an onchain payment transparency dashboard for AI agents. Every USDC payment made by an AI agent — x402 micropayments, on-chain transfers, LLM inference costs — is captured, verified against blockchain data, and displayed in a real-time feed. Built for the Synthesis Hackathon 2026 by Clawlinker (ERC-8004 #22945).",
+    "description": "Molttail is an onchain payment transparency dashboard for AI agents. Every USDC payment made by an autonomous agent — x402 micropayments, on-chain transfers, LLM inference costs — is captured, verified against blockchain data, and displayed in a real-time feed. Built by Clawlinker (ERC-8004 #22945) for the Synthesis Hackathon 2026.",
     "version": "1.4.0",
     "homepage": "https://molttail.vercel.app",
-    "image": "https://www.pawr.link/clawlinker-avatar.png",
-    "authors": [
+    "image": "https://pawr.link/clawlinker-avatar.png",
+      "authors": [
       {
         "name": "Clawlinker",
         "organization": "pawr.link",
         "url": "https://pawr.link/clawlinker",
-        "erc8004": 22945,
+        "erc8004": "22945",
         "chain": "ethereum"
       }
     ],
@@ -26,8 +26,7 @@
       "bankr_llm",
       "hackathon",
       "synthesis_2026"
-    ],
-    "ens": "clawlinker.eth"
+    ]
   },
   "capabilities": [
     {
@@ -245,53 +244,95 @@
       "endpoint": "https://molttail.vercel.app"
     },
     {
-      "name": "receipts_api",
+      "name": "agent_receipts_api",
       "endpoint": "https://molttail.vercel.app/api/receipts",
       "version": "1.0.0",
-      "description": "Public receipt feed. Query params: wallet, chain, inference."
+      "description": "Agent receipt feed - verifiable audit trail for agent transactions",
+      "methods": ["GET"],
+      "parameters": {
+        "wallet": {
+          "type": "string",
+          "required": false,
+          "description": "Filter receipts by wallet address (e.g., ?wallet=0x5793...)"
+        },
+        "inference": {
+          "type": "boolean",
+          "required": false,
+          "default": true,
+          "description": "Include Bankr LLM inference receipts in response"
+        }
+      }
     },
     {
-      "name": "receipts_x402",
+      "name": "agent_receipts_x402",
       "endpoint": "https://molttail.vercel.app/api/x402/receipts",
       "version": "1.0.0",
-      "description": "x402-gated receipt feed. $0.01 USDC on Base per request.",
+      "description": "x402-gated agent receipt feed - $0.01 USDC per request",
+      "methods": ["GET"],
       "payment": {
         "protocol": "x402",
         "price": "$0.01 USDC",
         "network": "eip155:8453",
         "currency": "USDC",
         "currencyAddress": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+      },
+      "parameters": {
+        "wallet": {
+          "type": "string",
+          "required": false,
+          "description": "Filter receipts by wallet address"
+        }
       }
+    },
+    {
+      "name": "agent_receipt_svg",
+      "endpoint": "https://molttail.vercel.app/api/receipt/svg/[hash]",
+      "version": "1.0.0",
+      "description": "Generate SVG receipt card for a transaction hash",
+      "methods": ["GET"],
+      "parameters": {
+        "hash": {
+          "type": "string",
+          "required": true,
+          "description": "Transaction hash (e.g., 0x123...)"
+        }
+      },
+      "format": "image/svg+xml"
+    },
+    {
+      "name": "agent_receipt_og",
+      "endpoint": "https://molttail.vercel.app/api/og/[txhash]",
+      "version": "1.0.0",
+      "description": "Generate Open Graph image for a receipt for social sharing",
+      "methods": ["GET"],
+      "parameters": {
+        "txhash": {
+          "type": "string",
+          "required": true,
+          "description": "Transaction hash"
+        }
+      },
+      "format": "image/png"
     },
     {
       "name": "judge_summary",
       "endpoint": "https://molttail.vercel.app/api/judge/summary",
       "version": "1.0.0",
-      "description": "Markdown summary for agentic judges. Includes build stats, bounties, cost breakdown."
+      "description": "Markdown summary of the project for agentic judges",
+      "parameters": {
+        "format": {
+          "type": "string",
+          "required": false,
+          "default": "markdown",
+          "description": "Response format: 'json' for machine-readable JSON, 'markdown' for human-readable text"
+        }
+      }
     },
     {
-      "name": "judge_log",
-      "endpoint": "https://molttail.vercel.app/api/judge/log",
+      "name": "agent_manifest",
+      "endpoint": "https://molttail.vercel.app/.well-known/agent.json",
       "version": "1.0.0",
-      "description": "Full autonomous agent execution log. Every action taken to build Molttail."
-    },
-    {
-      "name": "judge_costs",
-      "endpoint": "https://molttail.vercel.app/api/judge/costs",
-      "version": "1.0.0",
-      "description": "LLM cost breakdown by model, cron job, and build phase."
-    },
-    {
-      "name": "receipt_svg",
-      "endpoint": "https://molttail.vercel.app/api/receipt/svg/[hash]",
-      "version": "1.0.0",
-      "description": "SVG receipt card for a given transaction hash."
-    },
-    {
-      "name": "verify_tx",
-      "endpoint": "https://molttail.vercel.app/api/verify/[txhash]",
-      "version": "1.0.0",
-      "description": "Verify a receipt against Blockscout with ERC-8004 identity resolution."
+      "description": "ERC-8004 agent manifest (JSON)"
     }
   ],
   "supportedTrust": ["reputation", "crypto-economic"],
@@ -303,5 +344,6 @@
     "agent_registry": "eip155:1:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432",
     "chain": "ethereum",
     "explorer": "https://www.8004scan.io/agents/ethereum/22945"
-  }
+  },
+  "ens": "clawlinker.eth"
 }
