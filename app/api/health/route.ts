@@ -33,7 +33,7 @@ export async function GET() {
     },
     hackathon: {
       name: 'The Synthesis',
-      tracks: ['Let the Agent Cook', 'ERC-8004', 'Bankr LLM', 'AgentCash x402'],
+      tracks: ['Let the Agent Cook', 'ERC-8004', 'Bankr LLM', 'AgentCash x402', 'ENS Open'],
       repo: 'https://github.com/clawlinker/synthesis-hackathon',
     },
     uptime: process.uptime(),
