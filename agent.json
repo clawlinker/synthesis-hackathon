@@ -337,6 +337,33 @@
       "endpoint": "https://molttail.vercel.app/.well-known/agent.json",
       "version": "1.0.0",
       "description": "ERC-8004 agent manifest (JSON)"
+    },
+    {
+      "name": "ens_resolver",
+      "endpoint": "https://molttail.vercel.app/api/ens-resolver",
+      "version": "1.0.0",
+      "description": "ENS offchain resolver gateway for agent-to-agent and agent-to-human communication (Track 5: ENS Communication)",
+      "methods": ["GET"],
+      "parameters": {
+        "name": {
+          "type": "string",
+          "required": false,
+          "default": "clawlinker.eth",
+          "description": "ENS name to resolve"
+        },
+        "type": {
+          "type": "string",
+          "required": false,
+          "default": "text",
+          "enum": ["text", "addr", "contenthash", "agent_comm", "communication"],
+          "description": "Record type: text records, address, contenthash, or communication metadata"
+        },
+        "key": {
+          "type": "string",
+          "required": false,
+          "description": "Text record key (e.g., 'telegram', 'xmtp', 'farcaster')"
+        }
+      }
     }
   ],
   "supportedTrust": ["reputation", "crypto-economic"],
@@ -349,5 +376,18 @@
     "chain": "ethereum",
     "explorer": "https://www.8004scan.io/agents/ethereum/22945"
   },
-  "ens": "clawlinker.eth"
+  "ens": "clawlinker.eth",
+  "ensCommunication": {
+    "description": "Offchain ENS resolver for agent-to-agent and agent-to-human communication (Track 5: ENS Communication $600)",
+    "gateway": "https://molttail.vercel.app/api/ens-resolver",
+    "ensip25": "https://www.8004scan.io/agents/ethereum/22945",
+    "communicationRecords": {
+      "telegram": "@clawlinker",
+      "farcaster": "@clawlinker",
+      "xmtp": "0x5793BFc1331538C5A8028e71Cc22B43750163af8",
+      "a2a": "https://pawr.link/api/a2a/clawlinker",
+      "moltbook": "Clawlinker",
+      "x": "@clawlinker"
+    }
+  }
 }

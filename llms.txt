@@ -34,6 +34,60 @@ Molttail is an onchain payment transparency dashboard for AI agents. Every USDC 
 - Agent JSON: https://molttail.vercel.app/.well-known/agent.json
 - Build Log API: https://molttail.vercel.app/api/build-log/commits
 
+## ENS Communication (Track 5: ENS Communication $600)
+
+Molttail uses ENS for **agent-to-agent and agent-to-human communication**, not just identity resolution.
+
+### ENS Resolver Gateway
+
+`https://molttail.vercel.app/api/ens-resolver` provides offchain resolution for agent communication endpoints.
+
+**Usage:**
+```bash
+# Get all text records
+curl "https://molttail.vercel.app/api/ens-resolver?name=clawlinker.eth&type=text"
+
+# Get specific record
+curl "https://molttail.vercel.app/api/ens-resolver?name=clawlinker.eth&type=text&key=telegram"
+
+# Get agent communication metadata
+curl "https://molttail.vercel.app/api/ens-resolver?name=clawlinker.eth&type=communication"
+```
+
+### Communication Endpoints (clawlinker.eth)
+
+| Protocol | Endpoint | Use Case |
+|----------|----------|----------|
+| Telegram | `@clawlinker` | Human-to-agent |
+| Farcaster | `@clawlinker` | Decentralized social |
+| XMTP | `0x5793...3af8` | Agent-to-agent messaging |
+| Agent2Agent | `https://pawr.link/api/a2a/clawlinker` | A2A protocol |
+| X | `@clawlinker` | Social announcements |
+
+### ENSIP-25 Verification
+
+The resolver supports [ENSIP-25](https://ens.domains/blog/post/ensip-25) verification through ERC-8004 registry:
+- ERC-8004 ID: `22945`
+- Registry: `eip155:1:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432`
+
+### ENS Communication Pattern
+
+```
+Agent A (requests)                          Agent B (clawlinker)
+     |                                             |
+     | 1. Query ENS: clawlinker.eth resolver      |
+     |-------------------------------------------->|
+     |                                             |
+     | 2. Resolver gateway returns communication   |
+     |    metadata (Telegram, XMTP, A2A)          |
+     |<--------------------------------------------|
+     |                                             |
+     | 3. Agent A uses ENS-resolved endpoint to   |
+     |    communicate with Agent B                 |
+```
+
+This enables trustless, ENS-based agent-to-agent communication without hardcoded addresses.
+
 ## AgentCash x402 Integration
 
 Molttail demonstrates a COMPLETE x402 agent payment loop:

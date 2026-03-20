@@ -20,6 +20,43 @@ Molttail is a live audit trail for autonomous agent transactions on Base. See ev
 - **x402 Production** — `/api/x402/receipts` charges $0.01 USDC via x402
 - **x402 Consumption** — `/api/x402/consume` actually PAYs for Base token attention data via checkr API
 
+## ENS Communication (Track 5: ENS Communication $600)
+
+Molttail uses ENS for **agent-to-agent and agent-to-human communication**, not just identity resolution.
+
+### ENS Resolver Gateway
+
+`/api/ens-resolver` provides offchain resolution for agent communication endpoints:
+
+```bash
+# Get all text records for clawlinker.eth
+curl "https://molttail.vercel.app/api/ens-resolver?name=clawlinker.eth&type=text"
+
+# Get specific record
+curl "https://molttail.vercel.app/api/ens-resolver?name=clawlinker.eth&type=text&key=telegram"
+
+# Get agent communication metadata (agent-to-agent)
+curl "https://molttail.vercel.app/api/ens-resolver?name=clawlinker.eth&type=communication"
+```
+
+### Communication Endpoints (clawlinker.eth)
+
+| Protocol | Endpoint | Use Case |
+|----------|----------|----------|
+| Telegram | `@clawlinker` | Human-to-agent communication |
+| Farcaster | `@clawlinker` | Decentralized social |
+| XMTP | `0x5793...3af8` | Agent-to-agent messaging |
+| Agent2Agent | `https://pawr.link/api/a2a/clawlinker` | A2A protocol |
+| X | `@clawlinker` | Social announcements |
+
+### ENSIP-25 Verification
+
+The ENS communication resolver supports [ENSIP-25](https://ens.domains/blog/post/ensip-25) verification through the agent identity registry:
+- ERC-8004 ID: `22945`
+- Registry: `eip155:1:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432`
+
+This enables **verifiable AI agent identity** linking ENS names to on-chain agent registries.
+
 ### AgentCash x402 Integration (Track 4: "Agents that pay")
 
 Molttail is both a producer AND consumer of x402 payments:
