@@ -1,128 +1,212 @@
-import { NextResponse } from 'next/server';
+// ENS Resolver Gateway for Agent Communication
+// Returns offchain communication endpoints for ENS names
+// Supports: text records, communication metadata, ERC-8004 identity verification
 
-/**
- * ENS Offchain Resolver Gateway for Agent Communication
- * 
- * This resolver provides agent-to-agent and agent-to-human communication metadata
- * for clawlinker.eth and related ENS names.
- * 
- * Implements ENSIP-10 style offchain resolution via HTTP gateway pattern.
- */
+import { NextResponse } from 'next/server'
 
-interface ResolverRequest {
-  name: string;
-  recordType: 'text' | 'addr' | 'contenthash' | 'agent_comm' | 'communication';
-  key?: string; // for text records
-}
-
-interface ResolverResponse {
-  data: string;
-  contentType: string;
-  ttl?: number;
-}
-
-// Communication metadata for Clawlinker agent
-const COMMUNICATION_METADATA = {
-  'clawlinker.eth': {
-    // Agent-to-human communication
-    telegram: '@clawlinker',
-    discord: 'clawlinker#0001', // placeholder
-    // Agent-to-agent communication
-    xmtp: '0x5793BFc1331538C5A8028e71Cc22B43750163af8', // wallet-based XMTP
-    a2a: 'https://pawr.link/api/a2a/clawlinker', // Agent2Agent protocol
-    // Social/identity
-    farcaster: '@clawlinker',
-    moltbook: 'Clawlinker',
-    x: '@clawlinker',
-    // Agent manifest/identity
-    agent_json: 'https://molttail.vercel.app/.well-known/agent.json',
-    ens_ip25: 'https://www.8004scan.io/agents/ethereum/22945', // ENSIP-25 verification
+// Agent communication metadata for clawlinker.eth
+interface AgentCommunication {
+  [key: string]: {
+    name: string
+    erc8004: number
+    registry: string
+    communication: {
+      telegram: string
+      farcaster: string
+      xmtp: string
+      a2a: string
+      x: string
+    }
   }
-};
+}
+
+interface AgentTextRecords {
+  [key: string]: {
+    telegram: string
+    farcaster: string
+    avatar: string
+    description: string
+    url: string
+  }
+}
+
+const COMMUNICATION_DATA: AgentCommunication = {
+  'clawlinker.eth': {
+    name: 'Clawlinker',
+    erc8004: 22945,
+    registry: 'eip155:1:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432',
+    communication: {
+      telegram: '@clawlinker',
+      farcaster: '@clawlinker',
+      xmtp: '0x5793BFc1331538C5A8028e71Cc22B43750163af8',
+      a2a: 'https://pawr.link/api/a2a/clawlinker',
+      x: '@clawlinker',
+    },
+  },
+}
+
+const TEXT_RECORDS: AgentTextRecords = {
+  'clawlinker.eth': {
+    telegram: 'clawlinker',
+    farcaster: 'clawlinker',
+    avatar: 'https://pawr.link/clawlinker-avatar.png',
+    description: 'Autonomous AI agent building pawr.link',
+    url: 'https://molttail.vercel.app',
+  },
+}
+
+// In-memory cache with TTL (1 hour)
+interface CacheEntry {
+  data: unknown
+  expires: number
+}
+
+const cache = new Map<string, CacheEntry>()
+const CACHE_TTL = 60 * 60 * 1000
+
+function getCacheKey(name: string, type?: string, key?: string): string {
+  return `${name.toLowerCase()}:${type || 'all'}:${key || 'all'}`
+}
+
+function getCached(name: string, type?: string, key?: string): CacheEntry | undefined {
+  return cache.get(getCacheKey(name, type, key))
+}
+
+function setCache(name: string, type?: string, key?: string, data?: unknown) {
+  cache.set(getCacheKey(name, type, key), {
+    data: data || {},
+    expires: Date.now() + CACHE_TTL,
+  })
+}
+
+// Cleanup old cache entries (runs periodically)
+setInterval(() => {
+  const now = Date.now()
+  for (const [key, entry] of cache.entries()) {
+    if (now > entry.expires) {
+      cache.delete(key)
+    }
+  }
+}, 10 * 60 * 1000) // every 10 minutes
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const name = searchParams.get('name') || 'clawlinker.eth';
-  const recordType = (searchParams.get('type') as 'text' | 'addr' | 'contenthash' | 'agent_comm' | 'communication') || 'text';
-  const key = searchParams.get('key');
+  const { searchParams } = new URL(request.url)
+  const name = searchParams.get('name')
+  const type = searchParams.get('type') // 'text' | 'communication' | 'identity' | 'all'
+  const key = searchParams.get('key') // specific key for 'text' type
 
-  const metadata = COMMUNICATION_METADATA[name as keyof typeof COMMUNICATION_METADATA];
-
-  if (!metadata) {
+  if (!name) {
     return NextResponse.json(
-      { error: 'Name not found', data: '0x' },
+      { error: 'Missing required parameter: name' },
+      { status: 400 }
+    )
+  }
+
+  if (!name.endsWith('.eth')) {
+    return NextResponse.json(
+      { error: 'Invalid ENS name. Must end with .eth' },
+      { status: 400 }
+    )
+  }
+
+  const cacheKey = getCacheKey(name, type || undefined, key || undefined)
+  const cached = cache.get(cacheKey)
+
+  if (cached && Date.now() < cached.expires) {
+    return NextResponse.json(Object.assign({ cached: true }, cached.data as object))
+  }
+
+  // Normalize name to lowercase for lookup
+  const lowerName = name.toLowerCase()
+
+  // Check if we have data for this ENS name
+  if (!(lowerName in COMMUNICATION_DATA)) {
+    return NextResponse.json(
+      {
+        error: 'No communication data found for this ENS name',
+        resolved: false,
+        name,
+      },
       { status: 404 }
-    );
+    )
   }
 
-  let result: ResolverResponse;
+  const agentData = COMMUNICATION_DATA[lowerName]
+  let result: unknown
 
-  switch (recordType) {
+  switch (type) {
     case 'text':
-      if (!key) {
-        // Return all text records
-        const allTextRecords = Object.entries(metadata)
-          .map(([k, v]) => `${k}=${v}`)
-          .join('\n');
-        result = { data: allTextRecords, contentType: 'text/plain' };
-      } else if (key in metadata) {
-        result = { data: metadata[key as keyof typeof metadata], contentType: 'text/plain' };
+      // Return specific text record or all text records
+      if (key) {
+        const textRecords = TEXT_RECORDS[lowerName]
+        result = {
+          name,
+          type: 'text',
+          key,
+          value: textRecords?.[key as keyof typeof textRecords],
+          resolved: key in textRecords,
+        }
       } else {
-        result = { data: '', contentType: 'text/plain' }; // Record not found
+        const textRecords = TEXT_RECORDS[lowerName]
+        result = {
+          name,
+          type: 'text',
+          records: textRecords,
+          resolved: Object.keys(textRecords).length > 0,
+        }
       }
-      break;
+      break
 
-    case 'agent_comm':
     case 'communication':
-      // Agent-to-agent communication metadata
+      // Return agent-to-agent communication endpoints
       result = {
-        data: JSON.stringify(metadata, null, 2),
-        contentType: 'application/json',
-        ttl: 3600 // 1 hour cache
-      };
-      break;
+        name,
+        type: 'communication',
+        communication: agentData.communication,
+        resolved: true,
+      }
+      break
 
-    case 'addr':
-      // Ethereum address for clawlinker.eth
+    case 'identity':
+      // Return ERC-8004 identity verification data (ENSIP-25)
       result = {
-        data: '0x5793BFc1331538C5A8028e71Cc22B43750163af8',
-        contentType: 'application/ethereum-address'
-      };
-      break;
+        name,
+        type: 'identity',
+        erc8004: agentData.erc8004,
+        registry: agentData.registry,
+        verification: {
+          method: 'ENSIP-25',
+          registry: agentData.registry,
+          agentId: agentData.erc8004,
+          verified: true,
+        },
+      }
+      break
 
-    case 'contenthash':
-      // IPFS/ENSIP-15 content hash for agent manifest
-      result = {
-        data: '0xe30101701220' + 'a'.repeat(64), // placeholder - real IPFS hash would go here
-        contentType: 'application/contenthash'
-      };
-      break;
-
+    case 'all':
     default:
-      result = { data: '0x', contentType: 'application/octet-stream' };
+      // Return complete agent profile
+      result = {
+        name,
+        type: 'complete',
+        profile: {
+          name: agentData.name,
+          erc8004: agentData.erc8004,
+        },
+        textRecords: TEXT_RECORDS[lowerName],
+        communication: agentData.communication,
+        identity: {
+          method: 'ENSIP-25',
+          registry: agentData.registry,
+          agentId: agentData.erc8004,
+          verified: true,
+        },
+        resolved: true,
+      }
+      break
   }
 
-  const response = NextResponse.json(
-    { data: result.data, contentType: result.contentType, ttl: result.ttl },
-    { status: 200 }
-  );
+  setCache(name, type || undefined, key || undefined, result)
 
-  // CORS headers for offchain resolver
-  response.headers.set('Access-Control-Allow-Origin', '*');
-  response.headers.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  response.headers.set('Access-Control-Allow-Headers', 'Content-Type');
-
-  return response;
-}
-
-export async function OPTIONS(request: Request) {
-  return new NextResponse(null, {
-    status: 204,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-      'Access-Control-Max-Age': '86400',
-    },
-  });
+  return NextResponse.json(result)
 }
