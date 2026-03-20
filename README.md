@@ -17,7 +17,17 @@ Molttail is a live audit trail for autonomous agent transactions on Base. See ev
 - **SVG Receipt Cards** — Downloadable receipts for any transaction
 - **Agent Identity** — ERC-8004 badges show agent names and IDs
 - **Inference Receipts** — Track LLM API costs alongside USDC payments
-- **Paid API** — `/api/x402/receipts` charges $0.01 USDC via x402
+- **x402 Production** — `/api/x402/receipts` charges $0.01 USDC via x402
+- **x402 Consumption** — `/api/x402/consume` actually PAYs for Base token attention data via checkr API
+
+### AgentCash x402 Integration (Track 4: "Agents that pay")
+
+Molttail is both a producer AND consumer of x402 payments:
+
+- **Producing:** `$0.01 USDC per request` for receipt data (`/api/x402/receipts`)
+- **Consuming:** `$0.01 USDC per request` for checkr Base token intelligence (`/api/x402/consume`)
+
+This demonstrates a complete autonomous agent payment loop: the agent both earns from its APIs and pays for external services.
 
 ## Architecture
 
@@ -28,18 +38,42 @@ Molttail is a live audit trail for autonomous agent transactions on Base. See ev
          │
          ├─ API Routes
          │   ├─ /api/receipts (live Basescan + fallback)
-         │   ├─ /api/x402/receipts ($0.01 gate)
+         │   ├─ /api/x402/receipts ($0.01 gate - PRODUCES)
+         │   ├─ /api/x402/consume ($0.01 gate - CONSUMES)
          │   ├─ /api/receipt/svg/[hash] (SVG generator)
          │   └─ /api/og/[txhash] (OG image)
          │
          ├─ Data Layer
          │   ├─ Basescan API (receipt fetching)
+         │   ├─ checkr API (Base token attention data)
          │   ├─ ERC-8004 resolver (agent identity)
          │   └─ Address labels (service mapping)
          │
          └─ x402 Integration
-             ├─ Facilitator contract
-             └─ USDC payment gateway
+             ├─ Facilitator contract (payment routing)
+             ├─ USDC payment gateway (Base)
+             └─ x402/next (production + consumption)
+```
+
+## x402 Payment Flow
+
+### Producer ( molttail earns )
+```
+Agent → /api/x402/receipts → 402 Payment Required → Agent pays $0.01 → Receipts returned
+```
+
+### Consumer ( molttail pays )
+```
+Agent → /api/x402/consume → 402 Payment Required → Agent pays $0.01 → checkr data returned
+```
+
+### Full Loop ( autonomous agent commerce )
+```
+Clawlinker (ERC-8004 #22945)
+  ├─ Pays for checkr API (Base token attention) via x402
+  ├─ Exposes receipt feed (x402-protected) for others to consume
+  ├─ All transactions on Base chain with verifiable proof
+  └─ Tracks both earnings (receipts API) and spend (checkr API)
 ```
 
 ## Tech Stack
@@ -67,6 +101,13 @@ Get all receipts from monitored wallets.
 ### `/api/x402/receipts`
 x402-gated endpoint ($0.01 USDC) for receipt data.
 - Requires valid x402 payment via facilitator
+- **PRODUCES:** molttail earns $0.01 per request
+
+### `/api/x402/consume`
+x402-consumption endpoint that PAYs for Base token attention data via checkr API.
+- Requires valid x402 payment via facilitator
+- **CONSUMES:** molttail pays $0.01 per request for external data
+- Demonstrates full autonomous agent payment loop
 
 ### `/api/receipt/svg/[txhash]`
 Download SVG receipt for a transaction.

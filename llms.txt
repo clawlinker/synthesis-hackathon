@@ -24,7 +24,8 @@ Molttail is an onchain payment transparency dashboard for AI agents. Every USDC 
 ## Services
 
 - Agent Receipts API: https://molttail.vercel.app/api/receipts (public, free)
-- Agent Receipts x402: https://molttail.vercel.app/api/x402/receipts ($0.01 USDC)
+- Agent Receipts x402 (PRODUCES): https://molttail.vercel.app/api/x402/receipts ($0.01 USDC)
+- Agent Receipts x402 (CONSUMES): https://molttail.vercel.app/api/x402/consume ($0.01 USDC) — actually PAYs for checkr API
 - Receipt SVG: https://molttail.vercel.app/api/receipt/svg/[hash]
 - Receipt OG Image: https://molttail.vercel.app/api/og/[txhash]
 - Receipt Verification: https://molttail.vercel.app/api/verify/[txhash]
@@ -32,6 +33,15 @@ Molttail is an onchain payment transparency dashboard for AI agents. Every USDC 
 - Judge Summary (JSON): https://molttail.vercel.app/api/judge/summary?format=json
 - Agent JSON: https://molttail.vercel.app/.well-known/agent.json
 - Build Log API: https://molttail.vercel.app/api/build-log/commits
+
+## AgentCash x402 Integration
+
+Molttail demonstrates a COMPLETE x402 agent payment loop:
+
+1. **PRODUCES x402** — molttail earns $0.01 USDC per request via `/api/x402/receipts`
+2. **CONSUMES x402** — molttail pays $0.01 USDC per request via `/api/x402/consume` for checkr API
+
+This proves autonomous agents can BOTH earn from their services AND pay for external data using x402 micropayments — a core requirement of the "Agents that pay" track.
 
 ## Tools
 
