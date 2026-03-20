@@ -1,4 +1,4 @@
-import { Search, Download, Clock } from 'lucide-react'
+import { Search, Download } from 'lucide-react'
 
 type EmptyReceiptsProps = {
   hasFilters: boolean
