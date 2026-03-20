@@ -388,7 +388,9 @@
     "agent_id": 22945,
     "agent_registry": "eip155:1:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432",
     "chain": "ethereum",
-    "explorer": "https://www.8004scan.io/agents/ethereum/22945"
+    "explorer": "https://www.8004scan.io/agents/ethereum/22945",
+    "registration_tx": "0x22c39760a1e244cc6aacb071169d356fbfb0b31c948790e2a4de59081d049b23",
+    "registration_tx_explorer": "https://basescan.org/tx/0x22c39760a1e244cc6aacb071169d356fbfb0b31c948790e2a4de59081d049b23"
   },
   "ens": "clawlinker.eth",
   "ensIntegration": {
