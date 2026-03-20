@@ -13,6 +13,8 @@ export const CONTRACTS = {
   // Tempo contracts
   TEMPO_USDC_CONTRACT: '0x20c000000000000000000000b9537d11c60e8b50'.toLowerCase(),
   TEMPO_AGENT_WALLET: '0xf7567C97c882c759E809EaC4772932154F35ab05'.toLowerCase(),
+  // ERC-8004 Agent Registry (Ethereum mainnet)
+  ERC8004_REGISTRY: '0x8004A169FB4a3325136EB29fA0ceB6D2e539a432',
 }
 
 // Service labels based on contract addresses
