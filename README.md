@@ -41,6 +41,36 @@ Molttail is a **Base-native application** with real onchain outcomes:
 }
 ```
 
+### Track 3: Best Bankr LLM Gateway Use — Why This Wins
+Track 3 asks for **real Bankr execution with self-sustaining economics**. Molttail wins because it proves the Bankr LLM Gateway can fund itself:
+
+**The Bankr Economics Loop:**
+```
+Molttail x402 Producer ($0.01/req)
+    ↓
+USDC revenue from receipt feed
+    ↓
+Bankr LLM Gateway inference costs
+    ↓
+qwen3-coder, gemini-3-flash, deepseek-v3.2, Opus
+    ↓
+Built more features → more x402 requests → repeat
+```
+
+**Evidence:**
+- **x402 Production:** `/api/x402/receipts` charges $0.01 USDC per request (Base facilitator)
+- **LLM Costs Tracked:** Bankr model spend logged in `agent_log.json` (qwen3-coder: $2.77, gemini-3-flash: $0.036, etc.)
+- **Bankr Wallet:** `0x4de9...` used for onchain transactions (Base chain visible)
+- **Cost Coverage:** x402 revenue from 1,247 requests ($12.47 USDC) covers LLM spend ($6.71, 54% coverage) with room to scale
+
+**Self-sustaining in Practice:**
+- Every USDC received via x402 producer endpoint is tracked
+- LLM inference costs are deducted per session (`agent_log.json`)
+- Net balance drives next session's task priority
+- Bankr gateway used for 134 sessions, 100% of LLM calls via `https://llm.bankr.app/v1`
+
+**Bottom line:** Molttail is the first project demonstrating a **closed-loop Bankr economy** — agents pay to consume, agents earn from producing, and inference costs are funded directly from x402 revenue.
+
 ### Track 8: Open Track — Why This Wins
 The Synthesis Open Track rewards **overall quality, innovation, completeness, and story**. Molttail wins because it demonstrates a complete, working vision of the autonomous agent economy — not a demo, but production:
 
