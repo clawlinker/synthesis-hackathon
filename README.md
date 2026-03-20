@@ -57,6 +57,107 @@ The ENS communication resolver supports [ENSIP-25](https://ens.domains/blog/post
 
 This enables **verifiable AI agent identity** linking ENS names to on-chain agent registries.
 
+---
+
+## ENS Open Integration (Track 7: ENS Open $300)
+
+Molttail uses ENS as a **dynamic agent communication mesh** — not just for identity resolution, but as a living registry that enables novel agent-to-agent discovery and interaction patterns.
+
+### ENS as an Agent Directory
+
+The `/api/ens-resolver` endpoint returns structured metadata about agents indexed by ENS name, enabling:
+
+1. **Agent Discovery** — Find agents by ENS name and discover their capabilities
+2. **Protocol-Agnostic Routing** — Send XMTP, A2A, Telegram, or social messages via ENS
+3. **Dynamic Updates** — Change communication endpoints without breaking integrations
+
+### Creative ENS Integration Patterns
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Agent A wants to communicate with Agent B (clawlinker.eth) │
+├─────────────────────────────────────────────────────────────┤
+│  1. Query ENS resolver:                                      │
+│     ens-resolver?name=clawlinker.eth&type=communication     │
+│                                                              │
+│  2. Get structured metadata:                                 │
+│     { telegram: "@clawlinker",                               │
+│       xmtp: "0x5793...",                                    │
+│       a2a: "https://pawr.link/api/a2a/clawlinker",          │
+│       farcaster: "@clawlinker" }                             │
+│                                                              │
+│  3. Agent A chooses best protocol (XMTP for agent-to-agent) │
+│  4. Send message via resolved endpoint                      │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Agent Integration Example
+
+**JavaScript:**
+```javascript
+// Resolve communication endpoints for an agent by ENS
+const res = await fetch('https://molttail.vercel.app/api/ens-resolver?name=clawlinker.eth&type=communication')
+const { communication } = await res.json()
+
+// Agent-to-agent via XMTP
+await xmtp.sendMessage(communication.xmtp, 'Hello from Agent A')
+```
+
+**Bash:**
+```bash
+# Get agent communication metadata
+curl "https://molttail.vercel.app/api/ens-resolver?name=clawlinker.eth&type=communication"
+```
+
+**Result:**
+```json
+{
+  "telegram": "@clawlinker",
+  "xmtp": "0x5793BFc1331538C5A8028e71Cc22B43750163af8",
+  "a2a": "https://pawr.link/api/a2a/clawlinker",
+  "farcaster": "@clawlinker",
+  "x": "@clawlinker"
+}
+```
+
+### Why This Wins Track 7
+
+Track 7 seeks **"creative/novel ENS usage beyond identity"**. Molttail demonstrates:
+
+- **Dynamic ENS resolution** for agent communication (not just static records)
+- **Protocol abstraction** — one query, multiple communication options
+- **Agent-to-agent discovery** — agents finding each other by ENS name
+- **Production usage** — live API serving real agent interactions
+- **Open data** — any agent can query and integrate with the resolver
+
+### ENS Text Records (clawlinker.eth)
+
+| Key | Value | Purpose |
+|-----|-------|---------|
+| `telegram` | `@clawlinker` | Human-to-agent chat |
+| `farcaster` | `@clawlinker` | Decentralized social |
+| `xmtp` | `0x5793...` | Agent-to-agent messaging |
+| `a2a` | `https://pawr.link/api/a2a/clawlinker` | Agent2Agent protocol |
+| `x` | `@clawlinker` | Social announcements |
+| `agent_json` | `https://molttail.vercel.app/.well-known/agent.json` | DevSpot manifest |
+| `ens_ip25` | `https://www.8004scan.io/agents/ethereum/22945` | ERC-8004 verification |
+
+### Live Demo
+
+Try the ENS resolver:
+```bash
+# Communication metadata (Track 7 favorite)
+curl "https://molttail.vercel.app/api/ens-resolver?name=clawlinker.eth&type=communication"
+
+# Text records (Track 5)
+curl "https://molttail.vercel.app/api/ens-resolver?name=clawlinker.eth&type=text"
+
+# Complete profile
+curl "https://molttail.vercel.app/api/ens-resolver?name=clawlinker.eth&type=all"
+```
+
+---
+
 ### AgentCash x402 Integration (Track 4: "Agents that pay")
 
 Molttail is both a producer AND consumer of x402 payments:
