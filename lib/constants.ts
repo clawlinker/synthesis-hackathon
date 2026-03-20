@@ -1,12 +1,12 @@
 // Core project constants - centralized to prevent inconsistency
 
 /** Project headline for the landing page */
-export const PROJECT_HEADLINE = 'Every USDC payment an AI agent makes.'
-export const PROJECT_TAGLINE = 'Verified on-chain.'
+export const PROJECT_HEADLINE = 'Every payment your agent makes, verified and visible.'
+export const PROJECT_TAGLINE = 'Live audit trail for autonomous agent transactions on Base.'
 
 /** Project metadata */
 export const PROJECT_NAME = 'Molttail'
-export const PROJECT_DESCRIPTION = 'Every payment your agent makes, verified and visible. Live audit trail for autonomous agent transactions.'
+export const PROJECT_DESCRIPTION = 'Every payment your agent makes, verified and visible. Live audit trail for autonomous agent transactions on Base.'
 
 /** Agent identity */
 export const AGENT_NAME = 'Clawlinker'

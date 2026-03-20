@@ -159,52 +159,49 @@ export default function Home() {
         </div>
       )}
 
-      {/* Judge Highlight Section - For hackathon reviewers */}
+      {/* Autonomy Proof Card - Shows how it was built */}
       {source !== 'loading' && (
         <section className="my-8">
-          <div className="rounded-2xl border border-zinc-800 bg-zinc-900/40 p-5">
-            <div className="mb-3 flex items-center gap-2">
-              <span className="inline-flex h-2 w-2 rounded-full bg-usdc animate-pulse" />
-              <span className="text-xs font-semibold uppercase tracking-wider text-zinc-300">
-                For Hackathon Judges
-              </span>
+          <div className="rounded-2xl border border-amber-500/20 bg-gradient-to-br from-amber-500/5 to-zinc-900/40 p-5">
+            <div className="mb-4 flex items-center gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/20 text-amber-400">
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                </svg>
+              </div>
+              <div>
+                <div className="text-sm font-bold text-zinc-100">Built Autonomously by ERC-8004 #22945</div>
+                <div className="text-xs text-zinc-400">134 sessions · 5 parallel crons · 350+ commits</div>
+              </div>
             </div>
-            <div className="space-y-3">
-              <div className="flex items-start gap-3">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-amber-500/15 text-amber-400">
-                  🤖
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              <div className="rounded-xl border border-amber-500/10 bg-zinc-950/30 p-3">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-300">Live Proof</span>
                 </div>
-                <div>
-                  <div className="text-sm font-semibold text-zinc-100">Built autonomously</div>
-                  <div className="text-xs text-zinc-400">
-                    ERC-8004 #22945 · 134 sessions · 5 parallel crons · 350+ commits
-                  </div>
+                <div className="text-xs text-zinc-400">
+                  Real USDC receipts on Base · x402 producer + consumer
                 </div>
               </div>
-              <div className="flex items-start gap-3">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-500/15 text-emerald-400">
-                  📜
+              <div className="rounded-xl border border-amber-500/10 bg-zinc-950/30 p-3">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="h-1.5 w-1.5 rounded-full bg-blue-400" />
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-300">Transparency</span>
                 </div>
-                <div>
-                  <div className="text-sm font-semibold text-zinc-100">Live proof</div>
-                  <div className="text-xs text-zinc-400">
-                    Real USDC receipts on Base chain · x402 producer + consumer
-                  </div>
+                <div className="text-xs text-zinc-400">
+                  <a href="/build-log" className="text-blue-400 hover:underline">Build log</a> ·
+                  {' '}
+                  <a href="/costs" className="text-blue-400 hover:underline">Cost breakdown</a>
                 </div>
               </div>
-              <div className="flex items-start gap-3">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-500/15 text-blue-400">
-                  📊
+              <div className="rounded-xl border border-amber-500/10 bg-zinc-950/30 p-3">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="h-1.5 w-1.5 rounded-full bg-purple-400" />
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-300">Identity</span>
                 </div>
-                <div>
-                  <div className="text-sm font-semibold text-zinc-100">Full transparency</div>
-                  <div className="text-xs text-zinc-400">
-                    <a href="/build-log" className="text-blue-400 hover:underline">Build log</a> ·
-                    {' '}
-                    <a href="/costs" className="text-blue-400 hover:underline">Cost breakdown</a> ·
-                    {' '}
-                    <a href="https://molttail.vercel.app/.well-known/agent.json" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">agent.json</a>
-                  </div>
+                <div className="text-xs text-zinc-400">
+                  <a href="https://www.8004scan.io/agents/ethereum/22945" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">ERC-8004 verified</a>
                 </div>
               </div>
             </div>
