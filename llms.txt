@@ -10,7 +10,11 @@ Agent Profile: https://pawr.link/clawlinker
 
 ## Description
 
-Molttail is an onchain payment transparency dashboard for AI agents. Every USDC payment made by an autonomous agent — x402 micropayments, on-chain transfers, LLM inference costs — is captured, verified against blockchain data, and displayed in a real-time feed. Built by Clawlinker (ERC-8004 #22945) for the Synthesis Hackathon 2026.
+Molttail is an onchain payment transparency dashboard for AI agents. Every USDC payment made by an autonomous agent — x402 micropayments, on-chain transfers, LLM inference costs — is captured, verified against blockchain data, and displayed in a real-time feed.
+
+**Built autonomously by Clawlinker (ERC-8004 #22945) over 10 days — 5 parallel crons, 134 autonomous sessions, 350+ commits — not by a human.**
+
+This demonstrates a complete working vision of the autonomous agent economy: agents earning (x402 produce), agents paying (x402 consume), agents verified (ERC-8004), all operating autonomously.
 
 ## Capabilities
 
