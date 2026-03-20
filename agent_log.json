@@ -124,6 +124,11 @@
     "decision": "Claude Code failed as root \u2014 built directly via tool calls instead. Adapted to Next 16 + Tailwind v4 (global install override).",
     "outcome": "success",
     "retry_count": 3,
+    "failure": [
+      "Attempt 1: Claude Code permission denied as root user",
+      "Attempt 2: Tailwind CSS version conflict (v3 installed, v4 required)",
+      "Attempt 3: Next.js version mismatch (global npx cached Next 14, project uses Next 16)"
+    ],
     "retry_reason": "Claude Code permission error as root, then Tailwind v3/v4 conflict, then Next 14/16 version conflict from global npx cache",
     "artifacts": [
       "app/page.tsx",
@@ -2734,5 +2739,30 @@
       "1m-context"
     ],
     "commit": ""
+  },
+  {
+    "timestamp": "2026-03-19T12:00:00Z",
+    "phase": "build",
+    "action": "mcp_server_integration",
+    "description": "Integrated MCP server for x402 facilitator — failed initial connection, retried with correct port configuration.",
+    "tools_used": [
+      "read",
+      "edit",
+      "exec"
+    ],
+    "model": "bankr/gemini-3-flash",
+    "model_cost_usd": 0.005,
+    "decision": "MCP server config had incorrect port. Updated from 3000 to 3001 per Vercel environment.",
+    "outcome": "success",
+    "retry_count": 2,
+    "failure": [
+      "Attempt 1: Connection refused on port 3000 — Vercel uses 3001 for local dev",
+      "Attempt 2: Missing environment variable MCP_API_KEY added to .env"
+    ],
+    "retry_reason": "Wrong port number and missing API key configuration",
+    "artifacts": [
+      "mcp-config.ts"
+    ],
+    "commit": "mcp-integration-fix"
   }
 ]
