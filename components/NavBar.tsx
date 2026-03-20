@@ -8,7 +8,6 @@ const navLinks = [
   { href: '/', label: 'Receipts' },
   { href: '/costs', label: 'LLM Costs' },
   { href: '/build-log', label: 'Build Log' },
-  { href: '/judge', label: 'Judge Mode', highlight: true },
 ]
 
 export default function NavBar() {
@@ -37,15 +36,13 @@ export default function NavBar() {
 
         {/* Desktop nav links */}
         <div className="hidden items-center gap-1 sm:flex">
-          {navLinks.map(({ href, label, highlight }) => (
+          {navLinks.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
               className={`relative rounded-md px-2.5 py-1 text-[13px] font-medium transition-all duration-200 ${
                 isActive(href)
                   ? 'text-zinc-100 bg-zinc-800/80'
-                  : highlight
-                  ? 'text-usdc border border-usdc/30 bg-usdc/5 hover:bg-usdc/10 hover:border-usdc/50'
                   : 'text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800/40'
               }`}
             >
@@ -93,7 +90,7 @@ export default function NavBar() {
       {menuOpen && (
         <div className="border-t border-zinc-800/50 bg-zinc-950/95 backdrop-blur-xl px-4 py-3 sm:hidden">
           <ul className="flex flex-col gap-0.5">
-            {navLinks.map(({ href, label, highlight }) => (
+            {navLinks.map(({ href, label }) => (
               <li key={href}>
                 <Link
                   href={href}
@@ -101,8 +98,6 @@ export default function NavBar() {
                   className={`flex items-center rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                     isActive(href)
                       ? 'bg-zinc-800/80 text-zinc-100'
-                      : highlight
-                      ? 'text-usdc hover:bg-usdc/10'
                       : 'text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/40'
                   }`}
                 >

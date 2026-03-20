@@ -8,7 +8,6 @@ interface AppFooterProps {
 
 const NAV_LINKS = [
   { href: '/', label: 'Receipts' },
-  { href: '/judge', label: 'Judge Mode' },
   { href: '/build-log', label: 'Build Log' },
   { href: '/costs', label: 'Costs' },
   { href: 'https://github.com/clawlinker/synthesis-hackathon', label: 'GitHub', external: true },
