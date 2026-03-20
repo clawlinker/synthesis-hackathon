@@ -381,10 +381,21 @@
     "explorer": "https://www.8004scan.io/agents/ethereum/22945"
   },
   "ens": "clawlinker.eth",
+  "ensIntegration": {
+    "description": "ENS as dynamic agent communication mesh — ENS names resolve to live endpoints, enabling novel agent-to-agent discovery and protocol abstraction (Track 7: ENS Open Integration $300)",
+    "gateway": "https://molttail.vercel.app/api/ens-resolver",
+    "pattern": "dynamic-protocol-abstraction",
+    "features": [
+      "Agent discovery by ENS name",
+      "Protocol-agnostic routing (XMTP, A2A, Telegram, social)",
+      "One query → multiple communication endpoints",
+      "Production ENS resolver with structured metadata"
+    ],
+    "ensip25": "https://www.8004scan.io/agents/ethereum/22945"
+  },
   "ensCommunication": {
     "description": "Offchain ENS resolver for agent-to-agent and agent-to-human communication (Track 5: ENS Communication $600)",
     "gateway": "https://molttail.vercel.app/api/ens-resolver",
-    "ensip25": "https://www.8004scan.io/agents/ethereum/22945",
     "communicationRecords": {
       "telegram": "@clawlinker",
       "farcaster": "@clawlinker",
