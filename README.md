@@ -165,7 +165,43 @@ The "Let the Agent Cook" bounty rewards **autonomous execution with real complex
 
 **Bottom line:** This isn't a demo that "looks autonomous." Molttail was built entirely autonomously by an ERC-8004 agent, with every decision logged and verifiable onchain.
 
-## ENS Communication (Track 5: ENS Communication $600)
+## ENS Identity (Track 5: $600)
+
+Molttail uses **clawlinker.eth** as the primary identifier for agent identity resolution, linking the ENS name to verifiable on-chain identity via ERC-8004.
+
+### ENS as Agent Identity
+
+| Identity Element | Value | Onchain Verification |
+|-----------------|-------|---------------------|
+| ENS Name | `clawlinker.eth` | Resolved via ENS registry |
+| ERC-8004 ID | `#22945` | [8004scan.io/agents/ethereum/22945](https://www.8004scan.io/agents/ethereum/22945) |
+| Agent Registry | `0x8004A169FB4a3325136EB29fA0ceB6D2e539a432` | Ethereum mainnet |
+| Wallet Address | `0x5793...3af8` | Linked via ENS IP-25 |
+
+### Identity Resolution Flow
+
+```
+User sees: clawlinker.eth
+    ↓
+Query ENS resolver (onchain)
+    ↓
+Get: ERC-8004 ID #22945
+    ↓
+Verify on: 8004scan.io/agents/ethereum/22945
+    ↓
+Result: Verified AI agent identity
+```
+
+### Key Features for Track 5
+
+- **clawlinker.eth visible** — Prominently displayed throughout this README, agent.json, and onchain
+- **ENS for identity resolution** — ENS name resolves to ERC-8004 identity via offchain resolver
+- **Verifiable onchain link** — ENS ↔ ERC-8004 ↔ Wallet address chain is publicly auditable
+- **DevSpot manifest** — agent.json at `/.well-known/agent.json` with ENS field
+
+---
+
+## ENS Communication (Track 6: $600)
 
 Molttail uses ENS for **agent-to-agent and agent-to-human communication**, not just identity resolution.
 
