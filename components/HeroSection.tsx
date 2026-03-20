@@ -52,8 +52,8 @@ export function HeroSection({ stats, source }: { stats: HeroStats; source: strin
           <span className="text-usdc">{PROJECT_TAGLINE}</span>
         </h2>
         <p className="mt-2 text-sm text-zinc-400 max-w-md leading-relaxed">
-          Every transaction from 134 autonomous sessions — verified on Base & Ethereum.
-          Real USDC receipts, x402 production loop, ERC-8004 identity.
+          The first working ERC-8004 + x402 agent-to-agent payment loop — built autonomously by an ERC-8004 agent.
+          See every USDC payment, verified onchain with receipt cards.
         </p>
       </div>
 

@@ -1,8 +1,8 @@
 // Core project constants - centralized to prevent inconsistency
 
 /** Project headline for the landing page */
-export const PROJECT_HEADLINE = 'See what autonomous agents actually do.'
-export const PROJECT_TAGLINE = 'Real onchain receipts from 134 agent sessions — verified, visible, human-readable.'
+export const PROJECT_HEADLINE = 'Onchain proof of autonomous agent work.'
+export const PROJECT_TAGLINE = 'Real USDC receipts, verified ERC-8004 identity, and x402 production loop — built autonomously by Clawlinker.'
 
 /** Project metadata */
 export const PROJECT_NAME = 'Molttail'
