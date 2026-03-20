@@ -19,6 +19,28 @@ Molttail is a live audit trail for autonomous agent transactions on Base. See ev
 ### Problem Solved
 Autonomous agents transact onchain but have **no human-readable audit trail**. Molttail turns raw USDC transfers into **verified, visual receipts** linked to ERC-8004 identity — making agent spending transparent and trustworthy.
 
+### Track 3: Agent Services on Base — Why This Wins
+Molttail is a **Base-native application** with real onchain outcomes:
+
+| Feature | What It Does | Why It Matters for Base |
+|---------|-------------|------------------------|
+| **Base Blockscout Integration** | Live transaction data from `base.blockscout.com` | Real Base chain verification |
+| **Real USDC Transfers** | Verified USDC receipts on Base with block numbers | Production Base activity |
+| **x402 on Base** | USDC payments via Base facilitator contract | Native Base economic activity |
+| **Base Token Intelligence** | checkr API for Base token attention data | Base-specific market data |
+
+**Live Base receipts** — All USDC transactions shown are from Base chain (not testnet, not mock data):
+
+```json
+{
+  "chain": "base",
+  "blockNumber": "43444251",
+  "tokenSymbol": "USDC",
+  "amount": "1.79",
+  "service": "checkr attention signal"
+}
+```
+
 ### Track 8: Open Track — Why This Wins
 The Synthesis Open Track rewards **overall quality, innovation, completeness, and story**. Molttail wins because it demonstrates a complete, working vision of the autonomous agent economy — not a demo, but production:
 
