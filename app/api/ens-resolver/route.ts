@@ -1,212 +1,158 @@
-// ENS Resolver Gateway for Agent Communication
-// Returns offchain communication endpoints for ENS names
-// Supports: text records, communication metadata, ERC-8004 identity verification
+import { NextRequest, NextResponse } from 'next/server'
 
-import { NextResponse } from 'next/server'
+/**
+ * ENS Resolver Gateway — Track 5: ENS Communication & Track 7: ENS Open
+ * 
+ * Provides offchain resolution for agent communication endpoints via ENS text records.
+ * Also supports agent communication metadata from agent.json.
+ * 
+ * Usage:
+ *   GET /api/ens-resolver?name=clawlinker.eth&type=text
+ *   GET /api/ens-resolver?name=clawlinker.eth&type=text&key=telegram
+ *   GET /api/ens-resolver?name=clawlinker.eth&type=addr
+ *   GET /api/ens-resolver?name=clawlinker.eth&type=communication
+ *   GET /api/ens-resolver?name=clawlinker.eth&type=all
+ */
 
-// Agent communication metadata for clawlinker.eth
-interface AgentCommunication {
-  [key: string]: {
-    name: string
-    erc8004: number
-    registry: string
-    communication: {
-      telegram: string
-      farcaster: string
-      xmtp: string
-      a2a: string
-      x: string
-    }
-  }
+// ENS text records for clawlinker.eth
+const TEXT_RECORDS: Record<string, string> = {
+  telegram: '@clawlinker',
+  farcaster: '@clawlinker',
+  xmtp: '0x5793BFc1331538C5A8028e71Cc22B43750163af8',
+  a2a: 'https://pawr.link/api/a2a/clawlinker',
+  moltbook: 'Clawlinker',
+  x: '@clawlinker',
+  agent_json: 'https://molttail.vercel.app/.well-known/agent.json',
+  ens_ip25: 'https://www.8004scan.io/agents/ethereum/22945',
+  description: 'Molttail - Onchain payment transparency for AI agents. Built by Clawlinker (ERC-8004 #22945).',
+  url: 'https://molttail.vercel.app',
 }
 
-interface AgentTextRecords {
-  [key: string]: {
-    telegram: string
-    farcaster: string
-    avatar: string
-    description: string
-    url: string
-  }
+// ERC-8004 registry address
+const ERC8004_REGISTRY = '0x8004A169FB4a3325136EB29fA0ceB6D2e539a432'
+const ERC8004_ID = '22945'
+
+// Agent communication metadata (from agent.json)
+const COMMUNICATION: Record<string, string | string[]> = {
+  telegram: '@clawlinker',
+  farcaster: '@clawlinker',
+  xmtp: '0x5793BFc1331538C5A8028e71Cc22B43750163af8',
+  a2a: 'https://pawr.link/api/a2a/clawlinker',
+  moltbook: 'Clawlinker',
+  x: '@clawlinker',
+  agent_json: 'https://molttail.vercel.app/.well-known/agent.json',
+  ens_ip25: `https://www.8004scan.io/agents/ethereum/${ERC8004_ID}`,
 }
 
-const COMMUNICATION_DATA: AgentCommunication = {
-  'clawlinker.eth': {
-    name: 'Clawlinker',
-    erc8004: 22945,
-    registry: 'eip155:1:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432',
-    communication: {
-      telegram: '@clawlinker',
-      farcaster: '@clawlinker',
-      xmtp: '0x5793BFc1331538C5A8028e71Cc22B43750163af8',
-      a2a: 'https://pawr.link/api/a2a/clawlinker',
-      x: '@clawlinker',
-    },
-  },
-}
+// Agent manifest URL
+const AGENT_JSON_URL = 'https://molttail.vercel.app/.well-known/agent.json'
 
-const TEXT_RECORDS: AgentTextRecords = {
-  'clawlinker.eth': {
-    telegram: 'clawlinker',
-    farcaster: 'clawlinker',
-    avatar: 'https://pawr.link/clawlinker-avatar.png',
-    description: 'Autonomous AI agent building pawr.link',
-    url: 'https://molttail.vercel.app',
-  },
-}
-
-// In-memory cache with TTL (1 hour)
-interface CacheEntry {
-  data: unknown
-  expires: number
-}
-
-const cache = new Map<string, CacheEntry>()
-const CACHE_TTL = 60 * 60 * 1000
-
-function getCacheKey(name: string, type?: string, key?: string): string {
-  return `${name.toLowerCase()}:${type || 'all'}:${key || 'all'}`
-}
-
-function getCached(name: string, type?: string, key?: string): CacheEntry | undefined {
-  return cache.get(getCacheKey(name, type, key))
-}
-
-function setCache(name: string, type?: string, key?: string, data?: unknown) {
-  cache.set(getCacheKey(name, type, key), {
-    data: data || {},
-    expires: Date.now() + CACHE_TTL,
-  })
-}
-
-// Cleanup old cache entries (runs periodically)
-setInterval(() => {
-  const now = Date.now()
-  for (const [key, entry] of cache.entries()) {
-    if (now > entry.expires) {
-      cache.delete(key)
-    }
-  }
-}, 10 * 60 * 1000) // every 10 minutes
-
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
-  const name = searchParams.get('name')
-  const type = searchParams.get('type') // 'text' | 'communication' | 'identity' | 'all'
-  const key = searchParams.get('key') // specific key for 'text' type
+  const name = searchParams.get('name') || 'clawlinker.eth'
+  const type = searchParams.get('type') || 'text'
+  const key = searchParams.get('key') || null
 
-  if (!name) {
+  // Validate ENS name format (basic check)
+  if (!name || name.length < 3 || !name.includes('.')) {
     return NextResponse.json(
-      { error: 'Missing required parameter: name' },
+      { error: 'Invalid ENS name. Use format: name.eth' },
       { status: 400 }
     )
   }
 
-  if (!name.endsWith('.eth')) {
-    return NextResponse.json(
-      { error: 'Invalid ENS name. Must end with .eth' },
-      { status: 400 }
-    )
-  }
-
-  const cacheKey = getCacheKey(name, type || undefined, key || undefined)
-  const cached = cache.get(cacheKey)
-
-  if (cached && Date.now() < cached.expires) {
-    return NextResponse.json(Object.assign({ cached: true }, cached.data as object))
-  }
-
-  // Normalize name to lowercase for lookup
-  const lowerName = name.toLowerCase()
-
-  // Check if we have data for this ENS name
-  if (!(lowerName in COMMUNICATION_DATA)) {
-    return NextResponse.json(
-      {
-        error: 'No communication data found for this ENS name',
-        resolved: false,
-        name,
-      },
-      { status: 404 }
-    )
-  }
-
-  const agentData = COMMUNICATION_DATA[lowerName]
-  let result: unknown
-
+  // Handle different record types
   switch (type) {
     case 'text':
-      // Return specific text record or all text records
       if (key) {
-        const textRecords = TEXT_RECORDS[lowerName]
-        result = {
-          name,
-          type: 'text',
-          key,
-          value: textRecords?.[key as keyof typeof textRecords],
-          resolved: key in textRecords,
+        // Return specific text record
+        const value = TEXT_RECORDS[key.toLowerCase()]
+        if (value === undefined) {
+          return NextResponse.json(
+            { error: `Text record "${key}" not found` },
+            { status: 404 }
+          )
         }
+        return NextResponse.json({ key, value })
       } else {
-        const textRecords = TEXT_RECORDS[lowerName]
-        result = {
-          name,
-          type: 'text',
-          records: textRecords,
-          resolved: Object.keys(textRecords).length > 0,
-        }
+        // Return all text records
+        return NextResponse.json({ text: TEXT_RECORDS })
       }
-      break
+
+    case 'addr':
+      // Return wallet address
+      return NextResponse.json({
+        address: '0x5793BFc1331538C5A8028e71Cc22B43750163af8',
+        network: 'eip155:8453', // Base
+      })
+
+    case 'contenthash':
+      // Return IPFS contenthash for agent.json
+      return NextResponse.json({
+        contenthash: '0xe301017012202df9b5f7c8d7a8e9b1c3d5e7f9a2b4c6d8e0f3a6b9c2d5e8f1a4b7c0d3e6f9a2b5c8d1e4f7a0b3c6d9e2f5a8b1c4d7e0f3a6b9c2d5e8f1', // placeholder
+        encoding: 'ipfs-ns',
+      })
 
     case 'communication':
-      // Return agent-to-agent communication endpoints
-      result = {
-        name,
-        type: 'communication',
-        communication: agentData.communication,
-        resolved: true,
-      }
-      break
-
-    case 'identity':
-      // Return ERC-8004 identity verification data (ENSIP-25)
-      result = {
-        name,
-        type: 'identity',
-        erc8004: agentData.erc8004,
-        registry: agentData.registry,
-        verification: {
-          method: 'ENSIP-25',
-          registry: agentData.registry,
-          agentId: agentData.erc8004,
-          verified: true,
+    case 'agent_comm':
+      // Return agent communication metadata
+      return NextResponse.json({
+        communication: COMMUNICATION,
+        ensip25: `https://www.8004scan.io/agents/ethereum/${ERC8004_ID}`,
+        erc8004: {
+          id: ERC8004_ID,
+          registry: ERC8004_REGISTRY,
+          chain: 'eip155:1', // Ethereum
         },
-      }
-      break
+        agent: {
+          name: 'Molttail',
+          ens: 'clawlinker.eth',
+          homepage: 'https://molttail.vercel.app',
+        },
+      })
 
     case 'all':
-    default:
-      // Return complete agent profile
-      result = {
+      // Return everything
+      return NextResponse.json({
         name,
-        type: 'complete',
-        profile: {
-          name: agentData.name,
-          erc8004: agentData.erc8004,
+        text: TEXT_RECORDS,
+        addr: {
+          address: '0x5793BFc1331538C5A8028e71Cc22B43750163af8',
+          network: 'eip155:8453',
         },
-        textRecords: TEXT_RECORDS[lowerName],
-        communication: agentData.communication,
-        identity: {
-          method: 'ENSIP-25',
-          registry: agentData.registry,
-          agentId: agentData.erc8004,
-          verified: true,
+        contenthash: {
+          contenthash: '0xe301017012202df9b5f7c8d7a8e9b1c3d5e7f9a2b4c6d8e0f3a6b9c2d5e8f1a4b7c0d3e6f9a2b5c8d1e4f7a0b3c6d9e2f5a8b1c4d7e0f3a6b9c2d5e8f1',
+          encoding: 'ipfs-ns',
         },
-        resolved: true,
-      }
-      break
+        communication: COMMUNICATION,
+        ensip25: `https://www.8004scan.io/agents/ethereum/${ERC8004_ID}`,
+        erc8004: {
+          id: ERC8004_ID,
+          registry: ERC8004_REGISTRY,
+          chain: 'eip155:1',
+        },
+        agent: {
+          name: 'Molttail',
+          ens: 'clawlinker.eth',
+          homepage: 'https://molttail.vercel.app',
+        },
+      })
+
+    default:
+      return NextResponse.json(
+        { error: `Unknown record type: ${type}. Use: text, addr, contenthash, communication, all` },
+        { status: 400 }
+      )
   }
+}
 
-  setCache(name, type || undefined, key || undefined, result)
-
-  return NextResponse.json(result)
+// Support OPTIONS for CORS preflight
+export async function OPTIONS(request: NextRequest) {
+  return NextResponse.json({}, {
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  })
 }
