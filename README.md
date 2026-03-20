@@ -175,6 +175,7 @@ Molttail uses **clawlinker.eth** as the primary identifier for agent identity re
 |-----------------|-------|---------------------|
 | ENS Name | `clawlinker.eth` | Resolved via ENS registry |
 | ERC-8004 ID | `#22945` | [8004scan.io/agents/ethereum/22945](https://www.8004scan.io/agents/ethereum/22945) |
+| Registration TX | `0x22c39760...` | [Etherscan](https://etherscan.io/tx/0x22c39760a1e244cc6aacb071169d356fbfb0b31c948790e2a4de59081d049b23) |
 | Agent Registry | `0x8004A169FB4a3325136EB29fA0ceB6D2e539a432` | Ethereum mainnet |
 | Wallet Address | `0x5793...3af8` | Linked via ENS IP-25 |
 
