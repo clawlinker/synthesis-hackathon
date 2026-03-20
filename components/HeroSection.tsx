@@ -52,8 +52,8 @@ export function HeroSection({ stats, source }: { stats: HeroStats; source: strin
           <span className="text-usdc">{PROJECT_TAGLINE}</span>
         </h2>
         <p className="mt-2 text-sm text-zinc-400 max-w-md leading-relaxed">
-          Real-time audit trail for autonomous agent transactions.
-          On-chain receipts with BaseScan verification. No fake data.
+          Every transaction from 134 autonomous sessions — verified on Base & Ethereum.
+          Real USDC receipts, x402 production loop, ERC-8004 identity.
         </p>
       </div>
 
