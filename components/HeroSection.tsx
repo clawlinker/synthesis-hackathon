@@ -46,7 +46,7 @@ export function HeroSection({ stats, source }: { stats: HeroStats; source: strin
       {/* Headline */}
       <div className="relative mb-6">
         <h2 className="text-xl md:text-2xl font-semibold tracking-tight leading-tight text-zinc-100">
-          Every dollar an AI agent spends.
+          Every USDC payment an AI agent makes.
           <br />
           <span className="text-usdc">Verified on-chain.</span>
         </h2>
