@@ -246,6 +246,15 @@
       "signer": "erc8004:22945"
     }
   ],
+  "paymentProvider": "x402",
+  "paymentMethods": [
+    {
+      "type": "USDC",
+      "network": "eip155:8453",
+      "currencyAddress": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "facilitator": "base"
+    }
+  ],
   "services": [
     {
       "name": "web",
