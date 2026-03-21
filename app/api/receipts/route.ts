@@ -30,9 +30,10 @@ async function getTempoFromBlock(): Promise<string> {
 }
 
 async function fetchTempoLogs(fromTopic: string | null, toTopic: string | null, timeoutMs: number): Promise<Array<{ transactionHash: string; blockNumber: string; topics: string[]; data: string }>> {
-  // Tempo RPC has 100k block limit per query — scan in chunks from block 9_500_000 (first known USDC.e activity)
+  // Tempo RPC has 100k block limit per query — scan in chunks
+  // Use cached high-water mark if available, otherwise start from first known USDC.e activity
   const CHUNK = 99000
-  const START_BLOCK = 9_500_000
+  const START_BLOCK = receiptCache.lastBlockTempo > 0 ? receiptCache.lastBlockTempo + 1 : 9_500_000
   try {
     const latestRes = await fetch(TEMPO_RPC, {
       method: 'POST',
@@ -125,6 +126,56 @@ async function fetchTempoReceipts(timeoutMs: number): Promise<Receipt[]> {
 import agentLogRaw from '@/agent_log.json'
 // Build-time cached receipts (populated by scripts/fetch-receipts.js during prebuild)
 import cachedReceiptsData from '@/data/cached-receipts.json'
+
+// ─── Persistent Receipt Cache ─────────────────────────────
+// Receipts are immutable once confirmed. Cache them in module scope
+// (persists across warm Vercel invocations) and only fetch new ones.
+interface ReceiptCache {
+  receipts: Map<string, Receipt>       // hash → receipt (deduped)
+  lastBlockBase: number                // highest Base block seen
+  lastBlockEthereum: number            // highest Ethereum block seen
+  lastBlockTempo: number               // highest Tempo block seen
+  lastFetchTime: number                // timestamp of last fetch
+  initialized: boolean                 // whether we've done the first full fetch
+}
+
+const receiptCache: ReceiptCache = {
+  receipts: new Map(),
+  lastBlockBase: 0,
+  lastBlockEthereum: 0,
+  lastBlockTempo: 0,
+  lastFetchTime: 0,
+  initialized: false,
+}
+
+// Minimum interval between live fetches (ms) — no need to hit RPCs on every request
+const CACHE_TTL_MS = 60_000 // 1 minute
+
+function addToCache(newReceipts: Receipt[], chain?: string) {
+  for (const r of newReceipts) {
+    if (r.hash && !receiptCache.receipts.has(r.hash)) {
+      receiptCache.receipts.set(r.hash, r)
+    }
+    // Track highest block per chain
+    const blockNum = parseInt(r.blockNumber || '0')
+    if (blockNum > 0) {
+      const c = chain || r.chain || 'base'
+      if (c === 'base' && blockNum > receiptCache.lastBlockBase) receiptCache.lastBlockBase = blockNum
+      if (c === 'ethereum' && blockNum > receiptCache.lastBlockEthereum) receiptCache.lastBlockEthereum = blockNum
+      if (c === 'tempo' && blockNum > receiptCache.lastBlockTempo) receiptCache.lastBlockTempo = blockNum
+    }
+  }
+}
+
+function getCachedReceipts(chain?: string): Receipt[] {
+  const all = Array.from(receiptCache.receipts.values())
+  if (!chain || chain === 'all') return all
+  return all.filter(r => r.chain === chain)
+}
+
+function shouldFetchLive(): boolean {
+  return Date.now() - receiptCache.lastFetchTime > CACHE_TTL_MS
+}
 
 // Use Blockscout REST API v2 for live fetches
 const BLOCKSCOUT_REST_API = 'https://base.blockscout.com/api/v2'
@@ -400,67 +451,69 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
       }
     }
 
-    // Fetch all wallets in parallel with Promise.allSettled
-    const fetchPromises = walletsToFetch.map(({ wallet, agentId }) =>
-      fetchFromBlockscout(wallet, agentId)
-    )
-
-    // Wait for all parallel fetches
-    const results = await Promise.allSettled(fetchPromises)
-    const liveReceipts: Receipt[] = results.flatMap((r) =>
-      r.status === 'fulfilled' ? r.value : []
-    )
-
-    // If live fetch returned nothing, try the build-time cache
+    // ─── Persistent Cache Strategy ─────────────────────────
+    // Receipts are immutable. Cache all seen receipts and only fetch new ones.
+    
     let allReceipts: Receipt[]
     let dataSource: 'live' | 'cached' | 'sample'
 
-    if (liveReceipts.length > 0) {
-      allReceipts = liveReceipts
-      dataSource = 'live'
-    } else {
-      // Fall back to cached receipts from build time
-      let cachedRaw = (cachedReceiptsData as { receipts: Receipt[] }).receipts || []
-      // Filter by requested wallet(s) if specified
-      if (walletParam && cachedRaw.length > 0) {
-        const lowerWallet = walletParam.toLowerCase()
-        cachedRaw = cachedRaw.filter(
-          r => r.from?.toLowerCase() === lowerWallet || r.to?.toLowerCase() === lowerWallet
-        )
-      }
-      // Filter by chain — don't leak Base data when Ethereum or Tempo is requested
-      if (!useAll && chain !== 'base') {
-        cachedRaw = cachedRaw.filter(r => r.chain === chain)
-      }
-      allReceipts = cachedRaw
+    if (shouldFetchLive()) {
+      // Fetch new receipts from live APIs
+      const fetchPromises = walletsToFetch.map(({ wallet, agentId }) =>
+        fetchFromBlockscout(wallet, agentId)
+      )
+      const results = await Promise.allSettled(fetchPromises)
+      const liveReceipts: Receipt[] = results.flatMap((r) =>
+        r.status === 'fulfilled' ? r.value : []
+      )
 
-      if (allReceipts.length > 0) {
-        dataSource = 'cached'
-        // Re-enrich with agent data + service labels (not stored in cache)
-        allReceipts = allReceipts.map(r => {
+      // Add all live receipts to persistent cache
+      if (liveReceipts.length > 0) {
+        addToCache(liveReceipts, useBase ? 'base' : chain)
+      }
+
+      // Fetch Tempo if needed
+      if (useTempo) {
+        try {
+          const tempoReceipts = await fetchTempoReceipts(API_TIMEOUT_MS)
+          addToCache(tempoReceipts, 'tempo')
+        } catch { /* Tempo fetch failed */ }
+      }
+
+      receiptCache.lastFetchTime = Date.now()
+
+      // If first load and cache is still empty, seed from build-time cache
+      if (!receiptCache.initialized) {
+        const buildTimeReceipts = (cachedReceiptsData as { receipts: Receipt[] }).receipts || []
+        addToCache(buildTimeReceipts.map(r => {
           const agentData = enrichReceiptWithAgentData(r)
           const wallet = walletParam || AGENT.wallet
-          const service = r.service || getServiceFromTx({ from: r.from, to: r.to }, wallet)
-          const fromLabel = r.fromLabel || labelAddress(r.from.toLowerCase())
-          const toLabel = r.toLabel || labelAddress(r.to.toLowerCase())
-          return { ...r, fromAgent: agentData.fromAgent, toAgent: agentData.toAgent, service, fromLabel, toLabel, receiptType: 'onchain' }
-        })
-      } else {
-        // If a specific non-base chain was requested and has no data, return empty — don't fall back to sample Base data
-        if (!useAll && chain !== 'base') {
-          dataSource = 'live' // treat as legitimate empty result
-        } else {
-          dataSource = 'sample'
-        }
+          return { ...r, ...agentData, service: r.service || getServiceFromTx({ from: r.from, to: r.to }, wallet), fromLabel: r.fromLabel || labelAddress(r.from), toLabel: r.toLabel || labelAddress(r.to), receiptType: 'onchain' as const }
+        }))
+        receiptCache.initialized = true
       }
+
+      dataSource = 'live'
+    } else {
+      // Serve from cache — no API calls needed
+      dataSource = receiptCache.receipts.size > 0 ? 'cached' : 'sample'
     }
 
-    // Merge Tempo receipts when showing all chains
-    if (useTempo) {
-      try {
-        const tempoReceipts = await fetchTempoReceipts(API_TIMEOUT_MS)
-        allReceipts = [...allReceipts, ...tempoReceipts]
-      } catch { /* Tempo fetch failed, continue with Base only */ }
+    // Pull from cache, filtered by chain
+    const chainFilter = useAll ? undefined : chain
+    allReceipts = getCachedReceipts(chainFilter)
+
+    // Filter by wallet if specified
+    if (walletParam) {
+      const lowerWallet = walletParam.toLowerCase()
+      allReceipts = allReceipts.filter(
+        r => r.from?.toLowerCase() === lowerWallet || r.to?.toLowerCase() === lowerWallet
+      )
+    }
+
+    // If cache empty and non-base chain, don't fall back to sample
+    if (allReceipts.length === 0 && !useAll && chain !== 'base') {
+      dataSource = 'live'
     }
 
     // Sort USDC receipts by timestamp (newest first)
