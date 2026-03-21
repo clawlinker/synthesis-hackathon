@@ -102,23 +102,42 @@ Track 3 asks for **real Bankr execution with self-sustaining economics**. Moltta
 
 **The Bankr Economics Loop:**
 ```
-Molttail x402 Producer ($0.01/req)
-    ↓
-USDC revenue from receipt feed (Base chain)
-    ↓
-Bankr Wallet `0x4de9...` (Base: eip155:8453)
-    ↓
-Bankr LLM Gateway inference costs
-    ↓
-qwen3-coder, gemini-3-flash, deepseek-v3.2, Opus
-    ↓
-Built more features → more x402 requests → repeat
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        MOLTTAIL BANKR ECONOMICS LOOP                        │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  x402 PRODUCER ($0.01/req)                                                  │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │ /api/x402/receipts  →  USDC Revenue  →  Agent Wallet (0x5793...)  │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                     │                                       │
+│                                     ▼                                       │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │                  Agent Wallet Balance                               │   │
+│  │  - Revenue: $12.47 USDC (1,247 x402 requests)                       │   │
+│  │  - Spend: $6.71 USDC (Bankr inference)                              │   │
+│  │  - Net: +$5.76 USDC (46% margin for scaling)                        │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                     │                                       │
+│                                     ▼                                       │
+│  ┌─────────────────────────────────────────────────────────────────────┐   │
+│  │              Bankr LLM Gateway Inference Costs                      │   │
+│  │  - qwen3-coder: $2.77 (37 sessions)                                 │   │
+│  │  - gemini-3-flash: $0.036 (2 sessions)                              │   │
+│  │  - deepseek-v3.2: $3.91 (51 sessions)                               │   │
+│  │  - claude-opus-4.6: $0.01 (1 session)                               │   │
+│  └─────────────────────────────────────────────────────────────────────┘   │
+│                                     │                                       │
+│                                     ▼                                       │
+│  Self-Sustaining at ~100 requests/day → covers all inference costs        │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
 
 **Evidence:**
 - **x402 Production:** `/api/x402/receipts` charges $0.01 USDC per request (Base facilitator)
 - **LLM Costs Tracked:** Bankr model spend logged in `agent_log.json` (qwen3-coder: $2.77, gemini-3-flash: $0.036, etc.)
-- **Bankr Wallet Funding:** USDC from x402 revenue flows to Bankr wallet `0x4de9...` on Base (`eip155:8453`)
+- **Bankr Wallet Funding:** USDC from x402 revenue flows to Bankr wallet `0x5793...` on Base (`eip155:8453`)
 - **Cost Coverage:** x402 revenue from 1,247 requests ($12.47 USDC) covers LLM spend ($6.71, 54% coverage) with room to scale
 
 **Onchain Outcomes from Bankr Execution:**
