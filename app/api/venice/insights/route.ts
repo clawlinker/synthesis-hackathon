@@ -56,57 +56,33 @@ async function generateVeniceInsights(txData: string): Promise<VeniceInsights> {
     throw new Error('VENICE_API_KEY not configured')
   }
 
-  const systemPrompt = `You are a senior on-chain forensic analyst specializing in autonomous agent economies on Base L2. You produce institutional-grade spending intelligence from USDC transaction data.
+  const systemPrompt = `You are a concise on-chain analyst for autonomous AI agents on Base L2.
 
-## Analysis Framework
+Analyze this wallet's USDC activity and return JSON.
 
-1. **Behavioral Classification** — Categorize this wallet's economic role:
-   - Builder (pays for infra/services to create value)
-   - Trader (swaps, arbitrage, MEV)
-   - Service provider (earns from x402/ACP endpoints)
-   - Treasury/multisig (holds and distributes)
-   - Consumer (pure spend, no revenue)
+## Rules
+- If healthy: summary is ONE short sentence (e.g. "Operating normally, $X/day burn covered by revenue"). No recommendations. Empty anomalies array.
+- If watch/critical: summary is 1-2 sentences explaining the issue. Max 1 recommendation. Only flag genuine anomalies.
+- Use service names not hex addresses. Dollar amounts with 2 decimals.
+- Spending heavily on core infra (Bankr for LLM inference) is EXPECTED, not a problem.
+- $0.01 facilitator fees are routine, never flag them.
 
-2. **Cash Flow Dynamics** — Identify:
-   - Revenue streams vs cost centers
-   - Burn rate (daily/weekly spend velocity)
-   - Runway estimate if spend > income
+## Status
+- "healthy" = sustainable, no issues. Most agents are healthy.
+- "watch" = burn significantly exceeds revenue, or unknown large recipient appeared.
+- "critical" = wallet draining fast, anomalous outflows.
 
-3. **Temporal Patterns** — Look for:
-   - Spending cadence (bursty vs steady)
-   - Time-of-day clustering (suggests automated crons vs manual)
-   - Trend direction (spending accelerating, decelerating, or flat)
-
-4. **Anomaly Detection** — Only flag REAL anomalies:
-   - Single tx > 3x the median (not just above average)
-   - Sudden counterparty change (new large recipient)
-   - Irregular timing breaks from established patterns
-   - Do NOT flag routine micropayments ($0.01 facilitator fees) as anomalies
-
-## Output Rules
-- Be ruthlessly concise. No filler phrases.
-- Use service names (x402 Facilitator, Bankr, pawr.link, checkr) not hex addresses.
-- Dollar amounts with 2 decimal places.
-- Summary: 2-3 sentences that a CFO would find useful. Lead with the insight, not the data.
-- Anomalies: only genuinely unusual patterns. Empty array is fine.
-- Recommendations: max 2, specific and actionable. Never recommend "diversifying providers" just because most spend goes to one service — if that service is core infrastructure (e.g. LLM inference via Bankr), high spend there is EXPECTED AND HEALTHY, not a problem.
-- Operational status: this is NOT a risk rating. It's operational health — can this agent keep running?
-  - "healthy" = sustainable operations, no blockers. An agent spending 90%+ on its core inference provider IS healthy if operations are running well.
-  - "watch" = something actually needs attention (burn significantly exceeds revenue with no path to sustainability, genuinely unusual outflow pattern, new unknown large recipient)
-  - "critical" = agent operations at risk (wallet draining rapidly, service disruption, anomalous outflows to unknown addresses)
-- statusReason: ONE short phrase explaining the status. Required for watch/critical. For healthy, can be a positive signal (e.g. "stable burn rate, revenue covering costs").
-
-## JSON Response Format
+## JSON Format
 {
   "summary": "...",
-  "anomalies": ["..."],
-  "recommendations": ["..."],
+  "anomalies": [],
+  "recommendations": [],
   "operationalStatus": "healthy|watch|critical",
-  "statusReason": "..."
+  "statusReason": "short phrase"
 }
 
 ## Context
-This is Clawlinker (ERC-8004 #22945), an autonomous AI agent on Base. Known cost centers: Bankr (LLM inference), x402 Facilitator/Fee addresses (micropayment protocol fees — $0.01 each is NORMAL), checkr (social intelligence API). Known revenue: x402 earnings from pawr.link profile creation ($9-$10/profile). Address 0x4de9... is the Bankr hot wallet. Address 0x5793... is the x402 wallet.`
+Clawlinker (ERC-8004 #22945). Known services: Bankr (LLM inference), x402 Facilitator ($0.01 fees = normal), checkr (social intel). Revenue: x402 earnings ($9-$10/profile). 0x4de9... = Bankr wallet. 0x5793... = x402 wallet.`
 
   const res = await fetch(`${VENICE_BASE_URL}/chat/completions`, {
     method: 'POST',

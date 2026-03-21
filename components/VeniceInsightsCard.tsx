@@ -72,20 +72,15 @@ export function VeniceInsightsCard() {
           </span>
         </div>
       </CardHeader>
-      <CardContent className="space-y-4">
-        {/* Operational Status Badge */}
-        <div className="flex items-center gap-2">
-          <div className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${status.bg} ${status.color} ${status.border} border`}>
+      <CardContent className={data.operationalStatus === 'healthy' ? 'space-y-2' : 'space-y-4'}>
+        {/* Status + Summary inline for healthy, stacked for issues */}
+        <div className={data.operationalStatus === 'healthy' ? 'flex items-center gap-3' : 'space-y-3'}>
+          <div className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium shrink-0 ${status.bg} ${status.color} ${status.border} border`}>
             <StatusIcon className="h-3 w-3" />
             {status.label}
           </div>
-          {data.statusReason && (
-            <span className="text-xs text-zinc-500">{data.statusReason}</span>
-          )}
+          <p className={`text-sm text-zinc-${data.operationalStatus === 'healthy' ? '400' : '300'} leading-relaxed`}>{data.summary}</p>
         </div>
-
-        {/* Summary */}
-        <p className="text-sm text-zinc-300 leading-relaxed">{data.summary}</p>
 
         {/* Anomalies */}
         {data.anomalies.length > 0 && (
