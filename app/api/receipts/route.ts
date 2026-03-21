@@ -30,25 +30,41 @@ async function getTempoFromBlock(): Promise<string> {
 }
 
 async function fetchTempoLogs(fromTopic: string | null, toTopic: string | null, timeoutMs: number): Promise<Array<{ transactionHash: string; blockNumber: string; topics: string[]; data: string }>> {
-  const fromBlock = await getTempoFromBlock()
-  const controller = new AbortController()
-  const tid = setTimeout(() => controller.abort(), timeoutMs)
+  // Tempo RPC has 100k block limit per query — scan in chunks from block 9_500_000 (first known USDC.e activity)
+  const CHUNK = 99000
+  const START_BLOCK = 9_500_000
   try {
-    const res = await fetch(TEMPO_RPC, {
+    const latestRes = await fetch(TEMPO_RPC, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        jsonrpc: '2.0', method: 'eth_getLogs',
-        params: [{ fromBlock, toBlock: 'latest', address: TEMPO_USDC, topics: [TRANSFER_TOPIC, fromTopic, toTopic] }],
-        id: 1,
-      }),
-      signal: controller.signal,
+      body: JSON.stringify({ jsonrpc: '2.0', method: 'eth_blockNumber', params: [], id: 0 }),
     })
+    const latestData = await latestRes.json() as { result?: string }
+    const latest = parseInt(latestData.result || '0x0', 16)
+    
+    const allLogs: Array<{ transactionHash: string; blockNumber: string; topics: string[]; data: string }> = []
+    const controller = new AbortController()
+    const tid = setTimeout(() => controller.abort(), timeoutMs)
+    
+    for (let from = START_BLOCK; from <= latest; from += CHUNK) {
+      const to = Math.min(from + CHUNK - 1, latest)
+      const res = await fetch(TEMPO_RPC, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          jsonrpc: '2.0', method: 'eth_getLogs',
+          params: [{ fromBlock: '0x' + from.toString(16), toBlock: '0x' + to.toString(16), address: TEMPO_USDC, topics: [TRANSFER_TOPIC, fromTopic, toTopic] }],
+          id: 1,
+        }),
+        signal: controller.signal,
+      })
+      if (!res.ok) continue
+      const json = await res.json() as { result?: Array<{ transactionHash: string; blockNumber: string; topics: string[]; data: string }> }
+      if (json.result) allLogs.push(...json.result)
+    }
     clearTimeout(tid)
-    if (!res.ok) return []
-    const json = await res.json() as { result?: Array<{ transactionHash: string; blockNumber: string; topics: string[]; data: string }> }
-    return json.result || []
-  } catch { clearTimeout(tid); return [] }
+    return allLogs
+  } catch { return [] }
 }
 
 async function fetchTempoBlockTs(blockNumber: string): Promise<number> {
