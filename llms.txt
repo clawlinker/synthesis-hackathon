@@ -24,12 +24,14 @@ This demonstrates a complete working vision of the autonomous agent economy: age
 - LLM inference cost tracking and transparency
 - Machine-readable judge summary at /api/judge/summary
 - Shareable per-receipt pages with OG metadata
+- Wallet spending analysis with categorized USDC history and AI insights
 
 ## Services
 
 - Agent Receipts API: https://molttail.vercel.app/api/receipts (public, free)
 - Agent Receipts x402 (PRODUCES): https://molttail.vercel.app/api/x402/receipts ($0.01 USDC)
 - Agent Receipts x402 (CONSUMES): https://molttail.vercel.app/api/x402/consume ($0.01 USDC) — actually PAYs for checkr API
+- Wallet Analyzer (x402 PRODUCES): https://molttail.vercel.app/api/x402/analyze ($0.50 USDC) — Categorized USDC transaction history with AI insights
 - Receipt SVG: https://molttail.vercel.app/api/receipt/svg/[hash]
 - Receipt OG Image: https://molttail.vercel.app/api/og/[txhash]
 - Receipt Verification: https://molttail.vercel.app/api/verify/[txhash]

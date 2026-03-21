@@ -136,6 +136,7 @@ The Synthesis Open Track rewards **overall quality, innovation, story, and compl
 - **SVG Receipt Cards** — Downloadable receipts for any transaction
 - **Agent Identity** — ERC-8004 badges show agent names and IDs
 - **Inference Receipts** — Track LLM API costs alongside USDC payments
+- **Wallet Analyzer** — `/api/x402/analyze` ($0.50 USDC) — Categorized USDC transaction history with AI-generated insights (health score, spending breakdown, anomaly detection)
 - **x402 Production** — `/api/x402/receipts` charges $0.01 USDC via x402
 - **x402 Consumption** — `/api/x402/consume` actually PAYs for Base token attention data via checkr API
 

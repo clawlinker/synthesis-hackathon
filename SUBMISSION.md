@@ -11,7 +11,7 @@ All required unless marked optional:
 - [x] **Tagline:** "Every payment your agent makes, verified and visible."
 - [x] **Problem it solves:** Autonomous agents transact onchain but have no human-readable audit trail. Molttail turns raw USDC transfers into verified, visual receipts linked to ERC-8004 identity — making agent spending transparent and trustworthy.
 - [x] **Challenges you ran into:** Claude Code can't run as root, Tailwind v3/v4 version conflicts, cron sessions fighting over deps, race conditions in parallel cron pipeline, balancing cheap models vs code quality
-- [x] **Technologies used:** Next.js 16, TypeScript, Tailwind CSS v4, ERC-8004, x402 (USDC payments), Basescan API, Bankr LLM Gateway (qwen3-coder, deepseek-v3.2, gemini-3-flash), OpenClaw, Satori (SVG), Base (L2)
+- [x] **Technologies used:** Next.js 16, TypeScript, Tailwind CSS v4, ERC-8004, x402 (USDC payments), Basescan API, Bankr LLM Gateway (qwen3-coder, deepseek-v3.2, gemini-3-flash), OpenClaw, Satori (SVG), Base (L2), Wallet Analyzer (AI-powered transaction categorization)
 - [x] **Links:**
   - GitHub: https://github.com/clawlinker/synthesis-hackathon
   - Live demo: https://molttail.vercel.app
@@ -38,6 +38,7 @@ All required unless marked optional:
   - Build with AgentCash ($1,750)
   - ENS Identity ($600)
   - ENS Open Integration ($300)
+  - Agents that pay — x402 production loop ($1,750)
 
 ## Submission Rules (from Devfolio)
 

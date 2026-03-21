@@ -61,12 +61,9 @@ export interface WalletStats {
 
 function labelAddress(address: string): string | undefined {
   const addr = address.toLowerCase()
-  for (const [key, label] of Object.entries(ADDRESS_LABELS)) {
-    if (key.toLowerCase() === addr) return label
-  }
-  for (const [key, label] of Object.entries(SERVICE_LABELS)) {
-    if (key.toLowerCase() === addr) return label
-  }
+  // Check ADDRESS_LABELS first (more specific), then SERVICE_LABELS
+  if (addr in ADDRESS_LABELS) return ADDRESS_LABELS[addr]
+  if (addr in SERVICE_LABELS) return SERVICE_LABELS[addr]
   return undefined
 }
 
@@ -100,7 +97,9 @@ export function parseTransactions(
     const direction: 'sent' | 'received' = from === walletLower ? 'sent' : 'received'
     const counterparty = direction === 'sent' ? to : from
     const decimals = parseInt(tx.tokenDecimal || '6')
-    const amount = parseInt(tx.value) / Math.pow(10, decimals)
+    // Handle potential NaN from invalid tokenDecimal
+    const decimalValue = isNaN(decimals) || decimals < 0 ? 6 : decimals
+    const amount = parseInt(tx.value) / Math.pow(10, decimalValue)
 
     return {
       hash: tx.hash,
@@ -195,12 +194,15 @@ function computeBreakdown(txs: ParsedTx[]): BreakdownEntry[] {
     groups.set(category, existing)
   }
 
+  // Avoid division by zero if totalVolume is 0
+  const safeTotalVolume = totalVolume > 0 ? totalVolume : 1
+
   return Array.from(groups.entries())
     .map(([category, data]) => ({
       category,
       amount: data.amount.toFixed(2),
       count: data.count,
-      pct: totalVolume > 0 ? Math.round((data.amount / totalVolume) * 1000) / 10 : 0,
+      pct: Math.round((data.amount / safeTotalVolume) * 1000) / 10,
     }))
     .sort((a, b) => parseFloat(b.amount) - parseFloat(a.amount))
 }

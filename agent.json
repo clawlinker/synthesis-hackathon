@@ -378,6 +378,45 @@
           "description": "Text record key (e.g., 'telegram', 'xmtp', 'farcaster')"
         }
       }
+    },
+    {
+      "name": "wallet_analyzer",
+      "endpoint": "https://molttail.vercel.app/api/x402/analyze",
+      "version": "1.0.0",
+      "description": "Wallet spending analysis - categorized USDC transaction history with AI insights (Track 4: Agents that pay)",
+      "methods": ["GET"],
+      "payment": {
+        "protocol": "x402",
+        "price": "$0.50 USDC",
+        "network": "eip155:8453",
+        "currency": "USDC",
+        "currencyAddress": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+      },
+      "parameters": {
+        "wallet": {
+          "type": "string",
+          "required": true,
+          "description": "Ethereum address to analyze"
+        },
+        "limit": {
+          "type": "integer",
+          "required": false,
+          "default": 100,
+          "description": "Max transactions to fetch (default 100, max 200)"
+        }
+      },
+      "returns": {
+        "txCount": "Total transaction count",
+        "timeRange": "Date range of activity",
+        "totalSent": "Total USDC sent",
+        "totalReceived": "Total USDC received",
+        "netFlow": "Net flow (received - sent)",
+        "breakdown": "Spending by category",
+        "topRecipients": "Top 5 recipients by volume",
+        "anomalies": "Unusual transactions flagged",
+        "healthScore": "0-100 wallet health score",
+        "llmSummary": "AI-generated 3-4 sentence summary"
+      }
     }
   ],
   "supportedTrust": ["reputation", "crypto-economic"],
