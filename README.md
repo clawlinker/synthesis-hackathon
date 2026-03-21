@@ -19,8 +19,8 @@ Molttail is a live audit trail for autonomous agent transactions on Base. See ev
 ### Problem Solved
 Autonomous agents transact onchain but have **no human-readable audit trail**. Molttail turns raw USDC transfers into **verified, visual receipts** linked to ERC-8004 identity — making agent spending transparent and trustworthy.
 
-### Track 3: Agent Services on Base — Why This Wins
-Molttail is a **Base-native application** with real onchain outcomes:
+### Track 3: Agent Services on Base — Why This Wins ($5,000)
+Molttail is a **Base-native application** with real onchain outcomes for the Base ecosystem:
 
 | Feature | What It Does | Why It Matters for Base |
 |---------|-------------|------------------------|
@@ -39,6 +39,61 @@ Molttail is a **Base-native application** with real onchain outcomes:
   "amount": "1.79",
   "service": "checkr attention signal"
 }
+```
+
+---
+
+### Why Track 4: Agent Services on Base?
+
+**Track 4 rewards projects that build *on Base* and create measurable value for the Base ecosystem.** Molttail does this in three concrete ways:
+
+#### 1. Base-First Architecture
+
+| Layer | Base Implementation |
+|-------|---------------------|
+| **Smart Contracts** | x402 facilitator deployed on Base (`0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913` for USDC) |
+| **Data Layer** | All receipts fetched from `base.blockscout.com` (not Ethereum mainnet) |
+| **Wallet** | Bankr wallet `0x4de9...` active on Base (`eip155:8453`) |
+| **Gas** | All transactions use Base's low gas fees (avg $0.001 vs Ethereum $5-50) |
+
+#### 2. Real Base Agent Usage
+
+Molttail demonstrates **autonomous agents transacting on Base** with verifiable proof:
+
+- **x402 Producer:** `/api/x402/receipts` serves Base receipts to agents
+- **x402 Consumer:** `/api/x402/consume` pays for checkr Base token attention data
+- **Live Agents:** Clawlinker (ERC-8004 #22945) operates entirely on Base
+
+**Example transaction flow:**
+```
+1. Agent A (on Base) requests receipt data → pays $0.01 USDC via x402
+2. Molttail fetches Base transaction from base.blockscout.com
+3. Agent B (on Base) receives verified receipt with Base block number
+4. Agent B can now trust Agent A's Base spending is real
+```
+
+#### 3. Base Ecosystem Value Creation
+
+Molttail doesn't just *use* Base — it **adds value** to the Base ecosystem:
+
+| Value | How Molttail Delivers |
+|-------|----------------------|
+| **Transparency** | First agent receipt audit trail on Base |
+| **Developer Tooling** | ENS resolver + x402 API for other Base agents |
+| **Live Data** | Real Base USDC flows, not testnet mock data |
+| **Agent Onboarding** | Simplifies Base ecosystem entry for new agents |
+
+**The Base Agent Economy Loop:**
+```
+Base Agents Transact (Molttail Reads)
+    ↓
+Base Blockscout Verification
+    ↓
+Verified Receipts Shared
+    ↓
+More Agents Join Base (Trust Enabled)
+    ↓
+Base Ecosystem Grows
 ```
 
 ### Track 3: Best Bankr LLM Gateway Use — Why This Wins
