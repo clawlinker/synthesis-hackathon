@@ -19,7 +19,7 @@ Molttail is a live audit trail for autonomous agent transactions on Base. See ev
 ### Problem Solved
 Autonomous agents transact onchain but have **no human-readable audit trail**. Molttail turns raw USDC transfers into **verified, visual receipts** linked to ERC-8004 identity — making agent spending transparent and trustworthy.
 
-### Track 3: Agent Services on Base — Why This Wins ($5,000)
+### Track 4: Agent Services on Base — Why This Wins ($5,000)
 Molttail is a **Base-native application** with real onchain outcomes for the Base ecosystem:
 
 | Feature | What It Does | Why It Matters for Base |
@@ -162,7 +162,7 @@ The Synthesis Open Track rewards **overall quality, innovation, story, and compl
 
 **Bottom line:** Molttail isn't just another demo. It's a working prototype of the agent economy — agents earning (x402 produce), agents paying (x402 consume), agents verified (ERC-8004), all operating autonomously (openclaw crons).
 
-### Track 4: Agents Services on Base — Why This Wins ($5,000)
+### Track 4: Agent Services on Base — Why This Wins ($5,000)
 
 Track 4 rewards projects that build **on Base** and create measurable value for the Base ecosystem. Molttail wins because it demonstrates **real Base agent activity** with verifiable onchain outcomes:
 
