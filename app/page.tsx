@@ -271,7 +271,9 @@ export default function Home() {
         >
           All
         </button>
-        {Object.entries(CHAINS).map(([key, chain]) => (
+        {Object.entries(CHAINS)
+          .filter(([key]) => key !== 'tempo') // Tempo wallet has no USDC activity yet — hide to avoid empty state
+          .map(([key, chain]) => (
           <button
             key={key}
             onClick={() => {
@@ -287,7 +289,7 @@ export default function Home() {
             }`}
             aria-label={`Filter by chain: ${chain.name}`}
           >
-            <span className={`h-1.5 w-1.5 rounded-full ${key === 'base' ? 'bg-success' : key === 'tempo' ? 'bg-violet-400' : 'bg-blue-400'}`} />
+            <span className={`h-1.5 w-1.5 rounded-full ${key === 'base' ? 'bg-success' : key === 'ethereum' ? 'bg-blue-400' : 'bg-violet-400'}`} />
             {chain.name}
           </button>
         ))}
