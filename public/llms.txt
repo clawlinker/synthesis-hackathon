@@ -34,7 +34,10 @@ Analyze any wallet's USDC spending history on Base. Returns categorized transact
 - `analysis.healthScore` — 0-100 wallet health rating
 - `analysis.anomalies` — Flagged unusual transactions
 - `llmSummary` — AI-generated analysis (Bankr LLM)
+- `dashboardUrl` — Visual dashboard URL to share with wallet owner (free to view)
 - `agent` — ERC-8004 identity of Molttail
+
+**Agent-to-Human flow:** After paying for analysis, share `dashboardUrl` with your human. They get a visual dashboard with health ring, spending breakdown, and anomaly flags — no payment needed on their end.
 
 **Example (with x402-fetch):**
 ```

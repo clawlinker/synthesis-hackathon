@@ -156,6 +156,7 @@
       "returns": {
         "analysis": "Spending breakdown, top recipients, anomalies, health score",
         "llmSummary": "AI-generated wallet analysis (Bankr LLM)",
+        "dashboardUrl": "Shareable visual dashboard URL for the wallet owner (e.g. https://molttail.vercel.app/wallet/0x...)",
         "agent": "ERC-8004 identity of the analyzing agent"
       }
     },
@@ -170,6 +171,7 @@
   "pages": {
     "home": "https://molttail.vercel.app/",
     "analyze": "https://molttail.vercel.app/analyze",
+    "wallet_dashboard": "https://molttail.vercel.app/wallet/{address}",
     "judge": "https://molttail.vercel.app/judge",
     "build_log": "https://molttail.vercel.app/build-log",
     "costs": "https://molttail.vercel.app/costs"

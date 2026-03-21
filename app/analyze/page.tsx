@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -303,6 +303,90 @@ console.log(data.analysis) // health score, breakdown, anomalies`}
           </Card>
         </div>
       )}
+
+      {/* Copyable Skill for Agents */}
+      <SkillSnippet />
     </main>
+  )
+}
+
+// ─── Copyable Skill Snippet ──────────────────────────────
+
+const SKILL_TEXT = `# Molttail Wallet Analyzer
+Analyze any wallet's USDC spending on Base with AI insights.
+
+## Endpoint
+GET https://molttail.vercel.app/api/x402/analyze?wallet=<ADDRESS>&limit=100
+
+## Payment
+$0.50 USDC on Base via x402 protocol.
+Without payment header, returns 402 with payment requirements.
+
+## Integration (x402-fetch)
+\`\`\`typescript
+import { wrapFetchWithPayment, createSigner } from 'x402-fetch'
+
+const signer = await createSigner('base', PRIVATE_KEY)
+const fetchPaid = wrapFetchWithPayment(fetch, signer)
+
+const res = await fetchPaid(
+  'https://molttail.vercel.app/api/x402/analyze?wallet=0x...'
+)
+const data = await res.json()
+// data.analysis — health score, breakdown, anomalies
+// data.llmSummary — AI-generated analysis
+// data.dashboardUrl — visual dashboard link to share with your human
+\`\`\`
+
+## Response
+- analysis.healthScore (0-100) — wallet health rating
+- analysis.breakdown — spending by counterparty with percentages
+- analysis.topRecipients — biggest spending targets
+- analysis.anomalies — z-score outlier flags
+- llmSummary — AI-generated wallet analysis
+- dashboardUrl — shareable visual dashboard for your human
+
+## Discovery
+- Agent manifest: https://molttail.vercel.app/.well-known/agent.json
+- Docs: https://molttail.vercel.app/llms.txt`
+
+function SkillSnippet() {
+  const [copied, setCopied] = useState(false)
+  const preRef = useRef<HTMLPreElement>(null)
+
+  function handleCopy() {
+    navigator.clipboard.writeText(SKILL_TEXT).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }
+
+  return (
+    <div className="mt-10 border-t border-zinc-800/50 pt-8">
+      <div className="flex items-center justify-between mb-3">
+        <div>
+          <h3 className="text-sm font-medium text-zinc-300">Give this to your agent</h3>
+          <p className="text-xs text-zinc-500 mt-0.5">
+            Copy this skill snippet into your agent&apos;s context so it can use the analyzer.
+          </p>
+        </div>
+        <button
+          onClick={handleCopy}
+          className={`rounded-md px-3 py-1.5 text-xs font-medium transition-all ${
+            copied
+              ? 'bg-green-500/20 text-green-400'
+              : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-zinc-200'
+          }`}
+        >
+          {copied ? '✓ Copied' : 'Copy'}
+        </button>
+      </div>
+      <pre
+        ref={preRef}
+        className="overflow-x-auto rounded-lg bg-zinc-950 border border-zinc-800/50 p-4 text-xs text-zinc-400 leading-relaxed whitespace-pre-wrap"
+      >
+        {SKILL_TEXT}
+      </pre>
+    </div>
   )
 }

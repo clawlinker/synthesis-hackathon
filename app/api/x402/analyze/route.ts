@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { PAYTO_ADDRESS } from '@/app/lib/x402-server'
 import { AGENT } from '@/app/types'
 import { parseTransactions, analyzeWallet } from '@/lib/analyzer'
+import { cacheSummary } from '@/lib/analysis-cache'
 
 // Re-export AGENT with AgentInfo type for compatibility
 const ANALYZE_AGENT = {
@@ -279,13 +280,22 @@ export async function GET(req: NextRequest) {
     llmSummary = await generateLlmSummary(wallet, stats)
   }
 
-  // 7. Return response
+  // 7. Cache summary for free dashboard access
+  if (llmSummary) {
+    cacheSummary(wallet, llmSummary, BANKR_MODEL)
+  }
+
+  // 8. Build dashboard URL for the agent's human
+  const dashboardUrl = `https://molttail.vercel.app/wallet/${wallet}`
+
+  // 9. Return response
   return NextResponse.json(
     {
       wallet,
       chain: 'base',
       analysis: stats,
       llmSummary,
+      dashboardUrl,
       ...(result.partial
         ? {
             note: `Results limited to ${limit} most recent transactions. This wallet may have more history.`,
@@ -305,6 +315,7 @@ export async function GET(req: NextRequest) {
         network: 'base',
         analyzedAt: new Date().toISOString(),
         txsFetched: result.txs.length,
+        dashboardUrl,
       },
     },
     {
