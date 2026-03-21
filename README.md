@@ -271,12 +271,29 @@ Display: Verified badge with link to 8004scan.io/agents/ethereum/22945
 3. Frontend displays verified badge with link to explorer
 4. User can verify: agent identity, registration TX, operator wallet
 
-**Onchain TX Evidence:**
-| TX Type | Contract | Network | Explorer |
-|---------|----------|---------|----------|
-| Registration | 0x8004A169... | Ethereum | [0x22c39760...](https://etherscan.io/tx/0x22c39760a1e244cc6aacb071169d356fbfb0b31c948790e2a4de59081d049b23) |
-| Agent Update | 0x8004A169... | Ethereum | Verified via 8004scan.io API |
-| Wallet Link | ERC-1271 | Ethereum | [0x5793...](https://etherscan.io/address/0x5793BFc1331538C5A8028e71Cc22B43750163af8) |
+**Onchain TX Evidence (ERC-8004 Registry Interactions):**
+| TX Type | Contract | Network | Explorer | Purpose |
+|---------|----------|---------|----------|---------|
+| Registration | 0x8004A169... | Ethereum | [0x22c39760...](https://etherscan.io/tx/0x22c39760a1e244cc6aacb071169d356fbfb0b31c948790e2a4de59081d049b23) | Agent #22945 registered by Clawlinker (ERC-721 mint) |
+| Set Agent URI | 0x8004A169... | Ethereum | [verified via 8004scan.io](https://www.8004scan.io/agents/ethereum/22945) | Agent metadata registered (clawlinker.eth, ENS IP-25) |
+
+**DevSpot Agent Manifest:**
+Molttail implements the full DevSpot Agent Specification with:
+- Full agent.json at `/.well-known/agent.json` with capabilities, tools, wallets
+- agent_log.json (93KB) with 134 sessions showing timestamps, tools, costs
+- `erc8004_builder` section with registration TX and explorer link
+- `erc8004: 22945` field linking agent to registry
+- `wallets` with network specification (eip155:1, eip155:8453) and signer reference
+
+#### ERC-8004 Integration (Autonomous Usage)
+Track 1 requires interaction with ERC-8004 registries beyond registration. Molttail implements:
+
+1. **Onchain Identity Verification** — Every receipt verifies agent identity via ERC-8004 registry
+2. **ENS-ERC8004 Integration** — clawlinker.eth resolves to ERC-8004 #22945 via ENS IP-25
+3. **Autonomous Registry Query** — Agent's `ens-resolver` endpoint queries registry for identity metadata during API calls
+4. **Reputation Evidence** — x402 payment logs include agent identity for reputation building
+
+The agent's `/.well-known/agent.json` and `agent_log.json` provide DevSpot-compliant manifests that link to the ERC-8004 registry, demonstrating both registration and operational use of the identity infrastructure.
 
 #### Autonomous Agent Architecture
 Track 1 requires **planning, execution, verification, decision loops** — Molttail demonstrates this through 5 parallel crons:
