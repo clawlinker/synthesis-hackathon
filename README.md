@@ -152,6 +152,59 @@ The Synthesis Open Track rewards **overall quality, innovation, story, and compl
 
 **Bottom line:** Molttail isn't just another demo. It's a working prototype of the agent economy — agents earning (x402 produce), agents paying (x402 consume), agents verified (ERC-8004), all operating autonomously (openclaw crons).
 
+### Track 4: Agents Services on Base — Why This Wins ($5,000)
+
+Track 4 rewards projects that build **on Base** and create measurable value for the Base ecosystem. Molttail wins because it demonstrates **real Base agent activity** with verifiable onchain outcomes:
+
+#### 1. Base-First Architecture
+
+| Layer | Base Implementation |
+|-------|---------------------|
+| **Smart Contracts** | x402 facilitator deployed on Base (`0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913` for USDC) |
+| **Data Layer** | All receipts fetched from `base.blockscout.com` (not Ethereum mainnet) |
+| **Wallet** | Bankr wallet `0x4de9...` active on Base (`eip155:8453`) |
+| **Gas** | All transactions use Base's low gas fees (avg $0.001 vs Ethereum $5-50) |
+
+#### 2. Real Base Agent Usage
+
+Molttail demonstrates **autonomous agents transacting on Base** with verifiable proof:
+
+- **x402 Producer:** `/api/x402/receipts` serves Base receipts to agents
+- **x402 Consumer:** `/api/x402/consume` pays for checkr Base token attention data
+- **Live Agents:** Clawlinker (ERC-8004 #22945) operates entirely on Base
+
+**Example transaction flow:**
+```
+1. Agent A (on Base) requests receipt data → pays $0.01 USDC via x402
+2. Molttail fetches Base transaction from base.blockscout.com
+3. Agent B (on Base) receives verified receipt with Base block number
+4. Agent B can now trust Agent A's Base spending is real
+```
+
+#### 3. Base Ecosystem Value Creation
+
+Molttail doesn't just *use* Base — it **adds value** to the Base ecosystem:
+
+| Value | How Molttail Delivers |
+|-------|----------------------|
+| **Transparency** | First agent receipt audit trail on Base |
+| **Developer Tooling** | ENS resolver + x402 API for other Base agents |
+| **Live Data** | Real Base USDC flows, not testnet mock data |
+| **Agent Onboarding** | Simplifies Base ecosystem entry for new agents |
+
+**The Base Agent Economy Loop:**
+```
+Base Agents Transact (Molttail Reads)
+    ↓
+Base Blockscout Verification
+    ↓
+Verified Receipts Shared
+    ↓
+More Agents Join Base (Trust Enabled)
+    ↓
+Base Ecosystem Grows
+```
+
 ### Key Differentiators
 | Feature | What It Does | Why It Matters |
 |---------|-------------|----------------|
