@@ -4,6 +4,7 @@ import { AGENT, BANKR_AGENT, type Receipt, CHAINS, type ChainKey } from '@/app/t
 import { sampleReceipts } from '@/data/sample-receipts'
 import { ADDRESS_LABELS, CONTRACTS, RATE_LIMIT, SERVICE_LABELS } from '@/data/config'
 import { AGENT_REGISTRY, resolveAgent } from '@/data/erc8004-resolver'
+import { resolveAgentByWallet, type OnChainAgent } from '@/data/erc8004-onchain'
 import { sampleInferenceReceipts } from '@/data/inference-receipts'
 
 // Tempo chain constants
@@ -177,6 +178,34 @@ function shouldFetchLive(): boolean {
   return Date.now() - receiptCache.lastFetchTime > CACHE_TTL_MS
 }
 
+// ─── On-Chain 8004 Agent Resolution ──────────────────────
+// Enrich receipts with real on-chain 8004 identity (async, cached)
+const onChainAgentCache = new Map<string, { agent: OnChainAgent | null; resolved: boolean }>()
+let onChainResolutionStarted = false
+
+async function resolveOnChainAgents() {
+  if (onChainResolutionStarted) return
+  onChainResolutionStarted = true
+  // Resolve known wallets in background
+  const knownWallets = [
+    '0x5793BFc1331538C5A8028e71Cc22B43750163af8', // x402 / Clawlinker
+    '0x4DE988e65A32a12487898c10bC63A88AbeA2e292', // Bankr
+  ]
+  for (const wallet of knownWallets) {
+    try {
+      const agent = await resolveAgentByWallet(wallet)
+      onChainAgentCache.set(wallet.toLowerCase(), { agent, resolved: true })
+    } catch {
+      onChainAgentCache.set(wallet.toLowerCase(), { agent: null, resolved: true })
+    }
+  }
+}
+
+function getOnChainAgent(address: string): OnChainAgent | null {
+  const entry = onChainAgentCache.get(address.toLowerCase())
+  return entry?.agent ?? null
+}
+
 // Use Blockscout REST API v2 for live fetches
 const BLOCKSCOUT_REST_API = 'https://base.blockscout.com/api/v2'
 // Etherscan V2 as fallback (requires paid plan for Base — kept for reference)
@@ -259,8 +288,11 @@ interface EnrichedReceipt {
 type ReceiptWithMetadata = Receipt & { receiptType?: 'onchain' | 'inference' }
 
 function enrichReceiptWithAgentData(tx: { from: string; to: string }): Partial<EnrichedReceipt> {
-  const fromAgent = resolveAgent(tx.from)
-  const toAgent = resolveAgent(tx.to)
+  // Try on-chain 8004 resolution first, fall back to hardcoded map
+  const onChainFrom = getOnChainAgent(tx.from)
+  const onChainTo = getOnChainAgent(tx.to)
+  const fromAgent = onChainFrom ? { id: onChainFrom.agentId, name: onChainFrom.name, ens: undefined, avatar: onChainFrom.image } : resolveAgent(tx.from)
+  const toAgent = onChainTo ? { id: onChainTo.agentId, name: onChainTo.name, ens: undefined, avatar: onChainTo.image } : resolveAgent(tx.to)
   
   return {
     fromAgent: fromAgent ? {
@@ -268,12 +300,6 @@ function enrichReceiptWithAgentData(tx: { from: string; to: string }): Partial<E
       name: fromAgent.name,
       ens: fromAgent.ens,
       avatar: fromAgent.avatar,
-    } : undefined,
-    toAgent: toAgent ? {
-      id: toAgent.id,
-      name: toAgent.name,
-      ens: toAgent.ens,
-      avatar: toAgent.avatar,
     } : undefined,
   }
 }
@@ -456,6 +482,9 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
     
     let allReceipts: Receipt[]
     let dataSource: 'live' | 'cached' | 'sample'
+
+    // Kick off on-chain 8004 resolution in background (non-blocking)
+    resolveOnChainAgents().catch(() => {})
 
     if (shouldFetchLive()) {
       // Fetch new receipts from live APIs
