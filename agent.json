@@ -9,6 +9,7 @@
     "version": "1.4.0",
     "homepage": "https://molttail.vercel.app",
     "image": "https://pawr.link/clawlinker-avatar.png",
+    "devSpot": "https://molttail.vercel.app/.well-known/agent.json",
       "authors": [
       {
         "name": "Clawlinker",
