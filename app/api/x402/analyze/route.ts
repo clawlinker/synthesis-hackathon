@@ -127,22 +127,53 @@ async function generateLlmSummary(
   const apiKey = process.env.BANKR_API_KEY
   if (!apiKey) return null
 
-  const prompt = `You are an onchain analyst. Analyze this wallet's USDC transaction history on Base.
-Return a 3-4 sentence summary covering: what this wallet appears to do, its main spending categories, notable patterns, and overall health assessment.
-Be specific with dollar amounts and transaction counts. Be concise and direct.
+  // Compute derived metrics for richer analysis
+  const sentNum = parseFloat(stats.totalSent)
+  const recvNum = parseFloat(stats.totalReceived)
+  const days = stats.timeRange.days || 1
+  const dailyBurn = sentNum / days
+  const topCounterpartyPct = stats.breakdown.length > 0 ? stats.breakdown[0].pct : 0
+  const uniqueCounterparties = stats.breakdown.length
+  const hasRevenue = recvNum > 0
+  const runwayDays = dailyBurn > 0 && sentNum > recvNum ? Math.round(recvNum / dailyBurn) : null
 
-Wallet: ${wallet}
-Data: ${JSON.stringify({
-    txCount: stats.txCount,
-    timeRange: stats.timeRange,
-    totalSent: stats.totalSent,
-    totalReceived: stats.totalReceived,
-    netFlow: stats.netFlow,
-    breakdown: stats.breakdown.slice(0, 8),
-    topRecipients: stats.topRecipients,
-    anomalyCount: stats.anomalies.length,
-    healthScore: stats.healthScore,
-  })}`
+  const prompt = `You are a senior on-chain spending analyst. Produce a concise, insight-dense assessment of this wallet's USDC activity on Base.
+
+## Your Task
+Write 3-4 sentences that answer:
+1. **What is this wallet?** (builder agent, trader, service provider, treasury, consumer — infer from counterparties and flow direction)
+2. **Where does the money go?** (top spending categories by name, not address — use labels when available)
+3. **Is anything notable?** (concentration risk, anomalies, spending velocity changes, revenue vs cost imbalance)
+4. **Bottom line** — is this wallet healthy, and what's the one thing to watch?
+
+## Rules
+- Lead with the INSIGHT, not the data. "This wallet burns $${dailyBurn.toFixed(2)}/day on inference" > "The wallet has sent $X over Y days."
+- Use service names from labels, never raw addresses.
+- Be specific: dollar amounts (2 decimals), percentages, tx counts.
+- If revenue exists, calculate and mention the profit/loss margin.
+- If top counterparty > 70%, flag concentration risk.
+- No filler phrases. No "Based on the data provided." Just analyze.
+- 3-4 sentences max. Every word must earn its place.
+
+## Wallet Data
+Address: ${wallet}
+Period: ${stats.timeRange.days} days (${stats.timeRange.first?.slice(0, 10) || '?'} → ${stats.timeRange.last?.slice(0, 10) || '?'})
+Transactions: ${stats.txCount}
+Sent: $${stats.totalSent} | Received: $${stats.totalReceived} | Net: $${stats.netFlow}
+Daily burn rate: $${dailyBurn.toFixed(2)}/day
+${runwayDays !== null ? `Estimated runway: ${runwayDays} days at current burn` : 'Revenue covers or exceeds spend'}
+Unique counterparties: ${uniqueCounterparties}
+Top counterparty concentration: ${topCounterpartyPct}%
+${hasRevenue ? `Revenue streams detected: $${stats.totalReceived} inbound` : 'No inbound revenue detected'}
+Health score: ${stats.healthScore}/100
+
+Spending breakdown (top 8):
+${stats.breakdown.slice(0, 8).map(b => `  ${b.category}: $${b.amount} (${b.count} txs, ${b.pct}%)`).join('\n')}
+
+Top recipients:
+${stats.topRecipients.map(r => `  ${r.label}: $${r.amount} (${r.count} txs)`).join('\n')}
+
+Anomalies flagged: ${stats.anomalies.length}${stats.anomalies.length > 0 ? '\n' + stats.anomalies.slice(0, 3).map(a => `  $${a.amount} — ${a.reason}`).join('\n') : ''}`
 
   const controller = new AbortController()
   const timeoutId = setTimeout(() => controller.abort(), LLM_TIMEOUT_MS)

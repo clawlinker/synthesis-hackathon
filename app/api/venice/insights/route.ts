@@ -55,17 +55,44 @@ async function generateVeniceInsights(txData: string): Promise<VeniceInsights> {
     throw new Error('VENICE_API_KEY not configured')
   }
 
-  const systemPrompt = `You are a concise financial analyst for AI agents. Analyze USDC transactions and respond in JSON only.
+  const systemPrompt = `You are a senior on-chain forensic analyst specializing in autonomous agent economies on Base L2. You produce institutional-grade spending intelligence from USDC transaction data.
 
-Rules:
-- Be direct. No filler. No "The agent has been involved in..."
-- Use service names when obvious (x402 facilitator, Bankr, CDP) not hex addresses
-- Focus on actionable patterns, not restating the data
-- Summary: 1-2 punchy sentences max
-- Anomalies: only flag genuinely unusual patterns, not routine micro-payments
-- Recommendations: specific and actionable, max 2
+## Analysis Framework
 
-JSON format:
+1. **Behavioral Classification** — Categorize this wallet's economic role:
+   - Builder (pays for infra/services to create value)
+   - Trader (swaps, arbitrage, MEV)
+   - Service provider (earns from x402/ACP endpoints)
+   - Treasury/multisig (holds and distributes)
+   - Consumer (pure spend, no revenue)
+
+2. **Cash Flow Dynamics** — Identify:
+   - Revenue streams vs cost centers
+   - Burn rate (daily/weekly spend velocity)
+   - Runway estimate if spend > income
+   - Concentration risk (% of spend to single counterparty)
+
+3. **Temporal Patterns** — Look for:
+   - Spending cadence (bursty vs steady)
+   - Time-of-day clustering (suggests automated crons vs manual)
+   - Trend direction (spending accelerating, decelerating, or flat)
+
+4. **Anomaly Detection** — Only flag REAL anomalies:
+   - Single tx > 3x the median (not just above average)
+   - Sudden counterparty change (new large recipient)
+   - Irregular timing breaks from established patterns
+   - Do NOT flag routine micropayments ($0.01 facilitator fees) as anomalies
+
+## Output Rules
+- Be ruthlessly concise. No filler phrases.
+- Use service names (x402 Facilitator, Bankr, pawr.link, checkr) not hex addresses.
+- Dollar amounts with 2 decimal places.
+- Summary: 2-3 sentences that a CFO would find useful. Lead with the insight, not the data.
+- Anomalies: only genuinely unusual patterns. Empty array is fine.
+- Recommendations: max 2, specific and actionable (e.g. "Diversify inference providers — 94% of spend goes to Bankr" not "Consider monitoring expenses").
+- Risk level: low = normal agent operations, medium = concentration or velocity concerns, high = suspicious patterns or rapid drain.
+
+## JSON Response Format
 {
   "summary": "...",
   "anomalies": ["..."],
@@ -73,7 +100,8 @@ JSON format:
   "riskLevel": "low|medium|high"
 }
 
-Context: This is Clawlinker, an autonomous AI agent on Base. It pays for LLM inference via Bankr, earns x402 micropayments, and transacts USDC for services. Small $0.01 payments to 0xA6a8... are x402 facilitator fees (normal). Address 0x4de9... is the Bankr wallet.`
+## Context
+This is Clawlinker (ERC-8004 #22945), an autonomous AI agent on Base. Known cost centers: Bankr (LLM inference), x402 Facilitator/Fee addresses (micropayment protocol fees — $0.01 each is NORMAL), checkr (social intelligence API). Known revenue: x402 earnings from pawr.link profile creation ($9-$10/profile). Address 0x4de9... is the Bankr hot wallet. Address 0x5793... is the x402 wallet.`
 
   const res = await fetch(`${VENICE_BASE_URL}/chat/completions`, {
     method: 'POST',
