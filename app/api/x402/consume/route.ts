@@ -3,14 +3,16 @@ import { getResourceServer } from "@/app/lib/x402-server";
 import { AGENT } from "@/app/types";
 
 // x402 consumption endpoint - demonstrates agent actually paying for data
-// Uses checkr API (Base token attention intelligence) which costs $0.01 per request
-const CHECKR_ENDPOINT = "https://checkr-api.vercel.app/api/v1/trending";
+// Uses checkr API (Base token attention intelligence) which costs $0.05 per request
+// The actual x402-protected endpoint: https://api.checkr.social/v1/spikes
+const CHECKR_ENDPOINT = "https://api.checkr.social/v1/spikes";
 
 // x402 payment requirements for consuming the checkr API
+// Checkr charges $0.05 for spikes endpoint (Base token attention intelligence)
 const CONSUME_PAYMENT_REQUIREMENTS = {
   scheme: "exact",
   network: "eip155:8453",
-  maxAmountRequired: "10000", // $0.01 in 6-decimal USDC
+  maxAmountRequired: "50000", // $0.05 in 6-decimal USDC
   resource: "https://molttail.vercel.app/api/x402/consume",
   description: "Consume Base token attention intelligence via checkr API",
   mimeType: "application/json",
@@ -101,7 +103,7 @@ export async function GET(req: NextRequest) {
       endpoint: CHECKR_ENDPOINT,
       data: checkrData,
       payment: {
-        amount: "$0.01 USDC",
+        amount: "$0.05 USDC",
         network: "Base",
         currency: "USDC",
         currencyAddress: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
@@ -117,7 +119,7 @@ export async function GET(req: NextRequest) {
         x402Consumed: true,
         paymentVerified: true,
         track: "Agents that pay - AgentCash x402",
-        usage: "Demonstrates autonomous agent actually paying for API data",
+        usage: "Demonstrates autonomous agent actually paying for checkr API (Base token attention)",
       },
     });
   } catch (error) {
