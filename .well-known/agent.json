@@ -359,6 +359,45 @@
       "description": "ERC-8004 agent manifest (JSON)"
     },
     {
+      "name": "x402_consume_base_attention",
+      "endpoint": "https://molttail.vercel.app/api/x402/consume",
+      "version": "1.0.0",
+      "description": "x402-consuming endpoint that PAYs for Base token attention data via checkr API ($0.05 USDC per request)",
+      "methods": ["GET"],
+      "payment": {
+        "protocol": "x402",
+        "price": "$0.05 USDC",
+        "network": "eip155:8453",
+        "currency": "USDC",
+        "currencyAddress": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+      },
+      "parameters": {
+        "token": {
+          "type": "string",
+          "required": false,
+          "default": "base",
+          "description": "Token symbol (e.g., base, eth, usdc)"
+        },
+        "track": {
+          "type": "string",
+          "required": false,
+          "default": "agents-that-pay",
+          "description": "Bounty track context"
+        }
+      },
+      "returns": {
+        "consumed": "boolean - payment verified",
+        "service": "checkr API service name",
+        "data": "Base token attention/spike data",
+        "payment": "USDC amount, network, currency details"
+      },
+      "_metadata": {
+        "x402Consumed": true,
+        "track": "Agents that pay - AgentCash x402",
+        "purpose": "Demonstrates autonomous agent actually paying for external data (checkr Base attention)"
+      }
+    },
+    {
       "name": "wallet_analyzer",
       "endpoint": "https://molttail.vercel.app/api/x402/analyze",
       "version": "1.0.0",
