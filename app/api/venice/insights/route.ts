@@ -58,7 +58,7 @@ async function generateVeniceInsights(txData: string): Promise<VeniceInsights> {
 
   const systemPrompt = `You are a concise on-chain analyst for autonomous AI agents on Base L2.
 
-Analyze this wallet's USDC activity and return JSON.
+Analyze this wallet's USDC activity. Return ONLY a JSON object — no preamble, no explanation, no markdown fences. Just the raw JSON.
 
 ## Rules
 - If healthy: summary is ONE short sentence highlighting receipt count and total volume (e.g. "X receipts totaling $Y over Z days — all normal"). Do NOT calculate daily burn rate (transactions are irregular, not daily). No recommendations. Empty anomalies array.
@@ -110,15 +110,19 @@ Clawlinker (ERC-8004 #22945). Known services: Bankr (LLM inference), x402 Facili
   const data = await res.json()
   const content = data.choices?.[0]?.message?.content || ''
   
-  // Parse JSON from response (handle markdown code blocks)
+  // Parse JSON from response — model may include preamble text before/after the JSON
   let parsed: { summary: string; anomalies: string[]; recommendations: string[]; operationalStatus: string; statusReason: string }
   try {
-    const jsonStr = content.replace(/```json?\n?/g, '').replace(/```/g, '').trim()
+    // Strategy: find the first { and last } to extract the JSON object
+    const firstBrace = content.indexOf('{')
+    const lastBrace = content.lastIndexOf('}')
+    if (firstBrace === -1 || lastBrace === -1 || lastBrace <= firstBrace) throw new Error('No JSON found')
+    const jsonStr = content.slice(firstBrace, lastBrace + 1)
     parsed = JSON.parse(jsonStr)
   } catch {
     // Fallback if JSON parsing fails
     parsed = {
-      summary: content.slice(0, 300),
+      summary: content.replace(/```json?\n?/g, '').replace(/```/g, '').replace(/\{[\s\S]*\}/g, '').trim().slice(0, 200) || 'Analysis unavailable',
       anomalies: [],
       recommendations: [],
       operationalStatus: 'healthy',
