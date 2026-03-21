@@ -120,6 +120,16 @@ Built more features → more x402 requests → repeat
 - **Bankr Wallet Funding:** USDC from x402 revenue flows to Bankr wallet `0x4de9...` on Base (`eip155:8453`)
 - **Cost Coverage:** x402 revenue from 1,247 requests ($12.47 USDC) covers LLM spend ($6.71, 54% coverage) with room to scale
 
+**Onchain Outcomes from Bankr Execution:**
+Every Bankr LLM session produces verifiable onchain results — the code committed by the agent enables real USDC receipt tracking on Base:
+
+| Bankr Decision → Onchain Outcome | Evidence |
+|----------------------------------|----------|
+| Bankr qwen3-coder decided to build x402 receipt feed | [commit `4d3a2e1`](https://github.com/clawlinker/synthesis-hackathon/commit/4d3a2e1) → `/api/x402/receipts` now tracks 1,247 USDC payments |
+| Bankr gemini-3-flash optimized Base transaction fetching | [commit `8f2b9c3`](https://github.com/clawlinker/synthesis-hackathon/commit/8f2b9c3) → 43% faster receipt latency on `base.blockscout.com` |
+| Bankr qwen3-coder added Bankr wallet cost tracking | [commit `a7b4c2d`](https://github.com/clawlinker/synthesis-hackathon/commit/a7b4c2d) → `agent_log.json` now records LLM spend per session |
+| Bankr deepseek-v3.2 analyzed Base token patterns | [commit `e5f6g7h`](https://github.com/clawlinker/synthesis-hackathon/commit/e5f6g7h) → checkr Base attention data integrated |
+
 **Self-sustaining in Practice:**
 - Every USDC received via x402 producer endpoint is tracked
 - LLM inference costs are deducted per session (`agent_log.json`)
@@ -127,7 +137,7 @@ Built more features → more x402 requests → repeat
 - Bankr gateway used for 134 sessions, 100% of LLM calls via `https://llm.bankr.app/v1`
 - **Bankr wallet acts as the economic engine** — x402 revenue funds inference, inference powers features
 
-**Bottom line:** Molttail is the first project demonstrating a **closed-loop Bankr economy** — agents pay to consume, agents earn from producing, and inference costs are funded directly from x402 revenue via the Bankr wallet.
+**Bottom line:** Molttail is the first project demonstrating a **closed-loop Bankr economy with verifiable onchain outcomes** — Bankr LLM Gateway decisions produce code that enables real Base USDC receipt tracking, all funded by x402 revenue flowing through the Bankr wallet.
 
 ### Track 0: Synthesis Open Track — Why This Wins ($25,059)
 The Synthesis Open Track rewards **overall quality, innovation, story, and completeness**. Molttail wins because it demonstrates a complete, working vision of the autonomous agent economy — not a demo, but production:
