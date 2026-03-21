@@ -12,7 +12,7 @@ const ANALYZE_AGENT = {
 
 // ─── Constants ───────────────────────────────────────────
 
-const BLOCKSCOUT_API = 'https://base.blockscout.com/api'
+const BLOCKSCOUT_API = 'https://base.blockscout.com/api/v2'
 const BANKR_LLM_URL = 'https://llm.bankr.app/v1/chat/completions'
 const BANKR_MODEL = 'qwen3-coder'
 
@@ -43,6 +43,7 @@ function isValidAddress(addr: string): boolean {
 
 // ─── Blockscout Fetch ────────────────────────────────────
 
+// Normalized tx format (converted from Blockscout v2)
 interface BlockscoutTx {
   hash: string
   from: string
@@ -54,29 +55,32 @@ interface BlockscoutTx {
   tokenDecimal: string
 }
 
+// Blockscout v2 raw response types
+interface BlockscoutV2Transfer {
+  transaction_hash: string
+  from: { hash: string }
+  to: { hash: string }
+  total: { value: string; decimals: string }
+  timestamp: string
+  block_number: number
+  token: { symbol: string; decimals: string }
+}
+
+interface BlockscoutV2Response {
+  items: BlockscoutV2Transfer[]
+  next_page_params: Record<string, string> | null
+}
+
 async function fetchUsdcTransfers(
   wallet: string,
   limit: number
 ): Promise<{ txs: BlockscoutTx[]; partial: boolean } | null> {
-  const params = new URLSearchParams({
-    module: 'account',
-    action: 'tokentx',
-    address: wallet,
-    contractaddress: USDC_CONTRACT,
-    sort: 'desc',
-    page: '1',
-    offset: String(limit),
-  })
-
-  if (process.env.BASESCAN_API_KEY) {
-    params.set('apikey', process.env.BASESCAN_API_KEY)
-  }
-
   const controller = new AbortController()
   const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS)
 
   try {
-    const res = await fetch(`${BLOCKSCOUT_API}?${params}`, {
+    const url = `${BLOCKSCOUT_API}/addresses/${wallet}/token-transfers?type=ERC-20&token=${USDC_CONTRACT}`
+    const res = await fetch(url, {
       signal: controller.signal,
       next: { revalidate: 30 },
     })
@@ -84,16 +88,28 @@ async function fetchUsdcTransfers(
 
     if (!res.ok) return null
 
-    const data = (await res.json()) as { status: string; result: BlockscoutTx[] | string }
+    const data = (await res.json()) as BlockscoutV2Response
 
-    if (data.status !== '1' || !Array.isArray(data.result)) {
-      // Status 0 with "No transactions found" is valid — empty wallet
+    if (!data.items || !Array.isArray(data.items)) {
       return { txs: [], partial: false }
     }
 
+    // Convert v2 format to normalized format, limit results
+    const items = data.items.slice(0, limit)
+    const txs: BlockscoutTx[] = items.map((item) => ({
+      hash: item.transaction_hash,
+      from: item.from.hash,
+      to: item.to.hash,
+      value: item.total.value,
+      timeStamp: String(Math.floor(new Date(item.timestamp).getTime() / 1000)),
+      blockNumber: String(item.block_number),
+      tokenSymbol: item.token.symbol,
+      tokenDecimal: item.token.decimals,
+    }))
+
     return {
-      txs: data.result,
-      partial: data.result.length >= limit,
+      txs,
+      partial: data.next_page_params !== null || data.items.length > limit,
     }
   } catch {
     clearTimeout(timeoutId)
