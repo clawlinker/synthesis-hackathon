@@ -9,17 +9,18 @@ interface VeniceInsights {
   summary: string
   anomalies: string[]
   recommendations: string[]
-  riskLevel: 'low' | 'medium' | 'high'
+  operationalStatus: 'healthy' | 'watch' | 'critical'
+  statusReason: string
   generatedAt: string
   model: string
   privacyNote: string
   source: string
 }
 
-const riskConfig = {
-  low: { color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/30', icon: CheckCircle, label: 'Low Risk' },
-  medium: { color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/30', icon: AlertTriangle, label: 'Medium Risk' },
-  high: { color: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/30', icon: AlertTriangle, label: 'High Risk' },
+const statusConfig = {
+  healthy: { color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/30', icon: CheckCircle, label: 'Healthy' },
+  watch: { color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/30', icon: AlertTriangle, label: 'Watch' },
+  critical: { color: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/30', icon: AlertTriangle, label: 'Critical' },
 }
 
 export function VeniceInsightsCard() {
@@ -54,8 +55,8 @@ export function VeniceInsightsCard() {
 
   if (!data) return null
 
-  const risk = riskConfig[data.riskLevel] || riskConfig.low
-  const RiskIcon = risk.icon
+  const status = statusConfig[data.operationalStatus] || statusConfig.healthy
+  const StatusIcon = status.icon
 
   return (
     <Card className="border-zinc-700 bg-gradient-to-br from-zinc-800 to-zinc-900">
@@ -72,10 +73,15 @@ export function VeniceInsightsCard() {
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Risk Badge */}
-        <div className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${risk.bg} ${risk.color} ${risk.border} border`}>
-          <RiskIcon className="h-3 w-3" />
-          {risk.label}
+        {/* Operational Status Badge */}
+        <div className="flex items-center gap-2">
+          <div className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${status.bg} ${status.color} ${status.border} border`}>
+            <StatusIcon className="h-3 w-3" />
+            {status.label}
+          </div>
+          {data.statusReason && (
+            <span className="text-xs text-zinc-500">{data.statusReason}</span>
+          )}
         </div>
 
         {/* Summary */}

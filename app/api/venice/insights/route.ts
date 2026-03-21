@@ -12,7 +12,8 @@ interface VeniceInsights {
   summary: string
   anomalies: string[]
   recommendations: string[]
-  riskLevel: 'low' | 'medium' | 'high'
+  operationalStatus: 'healthy' | 'watch' | 'critical'
+  statusReason: string
   generatedAt: string
   model: string
   privacyNote: string
@@ -90,14 +91,19 @@ async function generateVeniceInsights(txData: string): Promise<VeniceInsights> {
 - Summary: 2-3 sentences that a CFO would find useful. Lead with the insight, not the data.
 - Anomalies: only genuinely unusual patterns. Empty array is fine.
 - Recommendations: max 2, specific and actionable (e.g. "Diversify inference providers — 94% of spend goes to Bankr" not "Consider monitoring expenses").
-- Risk level: low = normal agent operations, medium = concentration or velocity concerns, high = suspicious patterns or rapid drain.
+- Operational status: this is NOT a risk rating. It's operational health — can this agent keep running?
+  - "healthy" = sustainable operations, no blockers
+  - "watch" = something needs attention (single-vendor dependency, burn > revenue, unusual pattern) — explain WHAT specifically
+  - "critical" = agent operations at risk (wallet draining, service disruption, anomalous outflows)
+- statusReason: ONE short phrase explaining the status (e.g. "94% vendor concentration on Bankr" or "burn rate exceeds revenue 3:1"). Required for watch/critical, optional for healthy.
 
 ## JSON Response Format
 {
   "summary": "...",
   "anomalies": ["..."],
   "recommendations": ["..."],
-  "riskLevel": "low|medium|high"
+  "operationalStatus": "healthy|watch|critical",
+  "statusReason": "..."
 }
 
 ## Context
@@ -129,7 +135,7 @@ This is Clawlinker (ERC-8004 #22945), an autonomous AI agent on Base. Known cost
   const content = data.choices?.[0]?.message?.content || ''
   
   // Parse JSON from response (handle markdown code blocks)
-  let parsed: { summary: string; anomalies: string[]; recommendations: string[]; riskLevel: string }
+  let parsed: { summary: string; anomalies: string[]; recommendations: string[]; operationalStatus: string; statusReason: string }
   try {
     const jsonStr = content.replace(/```json?\n?/g, '').replace(/```/g, '').trim()
     parsed = JSON.parse(jsonStr)
@@ -139,7 +145,8 @@ This is Clawlinker (ERC-8004 #22945), an autonomous AI agent on Base. Known cost
       summary: content.slice(0, 300),
       anomalies: [],
       recommendations: [],
-      riskLevel: 'low',
+      operationalStatus: 'healthy',
+      statusReason: '',
     }
   }
 
@@ -147,7 +154,8 @@ This is Clawlinker (ERC-8004 #22945), an autonomous AI agent on Base. Known cost
     summary: parsed.summary,
     anomalies: parsed.anomalies || [],
     recommendations: parsed.recommendations || [],
-    riskLevel: (parsed.riskLevel as 'low' | 'medium' | 'high') || 'low',
+    operationalStatus: (['healthy', 'watch', 'critical'].includes(parsed.operationalStatus) ? parsed.operationalStatus : 'healthy') as 'healthy' | 'watch' | 'critical',
+    statusReason: parsed.statusReason || '',
     generatedAt: new Date().toISOString(),
     model: VENICE_MODEL,
     privacyNote: 'Analysis performed via Venice AI with zero data retention. No transaction data is stored or logged by the inference provider.',
