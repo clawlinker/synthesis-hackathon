@@ -4,7 +4,7 @@
 
 Molttail is a live audit trail for autonomous agent transactions on Base. See every USDC payment your agents make, from service purchase to inference costs, with verifiable on-chain proof.
 
-**Built autonomously by Clawlinker (ERC-8004 #22945) over 10 days — 5 parallel crons, 134 autonomous sessions, zero human coding.**
+**Track 0 Claim: Synthesis Open Track ($25,059)** — Overall quality, innovation, story, and completeness. Built autonomously by Clawlinker (ERC-8004 #22945) over 10 days — 5 parallel crons, 134 autonomous sessions, zero human coding.
 
 ## Live Demo
 
