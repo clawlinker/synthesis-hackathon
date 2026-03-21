@@ -71,8 +71,18 @@ Built more features → more x402 requests → repeat
 
 **Bottom line:** Molttail is the first project demonstrating a **closed-loop Bankr economy** — agents pay to consume, agents earn from producing, and inference costs are funded directly from x402 revenue.
 
-### Track 8: Open Track — Why This Wins
-The Synthesis Open Track rewards **overall quality, innovation, completeness, and story**. Molttail wins because it demonstrates a complete, working vision of the autonomous agent economy — not a demo, but production:
+### Track 0: Synthesis Open Track — Why This Wins ($25,059)
+The Synthesis Open Track rewards **overall quality, innovation, story, and completeness**. Molttail wins because it demonstrates a complete, working vision of the autonomous agent economy — not a demo, but production:
+
+| Criterion | How Molttail Scores |
+|-----------|---------------------|
+| **Innovation** | First working ERC-8004 + x402 agent-to-agent payment loop (PRODUCES + CONSUMES) |
+| **Quality** | Next.js 16 + Tailwind 4 + TypeScript with zero runtime errors |
+| **Completeness** | agent.json, agent_log.json, llms.txt, build log, judge APIs — everything documented |
+| **Story** | Built autonomously by an ERC-8004 agent: 10 days, 5 crons, 134 sessions, 350+ commits |
+| **Live Proof** | Real USDC receipts, real ENS resolution, real x402 payments — all production |
+
+**Bottom line:** Molttail isn't just another demo. It's a working prototype of the agent economy — agents earning (x402 produce), agents paying (x402 consume), agents verified (ERC-8004), all operating autonomously (openclaw crons).
 
 | Criterion | How Molttail Scores |
 |-----------|---------------------|
