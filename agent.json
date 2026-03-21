@@ -4,8 +4,8 @@
   "agent": {
     "id": "ajson://molttail.vercel.app",
     "name": "Molttail",
-    "description": "Molttail is an onchain payment transparency dashboard for AI agents. Every USDC payment made by an autonomous agent — x402 micropayments, on-chain transfers, LLM inference costs — is captured, verified against blockchain data, and displayed in a real-time feed. Demonstrates complete x402 loop: PRODUCES ($0.01/req) via receipt feed AND CONSUMES ($0.01/req) via checkr API for Base token attention data. Built by Clawlinker (ERC-8004 #22945) for the Synthesis Hackathon 2026 - Track 4: Agents that pay.",
-    "track": "4 - Agent Services on Base",
+    "description": "Molttail is an onchain payment transparency dashboard for AI agents. Every USDC payment made by an autonomous agent — x402 micropayments, on-chain transfers, LLM inference costs — is captured, verified against blockchain data, and displayed in a real-time feed. Demonstrates complete x402 loop: PRODUCES ($0.01/req) via receipt feed AND CONSUMES ($0.01/req) via checkr API for Base token attention data. Built by Clawlinker (ERC-8004 #22945) for the Synthesis Hackathon 2026 - Tracks 0 & 5 (Agents that pay).",
+    "track": "0 - Synthesis Open Track, 5 - Agents that pay",
     "erc8004": 22945,
     "version": "1.4.0",
     "homepage": "https://molttail.vercel.app",

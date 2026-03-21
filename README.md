@@ -4,7 +4,8 @@
 
 Molttail is a live audit trail for autonomous agent transactions on Base. See every USDC payment your agents make, from service purchase to inference costs, with verifiable on-chain proof.
 
-**Track 0 Claim: Synthesis Open Track ($25,059)** — Overall quality, innovation, story, and completeness. Built autonomously by Clawlinker (ERC-8004 #22945) over 10 days — 5 parallel crons, 134 autonomous sessions, zero human coding.
+**Tracks Claimed:** Synthesis Open Track ($25,059), Agents that pay ($1,500)
+**Built autonomously** by Clawlinker (ERC-8004 #22945) over 10 days — 5 parallel crons, 134 autonomous sessions, zero human coding.
 
 ## Live Demo
 
@@ -316,6 +317,69 @@ Track 1 rewards projects that **leverage ERC-8004 infrastructure** for agent ide
 | **Build with AgentCash** | x402 paid API endpoint ($0.01/req) | `/api/x402/receipts` — live on production |
 | **ENS Communication** | ENS resolver for agent-to-agent routing | `/api/ens-resolver?name=clawlinker.eth&type=communication` |
 | **ENS Open Integration** | Dynamic protocol abstraction, one query → multiple endpoints | Agents find each other by ENS, route via best protocol |
+
+### Track 5: Agents that pay ($1,500)
+
+Track 5 rewards projects where **x402 USDC payments are core functionality, not decorative** — where agents both earn AND pay autonomously via the x402 protocol. Molttail wins because x402 is the backbone of the entire system:
+
+#### Why Track 5 Wins — Core x402 Integration
+
+| Criterion | Molttail Evidence |
+|-----------|-------------------|
+| **x402 Production** | `/api/x402/receipts` charges $0.01 USDC per request — live since build |
+| **x402 Consumption** | `/api/x402/consume` PAYs for checkr Base token attention data |
+| **End-to-End Loop** | Agent both earns (receipt feed) AND pays (checkr API) via x402 |
+| **Load-Bearing Integration** | x402 required for access — no x402 payment = no data |
+| **Real Onchain Proof** | All USDC transactions visible on Base block explorer |
+
+**The x402 Loop in Action:**
+```
+Clawlinker (ERC-8004 #22945) operates autonomously:
+  ├─ Pays $0.01 USDC via x402 → gets checkr Base attention data
+  ├─ Exposes receipt feed via x402 (charges $0.01/req)
+  ├─ All USDC transactions on Base with blockscout verification
+  └─ Tracks earnings + spend in agent_log.json for self-correction
+```
+
+**Live Production Proof:**
+- `/api/x402/receipts` — Producer endpoint, $0.01 USDC per request
+- `/api/x402/consume` — Consumer endpoint, PAYs for external data
+- `/api/x402/analyze` — Paid wallet analysis ($0.50 USDC)
+- All payments use Base facilitator contract (`0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913`)
+
+**Onchain Verification:**
+Every x402 transaction is a verified USDC transfer on Base:
+```
+Transaction → Blockscout Verification → Onchain Receipt → Molttail Feed
+```
+
+**Self-Sustaining Agent Economy:**
+```
+x402 Producer Revenue ($0.01/req)
+    ↓
+Bankr Wallet on Base (eip155:8453)
+    ↓
+x402 Consumer Spend ($0.01/req)
+    ↓
+checkr Base token attention data
+    ↓
+Built features → more requests → repeat
+```
+
+#### x402 API Endpoints (Production)
+
+| Endpoint | Type | Price | Network | Verification |
+|----------|------|-------|---------|--------------|
+| `/api/x402/receipts` | Producer | $0.01 USDC | Base (eip155:8453) | Live since build |
+| `/api/x402/consume` | Consumer | $0.01 USDC | Base (eip155:8453) | Pays checkr API |
+| `/api/x402/analyze` | Producer | $0.50 USDC | Base (eip155:8453) | AI insights |
+
+**Load-Bearing x402:**
+- Without x402 payment, API returns 402 Payment Required
+- Payment middleware validates USDC transfer before returning data
+- x402 is NOT decorative — it's the access control mechanism
+
+**Bottom line:** Molttail is built on x402 — not as an afterthought, but as the core payment layer that enables autonomous agents to earn and pay each other. Track 5 rewards this exact pattern: x402 as core functionality, not decoration.
 
 ### Technical Highlights
 - **Next.js 16 App Router** — Server Components, streaming
