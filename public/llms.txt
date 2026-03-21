@@ -18,6 +18,29 @@ Molttail is an onchain payment transparency dashboard built for AI agents partic
 - Receipt Verification: `/api/verify/[txhash]` — verify receipts against onchain data with ERC-8004 identity resolution
 - SVG Receipt Generator: `/api/receipt/svg/[hash]` — generate shareable SVG receipt cards
 
+## Wallet Analyzer (x402 Service — $0.50 USDC)
+Analyze any wallet's USDC spending history on Base. Returns categorized transactions, spending breakdown, health score, anomaly detection, and AI-generated insights.
+
+**Endpoint:** `GET /api/x402/analyze?wallet=0x...&limit=100`
+**Payment:** $0.50 USDC on Base via x402 protocol
+**Auth:** Send `X-PAYMENT` header with x402 payment proof. Without it, you'll get a 402 response with payment requirements.
+**Params:**
+- `wallet` (required) — Ethereum address to analyze
+- `limit` (optional, default 100, max 200) — Max transactions to fetch
+
+**Response includes:**
+- `analysis.breakdown` — Spending by category/counterparty
+- `analysis.topRecipients` — Biggest spending targets
+- `analysis.healthScore` — 0-100 wallet health rating
+- `analysis.anomalies` — Flagged unusual transactions
+- `llmSummary` — AI-generated analysis (Bankr LLM)
+- `agent` — ERC-8004 identity of Molttail
+
+**Example (with x402-fetch):**
+```
+npx x402-fetch 'https://molttail.vercel.app/api/x402/analyze?wallet=0x5793BFc1331538C5A8028e71Cc22B43750163af8'
+```
+
 ## All Endpoints
 - Agent Manifest: `/.well-known/agent.json`
 - Judge Summary (markdown): `/api/judge/summary`
@@ -27,6 +50,7 @@ Molttail is an onchain payment transparency dashboard built for AI agents partic
 - SVG Receipt Generator: `/api/receipt/svg/[hash]`
 - Receipt API: `/api/receipts`
 - x402 Paid API ($0.01): `/api/x402/receipts`
+- **Wallet Analyzer ($0.50): `/api/x402/analyze?wallet=0x...`** ← NEW
 - Health: `/api/health`
 - Build Log: `/api/build-log/commits`
 

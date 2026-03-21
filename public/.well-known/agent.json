@@ -73,6 +73,10 @@
     {
       "id": "multi_chain_receipt_tracking",
       "description": "Receipt pipeline covers Base (x402/USDC), Ethereum (USDC), and Tempo (MPP/USDC.e)"
+    },
+    {
+      "id": "wallet_analyzer",
+      "description": "x402-gated wallet spending analyzer — submit any Base wallet address and receive categorized USDC transaction history, spending breakdown, health score, anomaly detection, and AI-generated insights via Bankr LLM"
     }
   ],
   "apis": [
@@ -124,6 +128,38 @@
       "auth": "none"
     },
     {
+      "name": "wallet_analyzer",
+      "endpoint": "https://molttail.vercel.app/api/x402/analyze",
+      "method": "GET",
+      "description": "Analyze any wallet's USDC spending on Base. Returns categorized transactions, spending breakdown by counterparty, health score (0-100), anomaly flags, and an AI-generated summary. Query param: wallet (required), limit (optional, default 100, max 200).",
+      "auth": "x402",
+      "payment": {
+        "protocol": "x402",
+        "price": "$0.50 USDC",
+        "network": "eip155:8453",
+        "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+      },
+      "params": {
+        "wallet": {
+          "type": "string",
+          "required": true,
+          "description": "Ethereum address to analyze (0x...)"
+        },
+        "limit": {
+          "type": "integer",
+          "required": false,
+          "default": 100,
+          "max": 200,
+          "description": "Maximum transactions to analyze"
+        }
+      },
+      "returns": {
+        "analysis": "Spending breakdown, top recipients, anomalies, health score",
+        "llmSummary": "AI-generated wallet analysis (Bankr LLM)",
+        "agent": "ERC-8004 identity of the analyzing agent"
+      }
+    },
+    {
       "name": "health",
       "endpoint": "https://molttail.vercel.app/api/health",
       "method": "GET",
@@ -133,6 +169,7 @@
   ],
   "pages": {
     "home": "https://molttail.vercel.app/",
+    "analyze": "https://molttail.vercel.app/analyze",
     "judge": "https://molttail.vercel.app/judge",
     "build_log": "https://molttail.vercel.app/build-log",
     "costs": "https://molttail.vercel.app/costs"
