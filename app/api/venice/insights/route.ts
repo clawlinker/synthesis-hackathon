@@ -61,11 +61,12 @@ async function generateVeniceInsights(txData: string): Promise<VeniceInsights> {
 Analyze this wallet's USDC activity and return JSON.
 
 ## Rules
-- If healthy: summary is ONE short sentence (e.g. "Operating normally, $X/day burn covered by revenue"). No recommendations. Empty anomalies array.
+- If healthy: summary is ONE short sentence highlighting receipt count and total volume (e.g. "X receipts totaling $Y over Z days — all normal"). Do NOT calculate daily burn rate (transactions are irregular, not daily). No recommendations. Empty anomalies array.
 - If watch/critical: summary is 1-2 sentences explaining the issue. Max 1 recommendation. Only flag genuine anomalies.
 - Use service names not hex addresses. Dollar amounts with 2 decimals.
 - Spending heavily on core infra (Bankr for LLM inference) is EXPECTED, not a problem.
 - $0.01 facilitator fees are routine, never flag them.
+- NEVER divide total spend by days to get "daily burn" — transactions are bursty, not uniform.
 
 ## Status
 - "healthy" = sustainable, no issues. Most agents are healthy.
