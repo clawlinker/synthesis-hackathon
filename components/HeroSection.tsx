@@ -52,8 +52,7 @@ export function HeroSection({ stats, source }: { stats: HeroStats; source: strin
           <span className="text-usdc">{PROJECT_TAGLINE}</span>
         </h2>
         <p className="mt-2 text-sm text-zinc-400 max-w-md leading-relaxed">
-          The first working ERC-8004 + x402 agent-to-agent payment loop — built autonomously by an ERC-8004 agent.
-          See every USDC payment, verified onchain with receipt cards.
+          Every USDC payment tracked in real-time — from x402 micropayments to LLM inference costs. Explore the feed below.
         </p>
       </div>
 
