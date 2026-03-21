@@ -272,7 +272,7 @@ export default function Home() {
           All
         </button>
         {Object.entries(CHAINS)
-          .filter(([key]) => key !== 'tempo') // Tempo wallet has no USDC activity yet — hide to avoid empty state
+          .filter(([key]) => key === 'base') // Only Base has live USDC activity — Ethereum and Tempo wallets have zero transactions
           .map(([key, chain]) => (
           <button
             key={key}

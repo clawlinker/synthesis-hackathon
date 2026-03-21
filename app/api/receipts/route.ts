@@ -315,12 +315,11 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
     }
     
     const contractAddress = useBase ? CONTRACTS.USDC_CONTRACT : CONTRACTS.ETH_USDC_CONTRACT
-    // Note: ETH chain still uses Etherscan-compatible API (not yet migrated)
-    // For Base chain, we use Blockscout REST API v2 (see fetchFromBlockscout below)
+    const blockscoutBase = chain === 'ethereum' ? 'https://eth.blockscout.com/api/v2' : BLOCKSCOUT_REST_API
 
     // Helper to fetch via Blockscout REST API v2 (per-wallet)
     const fetchFromBlockscout = async (wallet: string, agentId: string): Promise<Receipt[]> => {
-      const url = `${BLOCKSCOUT_REST_API}/addresses/${wallet}/token-transfers?token=${contractAddress}&type=ERC-20`
+      const url = `${blockscoutBase}/addresses/${wallet}/token-transfers?token=${contractAddress}&type=ERC-20`
       const controller = new AbortController()
       const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS)
 
@@ -369,7 +368,7 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
             status: 'confirmed' as const,
             tokenSymbol: 'USDC',
             tokenDecimal: decimals,
-            chain: chain as 'base' | 'ethereum',
+            chain: (useAll ? 'base' : chain) as 'base' | 'ethereum',
             agentId,
             service: getServiceFromTx({ from, to }, wallet),
             fromLabel: labelAddress(from),
@@ -405,16 +404,19 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
       dataSource = 'live'
     } else {
       // Fall back to cached receipts from build time
-      const cachedRaw = (cachedReceiptsData as { receipts: Receipt[] }).receipts || []
+      let cachedRaw = (cachedReceiptsData as { receipts: Receipt[] }).receipts || []
       // Filter by requested wallet(s) if specified
       if (walletParam && cachedRaw.length > 0) {
         const lowerWallet = walletParam.toLowerCase()
-        allReceipts = cachedRaw.filter(
+        cachedRaw = cachedRaw.filter(
           r => r.from?.toLowerCase() === lowerWallet || r.to?.toLowerCase() === lowerWallet
         )
-      } else {
-        allReceipts = cachedRaw
       }
+      // Filter by chain — don't leak Base data when Ethereum or Tempo is requested
+      if (!useAll && chain !== 'base') {
+        cachedRaw = cachedRaw.filter(r => r.chain === chain)
+      }
+      allReceipts = cachedRaw
 
       if (allReceipts.length > 0) {
         dataSource = 'cached'
