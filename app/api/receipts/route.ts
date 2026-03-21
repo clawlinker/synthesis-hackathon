@@ -430,7 +430,12 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
           return { ...r, fromAgent: agentData.fromAgent, toAgent: agentData.toAgent, service, fromLabel, toLabel, receiptType: 'onchain' }
         })
       } else {
-        dataSource = 'sample'
+        // If a specific non-base chain was requested and has no data, return empty — don't fall back to sample Base data
+        if (!useAll && chain !== 'base') {
+          dataSource = 'live' // treat as legitimate empty result
+        } else {
+          dataSource = 'sample'
+        }
       }
     }
 
@@ -446,8 +451,9 @@ async function fetchReceipts(request: Request): Promise<NextResponse> {
     allReceipts.sort((a, b) => b.timestamp - a.timestamp)
     
     // Load inference receipts from bundled agent_log.json (no fs I/O)
+    // Only include inference receipts when viewing all chains or Base (inference runs on Base infra)
     let inferenceReceipts: Receipt[] = []
-    if (includeInference) {
+    if (includeInference && (useAll || chain === 'base')) {
       inferenceReceipts = loadInferenceReceiptsFromLog()
       
       // Fallback to sample inference receipts if agent_log.json parsed empty
