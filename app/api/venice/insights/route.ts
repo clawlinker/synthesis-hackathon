@@ -71,7 +71,6 @@ async function generateVeniceInsights(txData: string): Promise<VeniceInsights> {
    - Revenue streams vs cost centers
    - Burn rate (daily/weekly spend velocity)
    - Runway estimate if spend > income
-   - Concentration risk (% of spend to single counterparty)
 
 3. **Temporal Patterns** — Look for:
    - Spending cadence (bursty vs steady)
@@ -90,12 +89,12 @@ async function generateVeniceInsights(txData: string): Promise<VeniceInsights> {
 - Dollar amounts with 2 decimal places.
 - Summary: 2-3 sentences that a CFO would find useful. Lead with the insight, not the data.
 - Anomalies: only genuinely unusual patterns. Empty array is fine.
-- Recommendations: max 2, specific and actionable (e.g. "Diversify inference providers — 94% of spend goes to Bankr" not "Consider monitoring expenses").
+- Recommendations: max 2, specific and actionable. Never recommend "diversifying providers" just because most spend goes to one service — if that service is core infrastructure (e.g. LLM inference via Bankr), high spend there is EXPECTED AND HEALTHY, not a problem.
 - Operational status: this is NOT a risk rating. It's operational health — can this agent keep running?
-  - "healthy" = sustainable operations, no blockers
-  - "watch" = something needs attention (single-vendor dependency, burn > revenue, unusual pattern) — explain WHAT specifically
-  - "critical" = agent operations at risk (wallet draining, service disruption, anomalous outflows)
-- statusReason: ONE short phrase explaining the status (e.g. "94% vendor concentration on Bankr" or "burn rate exceeds revenue 3:1"). Required for watch/critical, optional for healthy.
+  - "healthy" = sustainable operations, no blockers. An agent spending 90%+ on its core inference provider IS healthy if operations are running well.
+  - "watch" = something actually needs attention (burn significantly exceeds revenue with no path to sustainability, genuinely unusual outflow pattern, new unknown large recipient)
+  - "critical" = agent operations at risk (wallet draining rapidly, service disruption, anomalous outflows to unknown addresses)
+- statusReason: ONE short phrase explaining the status. Required for watch/critical. For healthy, can be a positive signal (e.g. "stable burn rate, revenue covering costs").
 
 ## JSON Response Format
 {

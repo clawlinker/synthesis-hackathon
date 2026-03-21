@@ -143,7 +143,7 @@ async function generateLlmSummary(
 Write 3-4 sentences that answer:
 1. **What is this wallet?** (builder agent, trader, service provider, treasury, consumer — infer from counterparties and flow direction)
 2. **Where does the money go?** (top spending categories by name, not address — use labels when available)
-3. **Is anything notable?** (concentration risk, anomalies, spending velocity changes, revenue vs cost imbalance)
+3. **Is anything notable?** (anomalies, spending velocity changes, revenue vs cost imbalance, new unknown recipients)
 4. **Bottom line** — is this wallet healthy, and what's the one thing to watch?
 
 ## Rules
@@ -151,7 +151,7 @@ Write 3-4 sentences that answer:
 - Use service names from labels, never raw addresses.
 - Be specific: dollar amounts (2 decimals), percentages, tx counts.
 - If revenue exists, calculate and mention the profit/loss margin.
-- If top counterparty > 70%, flag concentration risk.
+- High spend to a core infrastructure provider (LLM inference, compute) is EXPECTED for an agent — do NOT flag it as "concentration risk." Only flag if spending goes to unknown or suspicious addresses.
 - No filler phrases. No "Based on the data provided." Just analyze.
 - 3-4 sentences max. Every word must earn its place.
 
