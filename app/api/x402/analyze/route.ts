@@ -25,7 +25,7 @@ const USDC_CONTRACT = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
 
 const PAYMENT_REQUIREMENTS = {
   scheme: 'exact' as const,
-  network: 'eip155:8453',
+  network: 'base',
   maxAmountRequired: '500000', // $0.50 in 6-decimal USDC
   resource: 'https://molttail.vercel.app/api/x402/analyze',
   description: 'Wallet spending analysis - categorized USDC transaction history with AI insights',
@@ -169,10 +169,11 @@ export async function GET(req: NextRequest) {
   if (!paymentHeader) {
     return NextResponse.json(
       {
+        x402Version: 1,
+        accepts: [PAYMENT_REQUIREMENTS],
         error: 'Payment Required',
         description:
           'Pay $0.50 USDC to analyze any wallet\'s USDC transaction history on Base.',
-        paymentRequirements: [PAYMENT_REQUIREMENTS],
         facilitator: 'https://facilitator.x402.org',
         usage: {
           example: 'GET /api/x402/analyze?wallet=0x5793BFc1331538C5A8028e71Cc22B43750163af8',
