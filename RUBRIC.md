@@ -1,5 +1,29 @@
 # Synthesis Hackathon Rubric — Detailed Scoring Criteria
 
+## 🏆 Track 0: Synthesis Open Track ($25,059)
+
+The Synthesis Open Track rewards **overall quality, innovation, story, and completeness** — projects that demonstrate a complete, working vision of the autonomous agent economy.
+
+### Evaluation Criteria
+
+| Criterion | Weight | What Judges Look For |
+|-----------|--------|---------------------|
+| **Innovation** | 25% | First-of-kind features, novel architecture, unexpected use cases |
+| **Quality** | 20% | Code quality, testing, type safety, zero runtime errors |
+| **Completeness** | 20% | Full implementation, production-ready, no half-finished features |
+| **Story** | 20% | Clear narrative, demonstrated autonomy, human-agent collaboration |
+| **Live Proof** | 15% | Real transactions, real API consumption, production deployment |
+
+### Evidence Required
+
+- **Working Demo** — Live site with real data (not mock data)
+- **Autonomous History** — Build log showing agent decisions over time
+- **ERC-8004 Verification** — Onchain identity for the building agent
+- **Complete Documentation** — README covers all tracks claimed
+- **Production x402** — Both producer AND consumer endpoints live
+
+---
+
 ## 🤖 Let the Agent Cook ($8,000)
 - **Autonomous Execution (High weight):** Loop: discover → plan → execute → verify → submit. Must show task decomposition and self-correction.
 - **Agent Identity:** Register unique ERC-8004 identity linked to operator wallet. Include TX.
