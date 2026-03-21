@@ -198,6 +198,39 @@
     "auth_context": "erc8004-agent-22945",
     "sensitive_data_handling": "Keys stored in /etc/clawlinker/keys.env with bcrypt passphrase gate. No secrets in logs or external outputs."
   },
+  "safety": {
+    "transactions": {
+      "max_amount_usdc": 10,
+      "require_human_approval": true,
+      "allowed_contracts": [
+        "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432"
+      ]
+    },
+    "api_output": {
+      "max_length_chars": 10000,
+      "validate_json": true,
+      "fallback_on_malformed": "abort"
+    },
+    "unsafe_operations": {
+      "abort_on": [
+        "transaction.sign",
+        "private_key.access",
+        "internal_url.exposure",
+        "wallet_seed.access"
+      ]
+    },
+    "retry_logic": {
+      "max_attempts": 3,
+      "backoff_ms": 1000,
+      "exponential": true
+    },
+    "budget_aborts": {
+      "session_max_usd": 1.00,
+      "daily_max_usd": 7.70,
+      "self_abort_enabled": true
+    }
+  },
   "policies": [
     {
       "id": "no-financial-transactions-without-human",
