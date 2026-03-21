@@ -13,7 +13,7 @@ const ANALYZE_AGENT = {
 // ─── Constants ───────────────────────────────────────────
 
 const BLOCKSCOUT_API = 'https://base.blockscout.com/api/v2'
-const BANKR_LLM_URL = 'https://llm.bankr.app/v1/chat/completions'
+const BANKR_LLM_URL = 'https://llm.bankr.bot/v1/chat/completions'
 const BANKR_MODEL = 'qwen3-coder'
 
 const API_TIMEOUT_MS = 6000
