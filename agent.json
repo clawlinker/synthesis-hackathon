@@ -431,7 +431,7 @@
     "chain": "ethereum",
     "explorer": "https://www.8004scan.io/agents/ethereum/22945",
     "registration_tx": "0x22c39760a1e244cc6aacb071169d356fbfb0b31c948790e2a4de59081d049b23",
-    "registration_tx_explorer": "https://basescan.org/tx/0x22c39760a1e244cc6aacb071169d356fbfb0b31c948790e2a4de59081d049b23"
+    "registration_tx_explorer": "https://etherscan.io/tx/0x22c39760a1e244cc6aacb071169d356fbfb0b31c948790e2a4de59081d049b23"
   },
   "ens": "clawlinker.eth",
   "ensIntegration": {
