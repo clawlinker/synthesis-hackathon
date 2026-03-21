@@ -9,6 +9,7 @@ import { SkeletonReceiptCard } from '@/components/SkeletonReceiptCard'
 import { SkeletonReceiptStats } from '@/components/SkeletonReceiptStats'
 
 import { VeniceInsightsCard } from '@/components/VeniceInsightsCard'
+import { AutonomyTimeline } from '@/components/AutonomyTimeline'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent } from '@/components/ui/card'
@@ -157,6 +158,13 @@ export default function Home() {
           
           <VeniceInsightsCard />
         </div>
+      )}
+
+      {/* Autonomy Timeline - Key decisions made by the agent */}
+      {source !== 'loading' && !error && (
+        <section className="my-8">
+          <AutonomyTimeline />
+        </section>
       )}
 
       {/* Autonomy Proof Card - Shows how it was built */}
