@@ -38,7 +38,7 @@ All required unless marked optional:
   - Build with AgentCash ($1,750)
   - ENS Identity ($600)
   - ENS Open Integration ($300)
-  - Agents that pay — x402 production loop ($1,750)
+  - Agents that pay — x402 production loop ($1,750) — wallet analyzer endpoint ($0.50 USDC, x402 gated, Bankr LLM-powered)
 
 ## Submission Rules (from Devfolio)
 

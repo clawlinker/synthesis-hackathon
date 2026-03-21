@@ -1,14 +1,18 @@
 {
   "manifest_version": "1.0",
-  "profiles": ["core", "exec", "gov"],
+  "profiles": [
+    "core",
+    "exec",
+    "gov"
+  ],
   "agent": {
     "id": "ajson://molttail.vercel.app",
     "name": "Molttail",
-    "description": "Molttail is an onchain payment transparency dashboard for AI agents. Every USDC payment made by an autonomous agent — x402 micropayments, on-chain transfers, LLM inference costs — is captured, verified against blockchain data, and displayed in a real-time feed. Built by Clawlinker (ERC-8004 #22945) for the Synthesis Hackathon 2026.",
+    "description": "Molttail is an onchain payment transparency dashboard for AI agents. Every USDC payment made by an autonomous agent \u2014 x402 micropayments, on-chain transfers, LLM inference costs \u2014 is captured, verified against blockchain data, and displayed in a real-time feed. Built by Clawlinker (ERC-8004 #22945) for the Synthesis Hackathon 2026.",
     "version": "1.4.0",
     "homepage": "https://molttail.vercel.app",
     "image": "https://pawr.link/clawlinker-avatar.png",
-      "authors": [
+    "authors": [
       {
         "name": "Clawlinker",
         "organization": "pawr.link",
@@ -159,8 +163,15 @@
     }
   ],
   "modalities": {
-    "input": ["text", "json", "image"],
-    "output": ["text", "json"]
+    "input": [
+      "text",
+      "json",
+      "image"
+    ],
+    "output": [
+      "text",
+      "json"
+    ]
   },
   "context": {
     "window": 200000,
@@ -228,13 +239,18 @@
     {
       "purpose": "x402_payments",
       "address": "0x5793BFc1331538C5A8028e71Cc22B43750163af8",
-      "networks": ["eip155:1", "eip155:8453"],
+      "networks": [
+        "eip155:1",
+        "eip155:8453"
+      ],
       "signer": "erc8004:22945"
     },
     {
       "purpose": "bankr_operations",
       "address": "0x4de988e65a32a12487898c10bc63a88abea2e292",
-      "networks": ["eip155:8453"],
+      "networks": [
+        "eip155:8453"
+      ],
       "signer": "erc8004:22945"
     }
   ],
@@ -248,7 +264,9 @@
       "endpoint": "https://molttail.vercel.app/api/receipts",
       "version": "1.0.0",
       "description": "Agent receipt feed - verifiable audit trail for agent transactions",
-      "methods": ["GET"],
+      "methods": [
+        "GET"
+      ],
       "parameters": {
         "wallet": {
           "type": "string",
@@ -268,7 +286,9 @@
       "endpoint": "https://molttail.vercel.app/api/x402/receipts",
       "version": "1.0.0",
       "description": "x402-gated agent receipt feed - $0.01 USDC per request",
-      "methods": ["GET"],
+      "methods": [
+        "GET"
+      ],
       "payment": {
         "protocol": "x402",
         "price": "$0.01 USDC",
@@ -289,7 +309,9 @@
       "endpoint": "https://molttail.vercel.app/api/receipt/svg/[hash]",
       "version": "1.0.0",
       "description": "Generate SVG receipt card for a transaction hash",
-      "methods": ["GET"],
+      "methods": [
+        "GET"
+      ],
       "parameters": {
         "hash": {
           "type": "string",
@@ -304,7 +326,9 @@
       "endpoint": "https://molttail.vercel.app/api/og/[txhash]",
       "version": "1.0.0",
       "description": "Generate Open Graph image for a receipt for social sharing",
-      "methods": ["GET"],
+      "methods": [
+        "GET"
+      ],
       "parameters": {
         "txhash": {
           "type": "string",
@@ -333,9 +357,44 @@
       "endpoint": "https://molttail.vercel.app/.well-known/agent.json",
       "version": "1.0.0",
       "description": "ERC-8004 agent manifest (JSON)"
+    },
+    {
+      "name": "wallet_analyzer",
+      "endpoint": "https://molttail.vercel.app/api/x402/analyze",
+      "version": "1.0.0",
+      "description": "AI-powered USDC wallet spending analysis on Base. Returns categorized transaction breakdown, health score, anomaly detection, and LLM-generated insights.",
+      "x402": {
+        "price": "0.50",
+        "currency": "USDC",
+        "network": "base",
+        "scheme": "exact",
+        "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+      },
+      "parameters": {
+        "wallet": {
+          "type": "string",
+          "required": true,
+          "description": "Ethereum address to analyze (0x...)"
+        },
+        "limit": {
+          "type": "number",
+          "required": false,
+          "default": 100,
+          "description": "Max transactions to fetch (1-200)"
+        }
+      },
+      "returns": {
+        "analysis": "Categorized spending breakdown, health score (0-100), anomaly flags",
+        "llmSummary": "AI-generated 3-4 sentence wallet analysis",
+        "topRecipients": "Top counterparties by volume",
+        "meta": "Model used, cost, timestamp"
+      }
     }
   ],
-  "supportedTrust": ["reputation", "crypto-economic"],
+  "supportedTrust": [
+    "reputation",
+    "crypto-economic"
+  ],
   "x402Support": true,
   "active": true,
   "continuous_since": "2026-02-01",
