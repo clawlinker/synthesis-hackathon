@@ -101,28 +101,26 @@ export function HeroSection({ stats, source }: { stats: HeroStats; source: strin
             </span>
           </div>
           <div className="flex items-center gap-2 text-xs text-zinc-500 mt-1">
-            <span>Base · Ethereum</span>
-            <span>·</span>
             <a
-              href={`https://basescan.org/address/${AGENT.wallet}`}
+              href={`https://www.8004scan.io/agents/ethereum/${AGENT.id}`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-400 hover:text-blue-300 transition-colors"
               onClick={(e) => e.stopPropagation()}
-              aria-label={`View ${AGENT.name} wallet on BaseScan`}
+              aria-label={`View ${AGENT.name} on 8004scan`}
             >
-              BaseScan ↗
+              ERC-8004 #{AGENT.id} ↗
             </a>
             <span>·</span>
             <a
-              href={`https://etherscan.io/address/${AGENT.wallet}`}
+              href="https://pawr.link/clawlinker"
               target="_blank"
               rel="noopener noreferrer"
               className="text-blue-400 hover:text-blue-300 transition-colors"
               onClick={(e) => e.stopPropagation()}
-              aria-label={`View ${AGENT.name} wallet on Etherscan`}
+              aria-label={`View ${AGENT.name} profile on pawr.link`}
             >
-              Etherscan ↗
+              pawr.link ↗
             </a>
           </div>
         </div>
