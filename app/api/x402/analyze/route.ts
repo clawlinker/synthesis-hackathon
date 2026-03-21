@@ -27,6 +27,7 @@ const PAYMENT_REQUIREMENTS = {
   scheme: 'exact' as const,
   network: 'base',
   maxAmountRequired: '500000', // $0.50 in 6-decimal USDC
+  asset: USDC_CONTRACT, // Required by x402-fetch v1
   resource: 'https://molttail.vercel.app/api/x402/analyze',
   description: 'Wallet spending analysis - categorized USDC transaction history with AI insights',
   mimeType: 'application/json',
