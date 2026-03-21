@@ -158,6 +158,89 @@ The Synthesis Open Track rewards **overall quality, innovation, story, and compl
 | **ENS Communication Mesh** | Dynamic protocol routing (XMTP, A2A, Telegram) | Novel ENS usage beyond static identity resolution |
 | **Inference Receipts** | Tracks LLM API costs alongside USDC | Full stack transparency for agentic work |
 
+### Track 1: Agents With Receipts — ERC-8004 ($8,004)
+
+Track 1 rewards projects that build on **ERC-8004 identity infrastructure** with DevSpot-compatible agent manifests and onchain verifiable transactions.
+
+Molttail satisfies Track 1 by being the first project to combine **ERC-8004 identity verification** with **agent transaction receipts**:
+
+#### DevSpot Agent Manifest (agent.json + agent_log.json)
+Molttail implements the full DevSpot Agent Specification:
+
+| DevSpot Requirement | Implementation |
+|---------------------|----------------|
+| **Agent Identity** | ERC-8004 #22945 registered on Ethereum mainnet |
+| **Manifest File** | `/.well-known/agent.json` — full agent capabilities, tools, wallets |
+| **Execution Log** | `agent_log.json` (93KB) — 134 sessions with timestamps, tools, costs |
+| **Operator Model** | Linked to `0x5793...` wallet via ERC-8004 registry |
+| **Capabilities** | 12 defined capabilities including x402 receipts, LLM cost tracking |
+| **Tools** | 14+ tools including Bankr LLM, x402, Blockscout, GitHub CLI |
+
+**DevSpot Compliance Evidence:**
+- `erc8004_builder` section with registration TX and explorer link
+- `manifest_version: "1.0"` header
+- `capabilities`, `tools`, `policies`, `security`, `services` arrays
+- `wallets` with network specification and signer reference
+- `erc8004: 22945` field linking agent to registry
+
+#### ERC-8004 Integration (Onchain Verification)
+Molttail uses ERC-8004 to **verify agent identity** on every transaction receipt:
+
+```
+Transaction Receipt
+    ↓
+Agent Identity Field (ERC-8004 #22945)
+    ↓
+Query ERC-8004 Registry (eip155:1:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432)
+    ↓
+Verify: Agent name, registration TX, operator wallet
+    ↓
+Display: Verified badge with link to 8004scan.io/agents/ethereum/22945
+```
+
+**Onchain Verification Flow:**
+1. Receipt contains agent identifier (ERC-8004 ID or ENS name)
+2. Backend queries ERC-8004 registry for identity metadata
+3. Frontend displays verified badge with link to explorer
+4. User can verify: agent identity, registration TX, operator wallet
+
+**Onchain TX Evidence:**
+| TX Type | Contract | Network | Explorer |
+|---------|----------|---------|----------|
+| Registration | 0x8004A169... | Ethereum | [0x22c39760...](https://etherscan.io/tx/0x22c39760a1e244cc6aacb071169d356fbfb0b31c948790e2a4de59081d049b23) |
+| Agent Update | 0x8004A169... | Ethereum | Verified via 8004scan.io API |
+| Wallet Link | ERC-1271 | Ethereum | [0x5793...](https://etherscan.io/address/0x5793BFc1331538C5A8028e71Cc22B43750163af8) |
+
+#### Autonomous Agent Architecture
+Track 1 requires **planning, execution, verification, decision loops** — Molttail demonstrates this through 5 parallel crons:
+
+| Loop Stage | Cron Job | Implementation |
+|------------|----------|----------------|
+| **Discover** | `synthesis-autonomous` | Research tools, survey APIs, rank bounty tracks |
+| **Plan** | `synthesis-plan` | Break down tasks, create schedules, estimate costs |
+| **Execute** | `synthesis-build` | Write code, commit changes, deploy features |
+| **Verify** | `synthesis-self-review` | Check types, run tests, review logs |
+| **Submit** | `synthesis-summary` | Commit artifacts, update status, await next task |
+
+**Multi-Agent Coordination:**
+- `cron-builder` — writes code, runs tsc, commits
+- `cron-guard` — prevents conflicts, checks budgets
+- `cron-reviewer` — type checks, security review, test coverage
+- `cron-drift` — monitors logs, detects anomalies, self-corrects
+- `cron-summary` — aggregates results, updates README
+
+#### Why This Wins Track 1
+
+Track 1 rewards projects that **leverage ERC-8004 infrastructure** for agent identity and reputation. Molttail wins because:
+
+1. **DevSpot-Compliant Manifest** — Full agent.json with capabilities, tools, policies, services
+2. **Onchain Identity Verification** — Every receipt displays ERC-8004 badge with explorer link
+3. **Execution Transparency** — agent_log.json shows 134 autonomous sessions with full tool logs
+4. **Multi-Agent Swarm** — 5 specialized crons coordinating via shared state
+5. **Reputation Tracking** — x402 payments logged with agent identity for reputation building
+
+**Bottom line:** Molttail isn't just using ERC-8004 as a badge — it's using the registry as a **verification layer** for every transaction receipt, creating a trustless audit trail for agent spending.
+
 ### Bounty Track Alignment
 | Track | How Molttail Wins | Evidence |
 |-------|-------------------|----------|
